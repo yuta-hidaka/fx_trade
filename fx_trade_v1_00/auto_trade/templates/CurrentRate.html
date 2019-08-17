@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+{% include 'base.html' %}
+
+<script>
+    $(document).ready(function () {
+        $('#getRate').on('click', function () {
+
+            const myHeaders = new Headers();
+            myHeaders.append('Content-Type', 'application/json');
+
+            const myBody = 'my body';
+
+            fetch('fx_trade_v1_00\auto_trade\rest\getRate.py', {
+                method: 'POST',
+                header: myHeaders,
+                body: myBody
+            }).then((res) => {
+                console.log(res);
+            }
+            );
+        });
+    });
+
+
+</script>
+
+
+<body>
+    <h1>為替の確認</h1>
+
+
+    <div class="w-100">
+        <div class="m-auto text-center">
+            <input type="button" class="btn" value="為替情報を検索" id="getRate">
+        </div>
+    </div>
+
+</body>
+
+</html>
