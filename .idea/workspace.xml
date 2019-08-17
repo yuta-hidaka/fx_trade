@@ -45,8 +45,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="100" />
-    <option name="y" value="-38" />
+    <option name="x" value="99" />
+    <option name="y" value="-39" />
     <option name="width" value="2274" />
     <option name="height" value="1404" />
   </component>
@@ -129,6 +129,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/fx_trade_v1_00/static/base_html" />
     <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
   </component>

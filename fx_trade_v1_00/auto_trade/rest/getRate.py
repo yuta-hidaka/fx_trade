@@ -19,8 +19,7 @@ DIFF_JST_FROM_UTC = -999
 _from = datetime.datetime.utcnow() + datetime.timedelta(hours=DIFF_JST_FROM_UTC)
 
 
-class ApiFx:
-    def get_current(self):
+def get_current(request):
         print('test')
 
         params = {

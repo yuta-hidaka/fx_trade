@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from . import views
-from .views import getRate
+from .views import getRate, top
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('/getRate', getRate, name='getRate'),
-    path('/rest', include('auto_trade.urls')),
+    path('', top.index, name='index'),
+    path('getRate', getRate.get_current, name='getRate'),
+    # path('getRate', getRate.s.get_current, name='getRate'),
+    # path('getRate', top.get_current, name='getRate'),
 ]

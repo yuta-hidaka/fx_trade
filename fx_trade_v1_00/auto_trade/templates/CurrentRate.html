@@ -11,22 +11,48 @@
 <script>
     $(document).ready(function () {
         $('#getRate').on('click', function () {
-
-            const myHeaders = new Headers();
-            myHeaders.append('Content-Type', 'application/json');
-
             const myBody = 'my body';
 
-            fetch('fx_trade_v1_00\auto_trade\rest\getRate.py', {
-                method: 'POST',
-                header: myHeaders,
-                body: myBody
-            }).then((res) => {
-                console.log(res);
-            }
-            );
+            // fetch('getRate', {
+            //     method: 'POST',
+            //     headers: { "X-CSRFToken": token },
+            //     body: myBody
+            // }).then((res) => {
+            //     return res.json()
+            // }).then((json) => {
+            //     console.log(json)
+            // });
+
+
+            $.ajax({
+                url: 'getRate',
+                type: 'POST',
+                data: {
+                    'userid': $('#userid').val(),
+                    'passward': $('#passward').val()
+                },
+                headers: { "X-CSRFToken": token },
+
+            })
+                // Ajaxリクエストが成功した時発動
+                .done((data) => {
+                    $('.result').html(data);
+                    console.log(data);
+                })
+                // Ajaxリクエストが失敗した時発動
+                .fail((data) => {
+                    $('.result').html(data);
+                    console.log(data);
+                });
+
+
+
+
+
         });
     });
+
+
 
 
 </script>
