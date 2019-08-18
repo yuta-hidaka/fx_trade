@@ -9,7 +9,19 @@
 {% include 'base.html' %}
 
 <script>
+
+
     $(document).ready(function () {
+        function drawChart(data) {
+
+
+        }
+
+
+
+
+
+
         $('#getRate').on('click', function () {
             const myBody = 'my body';
 
@@ -37,7 +49,82 @@
                 // Ajaxリクエストが成功した時発動
                 .done((data) => {
                     $('.result').html(data);
-                    console.log(data);
+                    console.log(data.candles);
+                    // console.log(data[0].candles);
+                    var trace1 = {
+
+                        x: [],
+
+                        close: [],
+
+                        decreasing: { line: { color: '#7F7F7F' } },
+
+                        high: [],
+
+                        increasing: { line: { color: '#17BECF' } },
+
+                        line: { color: 'rgba(31,119,180,1)' },
+
+                        low: [],
+
+                        open: [],
+
+                        type: 'candlestick',
+                        xaxis: 'x',
+                        yaxis: 'y'
+                    };
+                    console.log(trace1);
+
+                    data.candles.forEach(function (list) {
+                        console.log(list.time.split('.')[0].replace('T', ' '));
+                        trace1.close.push(list.mid.c);
+                        trace1.high.push(list.mid.h);
+                        trace1.low.push(list.mid.l);
+                        trace1.open.push(list.mid.o);
+                        trace1.x.push(list.time.split('.')[0].replace('T', ' '));
+                    });
+
+                    console.log(trace1);
+
+
+                    var data = [trace1]
+
+                    var layout = {
+                        dragmode: 'zoom',
+                        margin: {
+                            r: 10,
+                            t: 25,
+                            b: 40,
+                            l: 60
+                        },
+                        showlegend: false,
+                        xaxis: {
+                            autorange: true,
+                            domain: [0, 1],
+                            range: [trace1.x[0], trace1.x[trace1.x.length - 1]],
+                            rangeslider: { range: [trace1.x[0], trace1.x[trace1.x.length - 1]] },
+                            title: 'Date',
+                            type: 'date'
+                        },
+                        yaxis: {
+                            autorange: true,
+                            domain: [0, 1],
+                            range: [(Math.min(trace1.high) - 1), (Math.max(trace1.high) + 1)],
+                            type: 'linear'
+                        }
+                    };
+
+                    console.log(trace1);
+
+
+
+
+
+                    Plotly.plot('plotly-div', data, layout);
+
+                    drawChart(trace1)
+
+
                 })
                 // Ajaxリクエストが失敗した時発動
                 .fail((data) => {
@@ -67,6 +154,8 @@
             <input type="button" class="btn" value="為替情報を検索" id="getRate">
         </div>
     </div>
+
+    <div id="plotly-div" style="width: 900px; height: 500px;"></div>
 
 </body>
 

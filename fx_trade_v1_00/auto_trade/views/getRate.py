@@ -7,13 +7,14 @@ from rest_framework.response import Response
 from oandapyV20 import API
 from oandapyV20.exceptions import V20Error
 from oandapyV20.endpoints.pricing import PricingInfo
+
+import oandapyV20.endpoints.instruments as instruments
+
+import oandapyV20.endpoints.trades as trades
 import datetime
 
 from oandapyV20 import API
 
-
-# class s(TemplateView):
-#     template_name = "home.html"
 
 def get_current(request):
     # context = super().get_context_data()
@@ -23,22 +24,30 @@ def get_current(request):
     access_token = "46c8cbca4d7b1ed7533cdca8bd0b2eea-ce54c2371b95860a91bc0a977fd923c5"
 
     # oandaAPI情報
-    api = API(access_token=access_token, environment="practice")
+    api = API(environment="practice", access_token=access_token)
 
-    # JSTとUTCの差分
-    DIFF_JST_FROM_UTC = -999
-    _from = datetime.datetime.utcnow() + datetime.timedelta(hours=DIFF_JST_FROM_UTC)
+    ########################################################################
+    client = API(environment="practice", access_token=access_token)
+    # request trades list
+    r = trades.TradesList(accountID)
+    rv = client.request(r)
+    print("RESPONSE:\n{}".format(json.dumps(rv, indent=2)))
 
-    print('test')
+    ########################################################################
 
     params = {
         "instruments": "USD_JPY",
         "alignmentTimezone": "Japan",
-        'from': _from,
-        "count": 24,  # 取得数24
+        "count": 500,  # 取得数24
         "granularity": 'H1'  # 1時間足
     }
     pricing_info = PricingInfo(accountID=accountID, params=params)
+    # for c in pricing_info:
+    #     print(c)
+    # 過去データリクエスト
+    # APIへ過去データをリクエスト
+    r = instruments.InstrumentsCandles(instrument="USD_JPY", params=params)
+    api.request(r)
 
     try:
 
@@ -62,4 +71,4 @@ def get_current(request):
         print("Error: {}".format(e))
 
     # data = {'articles': 'responseOKKKKK'}
-    return HttpResponse(json.dumps(response), content_type='application/json')
+    return HttpResponse(json.dumps(api.request(r)), content_type='application/json')
