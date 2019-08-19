@@ -38,34 +38,16 @@ def get_current(request):
     params = {
         "instruments": "USD_JPY",
         "alignmentTimezone": "Japan",
-        "count": 500,  # 取得数24
-        "granularity": 'H1'  # 1時間足
+        "count": 50,  # 取得数24
+        "granularity": 'M5'  # 5分足
     }
-    pricing_info = PricingInfo(accountID=accountID, params=params)
-    # for c in pricing_info:
-    #     print(c)
+
     # 過去データリクエスト
     # APIへ過去データをリクエスト
-    r = instruments.InstrumentsCandles(instrument="USD_JPY", params=params)
-    api.request(r)
 
     try:
-
-        for i in range(1):
-            api.request(pricing_info)
-            response = pricing_info.response
-
-            prResponse = json.loads(json.dumps(response))
-            # context['response'] = prResponse
-            prices = prResponse['prices']
-            ask_price = prResponse['prices'][0]['asks'][0]['price']
-            print(ask_price)
-            print(json.dumps(response, indent=2))
-
-            # print(prResponse)
-            # print(json.dumps(response, indent=4))  # 出力値を見やすく整形
-            # print(i)
-            # print(response)
+        r = instruments.InstrumentsCandles(instrument="USD_JPY", params=params)
+        api.request(r)
 
     except V20Error as e:
         print("Error: {}".format(e))

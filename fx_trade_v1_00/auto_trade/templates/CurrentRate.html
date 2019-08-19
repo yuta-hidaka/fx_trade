@@ -9,33 +9,8 @@
 {% include 'base.html' %}
 
 <script>
-
-
     $(document).ready(function () {
-        function drawChart(data) {
-
-
-        }
-
-
-
-
-
-
         $('#getRate').on('click', function () {
-            const myBody = 'my body';
-
-            // fetch('getRate', {
-            //     method: 'POST',
-            //     headers: { "X-CSRFToken": token },
-            //     body: myBody
-            // }).then((res) => {
-            //     return res.json()
-            // }).then((json) => {
-            //     console.log(json)
-            // });
-
-
             $.ajax({
                 url: 'getRate',
                 type: 'POST',
@@ -113,13 +88,7 @@
                             type: 'linear'
                         }
                     };
-
                     console.log(trace1);
-
-
-
-
-
                     Plotly.plot('plotly-div', data, layout);
 
                     drawChart(trace1)
@@ -131,11 +100,6 @@
                     $('.result').html(data);
                     console.log(data);
                 });
-
-
-
-
-
         });
     });
 
@@ -151,6 +115,17 @@
 
     <div class="w-100">
         <div class="m-auto text-center">
+            <select class="" id="pare">
+                <option value="USD_JPY">USD_JPY</option>
+                <option value="EUR_JPY">EUR_JPY</option>
+                <option value="GBP_JPY">GBP_JPY</option>
+            </select>
+
+            <select class="" id="granularity">
+                <option value="USD_JPY">USD_JPY</option>
+                <option value="EUR_JPY">EUR_JPY</option>
+                <option value="GBP_JPY">GBP_JPY</option>
+            </select>
             <input type="button" class="btn" value="為替情報を検索" id="getRate">
         </div>
     </div>
