@@ -6,8 +6,6 @@
     <title>Title</title>
 </head>
 
-
-
 {% include 'base.html' %}
 
 <script>
@@ -27,7 +25,7 @@
                 .done((data) => {
                     $('.result').html(data);
                     console.log(data.candles);
-                    // console.log(data[0].candles);
+                    console.log(data.candles);
                     var trace1 = {
 
                         x: [],
