@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['133.167.102.92', 'localhost']
 INSTALLED_APPS = [
     'auto_trade.apps.AutoTradeConfig',
     'django.contrib.admin',
+
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
