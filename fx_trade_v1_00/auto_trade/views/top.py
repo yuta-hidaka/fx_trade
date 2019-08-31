@@ -11,3 +11,12 @@ def index(request):
     }
     return HttpResponse(template.render(context, request))
     # return render(request, 'CurrentRate.html')
+
+
+def index2(request):
+    template = loader.get_template('CurrentRate.html')
+    context = {
+        'latest_question_list': "hi",
+    }
+    return HttpResponse(template.render(context, request))
+    # return render(request, 'CurrentRate.html')
