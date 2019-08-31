@@ -5,7 +5,7 @@ from django.template import loader
 # Create your views here
 
 def index(request):
-    template = loader.get_template('CurrentRate.html')
+    template = loader.get_template('top.html')
     context = {
         'latest_question_list': "hi",
     }

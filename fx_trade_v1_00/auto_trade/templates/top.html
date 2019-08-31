@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+{% include 'base.html' %}
+
+<script>
+    $(document).ready(function () {
+        $('#getRate').on('click', function () {
+            $.ajax({
+                url: 'getRate',
+                type: 'POST',
+                data: {
+                    'userid': $('#userid').val(),
+                    'passward': $('#passward').val()
+                },
+                headers: { "X-CSRFToken": token },
+
+            })
+                // Ajaxリクエストが成功した時発動
+                .done((data) => {
+                    $('.result').html(data);
+                    console.log(data.candles);
+                    console.log(data.candles);
+                    var trace1 = {
+                        x: [],
+                        close: [],
+                        decreasing: { line: { color: '#7F7F7F' } },
+                        high: [],
+
+                        increasing: { line: { color: '#17BECF' } },
+
+                        line: { color: 'rgba(31,119,180,1)' },
+
+                        low: [],
+
+                        open: [],
+
+                        type: 'candlestick',
+                        xaxis: 'x',
+                        yaxis: 'y'
+                    };
+                    console.log(trace1);
+
+                    data.candles.forEach(function (list) {
+                        console.log(list.time.split('.')[0].replace('T', ' '));
+                        trace1.close.push(list.mid.c);
+                        trace1.high.push(list.mid.h);
+                        trace1.low.push(list.mid.l);
+                        trace1.open.push(list.mid.o);
+                        trace1.x.push(list.time.split('.')[0].replace('T', ' '));
+                    });
+
+                    console.log(trace1);
+
+
+                    var data = [trace1]
+
+                    var layout = {
+                        dragmode: 'zoom',
+                        margin: {
+                            r: 10,
+                            t: 25,
+                            b: 40,
+                            l: 60
+                        },
+                        showlegend: false,
+                        xaxis: {
+                            autorange: true,
+                            domain: [0, 1],
+                            range: [trace1.x[0], trace1.x[trace1.x.length - 1]],
+                            rangeslider: { range: [trace1.x[0], trace1.x[trace1.x.length - 1]] },
+                            title: 'Date',
+                            type: 'date'
+                        },
+                        yaxis: {
+                            autorange: true,
+                            domain: [0, 1],
+                            range: [(Math.min(trace1.high) - 1), (Math.max(trace1.high) + 1)],
+                            type: 'linear'
+                        }
+                    };
+                    console.log(trace1);
+                    Plotly.plot('plotly-div', data, layout);
+
+                })
+                // Ajaxリクエストが失敗した時発動
+                .fail((data) => {
+                    $('.result').html(data);
+                    console.log(data);
+                });
+        });
+    });
+
+
+
+
+</script>
+
+
+<body>
+    <h1>為替の確認TOOp</h1>
+
+    <div class="w-100">
+        <div class="m-auto text-center">
+            <select class="" id="pare">
+                <option value="USD_JPY">USD_JPY</option>
+                <option value="EUR_JPY">EUR_JPY</option>
+                <option value="GBP_JPY">GBP_JPY</option>
+            </select>
+
+            <select class="" id="granularity">
+                <option value="USD_JPY">USD_JPY</option>
+                <option value="EUR_JPY">EUR_JPY</option>
+                <option value="GBP_JPY">GBP_JPY</option>
+            </select>
+            <input type="button" class="btn" value="為替情報を検索" id="getRate">
+        </div>
+    </div>
+
+    <div id="plotly-div" style="width: 900px; height: 500px;"></div>
+
+</body>
+
+</html>
