@@ -20,7 +20,7 @@ from .views import getRate, top
 
 urlpatterns = [
     path('', top.index, name='index'),
-    path('M5', top.index2, name='index2'),
+    path('M5', top.M5, name='M5'),
     path('getRate', getRate.get_current, name='getRate'),
     # path('getRate', getRate.s.get_current, name='getRate'),
     # path('getRate', top.get_current, name='getRate'),

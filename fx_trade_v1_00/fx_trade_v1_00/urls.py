@@ -15,11 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import top
-# from ..auto_trade.urls import
 
 urlpatterns = [
     path('auto_trade/', include('auto_trade.urls')),
+    path('', include('auto_trade.urls')),
     path('admin/', admin.site.urls),
-    path('', top.index, name='index'),
 ]

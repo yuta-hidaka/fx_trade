@@ -13,7 +13,7 @@ def index(request):
     # return render(request, 'CurrentRate.html')
 
 
-def index2(request):
+def M5(request):
     template = loader.get_template('CurrentRate.html')
     context = {
         'latest_question_list': "hi",
