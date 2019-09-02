@@ -13,13 +13,13 @@
 #     1. Import the include() function: from django.urls import include, path
 #     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 # """
-# from django.contrib import admin
-# from django.urls import path, include
+from django.contrib import admin
+from django.urls import path, include
+from . import getRate
 # from . import getRate
-# # from . import getRate
 
-# urlpatterns = [
-#     path('', , name='index'),
-#     # path('/getRate', views.index, name='getRate'),
-#     # path('/getRate', include('auto_trade.urls')),
-# ]
+urlpatterns = [
+    # path('', , name='index'),
+    path('getRate', getRate.get_current, name='getRate'),
+    # path('/getRate', include('auto_trade.urls')),
+]

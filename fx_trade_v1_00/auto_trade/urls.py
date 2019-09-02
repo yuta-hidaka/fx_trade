@@ -15,13 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from . import views
+from . import views, rest
 from .views import getRate, top
+# from .rest import getRate
 
 urlpatterns = [
     path('', top.index, name='index'),
     path('M5', top.M5, name='M5'),
-    path('getRate', getRate.get_current, name='getRate'),
+    # path('rest', include('rest.urls'), name='rest'),
     # path('getRate', getRate.s.get_current, name='getRate'),
     # path('getRate', top.get_current, name='getRate'),
 ]

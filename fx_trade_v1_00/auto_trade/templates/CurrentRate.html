@@ -12,7 +12,7 @@
     $(document).ready(function () {
         $('#getRate').on('click', function () {
             $.ajax({
-                url: 'getRate',
+                url: 'rest/getRate',
                 type: 'POST',
                 data: {
                     'userid': $('#userid').val(),
