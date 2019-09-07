@@ -13,7 +13,7 @@ import datetime
 from oandapyV20 import API
 from fx_trade_v1_00.lib.access_token import FxInfo
 from fx_trade_v1_00.lib import test
-from .getRate import getFXdata_USD as a
+from .get_rate_USD import getFXdata_USD as a
 
 print(a.get_MA_5M_1)
 print(a.get_MA_5M_5)

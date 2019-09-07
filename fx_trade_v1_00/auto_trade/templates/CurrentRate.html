@@ -18,8 +18,7 @@
                     'userid': $('#userid').val(),
                     'passward': $('#passward').val()
                 },
-                headers: { "X-CSRFToken": token },
-
+                headers: { "X-CSRFToken": token }
             })
                 // Ajaxリクエストが成功した時発動
                 .done((data) => {
