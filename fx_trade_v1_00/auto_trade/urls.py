@@ -15,14 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from . import views, rest
+from . import views
 from .views import getRate, top
 # from .rest import getRate
 
 urlpatterns = [
     path('', top.index, name='index'),
     path('M5', top.M5, name='M5'),
-    # path('rest', include('rest.urls'), name='rest'),
+    # path('rest', rest.urls),
+    path('rest', include('auto_trade.rest.urls')),
+
     # path('getRate', getRate.s.get_current, name='getRate'),
     # path('getRate', top.get_current, name='getRate'),
 ]

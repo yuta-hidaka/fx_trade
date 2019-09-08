@@ -20,6 +20,7 @@ from . import getRate
 
 urlpatterns = [
     # path('', , name='index'),
-    path('getRate', getRate, name='getRate'),
+    path('getRate', getRate.getRateAPI.as_view(), name='getRate'),
+    path('', getRate.getRateAPI.as_view(), name='getRate'),
     # path('/getRate', include('auto_trade.urls')),
 ]
