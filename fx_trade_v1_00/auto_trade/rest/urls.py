@@ -15,12 +15,12 @@
 # """
 from django.contrib import admin
 from django.urls import path, include
-from . import getRate
+from .views import get_rate_API
 # from . import getRate
 
 urlpatterns = [
     # path('', , name='index'),
-    path('getRate', getRate.getRateAPI.as_view(), name='getRate'),
-    path('', getRate.getRateAPI.as_view(), name='getRate'),
+    path('getRate', get_rate_API.getRateAPI.as_view(), name='getRate'),
+    path('', get_rate_API.getRateAPI.as_view(), name='getRate'),
     # path('/getRate', include('auto_trade.urls')),
 ]

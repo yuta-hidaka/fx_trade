@@ -15,9 +15,17 @@ from fx_trade_v1_00.lib.access_token import FxInfo
 from fx_trade_v1_00.lib import test
 
 
-class getFXdata_USD():
+class getMA_USD():
+    def __init__(self):
+        self.MA250 = self.get_5M_250()
 
-    def get_current(self, request):
+    def getMA_5_20_75(self):
+        MA250 = self.MA250
+        print(MA250)
+
+        # while
+
+    def get_MA(self, request):
         fx_info = FxInfo()
         api = fx_info.api
 
@@ -46,7 +54,7 @@ class getFXdata_USD():
             "granularity": 'M5'
         }
 
-        return self.get_current(parm)
+        return self.get_MA(parm)
 
     def get_5M_5(self):
         print('get_MA_5M_5')
@@ -57,7 +65,7 @@ class getFXdata_USD():
             "granularity": 'M5'
         }
 
-        return self.get_current(parm)
+        return self.get_MA(parm)
 
     def get_5M_10(self):
         print('get_MA_5M_10')
@@ -70,7 +78,7 @@ class getFXdata_USD():
             "granularity": 'M5'
         }
 
-        return self.get_current(parm)
+        return self.get_MA(parm)
 
     def get_5M_15(self):
         print('get_MA_5M_15')
@@ -82,7 +90,7 @@ class getFXdata_USD():
             "granularity": 'M5'
         }
 
-        return self.get_current(parm)
+        return self.get_MA(parm)
 
     def get_5M_20(self):
         print('get_MA_5M_20')
@@ -93,7 +101,7 @@ class getFXdata_USD():
             "granularity": 'M5'
         }
 
-        return self.get_current(parm)
+        return self.get_MA(parm)
 
     def get_5M_50(self):
         print('get_MA_5M_20')
@@ -104,7 +112,7 @@ class getFXdata_USD():
             "granularity": 'M5'
         }
 
-        return self.get_current(parm)
+        return self.get_MA(parm)
 
     def get_5M_250(self):
         print('get_MA_5M_20')
@@ -115,4 +123,4 @@ class getFXdata_USD():
             "granularity": 'M5'
         }
 
-        return self.get_current(parm)
+        return self.get_MA(parm)

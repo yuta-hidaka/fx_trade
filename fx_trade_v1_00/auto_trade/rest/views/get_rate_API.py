@@ -6,7 +6,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..service.get_rate_USD import getFXdata_USD
+from auto_trade.service.get_rate_USD import getFXdata_USD
 
 
 class getRateAPI(APIView):
@@ -15,9 +15,11 @@ class getRateAPI(APIView):
         print('hi')
 
     def post(self, request):
-        getFXdata_USD.get_current
+        gFXdata_USD = getFXdata_USD()
+
+        data = gFXdata_USD.get_5M_1()
 
         print('hi')
-        print(getFXdata_USD.get_current)
+        print(data)
 
-        return HttpResponse(json.dumps(getFXdata_USD.get_current), content_type='application/json')
+        return HttpResponse(json.dumps(data), content_type='application/json')
