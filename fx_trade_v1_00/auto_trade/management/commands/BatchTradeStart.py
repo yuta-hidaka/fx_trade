@@ -1,8 +1,9 @@
-from ...models import batchRecord
+from ...models import batchRecord, autoTradeOnOff
 from datetime import datetime, timedelta, timezone
 
 import datetime
 from django.core.management.base import BaseCommand
+from django.forms.models import model_to_dict
 
 
 # BaseCommandを継承して作成
@@ -14,6 +15,18 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         JST = timezone(timedelta(hours=+9), 'JST')
         dt_now = datetime.datetime.now(JST)
-        qSet = batchRecord.objects.filter(id=1).first()
-        qSet.text = '最終実行は '+dt_now.strftime('%Y-%m-%d %H:%M:%S')
-        qSet.save()
+        qSetBatch = batchRecord.objects.filter(id=1).first()
+
+        qSetCheck = autoTradeOnOff.objects.filter(id=1).first()
+        checkOn = model_to_dict(qSetCheck)['auto_trade_is_on']
+        if checkOn:
+            qSetBatch.text = '現在は、自動取引がONです。最終実行は ' + \
+                dt_now.strftime('%Y-%m-%d %H:%M:%S')
+            print("true")
+
+        else:
+            qSetBatch.text = '現在は、自動取引がOFFです。最終実行は ' + \
+                dt_now.strftime('%Y-%m-%d %H:%M:%S')
+            print("false")
+
+        qSetBatch.save()

@@ -22,21 +22,15 @@ class tradeOnOffAPI(APIView):
     def post(self, request):
         qSet = autoTradeOnOff.objects.filter(id=1).first()
 
-        a = self.request.data.dict()
+        # serializer = AutoTradeOnOffSerializer(
+        #     data=self.request.data)
 
-        serializer = AutoTradeOnOffSerializer(data=a)
+        # gMA = getMA_USD()
 
-        if(serializer.is_valid()):
-            serializer.update()
-        else:
-            return Response(content, status=status.HTTP_400_BAD_REQUEST)
-
-        gMA = getMA_USD()
-
-        if(self.request.data['auto_trade_is_on'] == 1):
+        if(self.request.data['auto_trade_is_on'] == 'true'):
             qSet.auto_trade_is_on = True
             qSet.save()
-            gMA.getMA_5_20_75
+            # gMA.getMA_5_20_75
         else:
             qSet.auto_trade_is_on = False
             qSet.save()
