@@ -1,5 +1,6 @@
 from ...models import batchRecord
-import time
+from datetime import datetime, timedelta, timezone
+
 import datetime
 from django.core.management.base import BaseCommand
 
@@ -11,7 +12,8 @@ class Command(BaseCommand):
 
     # コマンドが実行された際に呼ばれるメソッド
     def handle(self, *args, **options):
-        dt_now = datetime.datetime.now()
+        JST = timezone(timedelta(hours=+9), 'JST')
+        dt_now = datetime.datetime.now(JST)
         qSet = batchRecord.objects.filter(id=1).first()
         qSet.text = '最終実行は '+dt_now.strftime('%Y-%m-%d %H:%M:%S')
         qSet.save()
