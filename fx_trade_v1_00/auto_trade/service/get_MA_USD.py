@@ -13,6 +13,9 @@ import datetime
 from oandapyV20 import API
 from fx_trade_v1_00.lib.access_token import FxInfo
 from fx_trade_v1_00.lib import test
+import time
+
+from ..models import autoTradeOnOff
 
 
 class getMA_USD():
@@ -23,7 +26,9 @@ class getMA_USD():
         MA250 = self.MA250
         print(MA250)
 
-        # while
+        while autoTradeOnOff.objects.filter(id=1):
+            print('hello')
+            time.sleep(1)
 
     def get_MA(self, request):
         fx_info = FxInfo()
