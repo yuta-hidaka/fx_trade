@@ -22,4 +22,5 @@ class getRateAPI(APIView):
         print('hi')
         print(data)
 
+
         return HttpResponse(json.dumps(data), content_type='application/json')

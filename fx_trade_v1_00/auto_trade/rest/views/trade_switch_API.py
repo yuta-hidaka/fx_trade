@@ -14,6 +14,7 @@ from ...service.get_MA_USD import getMA_USD
 from ..serializers.trade_switch_Serializer import AutoTradeOnOffSerializer
 
 
+
 class tradeOnOffAPI(APIView):
 
     def get(self, request, format=None):
@@ -21,6 +22,7 @@ class tradeOnOffAPI(APIView):
 
     def post(self, request):
         qSet = autoTradeOnOff.objects.filter(id=1).first()
+
 
         # serializer = AutoTradeOnOffSerializer(
         #     data=self.request.data)

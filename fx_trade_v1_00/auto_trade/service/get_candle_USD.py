@@ -14,21 +14,13 @@ from oandapyV20 import API
 from fx_trade_v1_00.lib.access_token import FxInfo
 from fx_trade_v1_00.lib import test
 import time
-import datetime
-from pytz import timezone
+
 from ..models import autoTradeOnOff
 
 
-class getMA_USD():
+class getandle_USD():
     def __init__(self):
-        print('getMA_USD')
-        self.localTime = (
-            datetime.datetime.now(timezone('UTC')) -
-            datetime.timedelta(minutes=5)
-        ).isoformat()
-
-        print(self.localTime)
-        # self.MA250 = self.get_5M_250()
+        self.MA250 = self.get_5M_250()
 
     def getMA_5_20_75(self):
         MA250 = self.MA250
@@ -58,23 +50,9 @@ class getMA_USD():
 
         # return HttpResponse(json.dumps(api.request(r)), content_type='application/json')
 
-    def get_5M_now(self):
-        print('get_MA_5M_5')
-        parm = {
-            "instruments": "USD_JPY",
-            "alignmentTimezone": "Japan",
-            "from": self.localTime,
-            "count": 1,
-            "granularity": 'M5'
-        }
-
-        return self.get_MA(parm)
-
     def get_5M_1(self):
         print('get_MA_5M_5')
         parm = {
-            "from": self.localTime,
-
             "instruments": "USD_JPY",
             "alignmentTimezone": "Japan",
             "count": 1,

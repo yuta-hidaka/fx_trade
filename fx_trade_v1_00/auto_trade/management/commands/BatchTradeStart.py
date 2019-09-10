@@ -4,9 +4,12 @@ from datetime import datetime, timedelta, timezone
 import datetime
 from django.core.management.base import BaseCommand
 from django.forms.models import model_to_dict
-
+from ...service.set_candle_USD import setCandle_USD
+from auto_trade.service.set_candle_USD import setCandle_USD
 
 # BaseCommandを継承して作成
+
+
 class Command(BaseCommand):
     # python manage.py help count_entryで表示されるメッセージ
     help = 'auto trade batch'
@@ -16,6 +19,10 @@ class Command(BaseCommand):
         JST = timezone(timedelta(hours=+9), 'JST')
         dt_now = datetime.datetime.now(JST)
         qSetBatch = batchRecord.objects.filter(id=1).first()
+
+        # 5分足の保存
+        a = setCandle_USD()
+        j = a.setM5()
 
         qSetCheck = autoTradeOnOff.objects.filter(id=1).first()
         checkOn = model_to_dict(qSetCheck)['auto_trade_is_on']
