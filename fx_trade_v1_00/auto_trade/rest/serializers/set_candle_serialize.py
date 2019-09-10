@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ...models import M5
+from ...models import M5_USD_JPY
 
 
 class SetCandleSerializer(serializers.Serializer):
@@ -15,7 +15,7 @@ class SetCandleSerializer(serializers.Serializer):
 
     def create(self, validated_data):
 
-        result, created = M5.objects.filter(
+        result, created = M5_USD_JPY.objects.filter(
             record_time=validated_data['record_time']).get_or_create(
             record_time=validated_data['record_time'],
             open=validated_data['open'],

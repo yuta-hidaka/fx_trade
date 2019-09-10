@@ -6,23 +6,23 @@ from django.utils import timezone
 
 
 # 5分足
-class M5(models.Model):
+class M5_USD_JPY(models.Model):
     open = models.DecimalField(max_digits=8, decimal_places=4, default=0.0000)
     high = models.DecimalField(max_digits=8, decimal_places=4, default=0.0000)
     low = models.DecimalField(max_digits=8, decimal_places=4, default=0.0000)
     close = models.DecimalField(max_digits=8, decimal_places=4, default=0.0000)
-    
+
     record_time = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'M5'
+        db_table = 'M5_USD_JPY'
 
 # 平均移動線
 
 
-class MA_USD(models.Model):
+class MA_USD_JPY(models.Model):
     m5_ma5 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
     m5_ma10 = models.DecimalField(
@@ -49,7 +49,7 @@ class MA_USD(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'MA_USD'
+        db_table = 'MA_USD_JPY'
 
 # 自動取引のON,OFFを決める
 

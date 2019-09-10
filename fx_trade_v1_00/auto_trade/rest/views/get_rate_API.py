@@ -6,7 +6,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from auto_trade.service.get_rate_USD import getFXdata_USD
+from auto_trade.service.get_rate_USD_JPY import getFXdata_USD
 
 
 class getRateAPI(APIView):

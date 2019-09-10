@@ -1,12 +1,12 @@
-from .get_MA_USD import getMA_USD
-from ..models import M5
+from .get_MA_USD_JPY import getMA_USD_JPY
+from ..models import M5_USD_JPY
 from ..rest.serializers.set_candle_serialize import SetCandleSerializer
 
 
 class setCandle_USD:
 
     def setM5(self):
-        gMA = getMA_USD()
+        gMA = getMA_USD_JPY()
         dictM5 = gMA.get_5M_1()['candles'][0]
 
         dictM5['record_time'] = dictM5.pop('time')

@@ -19,9 +19,9 @@ from pytz import timezone
 from ..models import autoTradeOnOff
 
 
-class getMA_USD():
+class getMA_USD_JPY():
     def __init__(self):
-        print('getMA_USD')
+        print('getMA_USD_JPY')
         self.localTime = (
             datetime.datetime.now(timezone('UTC')) -
             datetime.timedelta(minutes=5)

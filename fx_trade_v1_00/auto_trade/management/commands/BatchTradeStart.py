@@ -4,8 +4,8 @@ from datetime import datetime, timedelta, timezone
 import datetime
 from django.core.management.base import BaseCommand
 from django.forms.models import model_to_dict
-from ...service.set_candle_USD import setCandle_USD
-from auto_trade.service.set_candle_USD import setCandle_USD
+from ...service.set_candle_USD_JPY import setCandle_USD
+from auto_trade.service.set_candle_USD_JPY import setCandle_USD
 
 # BaseCommandを継承して作成
 

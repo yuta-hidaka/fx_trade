@@ -6,7 +6,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from auto_trade.service.get_MA_USD import getMA_USD
+from auto_trade.service.get_MA_USD_JPY import getMA_USD_JPY
 
 
 class getMaAPI(APIView):
@@ -15,7 +15,7 @@ class getMaAPI(APIView):
         print('hi')
 
     def post(self, request):
-        gMA_USD = getMA_USD()
+        gMA_USD = getMA_USD_JPY()
 
         data = ""
 

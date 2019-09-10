@@ -7,12 +7,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 import json
 
-from auto_trade.service.get_MA_USD import getMA_USD
+from auto_trade.service.get_MA_USD_JPY import getMA_USD_JPY
 from ...models import autoTradeOnOff
 from django.http import HttpResponse
-from ...service.get_MA_USD import getMA_USD
+from ...service.get_MA_USD_JPY import getMA_USD_JPY
 from ..serializers.trade_switch_Serializer import AutoTradeOnOffSerializer
-
 
 
 class tradeOnOffAPI(APIView):
@@ -23,11 +22,10 @@ class tradeOnOffAPI(APIView):
     def post(self, request):
         qSet = autoTradeOnOff.objects.filter(id=1).first()
 
-
         # serializer = AutoTradeOnOffSerializer(
         #     data=self.request.data)
 
-        # gMA = getMA_USD()
+        # gMA = getMA_USD_JPY()
 
         if(self.request.data['auto_trade_is_on'] == 'true'):
             qSet.auto_trade_is_on = True
@@ -46,7 +44,7 @@ class realTradeOnOffAPI(APIView):
         print('hi')
 
     def post(self, request):
-        gMA_USD = getMA_USD()
+        gMA_USD = getMA_USD_JPY()
 
         data = ""
 
