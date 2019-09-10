@@ -4,4 +4,6 @@ from .models import autoTradeOnOff, batchRecord, M5_USD_JPY, MA_USD_JPY
 
 
 admin.site.register(autoTradeOnOff)
+admin.site.register(M5_USD_JPY)
+admin.site.register(MA_USD_JPY)
 admin.site.register(batchRecord)
