@@ -18,7 +18,7 @@ class setCandle_USD_JPY:
         serial = SetCandleSerializer(data=dictM5)
         if serial.is_valid():
             print('ok')
-            serial.create(serial.validated_data)
+            result = serial.create(serial.validated_data)
         else:
             print('NG')
 
@@ -26,4 +26,4 @@ class setCandle_USD_JPY:
         #     report_time=dictM5['candles'][0]['time']
         # ).get_or_create(dictM5['candles'][0])
 
-        return dictM5
+        return result

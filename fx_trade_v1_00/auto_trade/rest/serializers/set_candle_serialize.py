@@ -24,7 +24,4 @@ class SetCandleSerializer(serializers.Serializer):
             low=validated_data['low'],
         )
 
-        print('作成時間')
-        print('作成時間')
-
-        return validated_data
+        return created
