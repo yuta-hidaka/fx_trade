@@ -12,7 +12,7 @@ class M5_USD_JPY(models.Model):
     low = models.DecimalField(max_digits=8, decimal_places=4, default=0.0000)
     close = models.DecimalField(max_digits=8, decimal_places=4, default=0.0000)
 
-    record_time = models.DateTimeField()
+    recorded_at_utc = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -45,6 +45,9 @@ class MA_USD_JPY(models.Model):
         max_digits=8, decimal_places=4, default=0.0000)
     m5_ma150 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
+    m5_ma288 = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

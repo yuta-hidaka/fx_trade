@@ -3,7 +3,7 @@ from ..models import M5_USD_JPY
 from ..rest.serializers.set_candle_serialize import SetCandleSerializer
 
 
-class setCandle_USD:
+class setCandle_USD_JPY:
 
     def setM5(self):
         gMA = getMA_USD_JPY()

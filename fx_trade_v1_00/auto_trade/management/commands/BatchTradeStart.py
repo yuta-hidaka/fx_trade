@@ -4,8 +4,8 @@ from datetime import datetime, timedelta, timezone
 import datetime
 from django.core.management.base import BaseCommand
 from django.forms.models import model_to_dict
-from ...service.set_candle_USD_JPY import setCandle_USD
-from auto_trade.service.set_candle_USD_JPY import setCandle_USD
+from ...service.set_candle_USD_JPY import setCandle_USD_JPY
+from auto_trade.service.set_candle_USD_JPY import setCandle_USD_JPY
 
 # BaseCommandを継承して作成
 
@@ -21,7 +21,7 @@ class Command(BaseCommand):
         qSetBatch = batchRecord.objects.filter(id=1).first()
 
         # 5分足の保存
-        a = setCandle_USD()
+        a = setCandle_USD_JPY()
         j = a.setM5()
 
         qSetCheck = autoTradeOnOff.objects.filter(id=1).first()
