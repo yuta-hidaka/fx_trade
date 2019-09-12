@@ -3,7 +3,7 @@ from ...models import M5_USD_JPY
 
 
 class SetCandleSerializer(serializers.Serializer):
-    record_time = serializers.DateTimeField()
+    recorded_at_utc = serializers.DateTimeField()
     open = serializers.DecimalField(max_digits=8, decimal_places=4)
     close = serializers.DecimalField(max_digits=8, decimal_places=4)
     high = serializers.DecimalField(max_digits=8, decimal_places=4)
@@ -16,8 +16,8 @@ class SetCandleSerializer(serializers.Serializer):
     def create(self, validated_data):
 
         result, created = M5_USD_JPY.objects.filter(
-            record_time=validated_data['record_time']).get_or_create(
-            record_time=validated_data['record_time'],
+            recorded_at_utc=validated_data['recorded_at_utc']).get_or_create(
+            recorded_at_utc=validated_data['recorded_at_utc'],
             open=validated_data['open'],
             close=validated_data['close'],
             high=validated_data['high'],

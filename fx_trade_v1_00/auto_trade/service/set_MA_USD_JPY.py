@@ -7,6 +7,9 @@ class setMA_USD_JPY:
 
     def setMA(self):
 
-        qSet = M5_USD_JPY.objects.all()[:288].oderby(recorded_at)
+        data = list(M5_USD_JPY.objects.all().order_by(
+            '-recorded_at_utc')[
+            :288].values())
+        print(data)
 
-        return dictM5
+        return data

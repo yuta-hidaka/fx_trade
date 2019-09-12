@@ -9,7 +9,7 @@ class setCandle_USD_JPY:
         gMA = getMA_USD_JPY()
         dictM5 = gMA.get_5M_1()['candles'][0]
 
-        dictM5['record_time'] = dictM5.pop('time')
+        dictM5['recorded_at_utc'] = dictM5.pop('time')
         dictM5['close'] = dictM5['mid']['c']
         dictM5['open'] = dictM5['mid']['o']
         dictM5['high'] = dictM5['mid']['h']

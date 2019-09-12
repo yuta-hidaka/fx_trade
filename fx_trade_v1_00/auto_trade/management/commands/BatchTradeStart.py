@@ -5,6 +5,7 @@ import datetime
 from django.core.management.base import BaseCommand
 from django.forms.models import model_to_dict
 from ...service.set_candle_USD_JPY import setCandle_USD_JPY
+from ...service.set_MA_USD_JPY import setMA_USD_JPY
 from auto_trade.service.set_candle_USD_JPY import setCandle_USD_JPY
 
 # BaseCommandを継承して作成
@@ -23,6 +24,9 @@ class Command(BaseCommand):
         # 5分足の保存
         a = setCandle_USD_JPY()
         j = a.setM5()
+
+        fff = setMA_USD_JPY()
+        ff = fff.setMA()
 
         qSetCheck = autoTradeOnOff.objects.filter(id=1).first()
         checkOn = model_to_dict(qSetCheck)['auto_trade_is_on']
