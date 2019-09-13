@@ -25,13 +25,21 @@ class M5_USD_JPY(models.Model):
 class MA_USD_JPY(models.Model):
     m5_ma5 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
+    m5_ma6 = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
     m5_ma10 = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
+    m5_ma12 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
     m5_ma15 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
     m5_ma20 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
+    m5_ma24 = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
     m5_ma30 = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
+    m5_ma36 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
     m5_ma40 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
@@ -39,9 +47,13 @@ class MA_USD_JPY(models.Model):
         max_digits=8, decimal_places=4, default=0.0000)
     m5_ma70 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
+    m5_ma72 = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
     m5_ma75 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
     m5_ma140 = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
+    m5_ma144 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
     m5_ma150 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
