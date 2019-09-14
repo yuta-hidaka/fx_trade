@@ -38,7 +38,7 @@ class setMA_USD_JPY:
 
         leatestData = MA_USD_JPY.objects.latest('created_at')
 
-        print(leatestData)
+        # print(leatestData)
 
         create = qSet.objects.create(
             m5_ma5=vals[0],
@@ -63,5 +63,5 @@ class setMA_USD_JPY:
 
         self.setMASlope(leatestData, create)
 
-        print(leatestData)
-        print(create)
+        # print(leatestData)
+        # print(create)
