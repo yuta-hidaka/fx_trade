@@ -91,12 +91,14 @@ WSGI_APPLICATION = 'fx_trade_v1_00.wsgi.application'
 #     }
 # }
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'fx_trade',
         'USER': 'yuta19940322',
         'PASSWORD': 'souldout322',
+
 
         'HOST': 'localhost',
         'PORT': '3306',
