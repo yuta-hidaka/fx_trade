@@ -74,7 +74,6 @@ class getMA_USD_JPY():
         print('get_MA_5M_5')
         parm = {
             "from": self.localTime,
-
             "instruments": "USD_JPY",
             "alignmentTimezone": "Japan",
             "count": 1,

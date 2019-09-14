@@ -11,14 +11,14 @@ class setMA_USD_JPY:
     def setMASlope(self, preveousData, leatestData):
         ListMa = [5, 6, 10, 12, 15, 20, 24, 30, 36,
                   40, 50, 70, 72, 75, 140, 144, 150, 288]
-        print(model_to_dict(lastData))
+        print(model_to_dict(preveousData))
         print(model_to_dict(leatestData))
         for ma in ListMa:
             key = 'm5_ma'+str(ma)
-            print(model_to_dict(lastData)[key])
+            print(model_to_dict(preveousData)[key])
             print(model_to_dict(leatestData)[key])
             print(Decimal(model_to_dict(leatestData)[
-                  key])-(model_to_dict(lastData)[key]))
+                  key])-(model_to_dict(preveousData)[key]))
 
     def setMA(self):
 
