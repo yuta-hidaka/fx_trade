@@ -99,6 +99,7 @@ DATABASES = {
         'PASSWORD': 'souldout322',
         'HOST': 'localhost',
         'PORT': '3306',
+
     }
 }
 
