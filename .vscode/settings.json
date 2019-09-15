@@ -9,6 +9,7 @@
     ],
     "python.testing.pytestEnabled": false,
     "python.testing.nosetestsEnabled": false,
-    "python.testing.unittestEnabled": true,
-    "git.ignoreLimitWarning": true
+    "python.testing.unittestEnabled": false,
+    "git.ignoreLimitWarning": true,
+    "python.testing.promptToConfigure": false
 }
