@@ -119,7 +119,7 @@ class SlopeM5_USD_JPY(models.Model):
 # 短期、中期、長期の状態
 
 
-class listConditionOfMA(models.Model):
+class istConditionOfMA(models.Model):
     condition = models.CharField(max_length=256)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
