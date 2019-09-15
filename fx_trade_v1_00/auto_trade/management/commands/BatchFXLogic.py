@@ -19,19 +19,18 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         JST = timezone(timedelta(hours=+9), 'JST')
         dt_now = datetime.datetime.now(JST)
-        # バッチの実行状況を保存する。
         qSetBatch = batchRecord.objects.filter(id=1).first()
 
         # 5分足の保存
         setCandle = setCandle_USD_JPY()
         result = setCandle.setM5()
 
-        # 5分足が作成されたらMAを作成する。
         if result:
             setMA = setMA_USD_JPY()
             setMA.setMA()
+        setMA = setMA_USD_JPY()
+        setMA.setMA()
 
-        # 自動取引がOFFかONかを確認する。
         qSetCheck = autoTradeOnOff.objects.filter(id=1).first()
         checkOn = model_to_dict(qSetCheck)['auto_trade_is_on']
         if checkOn:
