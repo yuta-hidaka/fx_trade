@@ -69,8 +69,11 @@ class MA_USD_JPY(models.Model):
 
 # 平均移動線の傾き
 class SlopeM5_USD_JPY(models.Model):
-    ma_previous = models.ForeignKey(MA_USD_JPY, on_delete=models.CASCADE)
-    # ma_leatest = models.ForeignKey(MA_USD_JPY, on_delete=models.CASCADE)
+    ma_previous = models.ForeignKey(
+        'MA_USD_JPY', on_delete=models.CASCADE, related_name='ma_previous', null=True)
+
+    ma_leatest = models.ForeignKey(
+        'MA_USD_JPY', on_delete=models.CASCADE, related_name='ma_leatest', null=True)
 
     slope_m5_ma5 = models.DecimalField(
         max_digits=17, decimal_places=15, default=0.0000)
@@ -140,19 +143,20 @@ class listConditionOfSlope(models.Model):
 
 
 class conditionOfMA_M5(models.Model):
-    # ma_comp5_20_75 = models.ForeignKey(
-    #     listConditionOfMA, on_delete=models.CASCADE)
+    ma_comp5_20_75 = models.ForeignKey(
+        'listConditionOfMA', on_delete=models.CASCADE, related_name='ma_comp5_20_75', null=True)
 
     ma_comp6_24_72 = models.ForeignKey(
-        listConditionOfMA, on_delete=models.CASCADE)
+        'listConditionOfMA', on_delete=models.CASCADE, related_name='ma_comp6_24_72', null=True)
 
-    # slope_comp5_20_75 = models.ForeignKey(
-    #     listConditionOfSlope, on_delete=models.CASCADE)
+    slope_comp5_20_75 = models.ForeignKey(
+        'listConditionOfSlope', on_delete=models.CASCADE, related_name='slope_comp5_20_75', null=True)
 
     slope_comp6_24_72 = models.ForeignKey(
-        listConditionOfSlope, on_delete=models.CASCADE)
+        'listConditionOfSlope', on_delete=models.CASCADE, related_name='slope_comp6_24_72', null=True)
 
-    ma = models.ForeignKey(MA_USD_JPY, on_delete=models.CASCADE)
+    ma = models.ForeignKey(
+        'MA_USD_JPY', on_delete=models.CASCADE, related_name='ma')
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
