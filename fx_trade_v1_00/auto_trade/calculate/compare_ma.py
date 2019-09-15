@@ -7,7 +7,7 @@ from ..models import MA_USD_JPY
 '''受け取った短期、中期、長期のMAを比較してどの状態にいるのかを判断します・'''
 
 
-class compaireMA(self):
+class compaireMA():
     def comp3MA(self, short, middle, long):
         if short > middle > long:
             print('stage1')

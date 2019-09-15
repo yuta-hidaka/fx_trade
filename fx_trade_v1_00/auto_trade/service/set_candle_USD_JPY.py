@@ -7,8 +7,6 @@ class setCandle_USD_JPY:
 
     def setM5(self):
         gMA = getMA_USD_JPY()
-
-        print(gMA.get_5M_1())
         if gMA.get_5M_1()['candles']:
             dictM5 = gMA.get_5M_1()['candles'][0]
 
