@@ -14,8 +14,8 @@ import os
 from django.contrib import admin
 from django.urls import path, include
 
-admin.site.site_header = 'FX自動取引管理画面'
-admin.site.index_title = 'メニュー'
+# admin.site.site_header = 'FX自動取引管理画面'
+# admin.site.index_title = 'メニュー'
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
