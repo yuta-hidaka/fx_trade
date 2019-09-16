@@ -63,41 +63,103 @@
                 // Ajaxリクエストが成功した時発動
                 .done((data) => {
                     $('.result').html(data);
-                    console.log(data.candles);
-                    console.log(data.candles);
+                    console.log(data);
+                    console.log(data['ma']);
+                    console.log(data['condMa']);
+                    console.log(data['m5']);
+
                     var trace1 = {
                         x: [],
                         close: [],
                         decreasing: { line: { color: '#7F7F7F' } },
                         high: [],
-
                         increasing: { line: { color: '#17BECF' } },
-
                         line: { color: 'rgba(31,119,180,1)' },
-
                         low: [],
-
                         open: [],
-
                         type: 'candlestick',
                         xaxis: 'x',
-                        yaxis: 'y'
+                        yaxis: 'y',
+                        text: []
+                    };
+
+
+                    var ma5 = {
+                        x: [],
+                        y: [],
+                        name: 'ma5',
+                        mode: 'lines'
+                    };
+                    var ma20 = {
+                        x: [],
+                        y: [],
+                        name: 'ma20',
+                        mode: 'lines'
+                    };
+                    var ma75 = {
+                        x: [],
+                        y: [],
+                        name: 'ma75',
+                        mode: 'lines'
+                    };
+                    var ma6 = {
+                        x: [],
+                        y: [],
+                        name: 'ma6',
+                        mode: 'lines'
+                    };
+                    var ma24 = {
+                        x: [],
+                        y: [],
+                        mode: 'lines',
+                        name: 'ma24'
+                    };
+                    var ma72 = {
+                        x: [],
+                        y: [],
+                        name: 'ma72',
+                        mode: 'lines'
                     };
                     console.log(trace1);
 
-                    data.candles.forEach(function (list) {
-                        console.log(list.time.split('.')[0].replace('T', ' '));
-                        trace1.close.push(list.mid.c);
-                        trace1.high.push(list.mid.h);
-                        trace1.low.push(list.mid.l);
-                        trace1.open.push(list.mid.o);
-                        trace1.x.push(list.time.split('.')[0].replace('T', ' '));
+                    data['m5'].forEach(function (list, i) {
+                        // console.log(list.time.split('.')[0].replace('T', ' '));
+                        trace1.close.push(list.close);
+                        trace1.high.push(list.high);
+                        trace1.low.push(list.low);
+                        trace1.open.push(list.open);
+                        trace1.text.push(
+                            '短期、中期、長期線の状態：<br>5-20-75:' + data['condMa'][i].ma_comp5_20_75 +
+                            '<br>6-24-72:' + data['condMa'][i].ma_comp6_24_72
+                        );
+                        // 
+                        // console.log(list['recorded_at_utc']);
+                        // console.log(list.recorded_at_utc);
+                        trace1.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
+                        ma5.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
+                        ma20.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
+                        ma75.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
+
+                        ma6.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
+                        ma24.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
+                        ma72.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
                     });
+
+                    data['ma'].forEach(function (list, i) {
+                        ma5.y.push(list.m5_ma5)
+                        ma20.y.push(list.m5_ma20)
+                        ma75.y.push(list.m5_ma75)
+
+                        ma6.y.push(list.m5_ma6)
+                        ma24.y.push(list.m5_ma24)
+                        ma72.y.push(list.m5_ma72)
+                    });
+
 
                     console.log(trace1);
 
 
-                    var data = [trace1]
+                    var data = [trace1, ma5, ma20, ma75, ma6, ma24, ma72]
 
                     var layout = {
                         dragmode: 'zoom',
