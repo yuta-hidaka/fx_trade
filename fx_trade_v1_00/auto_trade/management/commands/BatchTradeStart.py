@@ -31,7 +31,6 @@ class Command(BaseCommand):
             setMA = setMA_USD_JPY()
             setMA.setMA()
 
-
         # 自動取引がOFFかONかを確認する。
         qSetCheck = autoTradeOnOff.objects.filter(id=1).first()
         checkOn = model_to_dict(qSetCheck)['auto_trade_is_on']

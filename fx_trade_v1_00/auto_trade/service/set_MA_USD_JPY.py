@@ -57,7 +57,6 @@ class setMA_USD_JPY:
                   40, 50, 70, 72, 75, 140, 144, 150, 288]
         # 値比較
         comp = compaireMA()
-        print('hhdddgggggh')
         is_first = False
 
         # 現在の最新MA一覧を取得する。
@@ -68,17 +67,13 @@ class setMA_USD_JPY:
             print('MAの過去データがありません。')
             pass
 
-        print('hhh6')
-
         # 変数宣言
         vals = []
-        print('hhhddd')
 
         for ma in ListMa:
             data = list(M5_USD_JPY.objects.order_by(
                 '-recorded_at_utc')[:ma].aggregate(Avg('close')).values())
             vals.append(data[0])
-        print('hhh')
 
         qSet = MA_USD_JPY
         create = qSet.objects.create(
@@ -102,25 +97,20 @@ class setMA_USD_JPY:
             m5_ma288=vals[17]
         )
 
-        print('hhhkgkg')
-
         # 差所のデータだと傾きを求められないのでパス
         if not is_first:
             # 傾きも求める。
             self.setMASlope(leatestData, create)
             # 短中長期の状態を取得
-            print('hhhkgkrrrrg')
 
         # ma_comp5_20_75
         resultComp1 = comp.comp3MA(vals[0], vals[5], vals[13])
         # ma_comp6_24_72
         resultComp2 = comp.comp3MA(vals[1], vals[6], vals[12])
-        print('hhhkgkggggggggg')
 
         # 状態に関連するobject取得
         rComp1 = listConditionOfMA.objects.filter(id=resultComp1).first()
         rComp2 = listConditionOfMA.objects.filter(id=resultComp2).first()
-        print('hhhkgddddddddddddddddddkg')
 
         qSetCondition = conditionOfMA_M5
         qSetCondition.objects.create(
@@ -128,7 +118,6 @@ class setMA_USD_JPY:
             ma_comp6_24_72=rComp2,
             ma=create
         )
-        print('hhhdddddddddddddddddddddddddddddddddddddddddddddddddkgkg')
 
         # print('resultComp1')
         # print(vals[0])
