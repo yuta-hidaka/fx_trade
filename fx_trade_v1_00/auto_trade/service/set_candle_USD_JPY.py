@@ -7,6 +7,7 @@ class setCandle_USD_JPY:
 
     def setM5(self):
         gMA = getMA_USD_JPY()
+        created = False
         if gMA.get_5M_1()['candles']:
             dictM5 = gMA.get_5M_1()['candles'][0]
 
@@ -19,15 +20,10 @@ class setCandle_USD_JPY:
             serial = SetCandleSerializer(data=dictM5)
             if serial.is_valid():
                 print('ok')
-                result = serial.create(serial.validated_data)
+                result, created = serial.create(serial.validated_data)
+                print(result)
+                print('result')
             else:
                 print('NG')
 
-        else:
-            result = 0
-
-        # result, created = M5.objects.filter(
-        #     report_time=dictM5['candles'][0]['time']
-        # ).get_or_create(dictM5['candles'][0])
-
-        return result
+        return result, created

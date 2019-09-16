@@ -51,7 +51,7 @@ class setMA_USD_JPY:
             slope_m5_ma288=vals[17]
         )
 
-    def setMA(self):
+    def setMA(self, FXdata):
 
         ListMa = [5, 6, 10, 12, 15, 20, 24, 30, 36,
                   40, 50, 70, 72, 75, 140, 144, 150, 288]
@@ -77,6 +77,7 @@ class setMA_USD_JPY:
 
         qSet = MA_USD_JPY
         create = qSet.objects.create(
+            m5=FXdata,
             m5_ma5=vals[0],
             m5_ma6=vals[1],
             m5_ma10=vals[2],

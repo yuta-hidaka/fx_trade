@@ -24,12 +24,12 @@ class Command(BaseCommand):
 
         # 5分足の保存
         setCandle = setCandle_USD_JPY()
-        result = setCandle.setM5()
+        result, created = setCandle.setM5()
 
         # 5分足が作成されたらMAを作成する。
-        if result:
+        if created:
             setMA = setMA_USD_JPY()
-            setMA.setMA()
+            setMA.setMA(result)
 
         # 自動取引がOFFかONかを確認する。
         qSetCheck = autoTradeOnOff.objects.filter(id=1).first()

@@ -59,7 +59,6 @@ class getMA_USD_JPY():
         # return HttpResponse(json.dumps(api.request(r)), content_type='application/json')
 
     def get_5M_now(self):
-        print('get_MA_5M_5')
         parm = {
             "instruments": "USD_JPY",
             "alignmentTimezone": "Japan",
@@ -71,7 +70,6 @@ class getMA_USD_JPY():
         return self.get_MA(parm)
 
     def get_5M_1(self):
-        print('get_MA_5M_5')
         parm = {
             "from": self.localTime,
             "instruments": "USD_JPY",
@@ -83,7 +81,6 @@ class getMA_USD_JPY():
         return self.get_MA(parm)
 
     def get_5M_5(self):
-        print('get_MA_5M_5')
         parm = {
             "instruments": "USD_JPY",
             "alignmentTimezone": "Japan",
@@ -94,9 +91,7 @@ class getMA_USD_JPY():
         return self.get_MA(parm)
 
     def get_5M_10(self):
-        print('get_MA_5M_10')
 
-        print('get_MA_5M_5')
         parm = {
             "instruments": "USD_JPY",
             "alignmentTimezone": "Japan",
@@ -107,7 +102,6 @@ class getMA_USD_JPY():
         return self.get_MA(parm)
 
     def get_5M_15(self):
-        print('get_MA_5M_15')
 
         parm = {
             "instruments": "USD_JPY",
@@ -119,7 +113,6 @@ class getMA_USD_JPY():
         return self.get_MA(parm)
 
     def get_5M_20(self):
-        print('get_MA_5M_20')
         parm = {
             "instruments": "USD_JPY",
             "alignmentTimezone": "Japan",
@@ -130,7 +123,6 @@ class getMA_USD_JPY():
         return self.get_MA(parm)
 
     def get_5M_50(self):
-        print('get_MA_5M_20')
         parm = {
             "instruments": "USD_JPY",
             "alignmentTimezone": "Japan",
@@ -141,7 +133,6 @@ class getMA_USD_JPY():
         return self.get_MA(parm)
 
     def get_5M_250(self):
-        print('get_MA_5M_20')
         parm = {
             "instruments": "USD_JPY",
             "alignmentTimezone": "Japan",

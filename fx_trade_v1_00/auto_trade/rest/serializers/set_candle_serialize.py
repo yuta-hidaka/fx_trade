@@ -24,4 +24,4 @@ class SetCandleSerializer(serializers.Serializer):
             low=validated_data['low'],
         )
 
-        return created
+        return result, created

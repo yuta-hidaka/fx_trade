@@ -23,6 +23,8 @@ class M5_USD_JPY(models.Model):
 
 # 平均移動線
 class MA_USD_JPY(models.Model):
+    m5 = models.ForeignKey(
+        'M5_USD_JPY', on_delete=models.CASCADE, related_name='m5', null=True)
     m5_ma5 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
     m5_ma6 = models.DecimalField(

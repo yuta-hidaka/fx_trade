@@ -15,7 +15,7 @@
 # """
 from django.contrib import admin
 from django.urls import path, include
-from .views import get_rate_API, get_ma_API, trade_switch_API
+from .views import get_rate_API, get_ma_API, trade_switch_API, get_m5vsMa
 # from . import getRate
 
 urlpatterns = [
@@ -24,6 +24,7 @@ urlpatterns = [
     path('getMA', get_rate_API.getRateAPI.as_view(), name='getMA'),
     path('tradeOnOff', trade_switch_API.tradeOnOffAPI.as_view(), name='tradeOnOff'),
     path('getRate', get_rate_API.getRateAPI.as_view(), name='getRate'),
+    path('M5vsMA', get_m5vsMa.M5vsMaUsdJpyAPI.as_view(), name='M5vsMA'),
     path('', get_rate_API.getRateAPI.as_view(), ),
     # path('/getRate', include('auto_trade.urls')),
 ]
