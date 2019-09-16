@@ -64,7 +64,7 @@ class setMA_USD_JPY:
             leatestData = MA_USD_JPY.objects.latest('created_at')
         except expression as identifier:
             is_first = True
-            print(identifier)
+            print('MAの過去データがありません。')
             pass
 
         print('hhh6')
