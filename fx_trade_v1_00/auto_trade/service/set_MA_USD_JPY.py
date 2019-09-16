@@ -57,9 +57,16 @@ class setMA_USD_JPY:
         # 値比較
         comp = compaireMA()
         print('hhdddgggggh')
+        is_first = False
 
         # 現在の最新MA一覧を取得する。
-        leatestData = MA_USD_JPY.objects.latest('created_at')
+        try:
+            leatestData = MA_USD_JPY.objects.latest('created_at')
+        except expression as identifier:
+            is_first = True
+            print(identifier)
+            pass
+
         print('hhh6')
 
         # 変数宣言
@@ -96,10 +103,12 @@ class setMA_USD_JPY:
 
         print('hhhkgkg')
 
-        # 傾きも求める。
-        self.setMASlope(leatestData, create)
-        # 短中長期の状態を取得
-        print('hhhkgkrrrrg')
+        # 差所のデータだと傾きを求められないのでパス
+        if not is_first:
+            # 傾きも求める。
+            self.setMASlope(leatestData, create)
+            # 短中長期の状態を取得
+            print('hhhkgkrrrrg')
 
         # ma_comp5_20_75
         resultComp1 = comp.comp3MA(vals[0], vals[5], vals[13])
