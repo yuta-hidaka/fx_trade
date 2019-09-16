@@ -8,6 +8,7 @@ from django.db.models import Avg
 from decimal import *
 from django.forms.models import model_to_dict
 from ..calculate.compare_ma import compaireMA
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class setMA_USD_JPY:
@@ -62,7 +63,7 @@ class setMA_USD_JPY:
         # 現在の最新MA一覧を取得する。
         try:
             leatestData = MA_USD_JPY.objects.latest('created_at')
-        except expression as identifier:
+        except ObjectDoesNotExist:
             is_first = True
             print('MAの過去データがありません。')
             pass
