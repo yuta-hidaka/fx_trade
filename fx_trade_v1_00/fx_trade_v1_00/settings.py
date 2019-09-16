@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from django.contrib import admin
+from django.urls import path, include
 
 admin.site.site_header = 'FX自動取引管理画面'
 admin.site.index_title = 'メニュー'
