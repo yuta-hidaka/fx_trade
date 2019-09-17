@@ -96,6 +96,12 @@
                         name: 'ma20',
                         mode: 'lines'
                     };
+                    var ma40 = {
+                        x: [],
+                        y: [],
+                        name: 'ma20',
+                        mode: 'lines'
+                    };
                     var ma75 = {
                         x: [],
                         y: [],
@@ -109,6 +115,12 @@
                         mode: 'lines'
                     };
                     var ma24 = {
+                        x: [],
+                        y: [],
+                        mode: 'lines',
+                        name: 'ma24'
+                    };
+                    var ma48 = {
                         x: [],
                         y: [],
                         mode: 'lines',
@@ -137,21 +149,25 @@
                         // console.log(list.recorded_at_utc);
                         trace1.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
                         ma5.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
+                        ma40.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
                         ma20.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
                         ma75.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
 
                         ma6.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
                         ma24.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
+                        ma48.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
                         ma72.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
                     });
 
                     data['ma'].forEach(function (list, i) {
                         ma5.y.push(list.m5_ma5)
                         ma20.y.push(list.m5_ma20)
+                        ma40.y.push(list.m5_ma20)
                         ma75.y.push(list.m5_ma75)
 
                         ma6.y.push(list.m5_ma6)
                         ma24.y.push(list.m5_ma24)
+                        ma48.y.push(list.m5_ma24)
                         ma72.y.push(list.m5_ma72)
                     });
 
