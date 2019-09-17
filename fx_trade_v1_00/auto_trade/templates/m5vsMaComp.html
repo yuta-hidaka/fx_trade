@@ -99,7 +99,7 @@
                     var ma40 = {
                         x: [],
                         y: [],
-                        name: 'ma20',
+                        name: 'ma40',
                         mode: 'lines'
                     };
                     var ma75 = {
@@ -120,11 +120,11 @@
                         mode: 'lines',
                         name: 'ma24'
                     };
-                    var ma48 = {
+                    var ma50 = {
                         x: [],
                         y: [],
                         mode: 'lines',
-                        name: 'ma24'
+                        name: 'ma50'
                     };
                     var ma72 = {
                         x: [],
@@ -155,19 +155,19 @@
 
                         ma6.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
                         ma24.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
-                        ma48.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
+                        ma50.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
                         ma72.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
                     });
 
                     data['ma'].forEach(function (list, i) {
                         ma5.y.push(list.m5_ma5)
                         ma20.y.push(list.m5_ma20)
-                        ma40.y.push(list.m5_ma20)
+                        ma40.y.push(list.m5_ma40)
                         ma75.y.push(list.m5_ma75)
 
                         ma6.y.push(list.m5_ma6)
                         ma24.y.push(list.m5_ma24)
-                        ma48.y.push(list.m5_ma24)
+                        ma50.y.push(list.m5_ma50)
                         ma72.y.push(list.m5_ma72)
                     });
 
@@ -175,7 +175,7 @@
                     console.log(trace1);
 
 
-                    var data = [trace1, ma5, ma20, ma40, ma75, ma6, ma24, ma48, ma72]
+                    var data = [trace1, ma5, ma20, ma40, ma75, ma6, ma24, ma50, ma72]
 
                     var layout = {
                         dragmode: 'zoom',
