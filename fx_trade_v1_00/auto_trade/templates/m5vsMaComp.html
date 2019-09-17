@@ -170,7 +170,7 @@
                         ma24.y.push(list.m5_ma24)
                         ma50.y.push(list.m5_ma50)
                         ma72.y.push(list.m5_ma72)
-                        text = text +
+                        text =
                             '<tr>' +
                             '<td>' + data['m5'][i]['close'] + '</td>' +
                             '<td>' + data['m5'][i]['recorded_at_utc'] + '</td>' +
@@ -178,7 +178,8 @@
                             '<td>' + data['condMa'][i]['ma_comp6_24_72'] + '</td>' +
                             '<td>' + data['condMa'][i]['ma_comp6_24_50'] + '</td>' +
                             '<td>' + data['condMa'][i]['ma_comp5_20_40'] + '</td>' +
-                            '<tr>'
+                            '<tr>' +
+                            text
                     });
 
                     text =

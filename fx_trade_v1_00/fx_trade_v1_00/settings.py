@@ -25,6 +25,7 @@ SECRET_KEY = '2ok+j8kd*&b(h)6tc(bpvykt4f^qryr(1%a_53y*s3gyha5si3'
 DEBUG = False
 # DEBUG = True
 
+
 ALLOWED_HOSTS = ['133.167.102.92', 'localhost', 'auto-trade.web-tool.tokyo']
 # Application definition
 
