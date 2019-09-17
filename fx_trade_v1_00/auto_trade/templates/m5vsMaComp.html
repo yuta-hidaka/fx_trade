@@ -173,6 +173,7 @@
                         text = text +
                             '<tr>' +
                             '<td>' + data['m5'][i]['close'] + '</td>' +
+                            '<td>' + data['m5'][i]['recorded_at_utc'] + '</td>' +
                             '<td>' + data['condMa'][i]['ma_comp5_20_75'] + '</td>' +
                             '<td>' + data['condMa'][i]['ma_comp6_24_72'] + '</td>' +
                             '<td>' + data['condMa'][i]['ma_comp6_24_50'] + '</td>' +
@@ -185,6 +186,7 @@
                         '<thead>' +
                         '<tr>' +
                         '<td>終値</td>' +
+                        '<td>recorded_at_utc</td>' +
                         '<td>ma_comp5_20_75</td>' +
                         '<td>ma_comp6_24_72</td>' +
                         '<td>ma_comp6_24_50</td>' +
@@ -268,7 +270,7 @@
     </div>
 
     <div id="plotly-div"></div>
-    <div id="tbl"></div>
+    <div id="tbl" style="overflow: scroll;height:500px;"></div>
 
 </body>
 
