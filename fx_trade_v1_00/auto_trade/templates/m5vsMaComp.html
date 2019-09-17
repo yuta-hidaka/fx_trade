@@ -158,6 +158,7 @@
                         ma50.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
                         ma72.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
                     });
+                    let text = '';
 
                     data['ma'].forEach(function (list, i) {
                         ma5.y.push(list.m5_ma5)
@@ -169,7 +170,28 @@
                         ma24.y.push(list.m5_ma24)
                         ma50.y.push(list.m5_ma50)
                         ma72.y.push(list.m5_ma72)
+                        text = text +
+                            '<tr>' +
+                            '<td>' + data['m5'][i]['close'] + '</td>' +
+                            '<td>' + data['condMa'][i]['ma_comp5_20_75'] + '</td>' +
+                            '<td>' + data['condMa'][i]['ma_comp6_24_72'] + '</td>' +
+                            '<td>' + data['condMa'][i]['ma_comp6_24_50'] + '</td>' +
+                            '<td>' + data['condMa'][i]['ma_comp5_20_40'] + '</td>' +
+                            '<tr>'
                     });
+
+                    text =
+                        '<table class="table table-bordered table-hover">' +
+                        '<tr>' +
+                        '<td>終値</td>' +
+                        '<td>ma_comp5_20_75</td>' +
+                        '<td>ma_comp6_24_72</td>' +
+                        '<td>ma_comp6_24_50</td>' +
+                        '<td>ma_comp5_20_40</td>' +
+                        '<tr>' + text +
+                        '</table>'
+
+                    $('#tbl').html(text);
 
 
                     console.log(trace1);
@@ -241,6 +263,7 @@
     </div>
 
     <div id="plotly-div"></div>
+    <div id="tbl"></div>
 
 </body>
 
