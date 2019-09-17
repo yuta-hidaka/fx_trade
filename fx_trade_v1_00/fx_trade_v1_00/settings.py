@@ -89,7 +89,6 @@ WSGI_APPLICATION = 'fx_trade_v1_00.wsgi.application'
 #         'PORT': '3306',
 #     }
 # }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
