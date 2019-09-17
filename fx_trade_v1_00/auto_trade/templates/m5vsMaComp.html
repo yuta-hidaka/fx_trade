@@ -182,13 +182,18 @@
 
                     text =
                         '<table class="table table-bordered table-hover">' +
+                        '<thead>' +
                         '<tr>' +
                         '<td>終値</td>' +
                         '<td>ma_comp5_20_75</td>' +
                         '<td>ma_comp6_24_72</td>' +
                         '<td>ma_comp6_24_50</td>' +
                         '<td>ma_comp5_20_40</td>' +
-                        '<tr>' + text +
+                        '<tr>' +
+                        '</thead>' +
+                        '<tbody>' +
+                        text +
+                        '</tbody>' +
                         '</table>'
 
                     $('#tbl').html(text);
