@@ -5,7 +5,7 @@
 
 .tableFixHead thead th {
     position: sticky;
-    display: block;
+    /* display: block; */
     top: 0;
     background: #eee;
 }
