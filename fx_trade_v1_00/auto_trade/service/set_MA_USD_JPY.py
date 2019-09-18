@@ -51,6 +51,30 @@ class setMA_USD_JPY:
             slope_m5_ma288=vals[17]
         )
 
+        # ma_comp5_20_75
+        resultComp1 = comp.comp3MA(vals[0], vals[5], vals[13])
+        # ma_comp6_24_72
+        resultComp2 = comp.comp3MA(vals[1], vals[6], vals[12])
+        # ma_comp6_24_72
+        resultComp3 = comp.comp3MA(vals[0], vals[5], vals[9])
+        # ma_comp6_24_72
+        resultComp4 = comp.comp3MA(vals[1], vals[6], vals[10])
+
+        # 状態に関連するobject取得
+        rComp1 = listConditionOfMA.objects.filter(id=resultComp1).first()
+        rComp2 = listConditionOfMA.objects.filter(id=resultComp2).first()
+        rComp3 = listConditionOfMA.objects.filter(id=resultComp3).first()
+        rComp4 = listConditionOfMA.objects.filter(id=resultComp4).first()
+
+        qSetCondition = conditionOfMA_M5
+        qSetCondition.objects.create(
+            ma_comp5_20_75=rComp1,
+            ma_comp5_20_40=rComp3,
+            ma_comp6_24_72=rComp2,
+            ma_comp6_24_50=rComp4,
+            ma=create
+        )
+
     def setMA(self, FXdata):
 
         ListMa = [5, 6, 10, 12, 15, 20, 24, 30, 36,
@@ -98,7 +122,7 @@ class setMA_USD_JPY:
             m5_ma288=vals[17]
         )
 
-        # 差所のデータだと傾きを求められないのでパス
+        # 最初のデータだと傾きを求められないのでパス
         if not is_first:
             # 傾きも求める。
             self.setMASlope(leatestData, create)

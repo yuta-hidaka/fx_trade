@@ -6,8 +6,9 @@
 .tableFixHead thead th {
     position: sticky;
     position: -webkit-sticky;
-    background-color: azure;
-    top: -2px;
+    background-color: white;
+    top: -5px;
+    margin: 5px;
 }
 
 

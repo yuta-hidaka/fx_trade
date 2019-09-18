@@ -70,6 +70,7 @@ class MA_USD_JPY(models.Model):
 
 
 # 平均移動線の傾き
+# プラスであれば傾きが大きくなっており、マイナスは縮小
 class SlopeM5_USD_JPY(models.Model):
     ma_previous = models.ForeignKey(
         'MA_USD_JPY', on_delete=models.CASCADE, related_name='ma_previous', null=True)
@@ -134,6 +135,8 @@ class listConditionOfMA(models.Model):
 
 # 傾きの状態
 
+# すべて傾きが正、すべて傾きが負、それ以外
+
 
 class listConditionOfSlope(models.Model):
     condition = models.CharField(max_length=256)
@@ -142,6 +145,29 @@ class listConditionOfSlope(models.Model):
 
     class Meta:
         db_table = 'list_condition_of_slope'
+
+
+class conditionOfSlope_M5(models.Model):
+    slope_comp5_20_75 = models.ForeignKey(
+        'listConditionOfSlope', on_delete=models.CASCADE, related_name='slope_comp5_20_75', null=True)
+
+    slope_comp5_20_40 = models.ForeignKey(
+        'listConditionOfSlope', on_delete=models.CASCADE, related_name='slope_comp5_20_40', null=True)
+
+    slope_comp6_24_72 = models.ForeignKey(
+        'listConditionOfSlope', on_delete=models.CASCADE, related_name='slope_comp6_24_72', null=True)
+
+    slope_comp6_24_50 = models.ForeignKey(
+        'listConditionOfSlope', on_delete=models.CASCADE, related_name='slope_comp6_24_50', null=True)
+
+    ma = models.ForeignKey(
+        'MA_USD_JPY', on_delete=models.CASCADE, related_name='ma_slope')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'condition_of_slope'
 
 
 class conditionOfMA_M5(models.Model):
@@ -157,12 +183,6 @@ class conditionOfMA_M5(models.Model):
     ma_comp6_24_50 = models.ForeignKey(
         'listConditionOfMA', on_delete=models.CASCADE, related_name='ma_comp6_24_50', null=True)
 
-    slope_comp5_20_75 = models.ForeignKey(
-        'listConditionOfSlope', on_delete=models.CASCADE, related_name='slope_comp5_20_75', null=True)
-
-    slope_comp6_24_72 = models.ForeignKey(
-        'listConditionOfSlope', on_delete=models.CASCADE, related_name='slope_comp6_24_72', null=True)
-
     ma = models.ForeignKey(
         'MA_USD_JPY', on_delete=models.CASCADE, related_name='ma')
 
@@ -172,6 +192,21 @@ class conditionOfMA_M5(models.Model):
     class Meta:
         db_table = 'condition_of_ma'
 
+# maを中心とした現状を示す指標の集合体。
+
+
+class condition(models.Model):
+    ma = models.ForeignKey(
+        'MA_USD_JPY', on_delete=models.CASCADE, related_name='condition_ma')
+    condition_of_slope_M5 = models.ForeignKey(
+        'conditionOfSlope_M5', on_delete=models.CASCADE, related_name='conditionOfSlope_M5', null=True)
+    condition_of_ma_M5 = models.ForeignKey(
+        'conditionOfMA_M5', on_delete=models.CASCADE, related_name='conditionOfSlope_M5', null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'condition'
 
 # 自動取引のON,OFFを決める
 class autoTradeOnOff(models.Model):
