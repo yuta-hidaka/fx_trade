@@ -9,7 +9,7 @@
 {% include 'base.html' %}
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
 
         function OnAutoTrade(bool) {
             let req = {
@@ -17,11 +17,13 @@
             }
 
             $.ajax({
-                url: '../rest/tradeOnOff',
-                type: 'POST',
-                data: req,
-                headers: { "X-CSRFToken": token }
-            })
+                    url: '../rest/tradeOnOff',
+                    type: 'POST',
+                    data: req,
+                    headers: {
+                        "X-CSRFToken": token
+                    }
+                })
                 // Ajaxリクエストが成功した時発動
                 .done((data) => {
 
@@ -33,7 +35,7 @@
                 });
         }
 
-        $('#selectON').on('change', function () {
+        $('#selectON').on('change', function() {
             console.log($('#selectON').val());
             if (Number($('#selectON').val())) {
                 let ans = confirm("自動取引を開始しますか？");
@@ -50,16 +52,18 @@
 
         });
 
-        $('#getRate').on('click', function () {
+        $('#getRate').on('click', function() {
             $.ajax({
-                url: '../rest/M5vsMA',
-                type: 'POST',
-                data: {
-                    'userid': $('#userid').val(),
-                    'passward': $('#passward').val()
-                },
-                headers: { "X-CSRFToken": token }
-            })
+                    url: '../rest/M5vsMA',
+                    type: 'POST',
+                    data: {
+                        'userid': $('#userid').val(),
+                        'passward': $('#passward').val()
+                    },
+                    headers: {
+                        "X-CSRFToken": token
+                    }
+                })
                 // Ajaxリクエストが成功した時発動
                 .done((data) => {
                     $('.result').html(data);
@@ -71,10 +75,20 @@
                     var trace1 = {
                         x: [],
                         close: [],
-                        decreasing: { line: { color: '#7F7F7F' } },
+                        decreasing: {
+                            line: {
+                                color: '#7F7F7F'
+                            }
+                        },
                         high: [],
-                        increasing: { line: { color: '#17BECF' } },
-                        line: { color: 'rgba(31,119,180,1)' },
+                        increasing: {
+                            line: {
+                                color: '#17BECF'
+                            }
+                        },
+                        line: {
+                            color: 'rgba(31,119,180,1)'
+                        },
                         low: [],
                         open: [],
                         type: 'candlestick',
@@ -134,7 +148,7 @@
                     };
                     console.log(trace1);
 
-                    data['m5'].forEach(function (list, i) {
+                    data['m5'].forEach(function(list, i) {
                         // console.log(list.time.split('.')[0].replace('T', ' '));
                         trace1.close.push(list.close);
                         trace1.high.push(list.high);
@@ -160,7 +174,7 @@
                     });
                     let text = '';
 
-                    data['ma'].forEach(function (list, i) {
+                    data['ma'].forEach(function(list, i) {
                         ma5.y.push(list.m5_ma5)
                         ma20.y.push(list.m5_ma20)
                         ma40.y.push(list.m5_ma40)
@@ -220,7 +234,9 @@
                             autorange: true,
                             domain: [0, 1],
                             range: [trace1.x[0], trace1.x[trace1.x.length - 1]],
-                            rangeslider: { range: [trace1.x[0], trace1.x[trace1.x.length - 1]] },
+                            rangeslider: {
+                                range: [trace1.x[0], trace1.x[trace1.x.length - 1]]
+                            },
                             title: 'Date',
                             type: 'date'
                         },
@@ -242,10 +258,6 @@
                 });
         });
     });
-
-
-
-
 </script>
 
 
@@ -271,7 +283,7 @@
     </div>
 
     <div id="plotly-div"></div>
-    <div id="tbl" class="table-responsive tableFixHead"></div>
+    <div id="tbl" class="tableFixHead"></div>
 
 </body>
 
