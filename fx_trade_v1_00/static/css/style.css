@@ -5,6 +5,7 @@
 
 .tableFixHead thead th {
     position: sticky;
+    position: -webkit-sticky;
     /* display: block; */
     top: 0;
     background: #eee;
@@ -15,7 +16,6 @@
     top: 0;
     position: -webkit-sticky;
     /* Safari */
-    position: sticky;
     background: #eee;
 }
 
@@ -25,10 +25,5 @@
 table {
     border-collapse: collapse;
     width: 100%;
-}
-
-.scroll-table {
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-    white-space: nowrap;
+    position: -webkit-sticky;
 }
