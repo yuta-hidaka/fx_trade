@@ -94,9 +94,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'fx_trade',
         'USER': 'yuta19940322',
-
         'PASSWORD': 'souldout322',
-
         'HOST': 'localhost',
         'PORT': '3306',
     }

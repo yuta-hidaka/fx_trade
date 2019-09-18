@@ -1,7 +1,27 @@
-.tableFixHead          { overflow-y: auto; height: 300px; }
-.tableFixHead thead th { position: sticky; top: 0; }
+.tableFixHead {
+    overflow-y: auto;
+    height: 300px;
+}
+
+.tableFixHead thead th {
+    position: sticky;
+    top: 0;
+    background: #eee;
+}
+
+.tableFixHead thead th td {
+    position: sticky;
+    top: 0;
+    position: -webkit-sticky;
+    /* Safari */
+    position: sticky;
+    background: #eee;
+}
+
 
 /* Just common table stuff. Really. */
-table  { border-collapse: collapse; width: 100%; }
-th, td { padding: 8px 16px; }
-th     { background:#eee; }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
