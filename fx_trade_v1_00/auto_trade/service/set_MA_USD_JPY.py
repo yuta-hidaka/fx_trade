@@ -17,6 +17,7 @@ class setMA_USD_JPY:
         ListMa = [5, 6, 10, 12, 15, 20, 24, 30, 36,
                   40, 50, 70, 72, 75, 140, 144, 150, 288]
         vals = []
+        comp = compaireMA()
 
         # print(model_to_dict(preveousData))
         # print(model_to_dict(leatestData))
@@ -52,28 +53,30 @@ class setMA_USD_JPY:
         )
 
         # ma_comp5_20_75
-        resultComp1 = comp.comp3MA(vals[0], vals[5], vals[13])
+        resultComp1 = comp.comp3MASlope(vals[0], vals[5], vals[13])
         # ma_comp6_24_72
-        resultComp2 = comp.comp3MA(vals[1], vals[6], vals[12])
+        resultComp2 = comp.comp3MASlope(vals[1], vals[6], vals[12])
         # ma_comp6_24_72
-        resultComp3 = comp.comp3MA(vals[0], vals[5], vals[9])
+        resultComp3 = comp.comp3MASlope(vals[0], vals[5], vals[9])
         # ma_comp6_24_72
-        resultComp4 = comp.comp3MA(vals[1], vals[6], vals[10])
+        resultComp4 = comp.comp3MASlope(vals[1], vals[6], vals[10])
 
         # 状態に関連するobject取得
-        rComp1 = listConditionOfMA.objects.filter(id=resultComp1).first()
-        rComp2 = listConditionOfMA.objects.filter(id=resultComp2).first()
-        rComp3 = listConditionOfMA.objects.filter(id=resultComp3).first()
-        rComp4 = listConditionOfMA.objects.filter(id=resultComp4).first()
+        rComp1 = listConditionOfSlope.objects.filter(id=resultComp1).first()
+        rComp2 = listConditionOfSlope.objects.filter(id=resultComp2).first()
+        rComp3 = listConditionOfSlope.objects.filter(id=resultComp3).first()
+        rComp4 = listConditionOfSlope.objects.filter(id=resultComp4).first()
 
-        qSetCondition = conditionOfMA_M5
-        qSetCondition.objects.create(
-            ma_comp5_20_75=rComp1,
-            ma_comp5_20_40=rComp3,
-            ma_comp6_24_72=rComp2,
-            ma_comp6_24_50=rComp4,
-            ma=create
+        qSetCondition = conditionOfSlope_M5
+        create =qSetCondition.objects.create(
+            slope_comp5_20_75=rComp1,
+            slope_comp5_20_40=rComp3,
+            slope_comp6_24_72=rComp2,
+            slope_comp6_24_50=rComp4,
+            ma=leatestData
         )
+        
+        return create
 
     def setMA(self, FXdata):
 
