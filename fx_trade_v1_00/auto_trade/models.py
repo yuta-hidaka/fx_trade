@@ -221,7 +221,6 @@ class sellBuyAlert(models.Model):
     is_buy = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    updated_att = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'sell_buy_alert'
