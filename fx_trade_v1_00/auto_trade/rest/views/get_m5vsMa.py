@@ -27,7 +27,11 @@ class M5vsMaUsdJpyAPI(APIView):
         res['ma'] = []
         res['m5'] = []
 
-        result = conditionOfMA_M5.objects.prefetch_related('ma')[:500]
+        result = conditionOfMA_M5.objects.prefetch_related(
+            'ma'
+        ).order_by(
+            '-id'
+        )[:500]
 
         for r in result:
             if not r.ma.m5 == None:
