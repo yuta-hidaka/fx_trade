@@ -33,8 +33,11 @@ class M5vsMaUsdJpyAPI(APIView):
             '-id'
         )[:500]
 
+        c = result.count()
+
         for r in result:
             if not r.ma.m5 == None:
+                res['count'].append(c)
                 res['condMa'].append(model_to_dict(r))
                 res['ma'].append(model_to_dict(r.ma))
                 res['m5'].append(model_to_dict(r.ma.m5))
