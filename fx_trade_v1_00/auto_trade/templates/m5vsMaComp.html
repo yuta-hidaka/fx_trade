@@ -72,6 +72,10 @@
                     console.log(data['condMa']);
                     console.log(data['m5']);
 
+                    data['ma'] = data['ma'].reverse();
+                    data['condMa'] = data['condMa'].reverse();
+                    data['m5'] = data['m5'].reverse();
+
                     var trace1 = {
                         x: [],
                         close: [],
@@ -185,6 +189,7 @@
                         ma50.y.push(list.m5_ma50)
                         ma72.y.push(list.m5_ma72)
                         text =
+                            text +
                             '<tr>' +
                             '<td>' + data['m5'][i]['close'] + '</td>' +
                             '<td>' + data['m5'][i]['recorded_at_utc'] + '</td>' +
@@ -192,12 +197,10 @@
                             '<td>' + data['condMa'][i]['ma_comp6_24_72'] + '</td>' +
                             '<td>' + data['condMa'][i]['ma_comp6_24_50'] + '</td>' +
                             '<td>' + data['condMa'][i]['ma_comp5_20_40'] + '</td>' +
-                            '<tr>' +
-                            text
+                            '<tr>'
                     });
 
                     text =
-                        text +
                         '<table class="table  table-bordered table-hover table-sm">' +
                         '<thead>' +
                         '<tr>' +
@@ -210,6 +213,7 @@
                         '<tr>' +
                         '</thead>' +
                         '<tbody>' +
+                        text +
                         '</tbody>' +
                         '</table>'
 
