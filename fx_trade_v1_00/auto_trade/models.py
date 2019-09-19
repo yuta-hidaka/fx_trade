@@ -211,19 +211,19 @@ class condition(models.Model):
 # 自動取引のON,OFFを決める
 
 
-# class sellBuyAlert(models.Model):
-#     position_in = models.DecimalField(
-#         max_digits=8, decimal_places=4, default=0.0000)
-#     position_out = models.DecimalField(
-#         max_digits=8, decimal_places=4, default=0.0000)
-#     position_def = models.DecimalField(
-#         max_digits=17, decimal_places=15, default=0.0000)
-#     is_buy = models.BooleanField(default=False)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
+class sellBuyAlert(models.Model):
+    position_in = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
+    position_out = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
+    position_def = models.DecimalField(
+        max_digits=17, decimal_places=15, default=0.0000)
+    is_buy = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-#     class Meta:
-#         db_table = 'sell_buy_alert'
+    class Meta:
+        db_table = 'sell_buy_alert'
 
 # 自動取引のON,OFFを決める
 
