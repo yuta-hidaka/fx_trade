@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models import (
     autoTradeOnOff, batchRecord, M5_USD_JPY,
     MA_USD_JPY, SlopeM5_USD_JPY, conditionOfMA_M5, conditionOfSlope_M5,
-    listConditionOfMA, listConditionOfSlope
+    listConditionOfMA, listConditionOfSlope, condition, sellBuyAlert
 )
 
 
@@ -12,6 +12,8 @@ class DateTime(admin.ModelAdmin):
 
 
 admin.site.register(autoTradeOnOff, DateTime)
+admin.site.register(sellBuyAlert, DateTime)
+admin.site.register(condition, DateTime)
 
 admin.site.register(batchRecord, DateTime)
 admin.site.register(M5_USD_JPY, DateTime)
