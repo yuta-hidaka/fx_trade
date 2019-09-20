@@ -24,7 +24,7 @@ class M5vsMaUsdJpyAPI(APIView):
 
         res = {}
         res['condMa'] = []
-        res['count'] = []
+        res['condSlope'] = []
         res['ma'] = []
         res['m5'] = []
 
@@ -35,13 +35,16 @@ class M5vsMaUsdJpyAPI(APIView):
         )[:500]
 
         c = result.count()
-
-        for r in result:
-            if not r.ma.m5 == None:
-                res['count'].append([c])
-                res['condMa'].append(model_to_dict(r))
-                res['ma'].append(model_to_dict(r.ma))
-                res['m5'].append(model_to_dict(r.ma.m5))
+        try:
+            for r in result:
+                if not r.ma.m5 == None:
+                    res['condSlope'].append(
+                        model_to_dict(r.ma.ma_slope.first()))
+                    res['condMa'].append(model_to_dict(r))
+                    res['ma'].append(model_to_dict(r.ma))
+                    res['m5'].append(model_to_dict(r.ma.m5))
+        except:
+            pass
 
         return JsonResponse(res, safe=False)
 

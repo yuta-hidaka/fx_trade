@@ -17,7 +17,6 @@ class Command(BaseCommand):
 
     # コマンドが実行された際に呼ばれるメソッド
     def handle(self, *args, **options):
-        JST = timezone(timedelta(hours=+9), 'JST')
         dt_now = datetime.datetime.now(JST)
         # バッチの実行状況を保存する。
         qSetBatch = batchRecord.objects.filter(id=1).first()
