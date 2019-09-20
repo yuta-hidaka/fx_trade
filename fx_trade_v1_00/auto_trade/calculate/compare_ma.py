@@ -12,18 +12,20 @@ class compaireMA():
         '''
         １すべてプラス
         ２すべてマイナス
+        3すべて０
         ３それ以外
         '''
         slopeList = [short, middle, long]
-        for num in slopeList:
-            if num > 0:
-                return 1
-            elif num == 0:
-                return 0
+        sumSlope = 0
+        for n in slopeList:
+            if n > 0:
+                sumSlope += 1
+            elif n == 0:
+                sumSlope += 0
             else:
-                return -1
+                sumSlope += -1
 
-        sumSlope = sum(slopeList)
+
         if sumSlope == 3:
             return 1
         elif sumSlope == -3:

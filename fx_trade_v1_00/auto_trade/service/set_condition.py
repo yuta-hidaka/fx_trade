@@ -16,6 +16,8 @@ class setCondition:
     def setSlopeComp(self, vals, create):
         comp = compaireMA()
 
+        print('hi')
+
         # ma_comp5_20_75
         resultComp1 = comp.comp3MASlope(vals[0], vals[5], vals[13])
         # ma_comp6_24_72
@@ -39,7 +41,6 @@ class setCondition:
             slope_comp6_24_50=rComp4,
             ma=create
         )
-
         return result
 
     def setMAComp(self, vals, create):
