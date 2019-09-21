@@ -22,6 +22,8 @@ class setMA_USD_JPY:
                   40, 50, 70, 72, 75, 140, 144, 150, 288]
         vals = []
         comp = compaireMA()
+        print(preveousData)
+        print(leatestData)
 
         # print(model_to_dict(preveousData))
         # print(model_to_dict(leatestData))
@@ -60,6 +62,7 @@ class setMA_USD_JPY:
         return result
 
     def setMA(self, FXdata):
+        print(FXdata)
 
         ListMa = [5, 6, 10, 12, 15, 20, 24, 30, 36,
                   40, 50, 70, 72, 75, 140, 144, 150, 288]
@@ -68,6 +71,8 @@ class setMA_USD_JPY:
         # 現在の最新MA一覧を取得する。
         try:
             leatestData = MA_USD_JPY.objects.latest('created_at')
+            print(FXdata)
+
         except ObjectDoesNotExist:
             is_first = True
             print('MAの過去データがありません。')
