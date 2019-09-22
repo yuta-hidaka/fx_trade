@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class AutoTradeConfigs(AppConfig):
+class AutoTradeConfig(AppConfig):
     name = 'auto_trade'
