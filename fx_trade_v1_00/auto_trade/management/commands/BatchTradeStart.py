@@ -32,10 +32,10 @@ class Command(BaseCommand):
             conditonList = setMA.setMA(result)
         print(result)
 
-        setMA = setMA_USD_JPY()
-        # conditionListをもとに売買ポイントを考える。
-        conditonList = setMA.setMA(result)
-        print(conditonList)
+        # setMA = setMA_USD_JPY()
+        # # conditionListをもとに売買ポイントを考える。
+        # conditonList = setMA.setMA(result)
+        # print(conditonList)
 
         # 自動取引がOFFかONかを確認する。
         qSetCheck = autoTradeOnOff.objects.filter(id=1).first()
