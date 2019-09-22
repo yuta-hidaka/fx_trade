@@ -178,6 +178,9 @@ class conditionOfMA_M5(models.Model):
     ma_comp5_20_40 = models.ForeignKey(
         'listConditionOfMA', on_delete=models.CASCADE, related_name='ma_comp5_20_40', null=True)
 
+    ma_comp5_20_75 = models.ForeignKey(
+        'listConditionOfMA', on_delete=models.CASCADE, related_name='ma_comp5_20_75', null=True)
+
     ma_comp6_24_50 = models.ForeignKey(
         'listConditionOfMA', on_delete=models.CASCADE, related_name='ma_comp6_24_50', null=True)
 
@@ -194,8 +197,6 @@ class conditionOfMA_M5(models.Model):
 
 
 class condition(models.Model):
-    conditiond = models.CharField(max_length=256, default='')
-
     ma = models.ForeignKey(
         'MA_USD_JPY', on_delete=models.CASCADE, related_name='condition_ma', null=True)
     condition_of_slope_M5 = models.ForeignKey(
