@@ -197,7 +197,7 @@ class conditionOfMA_M5(models.Model):
 
 class condition(models.Model):
     ma = models.ForeignKey(
-        'MA_USD_JPY', on_delete=models.CASCADE, related_name='condition_ma')
+        'MA_USD_JPY', on_delete=models.CASCADE, related_name='condition_ma', null=True)
     condition_of_slope_M5 = models.ForeignKey(
         'conditionOfSlope_M5', on_delete=models.CASCADE, related_name='conditionOfSlope_M5', null=True)
     condition_of_ma_M5 = models.ForeignKey(

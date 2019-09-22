@@ -1,7 +1,7 @@
 from .get_MA_USD_JPY import getMA_USD_JPY
 from ..models import (
     M5_USD_JPY, MA_USD_JPY, SlopeM5_USD_JPY,
-    conditionOfMA_M5, listConditionOfMA, listConditionOfSlope
+    conditionOfMA_M5, listConditionOfMA, listConditionOfSlope, condition
 )
 from ..rest.serializers.set_candle_serialize import SetCandleSerializer
 from django.db.models import Avg
@@ -62,11 +62,12 @@ class setMA_USD_JPY:
         return result
 
     def setMA(self, FXdata):
-        print(FXdata)
-
+        # 変数宣言
+        vals = []
         ListMa = [5, 6, 10, 12, 15, 20, 24, 30, 36,
                   40, 50, 70, 72, 75, 140, 144, 150, 288]
         is_first = False
+        condiSlope = None
 
         # 現在の最新MA一覧を取得する。
         try:
@@ -77,9 +78,6 @@ class setMA_USD_JPY:
             is_first = True
             print('MAの過去データがありません。')
             pass
-
-        # 変数宣言
-        vals = []
 
         for ma in ListMa:
             data = list(M5_USD_JPY.objects.order_by(
@@ -112,8 +110,11 @@ class setMA_USD_JPY:
         # 最初のデータだと傾きを求められないのでパス
         if not is_first:
             # 傾きも求める。
-            self.setMASlope(leatestData, create)
+            condiSlope = self.setMASlope(leatestData, create)
             # 短中長期の状態を取得
 
         # 値比較
         result = self.sCondition.setMAComp(vals, create)
+
+        # 現状を計算した情報を一テーブルに集約
+        return self.sCondition.setConditionList(FXdata, result, condiSlope)

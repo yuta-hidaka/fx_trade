@@ -29,11 +29,13 @@ class Command(BaseCommand):
         # 5分足が作成されたらMAを作成する。
         if created:
             setMA = setMA_USD_JPY()
-            setMA.setMA(result)
+            conditonList = setMA.setMA(result)
         print(result)
 
-        # setMA = setMA_USD_JPY()
-        # setMA.setMA(result)
+        setMA = setMA_USD_JPY()
+        # conditionListをもとに売買ポイントを考える。
+        conditonList = setMA.setMA(result)
+        print(conditonList)
 
         # 自動取引がOFFかONかを確認する。
         qSetCheck = autoTradeOnOff.objects.filter(id=1).first()

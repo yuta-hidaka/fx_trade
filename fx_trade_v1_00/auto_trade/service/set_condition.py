@@ -1,7 +1,9 @@
 from .get_MA_USD_JPY import getMA_USD_JPY
 from ..models import (
     M5_USD_JPY, MA_USD_JPY, SlopeM5_USD_JPY,
-    conditionOfMA_M5, listConditionOfMA, listConditionOfSlope, conditionOfSlope_M5
+    conditionOfMA_M5, conditionOfSlope_M5,
+    listConditionOfMA, listConditionOfSlope,
+    condition
 
 )
 from ..rest.serializers.set_candle_serialize import SetCandleSerializer
@@ -15,8 +17,6 @@ from django.core.exceptions import ObjectDoesNotExist
 class setCondition:
     def setSlopeComp(self, vals, create):
         comp = compaireMA()
-
-        print('hi')
 
         # ma_comp5_20_75
         resultComp1 = comp.comp3MASlope(vals[0], vals[5], vals[13])
@@ -67,13 +67,21 @@ class setCondition:
         rComp4 = listConditionOfMA.objects.filter(id=resultComp4).first()
 
         qSetCondition = conditionOfMA_M5
-        qSetCondition.objects.create(
+        result = qSetCondition.objects.create(
             ma_comp5_20_75=rComp1,
             ma_comp5_20_40=rComp3,
             ma_comp6_24_72=rComp2,
             ma_comp6_24_50=rComp4,
             ma=create
         )
+        return result
 
-    def setCondition(self, macomp, slope):
-        print('setCondi')
+    def setConditionList(self, ma, macomp, slope):
+
+        create = condition.objects.create(
+            ma=ma,
+            condition_of_slope_M5=slope,
+            condition_of_ma_M5=macomp
+        )
+        
+        return create
