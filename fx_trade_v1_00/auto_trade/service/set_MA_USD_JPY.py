@@ -117,4 +117,4 @@ class setMA_USD_JPY:
         result = self.sCondition.setMAComp(vals, create)
 
         # 現状を計算した情報を一テーブルに集約
-        return self.sCondition.setConditionList(FXdata, result, condiSlope)
+        return self.sCondition.setConditionList(create, result, condiSlope)
