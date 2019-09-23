@@ -54,19 +54,19 @@ class BuySellCal():
 
             long_in = (
                 M5_1_close + M5_1_close*Decimal(0.001)
-            ).quantize(Decimal('0.0001'), rounding=ROUND_HALF_UP)
+            ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             long_limit = (
                 M5_1_close + M5_1_close*Decimal(-0.002)
-            ).quantize(Decimal('0.0001'), rounding=ROUND_HALF_UP)
+            ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_in = (
                 M5_1_close + M5_1_close*Decimal(-0.002)
-            ).quantize(Decimal('0.0001'), rounding=ROUND_HALF_UP)
+            ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_limit = (
                 M5_1_close + M5_1_close*Decimal(0.002)
-            ).quantize(Decimal('0.0001'), rounding=ROUND_HALF_UP)
+            ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             maPrev = model_to_dict(condiPrev.condition_of_ma_M5)[
                 'ma_comp6_24_50']
