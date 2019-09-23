@@ -33,7 +33,7 @@ class Command(BaseCommand):
         if created:
             setMA = setMA_USD_JPY()
 
-            condiPrev = condition.object.latest('created_at')
+            condiPrev = condition.objects.latest('created_at')
             condiNow = setMA.setMA(result)
             # bsCal.BuySellCheck(conditonList)
 
