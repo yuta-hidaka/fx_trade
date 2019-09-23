@@ -84,6 +84,7 @@ class orderFx:
 
     def orderCreate(self):
         # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
+        print('order create----------------------------------------------')
         api = self.fi.api
         # stopPrice = 100.00
         stoporder = StopLossDetails(
@@ -96,19 +97,14 @@ class orderFx:
         self.data['order']['instrument'] = self.instrument
         self.data['order']['units'] = self.units
         self.data['order']['stopLossOnFill'] = stoporder.data
-        print(self.data)
+        # print(self.data)
         # r = trades.TradeClose(accountID=accountID, tradeID=49, data=data)
         # API経由で指値注文を実行
         r = orders.OrderCreate(self.fi.accountID, data=self.data)
         res = api.request(r)
-
         print(self.data)
-
         print(json.dumps(res, indent=2))
-        try:
-            a = self.oderCloseAllShort()
-        except:
-            pass
+        print('order create----------------------------------------------')
 
     def oderCloseAllLong(self):
         api = self.fi.api
