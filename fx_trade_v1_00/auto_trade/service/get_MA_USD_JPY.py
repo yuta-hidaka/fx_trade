@@ -62,7 +62,6 @@ class getMA_USD_JPY():
         parm = {
             "instruments": "USD_JPY",
             "alignmentTimezone": "Japan",
-            "from": self.localTime,
             "count": 1,
             "granularity": 'M5'
         }

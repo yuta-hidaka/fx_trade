@@ -1,10 +1,11 @@
-from ...models import batchRecord, autoTradeOnOff
+from ...models import batchRecord, autoTradeOnOff, condition
 from datetime import datetime, timedelta, timezone
 
 import datetime
 from django.core.management.base import BaseCommand
 from django.forms.models import model_to_dict
 from ...service.set_candle_USD_JPY import setCandle_USD_JPY
+from ...calculate.buy_sell_cal import BuySellCal
 from ...service.set_MA_USD_JPY import setMA_USD_JPY
 from auto_trade.service.set_candle_USD_JPY import setCandle_USD_JPY
 
@@ -19,22 +20,30 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         JST = timezone(timedelta(hours=+9), 'JST')
         dt_now = datetime.datetime.now(JST)
+        setCandle = setCandle_USD_JPY()
+        bsCal = BuySellCal()
+
         # バッチの実行状況を保存する。
         qSetBatch = batchRecord.objects.filter(id=1).first()
 
         # 5分足の保存
-        setCandle = setCandle_USD_JPY()
         result, created = setCandle.setM5()
 
         # 5分足が作成されたらMAを作成する。
         if created:
             setMA = setMA_USD_JPY()
-            conditonList = setMA.setMA(result)
-        print(result)
 
+            condiPrev = condition.object.latest('created_at')
+            condiNow = setMA.setMA(result)
+            # bsCal.BuySellCheck(conditonList)
+
+            # conditionListをもとに売買ポイントを考える。
         # setMA = setMA_USD_JPY()
-        # # conditionListをもとに売買ポイントを考える。
-        # conditonList = setMA.setMA(result)
+        # condiPrev = condition.objects.latest('created_at')
+
+        # condiNow = setMA.setMA(result)
+        # bsCal.BuySellCheck(condiNow, condiPrev)
+
         # print(conditonList)
 
         # 自動取引がOFFかONかを確認する。

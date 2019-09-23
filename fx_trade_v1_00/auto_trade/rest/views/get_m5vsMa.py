@@ -7,12 +7,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from ...models import conditionOfMA_M5
 from django.forms.models import model_to_dict
-
 from django.http import JsonResponse
-
 from auto_trade.service.get_rate_USD_JPY import getFXdata_USD
-
 from django.core import serializers
+
+from ...management.commands.BatchTradeStart import Command
+
+# from ....fx_trade_v1_00.lib.order import orderFx
+from fx_trade_v1_00.lib.order import orderFx
 
 
 class M5vsMaUsdJpyAPI(APIView):
@@ -21,6 +23,9 @@ class M5vsMaUsdJpyAPI(APIView):
         print('hi')
 
     def post(self, request):
+
+        c = Command()
+        a = c.handle()
 
         res = {}
         res['condMa'] = []
@@ -32,7 +37,7 @@ class M5vsMaUsdJpyAPI(APIView):
             'ma'
         ).order_by(
             '-id'
-        )[:500]
+        )[:1500]
 
         c = result.count()
         try:
@@ -46,9 +51,10 @@ class M5vsMaUsdJpyAPI(APIView):
         except:
             pass
 
+        # a = orderFx()
+        # l = a.orderCreate()
+
         return JsonResponse(res, safe=False)
 
-    def date_handler(obj):
-        return obj.isoformat() if hasattr(obj, 'isoformat') else obj
 
 # print json.dumps(data, default=date_handler)
