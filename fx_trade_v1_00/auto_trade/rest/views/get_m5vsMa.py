@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from ...models import conditionOfMA_M5
+from ...models import conditionOfMA_M5, condition
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from auto_trade.service.get_rate_USD_JPY import getFXdata_USD
@@ -24,8 +24,8 @@ class M5vsMaUsdJpyAPI(APIView):
 
     def post(self, request):
 
-        c = Command()
-        a = c.handle()
+        # c = Command()
+        # a = c.handle()
 
         res = {}
         res['condMa'] = []
@@ -33,10 +33,8 @@ class M5vsMaUsdJpyAPI(APIView):
         res['ma'] = []
         res['m5'] = []
 
-        result = conditionOfMA_M5.objects.prefetch_related(
-            'ma'
-        ).order_by(
-            '-id'
+        result = condition.objects.prefetch_related().order_by(
+            '-created_at'
         )[:1500]
 
         c = result.count()
@@ -44,8 +42,8 @@ class M5vsMaUsdJpyAPI(APIView):
             for r in result:
                 if not r.ma.m5 == None:
                     res['condSlope'].append(
-                        model_to_dict(r.ma.ma_slope.first()))
-                    res['condMa'].append(model_to_dict(r))
+                        model_to_dict(r.condition_of_slope_M5))
+                    res['condMa'].append(model_to_dict(r.condition_of_ma_M5))
                     res['ma'].append(model_to_dict(r.ma))
                     res['m5'].append(model_to_dict(r.ma.m5))
         except:
