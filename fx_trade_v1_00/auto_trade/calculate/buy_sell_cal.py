@@ -50,7 +50,7 @@ class BuySellCal():
         M5_1_close = Decimal(M5_1['candles'][0]['mid']['c'])
         # 市場が閉じていたら計算等は行わない
         if not len(M5_1['candles']) == 0:
-            self.order.orderCreate()
+            # self.order.orderCreate()
 
             long_in = (
                 M5_1_close + M5_1_close*Decimal(0.001)
