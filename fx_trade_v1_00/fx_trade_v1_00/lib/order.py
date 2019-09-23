@@ -101,13 +101,13 @@ class orderFx:
         r = orders.OrderCreate(self.fi.accountID, data=self.data)
         res = api.request(r)
 
-        # print(self.data)
+        print(self.data)
 
-        # print(json.dumps(res, indent=2))
-        # try:
-        #     a = self.oderCloseAllShort()
-        # except:
-        #     pass
+        print(json.dumps(res, indent=2))
+        try:
+            a = self.oderCloseAllShort()
+        except:
+            pass
 
     def oderCloseAllLong(self):
         api = self.fi.api

@@ -23,7 +23,7 @@ class BuySellCal():
         api = self.fx.api
         r = accounts.AccountSummary(self.fx.accountID)
         res = api.request(r)
-        units = 100
+        units = 1000
         # print(json.dumps(res, indent=2))
         print('BuySellCheck')
         getNowRate = getMA_USD_JPY()
@@ -81,14 +81,14 @@ class BuySellCal():
             # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
             elif maPrev == 3 or maPrev == 4 and slopeNow == 4:
                 print("short in")
+                self.order.price = str(short_in)
+                self.order.stopLoss = str(short_limit)
+                self.order.units = str(units*-1)
                 self.order.orderCreate()
 
             # short　closeのタイミング if MA is 5 it have to close
             elif slopeNow == 5:
                 print("short out")
-                self.order.price = str(short_in)
-                self.order.stopLoss = str(short_limit)
-                self.order.units = str(units*-1)
                 self.order.oderCloseAllLong()
 
             else:
