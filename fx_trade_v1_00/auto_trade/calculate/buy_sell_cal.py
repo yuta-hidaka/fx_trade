@@ -66,7 +66,7 @@ class BuySellCal():
                 'slope_comp6_24_50']
 
             # longのタイミング all slope is positive and before MA is 6or1 and now 1
-            if maPrev == 6 or maPrev == 1 and slopeNow == 1:
+            if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
                 print("long in")
                 self.order.price = str(long_in)
                 self.order.stopLoss = str(long_limit)
@@ -74,12 +74,12 @@ class BuySellCal():
                 self.order.orderCreate()
 
             # long closeのタイミング if MA is 2 it have to close
-            elif slopeNow == 2:
+            elif maNow == 2:
                 print("long out")
                 self.order.oderCloseAllLong()
 
             # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
-            elif maPrev == 3 or maPrev == 4 and slopeNow == 4:
+            elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
                 print("short in")
                 self.order.price = str(short_in)
                 self.order.stopLoss = str(short_limit)
@@ -87,7 +87,7 @@ class BuySellCal():
                 self.order.orderCreate()
 
             # short　closeのタイミング if MA is 5 it have to close
-            elif slopeNow == 5:
+            elif maNow == 5:
                 print("short out")
                 self.order.oderCloseAllLong()
 
