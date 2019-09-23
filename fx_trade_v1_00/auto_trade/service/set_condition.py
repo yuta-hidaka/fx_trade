@@ -34,9 +34,6 @@ class setCondition:
         rComp4 = listConditionOfSlope.objects.filter(id=resultComp4).first()
         print('resultComp_Slope')
         print(rComp1)
-        print(rComp2)
-        print(rComp3)
-        print(rComp4)
 
         qSetCondition = conditionOfSlope_M5
         result = qSetCondition.objects.create(
@@ -83,5 +80,5 @@ class setCondition:
             condition_of_slope_M5=slope,
             condition_of_ma_M5=macomp
         )
-        
+
         return create

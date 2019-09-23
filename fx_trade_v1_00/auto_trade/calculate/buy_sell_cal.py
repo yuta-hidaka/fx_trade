@@ -3,7 +3,9 @@ from django.forms.models import model_to_dict
 from ..service.get_MA_USD_JPY import getMA_USD_JPY
 import oandapyV20.endpoints.accounts as accounts
 from fx_trade_v1_00.lib.access_token import FxInfo
+from fx_trade_v1_00.lib.order import orderFx
 import json
+from decimal import *
 
 # MAを比較する
 # 5分足 5本、20本、75本で比較する。
@@ -14,13 +16,15 @@ import json
 class BuySellCal():
     def __init__(self):
         self.fx = FxInfo()
+        self.order = orderFx()
 
     def BuySellCheck(self, condNow, condiPrev):
 
         api = self.fx.api
         r = accounts.AccountSummary(self.fx.accountID)
         res = api.request(r)
-        print(json.dumps(res, indent=2))
+        units = 100
+        # print(json.dumps(res, indent=2))
         print('BuySellCheck')
         getNowRate = getMA_USD_JPY()
         # print(model_to_dict(condition))
@@ -41,23 +45,17 @@ class BuySellCal():
 
         # 傾きの状態は前回と比較する必要がない。
 
-        try:
-            print(model_to_dict(condNow.ma))
-            print(model_to_dict(condiPrev.ma))
-        except:
-            pass
         M5_1 = getNowRate.get_5M_1()
-        M5_1_close = M5_1['candles']
+
+        M5_1_close = Decimal(M5_1['candles'][0]['mid']['c'])
         # 市場が閉じていたら計算等は行わない
-        if not len(M5_1_close) == 0:
+        if not len(M5_1['candles']) == 0:
 
-            long_in = M5_1_close*0.0002
-            long_out = M5_1_close*-0.0005
-            short_in = M5_1_close*-0.0002
-            short_out = M5_1_close*0.0005
+            long_in = M5_1_close + M5_1_close*Decimal(0.0002)
+            long_limit = M5_1_close + M5_1_close*Decimal(-0.0005)
 
-            print('M5Now')
-            print(M5Now)
+            short_in = M5_1_close + M5_1_close*Decimal(-0.0002)
+            short_limit = M5_1_close + M5_1_close*Decimal(0.0005)
 
             maPrev = model_to_dict(condiPrev.condition_of_ma_M5)[
                 'ma_comp6_24_50']
@@ -70,15 +68,31 @@ class BuySellCal():
             # longのタイミング all slope is positive and before MA is 6or1 and now 1
             if maPrev == 6 or maPrev == 1 and slopeNow == 1:
                 print("long in")
+                self.order.price = str(long_in)
+                self.order.stopLoss = str(long_limit)
+                self.order.units = str(units)
+                self.order.orderCreate()
+
             # long closeのタイミング if MA is 2 it have to close
             elif slopeNow == 2:
                 print("long out")
+                self.order.oderCloseAllLong()
+
             # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
             elif maPrev == 3 or maPrev == 4 and slopeNow == 4:
                 print("short in")
+                self.order.orderCreate()
+
             # short　closeのタイミング if MA is 5 it have to close
             elif slopeNow == 5:
                 print("short out")
+                self.order.price = str(short_in)
+                self.order.stopLoss = str(short_limit)
+                self.order.units = str(units*-1)
+                self.order.oderCloseAllLong()
+
+            else:
+                print('様子見中')
 
             # print(type(condition))
 

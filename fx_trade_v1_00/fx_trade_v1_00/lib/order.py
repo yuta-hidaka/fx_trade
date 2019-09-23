@@ -50,12 +50,24 @@ class orderFx:
     def __init__(self):
         self.fi = FxInfo()
 
+        # -----------------------------------------------
+        # タイムゾーンの生成
+        JST = datetime.timezone(datetime.timedelta(hours=+9), 'JST')
+
+        # GOOD, タイムゾーンを指定している．早い
+        jst = datetime.datetime.now(JST) + datetime.timedelta(minutes=1)
+        self.jst = jst.isoformat()+'Z'
+        # -----------------------------------------------
+
+        self.now_utc = datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
+        self.now_utc = self.now_utc.isoformat()+'Z'
+
         # """為替ペア"""
         self.instrument = "USD_JPY"
         # """購買件数マイナスでshort、プラスでlong"""
-        self.units = "-100"
+        self.units = "-1000"
         # """指値注文"""
-        self.price = "100.000"
+        self.price = "109.780"
         # """ストップロスの指定"""
         self.stopLoss = 100.00
 
@@ -74,7 +86,11 @@ class orderFx:
         # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
         api = self.fi.api
         # stopPrice = 100.00
-        stoporder = StopLossDetails(price=self.stopLoss)
+        stoporder = StopLossDetails(
+            price=self.stopLoss,
+            # timeInForce="GTD",
+            # gtdTime=self.now_utc
+        )
 
         self.data['order']['price'] = self.price
         self.data['order']['instrument'] = self.instrument
@@ -85,11 +101,13 @@ class orderFx:
         r = orders.OrderCreate(self.fi.accountID, data=self.data)
         res = api.request(r)
 
-        print(json.dumps(res, indent=2))
-        try:
-            a = self.oderCloseAllShort()
-        except:
-            pass
+        # print(self.data)
+
+        # print(json.dumps(res, indent=2))
+        # try:
+        #     a = self.oderCloseAllShort()
+        # except:
+        #     pass
 
     def oderCloseAllLong(self):
         api = self.fi.api
@@ -99,13 +117,18 @@ class orderFx:
         data = {
             "longUnits": "ALL"
         }
-
         r = positions.PositionClose(
             accountID=self.fi.accountID,
             instrument=self.instrument,
             data=data
         )
-        api.request(r)
+
+        try:
+            api.request(r)
+        except:
+            print('long決済するデータがありませんでした。')
+
+            pass
 
     def oderCloseAllShort(self):
         api = self.fi.api
@@ -122,7 +145,12 @@ class orderFx:
             instrument=self.instrument,
             data=data
         )
-        api.request(r)
+
+        try:
+            api.request(r)
+        except:
+            print('short決済するデータがありませんでした。')
+            pass
 
     def oderCloseById(self, id):
         api = self.fi.api

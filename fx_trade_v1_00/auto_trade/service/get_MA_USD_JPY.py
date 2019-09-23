@@ -32,7 +32,7 @@ class getMA_USD_JPY():
 
     def getMA_5_20_75(self):
         MA250 = self.MA250
-        print(MA250)
+        # print(MA250)
 
         while autoTradeOnOff.objects.filter(id=1):
             print('hello')

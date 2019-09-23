@@ -35,7 +35,7 @@ class Command(BaseCommand):
 
             condiPrev = condition.objects.latest('created_at')
             condiNow = setMA.setMA(result)
-            # bsCal.BuySellCheck(conditonList)
+            bsCal.BuySellCheck(condiNow, condiPrev)
 
             # conditionListをもとに売買ポイントを考える。
         # setMA = setMA_USD_JPY()
