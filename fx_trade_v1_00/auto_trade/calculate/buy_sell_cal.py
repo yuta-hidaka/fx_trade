@@ -51,11 +51,11 @@ class BuySellCal():
         # 市場が閉じていたら計算等は行わない
         if not len(M5_1['candles']) == 0:
 
-            long_in = M5_1_close + M5_1_close*Decimal(0.0002)
-            long_limit = M5_1_close + M5_1_close*Decimal(-0.0005)
+            long_in = M5_1_close + M5_1_close*Decimal(0.001)
+            long_limit = M5_1_close + M5_1_close*Decimal(-0.002)
 
-            short_in = M5_1_close + M5_1_close*Decimal(-0.0002)
-            short_limit = M5_1_close + M5_1_close*Decimal(0.0005)
+            short_in = M5_1_close + M5_1_close*Decimal(-0.002)
+            short_limit = M5_1_close + M5_1_close*Decimal(0.002)
 
             maPrev = model_to_dict(condiPrev.condition_of_ma_M5)[
                 'ma_comp6_24_50']
