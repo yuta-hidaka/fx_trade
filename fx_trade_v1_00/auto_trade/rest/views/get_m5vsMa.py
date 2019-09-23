@@ -24,8 +24,8 @@ class M5vsMaUsdJpyAPI(APIView):
 
     def post(self, request):
 
-        c = Command()
-        a = c.handle()
+        # c = Command()
+        # a = c.handle()
 
         res = {}
         res['condMa'] = []
