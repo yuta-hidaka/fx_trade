@@ -96,6 +96,7 @@ class orderFx:
         self.data['order']['instrument'] = self.instrument
         self.data['order']['units'] = self.units
         self.data['order']['stopLossOnFill'] = stoporder.data
+        print(self.data)
         # r = trades.TradeClose(accountID=accountID, tradeID=49, data=data)
         # API経由で指値注文を実行
         r = orders.OrderCreate(self.fi.accountID, data=self.data)

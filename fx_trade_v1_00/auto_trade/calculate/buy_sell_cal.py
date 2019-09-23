@@ -24,7 +24,7 @@ class BuySellCal():
         r = accounts.AccountSummary(self.fx.accountID)
         res = api.request(r)
         units = 1000
-        # print(json.dumps(res, indent=2))
+        print(json.dumps(res, indent=2))
         print('BuySellCheck')
         getNowRate = getMA_USD_JPY()
         # print(model_to_dict(condition))
@@ -50,12 +50,23 @@ class BuySellCal():
         M5_1_close = Decimal(M5_1['candles'][0]['mid']['c'])
         # 市場が閉じていたら計算等は行わない
         if not len(M5_1['candles']) == 0:
+            self.order.orderCreate()
 
-            long_in = M5_1_close + M5_1_close*Decimal(0.001)
-            long_limit = M5_1_close + M5_1_close*Decimal(-0.002)
+            long_in = (
+                M5_1_close + M5_1_close*Decimal(0.001)
+            ).quantize(Decimal('0.00001'), rounding=ROUND_HALF_UP)
 
-            short_in = M5_1_close + M5_1_close*Decimal(-0.002)
-            short_limit = M5_1_close + M5_1_close*Decimal(0.002)
+            long_limit = (
+                M5_1_close + M5_1_close*Decimal(-0.002)
+            ).quantize(Decimal('0.00001'), rounding=ROUND_HALF_UP)
+
+            short_in = (
+                M5_1_close + M5_1_close*Decimal(-0.002)
+            ).quantize(Decimal('0.00001'), rounding=ROUND_HALF_UP)
+
+            short_limit = (
+                M5_1_close + M5_1_close*Decimal(0.002)
+            ).quantize(Decimal('0.00001'), rounding=ROUND_HALF_UP)
 
             maPrev = model_to_dict(condiPrev.condition_of_ma_M5)[
                 'ma_comp6_24_50']

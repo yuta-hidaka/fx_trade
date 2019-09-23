@@ -10,10 +10,10 @@ from ..models import MA_USD_JPY
 class compaireMA():
     def comp3MASlope(self, short, middle, long):
         '''
-        １すべてプラス
-        ２すべてマイナス
+        1すべてプラス
+        2すべてマイナス
         3すべて０
-        ３それ以外
+        4それ以外
         '''
         slopeList = [short, middle, long]
         sumSlope = 0
@@ -24,7 +24,6 @@ class compaireMA():
                 sumSlope += 0
             else:
                 sumSlope += -1
-
 
         if sumSlope == 3:
             return 1
