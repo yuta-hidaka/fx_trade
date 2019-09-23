@@ -24,7 +24,7 @@ class BuySellCal():
         r = accounts.AccountSummary(self.fx.accountID)
         res = api.request(r)
         units = 1000
-        print(json.dumps(res, indent=2))
+        # print(json.dumps(res, indent=2))
         print('BuySellCheck')
         getNowRate = getMA_USD_JPY()
         # print(model_to_dict(condition))
@@ -52,6 +52,8 @@ class BuySellCal():
         if not len(M5_1['candles']) == 0:
             # self.order.orderCreate()
 
+            print('----------------------------------------------------------------------------------------------------')
+
             long_in = (
                 M5_1_close + M5_1_close*Decimal(0.001)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
@@ -71,8 +73,10 @@ class BuySellCal():
             maPrev = model_to_dict(condiPrev.condition_of_ma_M5)[
                 'ma_comp6_24_50']
             maNow = model_to_dict(condNow.condition_of_ma_M5)['ma_comp6_24_50']
+
             slopePrev = model_to_dict(condiPrev.condition_of_slope_M5)[
                 'slope_comp6_24_50']
+
             slopeNow = model_to_dict(condNow.condition_of_slope_M5)[
                 'slope_comp6_24_50']
 
@@ -100,7 +104,7 @@ class BuySellCal():
             # short　closeのタイミング if MA is 5 it have to close
             elif maNow == 5:
                 print("short out")
-                self.order.oderCloseAllLong()
+                self.order.oderCloseAllShort()
 
             else:
                 print('様子見中')
