@@ -22,8 +22,8 @@ class setMA_USD_JPY:
                   40, 50, 70, 72, 75, 140, 144, 150, 288]
         vals = []
         comp = compaireMA()
-        print(preveousData)
-        print(leatestData)
+        # print(preveousData)
+        # print(leatestData)
 
         # print(model_to_dict(preveousData))
         # print(model_to_dict(leatestData))

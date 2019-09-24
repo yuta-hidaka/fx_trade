@@ -23,7 +23,7 @@ class BuySellCal():
         api = self.fx.api
         r = accounts.AccountSummary(self.fx.accountID)
         res = api.request(r)
-        units = 1000
+        units = 2500
         # print(json.dumps(res, indent=2))
         print('BuySellCheck')
         getNowRate = getMA_USD_JPY()
@@ -47,7 +47,13 @@ class BuySellCal():
 
         M5_1 = getNowRate.get_5M_now()
         # M5_1 = getNowRate.get_5M_1()
+        # オーダーステータスを取得する。
+        oderST = model_to_dict(orderStatus.objects.first())
+        oderSTObj = orderStatus.objects.first()
+        orderShortNum = oderST['short_order']
+        orderLongNum = oderST['long_order']
 
+        # 現在の為替情報をその5分10分前の為替の終値を取得する。
         M5_1_close = Decimal(M5_1['candles'][0]['mid']['c'])
         M5_1_closeNow = model_to_dict(condNow.ma.m5)['close']
         M5_1_closePrev = model_to_dict(condiPrev.ma.m5)['close']
@@ -92,44 +98,62 @@ class BuySellCal():
                 condNow.condition_of_slope_M5
             )['slope_comp6_24_50']
 
+            orderShortNum += 1
+            orderShortNum += 5
+
             # longのタイミング all slope is positive and before MA is 6or1 and now 1
             if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
-                print("long in")
-                self.order.price = str(long_in)
-                self.order.stopLoss = str(long_limit)
-                self.order.units = str(units)
-                self.order.orderCreate()
+                if not orderLongNum >= 2:
+                    print("long in 以下short order数")
+                    print(orderLongNum)
+                    self.order.price = str(long_in)
+                    self.order.stopLoss = str(long_limit)
+                    self.order.units = str(units)
+                    self.order.orderCreate()
+                    orderLongNum += orderLongNum + 1
 
                 # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
             elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                print("short in")
-                self.order.price = str(short_in)
-                self.order.stopLoss = str(short_limit)
-                self.order.units = str(units*-1)
-                self.order.orderCreate()
+                if not orderShortNum >= 2:
+                    print("short in　以下short order数")
+                    print(orderShortNum)
+                    self.order.price = str(short_in)
+                    self.order.stopLoss = str(short_limit)
+                    self.order.units = str(units*-1)
+                    self.order.orderCreate()
+                    orderShortNum += 1
 
             # long closeのタイミング if MA is 2 it have to close
             elif maNow == 2:
                 print("long out")
                 self.order.oderCloseAllLong()
+                orderShortNum = 0
 
             # short　closeのタイミング if MA is 5 it have to close
             elif maNow == 5:
                 print("short out")
                 self.order.oderCloseAllShort()
+                orderLongNum = 0
 
             # long　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
             elif M5_1_close > M5_1_closeNow > M5_1_closePrev:
                 print("short out by candle")
                 self.order.oderCloseAllShort()
+                orderShortNum = 0
 
             # short　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
             elif M5_1_close < M5_1_closeNow < M5_1_closePrev:
                 print("long out by candle")
                 self.order.oderCloseAllLong()
+                orderLongNum = 0
 
             else:
                 print('様子見中')
+
+            # 最後にオーダー数を更新する。
+            oderSTObj.short_order = orderShortNum
+            oderSTObj.long_order = orderLongNum
+            oderSTObj.save()
 
             # print(type(condition))
 
