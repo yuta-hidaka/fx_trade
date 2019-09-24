@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models import (
     autoTradeOnOff, batchRecord, M5_USD_JPY,
     MA_USD_JPY, SlopeM5_USD_JPY, conditionOfMA_M5, conditionOfSlope_M5,
-    listConditionOfMA, listConditionOfSlope, condition, sellBuyAlert
+    listConditionOfMA, listConditionOfSlope, condition, sellBuyAlert, orderStatus
 )
 
 
