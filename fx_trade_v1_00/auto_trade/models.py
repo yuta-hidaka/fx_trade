@@ -246,3 +246,14 @@ class batchRecord(models.Model):
 
     class Meta:
         db_table = 'batch_record'
+
+
+# バッチの起動時間を記録するモデル
+class orderStatus(models.Model):
+    short_order = models.IntegerField(default=0)
+    long_order = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'order_status'

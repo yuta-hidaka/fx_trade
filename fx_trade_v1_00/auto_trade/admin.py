@@ -11,6 +11,7 @@ class DateTime(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at', )
 
 
+admin.site.register(orderStatus, DateTime)
 admin.site.register(autoTradeOnOff, DateTime)
 admin.site.register(sellBuyAlert, DateTime)
 admin.site.register(condition, DateTime)

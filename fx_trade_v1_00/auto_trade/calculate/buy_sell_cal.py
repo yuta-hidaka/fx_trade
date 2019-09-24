@@ -1,4 +1,4 @@
-from ..models import MA_USD_JPY
+from ..models import MA_USD_JPY, orderStatus
 from django.forms.models import model_to_dict
 from ..service.get_MA_USD_JPY import getMA_USD_JPY
 import oandapyV20.endpoints.accounts as accounts
