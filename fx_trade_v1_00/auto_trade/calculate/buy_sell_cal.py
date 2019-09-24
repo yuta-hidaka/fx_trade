@@ -45,9 +45,15 @@ class BuySellCal():
 
         # 傾きの状態は前回と比較する必要がない。
 
-        M5_1 = getNowRate.get_5M_1()
+        M5_1 = getNowRate.get_5M_now()
+        # M5_1 = getNowRate.get_5M_1()
 
         M5_1_close = Decimal(M5_1['candles'][0]['mid']['c'])
+        M5_1_closeNow = model_to_dict(condNow.ma.m5)['close']
+        M5_1_closePrev = model_to_dict(condiPrev.ma.m5)['close']
+
+        print(model_to_dict(condNow.ma.m5))
+        print(model_to_dict(condiPrev.ma.m5))
         # 市場が閉じていたら計算等は行わない
         if not len(M5_1['candles']) == 0:
             # self.order.orderCreate()
@@ -70,15 +76,21 @@ class BuySellCal():
                 M5_1_close + M5_1_close*Decimal(0.0002)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            maPrev = model_to_dict(condiPrev.condition_of_ma_M5)[
-                'ma_comp6_24_50']
-            maNow = model_to_dict(condNow.condition_of_ma_M5)['ma_comp6_24_50']
+            maPrev = model_to_dict(
+                condiPrev.condition_of_ma_M5
+            )['ma_comp6_24_50']
 
-            slopePrev = model_to_dict(condiPrev.condition_of_slope_M5)[
-                'slope_comp6_24_50']
+            maNow = model_to_dict(
+                condNow.condition_of_ma_M5
+            )['ma_comp6_24_50']
 
-            slopeNow = model_to_dict(condNow.condition_of_slope_M5)[
-                'slope_comp6_24_50']
+            slopePrev = model_to_dict(
+                condiPrev.condition_of_slope_M5
+            )['slope_comp6_24_50']
+
+            slopeNow = model_to_dict(
+                condNow.condition_of_slope_M5
+            )['slope_comp6_24_50']
 
             # longのタイミング all slope is positive and before MA is 6or1 and now 1
             if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
@@ -88,12 +100,7 @@ class BuySellCal():
                 self.order.units = str(units)
                 self.order.orderCreate()
 
-            # long closeのタイミング if MA is 2 it have to close
-            elif maNow == 2:
-                print("long out")
-                self.order.oderCloseAllLong()
-
-            # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
+                # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
             elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
                 print("short in")
                 self.order.price = str(short_in)
@@ -101,10 +108,25 @@ class BuySellCal():
                 self.order.units = str(units*-1)
                 self.order.orderCreate()
 
+            # long closeのタイミング if MA is 2 it have to close
+            elif maNow == 2:
+                print("long out")
+                self.order.oderCloseAllLong()
+
             # short　closeのタイミング if MA is 5 it have to close
             elif maNow == 5:
                 print("short out")
                 self.order.oderCloseAllShort()
+
+            # long　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
+            elif M5_1_close > M5_1_closeNow > M5_1_closePrev:
+                print("short out by candle")
+                self.order.oderCloseAllShort()
+
+            # short　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
+            elif M5_1_close < M5_1_closeNow < M5_1_closePrev:
+                print("long out by candle")
+                self.order.oderCloseAllLong()
 
             else:
                 print('様子見中')
