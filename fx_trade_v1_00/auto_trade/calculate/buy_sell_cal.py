@@ -26,15 +26,16 @@ class BuySellCal():
         api = self.fx.api
         res = api.request(r)
         pos = res['positions'][0]
+        # オーダーステータスを取得する。
         try:
-            longNum = len(pos['long']['tradeIDs'])
+            orderLongNum = len(pos['long']['tradeIDs'])
         except:
-            longNum = 0
+            orderLongNum = 0
 
         try:
-            shortNum = len(pos['short']['tradeIDs'])
+            orderShortNum = len(pos['short']['tradeIDs'])
         except:
-            shortNum = 0
+            orderShortNum = 0
 
         units = 2500
         # print(json.dumps(res, indent=2))
@@ -60,11 +61,6 @@ class BuySellCal():
 
         M5_1 = getNowRate.get_5M_now()
         # M5_1 = getNowRate.get_5M_1()
-        # オーダーステータスを取得する。
-        oderST = model_to_dict(orderStatus.objects.first())
-        oderSTObj = orderStatus.objects.first()
-        orderShortNum = oderST['short_order']
-        orderLongNum = oderST['long_order']
 
         # 現在の為替情報をその5分10分前の為替の終値を取得する。
         M5_1_close = Decimal(M5_1['candles'][0]['mid']['c'])
@@ -159,6 +155,7 @@ class BuySellCal():
                 print('様子見中')
 
             # 最後にオーダー数を更新する。
+            oderSTObj = orderStatus.objects.first()
             oderSTObj.short_order = orderShortNum
             oderSTObj.long_order = orderLongNum
             oderSTObj.save()
