@@ -30,8 +30,9 @@ class setMA_USD_JPY:
 
         for ma in ListMa:
             key = 'm5_ma'+str(ma)
-            data = Decimal(model_to_dict(leatestData)[
-                           key])-(model_to_dict(preveousData)[key])
+            data = Decimal(
+                model_to_dict(leatestData)[key])-(model_to_dict(preveousData)[key]
+                                                  )
             vals.append(data)
 
         qSet = SlopeM5_USD_JPY

@@ -114,42 +114,39 @@ class BuySellCal():
                     self.order.stopLoss = str(long_limit)
                     self.order.units = str(units)
                     self.order.orderCreate()
-                    orderLongNum += 1
+                else:
+                    print("long in　but position is too many")
 
-                # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
+                    # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
             elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
                 if not orderShortNum >= 2:
                     print("short in　以下short order数")
-                    print(orderShortNum)
                     self.order.price = str(short_in)
                     self.order.stopLoss = str(short_limit)
                     self.order.units = str(units*-1)
                     self.order.orderCreate()
-                    orderShortNum += 1
+                else:
+                    print("short in　but position is too many")
 
-            # long closeのタイミング if MA is 2 it have to close
+                    # long closeのタイミング if MA is 2 it have to close
             elif maNow == 2:
                 print("long out")
                 self.order.oderCloseAllLong()
-                orderShortNum = 0
 
             # short　closeのタイミング if MA is 5 it have to close
             elif maNow == 5:
                 print("short out")
                 self.order.oderCloseAllShort()
-                orderLongNum = 0
 
             # long　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
             elif M5_1_close > M5_1_closeNow > M5_1_closePrev:
                 print("short out by candle")
                 self.order.oderCloseAllShort()
-                orderShortNum = 0
 
             # short　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
             elif M5_1_close < M5_1_closeNow < M5_1_closePrev:
                 print("long out by candle")
                 self.order.oderCloseAllLong()
-                orderLongNum = 0
 
             else:
                 print('様子見中')

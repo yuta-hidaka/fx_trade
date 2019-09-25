@@ -37,32 +37,32 @@ class compaireMA():
     def comp3MA(self, short, middle, long):
         if short > middle > long:
             # - 短期>中期>長期
-            print('stage1')
+            # print('stage1')
             return 1
 
         elif middle > short > long:
             # - 中期>短期>長期
-            print('stage2')
+            # print('stage2')
             return 2
 
         elif middle > long > short:
             # - 中期>長期>短期
-            print('stage3')
+            # print('stage3')
             return 3
 
         elif long > middle > short:
             # - 長期>中期>短期
-            print('stage1')
+            # print('stage1')
             return 4
 
         elif long > short > middle:
             # - 長期>短期>中期
-            print('stage1')
+            # print('stage1')
             return 5
 
         elif short > long > middle:
             # - 短期>長期>中期
-            print('stage6')
+            # print('stage6')
             return 6
 
             # 傾きが広がっている＝前の傾きを更新している
