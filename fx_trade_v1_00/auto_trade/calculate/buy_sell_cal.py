@@ -91,19 +91,19 @@ class BuySellCal():
 
             maPrev = model_to_dict(
                 condiPrev.condition_of_ma_M5
-            )['ma_comp1_6_24']
+            )['ma_comp5_20_40']
 
             maNow = model_to_dict(
                 condNow.condition_of_ma_M5
-            )['ma_comp1_6_24']
+            )['ma_comp5_20_40']
 
             slopePrev = model_to_dict(
                 condiPrev.condition_of_slope_M5
-            )['slope_comp1_6_24']
+            )['slope_comp5_20_40']
 
             slopeNow = model_to_dict(
                 condNow.condition_of_slope_M5
-            )['slope_comp1_6_24']
+            )['slope_comp5_20_40']
 
             # longのタイミング all slope is positive and before MA is 6or1 and now 1
             if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
