@@ -2,6 +2,7 @@ from ..models import MA_USD_JPY, orderStatus
 from django.forms.models import model_to_dict
 from ..service.get_MA_USD_JPY import getMA_USD_JPY
 import oandapyV20.endpoints.accounts as accounts
+import oandapyV20.endpoints.positions as positions
 from fx_trade_v1_00.lib.access_token import FxInfo
 from fx_trade_v1_00.lib.order import orderFx
 import json
@@ -20,9 +21,21 @@ class BuySellCal():
 
     def BuySellCheck(self, condNow, condiPrev):
 
+        # 口座のすべてのポジションをリストとして取得
+        r = positions.PositionList(accountID=self.fx.accountID)
         api = self.fx.api
-        r = accounts.AccountSummary(self.fx.accountID)
         res = api.request(r)
+        pos = res['positions'][0]
+        try:
+            longNum = len(pos['long']['tradeIDs'])
+        except:
+            longNum = 0
+
+        try:
+            shortNum = len(pos['short']['tradeIDs'])
+        except:
+            shortNum = 0
+
         units = 2500
         # print(json.dumps(res, indent=2))
         print('BuySellCheck')
@@ -58,8 +71,6 @@ class BuySellCal():
         M5_1_closeNow = model_to_dict(condNow.ma.m5)['close']
         M5_1_closePrev = model_to_dict(condiPrev.ma.m5)['close']
 
-        print(model_to_dict(condNow.ma.m5))
-        print(model_to_dict(condiPrev.ma.m5))
         # 市場が閉じていたら計算等は行わない
         if not len(M5_1['candles']) == 0:
             # self.order.orderCreate()
@@ -71,15 +82,15 @@ class BuySellCal():
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             long_limit = (
-                M5_1_close + M5_1_close*Decimal(-0.0002)
+                M5_1_close + M5_1_close*Decimal(-0.0005)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_in = (
-                M5_1_close + M5_1_close*Decimal(-0.0002)
+                M5_1_close + M5_1_close*Decimal(-0.0001)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_limit = (
-                M5_1_close + M5_1_close*Decimal(0.0002)
+                M5_1_close + M5_1_close*Decimal(0.0005)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             maPrev = model_to_dict(
@@ -98,9 +109,6 @@ class BuySellCal():
                 condNow.condition_of_slope_M5
             )['slope_comp6_24_50']
 
-            orderShortNum += 1
-            orderShortNum += 5
-
             # longのタイミング all slope is positive and before MA is 6or1 and now 1
             if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
                 if not orderLongNum >= 2:
@@ -110,7 +118,7 @@ class BuySellCal():
                     self.order.stopLoss = str(long_limit)
                     self.order.units = str(units)
                     self.order.orderCreate()
-                    orderLongNum += orderLongNum + 1
+                    orderLongNum += 1
 
                 # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
             elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:

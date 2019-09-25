@@ -148,6 +148,9 @@ class listConditionOfSlope(models.Model):
 
 
 class conditionOfSlope_M5(models.Model):
+    slope_comp1_6_24 = models.ForeignKey(
+        'listConditionOfSlope', on_delete=models.CASCADE, related_name='slope_comp1_6_24', null=True)
+
     slope_comp5_20_75 = models.ForeignKey(
         'listConditionOfSlope', on_delete=models.CASCADE, related_name='slope_comp5_20_75', null=True)
 
@@ -171,6 +174,8 @@ class conditionOfSlope_M5(models.Model):
 
 
 class conditionOfMA_M5(models.Model):
+    ma_comp1_6_24 = models.ForeignKey(
+        'listConditionOfMA', on_delete=models.CASCADE, related_name='ma_comp1_6_24', null=True)
 
     ma_comp6_24_72 = models.ForeignKey(
         'listConditionOfMA', on_delete=models.CASCADE, related_name='ma_comp6_24_72', null=True)
