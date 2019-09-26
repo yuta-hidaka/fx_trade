@@ -130,6 +130,8 @@ class BuySellCal():
                     print("short in　but position is too many")
 
                     # long closeのタイミング if MA is 2 it have to close
+            else:
+                print('購買----様子見中')
 
             # 決済タイミング
             if maNow == 2:
@@ -152,7 +154,7 @@ class BuySellCal():
                 self.order.oderCloseAllLong()
 
             else:
-                print('様子見中')
+                print('決済----様子見中')
 
             # 最後にオーダー数を更新する。
             oderSTObj = orderStatus.objects.first()
