@@ -74,7 +74,7 @@ class BuySellCal():
             print('----------------------------------------------------------------------------------------------------')
 
             long_in = (
-                M5_1_close + M5_1_close*Decimal(0.0001)
+                M5_1_close + M5_1_close*Decimal(0.00015)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             long_limit = (
@@ -82,7 +82,7 @@ class BuySellCal():
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_in = (
-                M5_1_close + M5_1_close*Decimal(-0.0001)
+                M5_1_close + M5_1_close*Decimal(-0.00015)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_limit = (
