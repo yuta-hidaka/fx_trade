@@ -78,7 +78,7 @@ class BuySellCal():
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             long_limit = (
-                M5_1_close + M5_1_close*Decimal(-0.0005)
+                M5_1_close + M5_1_close*Decimal(-0.0002)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_in = (
@@ -86,7 +86,7 @@ class BuySellCal():
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_limit = (
-                M5_1_close + M5_1_close*Decimal(0.0005)
+                M5_1_close + M5_1_close*Decimal(0.0002)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             maPrev = model_to_dict(
