@@ -105,6 +105,7 @@ class BuySellCal():
                 condNow.condition_of_slope_M5
             )['slope_comp5_20_40']
 
+            # 購買タイミング
             # longのタイミング all slope is positive and before MA is 6or1 and now 1
             if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
                 if not orderLongNum >= 2:
@@ -129,7 +130,9 @@ class BuySellCal():
                     print("short in　but position is too many")
 
                     # long closeのタイミング if MA is 2 it have to close
-            elif maNow == 2:
+
+            # 決済タイミング
+            if maNow == 2:
                 print("long out")
                 self.order.oderCloseAllLong()
 
