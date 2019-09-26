@@ -18,7 +18,7 @@ import time
 from ..models import autoTradeOnOff
 
 
-class getandle_USD():
+class getCandle_USD():
     def __init__(self):
         self.MA250 = self.get_5M_250()
 
