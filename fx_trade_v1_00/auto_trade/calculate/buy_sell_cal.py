@@ -107,7 +107,30 @@ class BuySellCal():
                 condNow.condition_of_slope_M5
             )['slope_comp5_20_40']
 
-            # 購買タイミング
+            # 決済タイミング-------------------------------------------------------------------------------
+            if maNow == 2 and orderLongNum != 0:
+                print("long out")
+                self.order.oderCloseAllLong()
+
+            # short　closeのタイミング if MA is 5 it have to close
+            elif maNow == 5 and orderShortNum != 0:
+                print("short out")
+                self.order.oderCloseAllShort()
+
+            # short　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
+            elif M5_1_close > M5_1_closeNow and orderShortNum != 0:
+                print("short out by candle")
+                self.order.oderCloseAllShort()
+
+            # long　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
+            elif M5_1_close < M5_1_closeNow and orderLongNum != 0:
+                print("long out by candle")
+                self.order.oderCloseAllLong()
+
+            else:
+                print('決済----様子見中')
+
+            # 購買タイミング----------------------------------------------------------------------------------
             # longのタイミング all slope is positive and before MA is 6or1 and now 1
             if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
                 if not orderLongNum >= 3:
@@ -179,28 +202,6 @@ class BuySellCal():
             else:
                 print('購買----様子見中__1624')
 # --------------------------------------------------------------------------------------------------------------------
-            # 決済タイミング
-            if maNow == 2 and orderLongNum != 0:
-                print("long out")
-                self.order.oderCloseAllLong()
-
-            # short　closeのタイミング if MA is 5 it have to close
-            elif maNow == 5 and orderShortNum != 0:
-                print("short out")
-                self.order.oderCloseAllShort()
-
-            # short　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
-            elif M5_1_close > M5_1_closeNow and orderShortNum != 0:
-                print("short out by candle")
-                self.order.oderCloseAllShort()
-
-            # long　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
-            elif M5_1_close < M5_1_closeNow and orderLongNum != 0:
-                print("long out by candle")
-                self.order.oderCloseAllLong()
-
-            else:
-                print('決済----様子見中')
 
             # 最後にオーダー数を更新する。
             oderSTObj = orderStatus.objects.first()
