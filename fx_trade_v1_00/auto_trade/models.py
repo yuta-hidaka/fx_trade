@@ -79,41 +79,41 @@ class SlopeM5_USD_JPY(models.Model):
         'MA_USD_JPY', on_delete=models.CASCADE, related_name='ma_leatest', null=True)
 
     slope_m5_ma5 = models.DecimalField(
-        max_digits=17, decimal_places=15, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000)
     slope_m5_ma6 = models.DecimalField(
-        max_digits=17, decimal_places=15, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000)
     slope_m5_ma10 = models.DecimalField(
-        max_digits=17, decimal_places=15, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000)
     slope_m5_ma12 = models.DecimalField(
-        max_digits=17, decimal_places=15, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000)
     slope_m5_ma15 = models.DecimalField(
-        max_digits=17, decimal_places=15, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000)
     slope_m5_ma20 = models.DecimalField(
-        max_digits=17, decimal_places=15, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000)
     slope_m5_ma24 = models.DecimalField(
-        max_digits=17, decimal_places=15, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000)
     slope_m5_ma30 = models.DecimalField(
-        max_digits=17, decimal_places=15, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000)
     slope_m5_ma36 = models.DecimalField(
-        max_digits=17, decimal_places=15, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000)
     slope_m5_ma40 = models.DecimalField(
-        max_digits=17, decimal_places=15, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000)
     slope_m5_ma50 = models.DecimalField(
-        max_digits=17, decimal_places=15, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000)
     slope_m5_ma70 = models.DecimalField(
-        max_digits=17, decimal_places=15, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000)
     slope_m5_ma72 = models.DecimalField(
-        max_digits=17, decimal_places=15, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000)
     slope_m5_ma75 = models.DecimalField(
-        max_digits=17, decimal_places=15, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000)
     slope_m5_ma140 = models.DecimalField(
-        max_digits=17, decimal_places=15, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000)
     slope_m5_ma144 = models.DecimalField(
-        max_digits=17, decimal_places=15, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000)
     slope_m5_ma150 = models.DecimalField(
-        max_digits=17, decimal_places=15, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000)
     slope_m5_ma288 = models.DecimalField(
-        max_digits=17, decimal_places=15, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -223,7 +223,7 @@ class sellBuyAlert(models.Model):
     position_out = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
     position_def = models.DecimalField(
-        max_digits=17, decimal_places=15, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000)
     is_buy = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
