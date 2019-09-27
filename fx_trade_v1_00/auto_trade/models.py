@@ -150,7 +150,7 @@ class listConditionOfSlope(models.Model):
 
 
 class bollingerBand(models.Model):
-    sma_D20 = models.DecimalField(
+    sma_M50 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
     abs_sigma_1 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
