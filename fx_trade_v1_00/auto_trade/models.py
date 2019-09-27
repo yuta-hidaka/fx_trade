@@ -146,6 +146,25 @@ class listConditionOfSlope(models.Model):
     class Meta:
         db_table = 'list_condition_of_slope'
 
+# ボリンジャーバンドの値計算
+
+
+class bollingerBand(models.Model):
+    sma_D20 = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
+    abs_sigma_1 = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
+    abs_sigma_2 = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
+    abs_sigma_3 = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
+    recorded_at_utc = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'bollinger_band'
+
 
 class conditionOfSlope_M5(models.Model):
     slope_comp1_6_24 = models.ForeignKey(

@@ -58,6 +58,16 @@ class getMA_USD_JPY():
 
         # return HttpResponse(json.dumps(api.request(r)), content_type='application/json')
 
+    def get_D_20(self):
+        parm = {
+            "instruments": "USD_JPY",
+            "alignmentTimezone": "Japan",
+            "count": 20,
+            "granularity": 'D'
+        }
+
+        return self.get_MA(parm)
+
     def get_5M_now(self):
         parm = {
             "instruments": "USD_JPY",

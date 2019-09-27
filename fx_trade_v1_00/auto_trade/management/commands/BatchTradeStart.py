@@ -7,6 +7,7 @@ from django.forms.models import model_to_dict
 from ...service.set_candle_USD_JPY import setCandle_USD_JPY
 from ...calculate.buy_sell_cal import BuySellCal
 from ...service.set_MA_USD_JPY import setMA_USD_JPY
+from ...service.set_bollinger_band import setBollingerBand_USD_JPY
 from auto_trade.service.set_candle_USD_JPY import setCandle_USD_JPY
 
 # BaseCommandを継承して作成
@@ -18,6 +19,11 @@ class Command(BaseCommand):
 
     # コマンドが実行された際に呼ばれるメソッド
     def handle(self, *args, **options):
+
+        # ボリンジャーバンドの設定
+        bb = setBollingerBand_USD_JPY()
+        bb.setBB()
+
         JST = timezone(timedelta(hours=+9), 'JST')
         dt_now = datetime.datetime.now(JST)
         setCandle = setCandle_USD_JPY()
