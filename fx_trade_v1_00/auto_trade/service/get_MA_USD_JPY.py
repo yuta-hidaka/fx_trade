@@ -29,7 +29,7 @@ class getMA_USD_JPY():
 
         self.dayAgo = (
             datetime.datetime.now(timezone('UTC')) -
-            datetime.timedelta(days=21)
+            datetime.timedelta(days=1)
         ).isoformat()
 
         print(self.localTime)
@@ -65,7 +65,8 @@ class getMA_USD_JPY():
 
     def get_D_20(self):
         parm = {
-            "from": self.dayAgo,
+            # "from": self.dayAgo,
+            "to": self.dayAgo,
             "instruments": "USD_JPY",
             "alignmentTimezone": "Japan",
             "count": 20,
