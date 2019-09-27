@@ -34,7 +34,7 @@ class setBollingerBand_USD_JPY:
                 ** Decimal(2))**Decimal(0.5) + SMA
             SD1 = SD + Decimal(1)
             SD2 = SD + Decimal(2)
-            SD3 = SD + Decimal(2)
+            SD3 = SD + Decimal(3)
 
             # 平均から本日分の終値の標準偏差を計算する。
             result, created = bollingerBand.objects.filter(

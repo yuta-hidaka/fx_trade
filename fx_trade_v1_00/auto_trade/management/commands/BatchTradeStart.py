@@ -21,8 +21,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         # ボリンジャーバンドの設定
-        bb = setBollingerBand_USD_JPY()
-        bb.setBB()
+        # bb = setBollingerBand_USD_JPY()
+        # bb.setBB()
 
         JST = timezone(timedelta(hours=+9), 'JST')
         dt_now = datetime.datetime.now(JST)
