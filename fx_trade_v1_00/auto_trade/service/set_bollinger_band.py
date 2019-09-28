@@ -1,18 +1,37 @@
 from .get_MA_USD_JPY import getMA_USD_JPY
-from ..models import M5_USD_JPY, bollingerBand
+from ..models import M5_USD_JPY, bollingerBand, conditionOfBB, listConditionOfBBTrande
 from ..rest.serializers.set_candle_serialize import SetCandleSerializer
 from decimal import *
 from datetime import *
 import numpy as np
+from django.forms.models import model_to_dict
 
 
 class setBollingerBand_USD_JPY:
-    def setBBCondition(self, MHalf, SMA):
 
+    def setBBCondition(self, MHalf, SMA, nowMA, result):
+        rs = model_to_dict(result)
+        sma2SigmaPlus = rs['sma_M50']+rs['abs_sigma_2']
+        sma2SigmaMinus = rs['sma_M50']-rs['abs_sigma_2']
+        nowClose = Decimal(nowMA['mid']['c'])
         length = len(MHalf)
         data = 0
         is_plus = True
         is_trend = True
+        is_shortIn = True
+        trandCondi = 0
+        listBB = listConditionOfBBTrande
+        # if nowClose
+
+        # 持ち合い相場時の購買基準を判断
+        if sma2SigmaPlus <= nowClose:
+            is_shortIn = True
+        elif sma2SigmaMinus >= nowClose:
+            is_shortIn = False
+        else:
+            is_shortIn = None
+
+        # 持ち合い相場かトレンド相場かを判断
         for m in MHalf:
             if Decimal(m['mid']['c']) - SMA == 0:
                 data += 0
@@ -30,7 +49,7 @@ class setBollingerBand_USD_JPY:
         else:
             is_plus = False
 
-        # 80より大きければトレンドが発生中
+        # 80%より大きければトレンドが発生中
         # そうでなければ、もみ合い相場なので、ボリンジャーバンドでの売買を有効にしてもよい。
         if np.absolute(ans) >= 80:
             is_trend = True
@@ -40,16 +59,23 @@ class setBollingerBand_USD_JPY:
         if is_trend:
             if is_plus:
                 # プラスのトレンド
-                return 1
+                trandCondi = 1
             elif is_plus:
                 # マイナスのトレンド
-                return 3
+                trandCondi = 2
         else:
             # もみ合い相場
-            return 2
+            trandCondi = 3
 
+        create = conditionOfBB.objects.create(
+            is_shortIn=is_shortIn,
+            bb_trande=listBB.objects.filter(id=trandCondi).first(),
+            bb=result
+        )
 
-            # 5MA*50　SMAを基準に標準偏差を算出していきます。
+        return create
+
+        # 5MA*50　SMAを基準に標準偏差を算出していきます。
 
     def setBB(self):
         gMA = getMA_USD_JPY()
@@ -99,6 +125,6 @@ class setBollingerBand_USD_JPY:
             abs_sigma_3=SD3,
         )
 
-        self.setBBCondition(MHalf, SMA)
+        resultBBCondi = self.setBBCondition(MHalf, SMA, nowMA, result)
 
-        return result, created
+        return resultBBCondi

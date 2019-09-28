@@ -62,7 +62,7 @@ class setMA_USD_JPY:
         result = self.sCondition.setSlopeComp(vals, leatestData)
         return result
 
-    def setMA(self, FXdata):
+    def setMA(self, FXdata, BBCondi):
         # 変数宣言
         vals = []
         ListMa = [5, 6, 10, 12, 15, 20, 24, 30, 36,
@@ -118,4 +118,4 @@ class setMA_USD_JPY:
         result = self.sCondition.setMAComp(vals, create)
 
         # 現状を計算した情報を一テーブルに集約
-        return self.sCondition.setConditionList(create, result, condiSlope)
+        return self.sCondition.setConditionList(create, result, condiSlope, BBCondi)

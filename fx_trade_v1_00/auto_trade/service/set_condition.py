@@ -35,7 +35,6 @@ class setCondition:
         rComp3 = listConditionOfSlope.objects.filter(id=resultComp3).first()
         rComp4 = listConditionOfSlope.objects.filter(id=resultComp4).first()
         rComp5 = listConditionOfSlope.objects.filter(id=resultComp5).first()
-        print('resultComp_Slope')
         # print(rComp1)
 
         qSetCondition = conditionOfSlope_M5
@@ -81,12 +80,13 @@ class setCondition:
         )
         return result
 
-    def setConditionList(self, ma, macomp, slope):
+    def setConditionList(self, ma, macomp, slope, BBCondi):
 
         create = condition.objects.create(
             ma=ma,
             condition_of_slope_M5=slope,
-            condition_of_ma_M5=macomp
+            condition_of_ma_M5=macomp,
+            condition_of_bb=BBCondi
         )
 
         return create

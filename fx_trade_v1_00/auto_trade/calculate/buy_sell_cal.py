@@ -22,12 +22,13 @@ class BuySellCal():
     def BuySellCheck(self, condNow, condiPrev):
 
         # トレンド発生中はMAを指標に売買を行うが、もみ合い相場中はボリンジャーバンドを指標に売買を行う。
-        
+
         # 口座のすべてのポジションをリストとして取得
         r = positions.PositionList(accountID=self.fx.accountID)
         api = self.fx.api
         res = api.request(r)
         pos = res['positions'][0]
+
         # オーダーステータスを取得する。
         try:
             orderLongNum = len(pos['long']['tradeIDs'])
@@ -39,10 +40,10 @@ class BuySellCal():
         except:
             orderShortNum = 0
 
+        # 購入するユニット数
         units = 2500
-        # print(json.dumps(res, indent=2))
-        print('BuySellCheck')
         getNowRate = getMA_USD_JPY()
+
         # print(model_to_dict(condition))
         # ma_comp6_24_50＿＿＿＿＿＿＿＿＿2019/09/23現在
         # t = condition.select_related()
@@ -61,6 +62,22 @@ class BuySellCal():
 
         # 傾きの状態は前回と比較する必要がない。
 
+        # print(type(condition))
+
+        # 傾きが広がっている＝前の傾きを更新している
+        # * 第1ステージ-安定上昇期-すべて傾きが正かつ前よりも傾きの幅が広がっている→買いの仕掛け
+        # - 短期>中期>長期
+        # * 第2ステージ-下降変化期１上昇相場の終了--**買い清算ポイント**-
+        # - 中期>短期>長期
+        # * 第3ステージ-下降変化期２下降相場の入り口-売りのはや仕掛け
+        # - 中期>長期>短期
+        # * 第4ステージ-安定下降期-すべての傾きが負かつ、傾きの幅が広がっている→売りの仕掛け
+        # - 長期>中期>短期
+        # * 第5ステージ-上昇相場終焉-→売りの手じまい→中長期で幅が広く、すべての傾きがマイナス→戻す可能性あり。
+        # - 長期>短期>中期
+        # * 第6ステージ-上昇相場の入り口-**買いポイント**-→すべての傾きが正→買いのはや仕掛け
+        # - 短期>長期>中期
+
         M5_1 = getNowRate.get_5M_now()
         # M5_1 = getNowRate.get_5M_1()
 
@@ -72,9 +89,8 @@ class BuySellCal():
         # 市場が閉じていたら計算等は行わない
         if not len(M5_1['candles']) == 0:
             # self.order.orderCreate()
-
             print('----------------------------------------------------------------------------------------------------')
-
+            # 取引条件作成-------------------------------------
             long_in = (
                 M5_1_close + M5_1_close*Decimal(0.0001)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
@@ -93,6 +109,14 @@ class BuySellCal():
                 M5_1_close + M5_1_close*Decimal(0.0005)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
+            # 購買判断材料-持ち合い形成時--------------------------------------
+
+            # BBから計算したトレンド持ち合い相場だったら下のshortINを使用する。そうでなければMAを使用する。
+            trend_id = model_to_dict(condNow.condition_of_bb.bb_trande)['id']
+            # もし持ち合い相場だったらこれを使って売買判断None何もしないTrue　shortで入る　False　Longで入る。
+            is_shortInBB = model_to_dict(condNow.condition_of_bb)['is_shortIn']
+
+            # 購買判断材料-トレンド形成時--------------------------------------
             maPrev = model_to_dict(
                 condiPrev.condition_of_ma_M5
             )['ma_comp5_20_40']
@@ -109,123 +133,139 @@ class BuySellCal():
                 condNow.condition_of_slope_M5
             )['slope_comp5_20_40']
 
-            # 決済タイミング-------------------------------------------------------------------------------
-            if maNow == 2 and orderLongNum != 0:
-                print("long out")
-                self.order.oderCloseAllLong()
+            # 上昇or下降相場だったら
+            if trend_id == 1 or trend_id == 2:
 
-            # short　closeのタイミング if MA is 5 it have to close
-            elif maNow == 5 and orderShortNum != 0:
-                print("short out")
-                self.order.oderCloseAllShort()
+                # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
+                if maNow == 2 and orderLongNum != 0:
+                    print("long out")
+                    self.order.oderCloseAllLong()
 
-            # short　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
-            elif M5_1_close > M5_1_closeNow and orderShortNum != 0:
-                print("short out by candle")
-                self.order.oderCloseAllShort()
+                # short　closeのタイミング if MA is 5 it have to close
+                elif maNow == 5 and orderShortNum != 0:
+                    print("short out")
+                    self.order.oderCloseAllShort()
 
-            # long　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
-            elif M5_1_close < M5_1_closeNow and orderLongNum != 0:
-                print("long out by candle")
-                self.order.oderCloseAllLong()
+                # short　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
+                elif M5_1_close > M5_1_closeNow and orderShortNum != 0:
+                    print("short out by candle")
+                    self.order.oderCloseAllShort()
 
-            else:
-                print('決済----様子見中')
+                # long　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
+                elif M5_1_close < M5_1_closeNow and orderLongNum != 0:
+                    print("long out by candle")
+                    self.order.oderCloseAllLong()
 
-            # 購買タイミング----------------------------------------------------------------------------------
-            # longのタイミング all slope is positive and before MA is 6or1 and now 1
-            if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
-                if not orderLongNum >= 2:
-                    print("long in 以下short order数")
-                    print(orderLongNum)
+                else:
+                    print('決済----様子見中')
+
+                print('BB算術上昇・下降相場')
+                # 購買タイミング----------------------------------------------------------------------------------
+                # longのタイミング all slope is positive and before MA is 6or1 and now 1
+                if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
+                    if not orderLongNum >= 2:
+                        print("long in 以下short order数")
+                        print(orderLongNum)
+                        self.order.price = str(long_in)
+                        self.order.stopLoss = str(long_limit)
+                        self.order.units = str(units)
+                        self.order.orderCreate()
+                    else:
+                        print("long in　but position is too many")
+
+                        # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
+                elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
+                    if not orderShortNum >= 2:
+                        print("short in　以下short order数")
+                        self.order.price = str(short_in)
+                        self.order.stopLoss = str(short_limit)
+                        self.order.units = str(units*-1)
+                        self.order.orderCreate()
+                    else:
+                        print("short in　but position is too many")
+
+                        # long closeのタイミング if MA is 2 it have to close
+                else:
+                    print('購買----様子見中')
+
+                    # --------------------------------------------------------------------------------------------------------------------
+
+                maPrev = model_to_dict(
+                    condiPrev.condition_of_ma_M5
+                )['ma_comp1_6_24']
+
+                maNow = model_to_dict(
+                    condNow.condition_of_ma_M5
+                )['ma_comp1_6_24']
+
+                slopePrev = model_to_dict(
+                    condiPrev.condition_of_slope_M5
+                )['slope_comp1_6_24']
+
+                slopeNow = model_to_dict(
+                    condNow.condition_of_slope_M5
+                )['slope_comp1_6_24']
+                # 購買タイミング
+                # longのタイミング all slope is positive and before MA is 6or1 and now 1
+                if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
+                    if not orderLongNum >= 2:
+                        print("long in 以下short order数__1624")
+                        print(orderLongNum)
+                        self.order.price = str(long_in)
+                        self.order.stopLoss = str(long_limit)
+                        self.order.units = str(units)
+                        self.order.orderCreate()
+                    else:
+                        print("long in　but position is too many__1624")
+
+                        # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
+                elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
+                    if not orderShortNum >= 2:
+                        print("short in　以下short order数")
+                        self.order.price = str(short_in)
+                        self.order.stopLoss = str(short_limit)
+                        self.order.units = str(units*-1)
+                        self.order.orderCreate()
+                    else:
+                        print("short in　but position is too many__1624")
+
+                        # long closeのタイミング if MA is 2 it have to close
+                else:
+                    print('購買----様子見中__1624')
+
+            # 持ち合い相場だったら
+            elif trend_id == 3:
+                print('持ち合い相場')
+                if is_shortInBB == True:
+                    print('持ち合い相場の逆張りshort_inーー同時にlong決済も行う')
+                    self.order.oderCloseAllLong()
+
+                    self.order.price = str(short_in)
+                    self.order.stopLoss = str(short_limit)
+                    self.order.units = str(units*-1)
+                    self.order.orderCreate()
+                elif is_shortInBB == False:
+                    print('持ち合い相場の逆張りlong_in--同時にshort決済も行う。')
+                    self.order.oderCloseAllShort()
+
                     self.order.price = str(long_in)
                     self.order.stopLoss = str(long_limit)
                     self.order.units = str(units)
                     self.order.orderCreate()
                 else:
-                    print("long in　but position is too many")
+                    print('BB持ち合い時の購買サイン出ていない')
 
-                    # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
-            elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                if not orderShortNum >= 2:
-                    print("short in　以下short order数")
-                    self.order.price = str(short_in)
-                    self.order.stopLoss = str(short_limit)
-                    self.order.units = str(units*-1)
-                    self.order.orderCreate()
-                else:
-                    print("short in　but position is too many")
-
-                    # long closeのタイミング if MA is 2 it have to close
+                    # それ以外
             else:
-                print('購買----様子見中')
-# --------------------------------------------------------------------------------------------------------------------
+                print('trend_idがないから何もしない')
 
-            maPrev = model_to_dict(
-                condiPrev.condition_of_ma_M5
-            )['ma_comp1_6_24']
-
-            maNow = model_to_dict(
-                condNow.condition_of_ma_M5
-            )['ma_comp1_6_24']
-
-            slopePrev = model_to_dict(
-                condiPrev.condition_of_slope_M5
-            )['slope_comp1_6_24']
-
-            slopeNow = model_to_dict(
-                condNow.condition_of_slope_M5
-            )['slope_comp1_6_24']
-            # 購買タイミング
-            # longのタイミング all slope is positive and before MA is 6or1 and now 1
-            if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
-                if not orderLongNum >= 2:
-                    print("long in 以下short order数__1624")
-                    print(orderLongNum)
-                    self.order.price = str(long_in)
-                    self.order.stopLoss = str(long_limit)
-                    self.order.units = str(units)
-                    self.order.orderCreate()
-                else:
-                    print("long in　but position is too many__1624")
-
-                    # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
-            elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                if not orderShortNum >= 2:
-                    print("short in　以下short order数")
-                    self.order.price = str(short_in)
-                    self.order.stopLoss = str(short_limit)
-                    self.order.units = str(units*-1)
-                    self.order.orderCreate()
-                else:
-                    print("short in　but position is too many__1624")
-
-                    # long closeのタイミング if MA is 2 it have to close
-            else:
-                print('購買----様子見中__1624')
-# --------------------------------------------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------------------------------------------
 
             # 最後にオーダー数を更新する。
             oderSTObj = orderStatus.objects.first()
             oderSTObj.short_order = orderShortNum
             oderSTObj.long_order = orderLongNum
             oderSTObj.save()
-
-            # print(type(condition))
-
-            # 傾きが広がっている＝前の傾きを更新している
-            # * 第1ステージ-安定上昇期-すべて傾きが正かつ前よりも傾きの幅が広がっている→買いの仕掛け
-            # - 短期>中期>長期
-            # * 第2ステージ-下降変化期１上昇相場の終了--**買い清算ポイント**-
-            # - 中期>短期>長期
-            # * 第3ステージ-下降変化期２下降相場の入り口-売りのはや仕掛け
-            # - 中期>長期>短期
-            # * 第4ステージ-安定下降期-すべての傾きが負かつ、傾きの幅が広がっている→売りの仕掛け
-            # - 長期>中期>短期
-            # * 第5ステージ-上昇相場終焉-→売りの手じまい→中長期で幅が広く、すべての傾きがマイナス→戻す可能性あり。
-            # - 長期>短期>中期
-            # * 第6ステージ-上昇相場の入り口-**買いポイント**-→すべての傾きが正→買いのはや仕掛け
-            # - 短期>長期>中期
 
         else:
             print('お休み中')

@@ -21,7 +21,7 @@ from ..models import autoTradeOnOff
 
 class getMA_USD_JPY():
     def __init__(self):
-        print('getMA_USD_JPY')
+        # print('getMA_USD_JPY')
         self.localTime = (
             datetime.datetime.now(timezone('UTC')) -
             datetime.timedelta(minutes=5)
@@ -32,7 +32,7 @@ class getMA_USD_JPY():
             datetime.timedelta(days=1)
         ).isoformat()
 
-        print(self.localTime)
+        # print(self.localTime)
         # self.MA250 = self.get_5M_250()
 
     def getMA_5_20_75(self):

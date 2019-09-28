@@ -157,17 +157,23 @@ class listConditionOfBBTrande(models.Model):
         db_table = 'list_condition_of_BB_trande'
 
 
+# # BBから計算したBBバンドのトレンドを考える
+# class listConditionOfBBTrande(models.Model):
+#     condition = models.CharField(max_length=256)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+
+#     class Meta:
+#         db_table = 'list_condition_of_BB_trande'
+
+
 # ボリンジャーバンドの状態からconditionを検証。(トレンド判定とレンジ相場中での売買判定)
 class conditionOfBB(models.Model):
-    sma_M50 = models.DecimalField(
-        max_digits=8, decimal_places=4, default=0.0000)
-    abs_sigma_1 = models.DecimalField(
-        max_digits=8, decimal_places=4, default=0.0000)
-    abs_sigma_2 = models.DecimalField(
-        max_digits=8, decimal_places=4, default=0.0000)
-    abs_sigma_3 = models.DecimalField(
-        max_digits=8, decimal_places=4, default=0.0000)
-    recorded_at_utc = models.DateTimeField(default=timezone.now)
+    is_shortIn = models.BooleanField(null=True)
+    bb_trande = models.ForeignKey(
+        'listConditionOfBBTrande', on_delete=models.CASCADE, related_name='bb_trande', null=True)
+    bb = models.ForeignKey(
+        'bollingerBand', on_delete=models.CASCADE, related_name='bb', null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -179,13 +185,13 @@ class conditionOfBB(models.Model):
 
 class bollingerBand(models.Model):
     sma_M50 = models.DecimalField(
-        max_digits=8, decimal_places=4, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000, null=True)
     abs_sigma_1 = models.DecimalField(
-        max_digits=8, decimal_places=4, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000, null=True)
     abs_sigma_2 = models.DecimalField(
-        max_digits=8, decimal_places=4, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000,null=True)
     abs_sigma_3 = models.DecimalField(
-        max_digits=8, decimal_places=4, default=0.0000)
+        max_digits=8, decimal_places=4, default=0.0000, null=True)
     recorded_at_utc = models.DateTimeField(default=timezone.now)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -245,6 +251,7 @@ class conditionOfMA_M5(models.Model):
     class Meta:
         db_table = 'condition_of_ma'
 
+
 # maを中心とした現状を示す指標の集合体。
 
 
@@ -255,6 +262,8 @@ class condition(models.Model):
         'conditionOfSlope_M5', on_delete=models.CASCADE, related_name='conditionOfSlope_M5', null=True)
     condition_of_ma_M5 = models.ForeignKey(
         'conditionOfMA_M5', on_delete=models.CASCADE, related_name='conditionOfSlope_M5', null=True)
+    condition_of_bb = models.ForeignKey(
+        'conditionOfBB', on_delete=models.CASCADE, related_name='condition_of_bb', null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

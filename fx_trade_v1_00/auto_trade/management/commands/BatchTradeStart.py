@@ -32,28 +32,26 @@ class Command(BaseCommand):
         # 5分足の保存
         result, created = setCandle.setM5()
 
+# '----------------デバッグ用-------------------------------'
+        # bb = setBollingerBand_USD_JPY()
+        # BBCondi = bb.setBB()
+        # setMA = setMA_USD_JPY()
+        # condiPrev = condition.objects.latest('created_at')
+        # condiNow = setMA.setMA(result, BBCondi)
+        # bsCal.BuySellCheck(condiNow, condiPrev)
+# '----------------デバッグ用-------------------------------'
+
         # 5分足が作成されたらMAを作成する。
         if created:
             # ボリンジャーバンドの設定
             bb = setBollingerBand_USD_JPY()
-            bbLatest, bbCreated = bb.setBB()
-
+            BBCondi = bb.setBB()
             setMA = setMA_USD_JPY()
-
             condiPrev = condition.objects.latest('created_at')
-            condiNow = setMA.setMA(result)
+            condiNow = setMA.setMA(result, BBCondi)
             bsCal.BuySellCheck(condiNow, condiPrev)
 
             # conditionListをもとに売買ポイントを考える。
-        # setMA = setMA_USD_JPY()
-        # condiPrev = condition.objects.latest('created_at')
-        # bb = setBollingerBand_USD_JPY()
-        # bbLatest, bbCreated = bb.setBB()
-
-        # condiNow = setMA.setMA(result)
-        # bsCal.BuySellCheck(condiNow, condiPrev)
-
-        # print(conditonList)
 
         # 自動取引がOFFかONかを確認する。
         qSetCheck = autoTradeOnOff.objects.filter(id=1).first()

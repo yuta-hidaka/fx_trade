@@ -12,4 +12,5 @@
     "python.testing.unittestEnabled": false,
     "git.ignoreLimitWarning": true,
     "python.testing.promptToConfigure": false,
+    "python.envFile": "${workspaceFolder}/.env",
 }

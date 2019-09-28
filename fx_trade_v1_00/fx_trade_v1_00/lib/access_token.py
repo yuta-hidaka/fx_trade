@@ -32,10 +32,10 @@ class FxInfo:
         self.access_token = "46c8cbca4d7b1ed7533cdca8bd0b2eea-ce54c2371b95860a91bc0a977fd923c5"
 
         if is_practice:
-            print("practice")
+            # print("practice")
             environment = "practice"
         else:
-            print("live")
+            # print("live")
             environment = "live"
 
         # oandaAPI情報
