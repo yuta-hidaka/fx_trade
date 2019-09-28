@@ -26,7 +26,6 @@ class M5vsMaUsdJpyAPI(APIView):
         # デバッグ用
         # c = Command()
         # a = c.handle()
-
         res = {}
         res['condMa'] = []
         res['condSlope'] = []
