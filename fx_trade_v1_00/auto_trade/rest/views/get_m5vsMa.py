@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from ...models import conditionOfMA_M5, condition
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
-from auto_trade.service.get_rate_USD_JPY import getFXdata_USD
+from ...service.get_rate_USD_JPY import getFXdata_USD
 from django.core import serializers
 
 from ...management.commands.BatchTradeStart import Command
