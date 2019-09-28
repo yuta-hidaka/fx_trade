@@ -11,5 +11,7 @@
     "python.testing.nosetestsEnabled": false,
     "python.testing.unittestEnabled": false,
     "git.ignoreLimitWarning": true,
-    "python.testing.promptToConfigure": false
+    "python.testing.promptToConfigure": false,
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
 }

@@ -3,6 +3,7 @@ from ..models import M5_USD_JPY, bollingerBand
 from ..rest.serializers.set_candle_serialize import SetCandleSerializer
 from decimal import *
 from datetime import *
+import numpy as np
 
 
 class setBollingerBand_USD_JPY:
@@ -24,14 +25,21 @@ class setBollingerBand_USD_JPY:
             MClose = Decimal(M['mid']['c'])
             SMA += MClose
             # if latestDate > D['time']
-
         SMA = SMA / SMA_days
+
+        SwD = 0
+        listMA = []
+        for M in M50:
+            # SwD += (Decimal(M['mid']['c']) - SMA) ** Decimal(2)
+            listMA.append(Decimal(M['mid']['c']))
+
+        # SwD = ((SwD/SMA_days)**Decimal(0.5)) + SMA
+
         # 標準偏差の計算
-        SD = ((SMA - Decimal(todayMA['mid']['c']))
-              ** Decimal(2))**Decimal(0.5) + SMA
-        SD1 = SD + Decimal(1)
-        SD2 = SD + Decimal(2)
-        SD3 = SD + Decimal(3)
+        SD = np.std(listMA)
+        SD1 = SD * Decimal(1)
+        SD2 = SD * Decimal(2)
+        SD3 = SD * Decimal(3)
 
         # 平均から本日分の終値の標準偏差を計算する。
         result, created = bollingerBand.objects.filter(
