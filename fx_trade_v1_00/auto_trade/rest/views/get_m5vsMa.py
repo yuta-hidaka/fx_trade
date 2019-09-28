@@ -8,13 +8,13 @@ from rest_framework.views import APIView
 from ...models import conditionOfMA_M5, condition
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
-from ...service.get_rate_USD_JPY import getFXdata_USD
+from auto_trade.service.get_rate_USD_JPY import getFXdata_USD
 from django.core import serializers
 
 from ...management.commands.BatchTradeStart import Command
 
-from ....fx_trade_v1_00.lib.order import orderFx
-# from ....lib.order import orderFx
+# from ....fx_trade_v1_00.lib.order import orderFx
+from fx_trade_v1_00.lib.order import orderFx
 
 
 class M5vsMaUsdJpyAPI(APIView):
@@ -24,8 +24,8 @@ class M5vsMaUsdJpyAPI(APIView):
 
     def post(self, request):
 
-        # c = Command()
-        # a = c.handle()
+        c = Command()
+        a = c.handle()
 
         res = {}
         res['condMa'] = []

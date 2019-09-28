@@ -11,7 +11,8 @@ import oandapyV20.endpoints.instruments as instruments
 import oandapyV20.endpoints.trades as trades
 import datetime
 from oandapyV20 import API
-from ...fx_trade_v1_00.lib.access_token import FxInfo
+from fx_trade_v1_00.lib.access_token import FxInfo
+from fx_trade_v1_00.lib import test
 
 
 class getFXdata_USD():
