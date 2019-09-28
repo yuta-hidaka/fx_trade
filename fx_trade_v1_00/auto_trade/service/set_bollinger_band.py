@@ -9,7 +9,7 @@ import numpy as np
 class setBollingerBand_USD_JPY:
     def setBBCondition(self, MHalf, SMA):
 
-        length = len(Mhalf)
+        length = len(MHalf)
         data = 0
         is_plus = True
         is_trend = True

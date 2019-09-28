@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "venv\\Scripts\\python.exe",
+    "python.pythonPath": "C:\\Users\\yuta3\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe",
     "python.testing.unittestArgs": [
         "-v",
         "-s",

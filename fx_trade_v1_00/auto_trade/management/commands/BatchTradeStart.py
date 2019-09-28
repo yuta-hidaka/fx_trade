@@ -8,7 +8,8 @@ from ...service.set_candle_USD_JPY import setCandle_USD_JPY
 from ...calculate.buy_sell_cal import BuySellCal
 from ...service.set_MA_USD_JPY import setMA_USD_JPY
 from ...service.set_bollinger_band import setBollingerBand_USD_JPY
-from auto_trade.service.set_candle_USD_JPY import setCandle_USD_JPY
+from ...service.set_candle_USD_JPY import setCandle_USD_JPY
+
 
 # BaseCommandを継承して作成
 
@@ -36,7 +37,7 @@ class Command(BaseCommand):
             # ボリンジャーバンドの設定
             bb = setBollingerBand_USD_JPY()
             bbLatest, bbCreated = bb.setBB()
-            
+
             setMA = setMA_USD_JPY()
 
             condiPrev = condition.objects.latest('created_at')
@@ -46,6 +47,8 @@ class Command(BaseCommand):
             # conditionListをもとに売買ポイントを考える。
         # setMA = setMA_USD_JPY()
         # condiPrev = condition.objects.latest('created_at')
+        # bb = setBollingerBand_USD_JPY()
+        # bbLatest, bbCreated = bb.setBB()
 
         # condiNow = setMA.setMA(result)
         # bsCal.BuySellCheck(condiNow, condiPrev)
