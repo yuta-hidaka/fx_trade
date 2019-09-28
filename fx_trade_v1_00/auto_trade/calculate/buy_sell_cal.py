@@ -21,6 +21,8 @@ class BuySellCal():
 
     def BuySellCheck(self, condNow, condiPrev):
 
+        # トレンド発生中はMAを指標に売買を行うが、もみ合い相場中はボリンジャーバンドを指標に売買を行う。
+        
         # 口座のすべてのポジションをリストとして取得
         r = positions.PositionList(accountID=self.fx.accountID)
         api = self.fx.api
