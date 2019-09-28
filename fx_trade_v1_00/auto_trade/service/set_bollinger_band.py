@@ -48,7 +48,6 @@ class setBollingerBand_USD_JPY:
             sma_M50=SMA,
             abs_sigma_1=SD1,
             abs_sigma_2=SD2,
-
             abs_sigma_3=SD3,
         )
 

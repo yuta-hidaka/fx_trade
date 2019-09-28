@@ -20,10 +20,6 @@ class Command(BaseCommand):
     # コマンドが実行された際に呼ばれるメソッド
     def handle(self, *args, **options):
 
-        # ボリンジャーバンドの設定
-        bb = setBollingerBand_USD_JPY()
-        bb.setBB()
-
         JST = timezone(timedelta(hours=+9), 'JST')
         dt_now = datetime.datetime.now(JST)
         setCandle = setCandle_USD_JPY()
@@ -37,6 +33,10 @@ class Command(BaseCommand):
 
         # 5分足が作成されたらMAを作成する。
         if created:
+            # ボリンジャーバンドの設定
+            bb = setBollingerBand_USD_JPY()
+            bbLatest, bbCreated = bb.setBB()
+            
             setMA = setMA_USD_JPY()
 
             condiPrev = condition.objects.latest('created_at')
