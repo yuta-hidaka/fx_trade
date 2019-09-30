@@ -97,7 +97,7 @@ class BuySellCal():
 
             long_limit = (
                 # M5_1_close + M5_1_close*Decimal(-0.0002)
-                M5_1_close + M5_1_close*Decimal(-0.0005)
+                M5_1_close + M5_1_close*Decimal(-0.00025)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_in = (
@@ -106,7 +106,7 @@ class BuySellCal():
 
             short_limit = (
                 # M5_1_close + M5_1_close*Decimal(0.0002)
-                M5_1_close + M5_1_close*Decimal(0.0005)
+                M5_1_close + M5_1_close*Decimal(0.00025)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             self.order.priceLong = str(long_in)
@@ -174,9 +174,12 @@ class BuySellCal():
                 print('決済----様子見中')
 
             # 上昇or下降トレンド相場だったら
-            if trend_id == 1 or trend_id == 2:
+            if trend_id == 1:
+                print('BB---上昇相場')
+            elif trend_id == 2:
+                print('BB---下降相場')
 
-                print('BB算術上昇・下降相場')
+            if trend_id == 1 or trend_id == 2:
                 # 購買タイミング----------------------------------------------------------------------------------
                 # longのタイミング all slope is positive and before MA is 6or1 and now 1
                 if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
