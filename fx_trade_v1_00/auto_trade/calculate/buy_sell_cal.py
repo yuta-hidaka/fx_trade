@@ -41,7 +41,7 @@ class BuySellCal():
             orderShortNum = 0
 
         # 購入するユニット数
-        units = 2500
+        units = 5000
         getNowRate = getMA_USD_JPY()
 
         # print(model_to_dict(condition))
@@ -180,14 +180,14 @@ class BuySellCal():
                 # 購買タイミング----------------------------------------------------------------------------------
                 # longのタイミング all slope is positive and before MA is 6or1 and now 1
                 if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
-                    if not orderLongNum >= 2:
+                    if not orderLongNum > 2:
                         print("long in 以下short order数")
                         self.order.LongOrderCreate()
                     else:
                         print("long in　but position is too many")
                         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
                 elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                    if not orderShortNum >= 2:
+                    if not orderShortNum > 2:
                         print("short in　以下short order数")
                         self.order.ShortOrderCreate()
                     else:
@@ -217,7 +217,7 @@ class BuySellCal():
                 # 購買タイミング
                 # longのタイミング all slope is positive and before MA is 6or1 and now 1
                 if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
-                    if not orderLongNum >= 2:
+                    if not orderLongNum > 2:
                         print("long in 以下short order数__1624")
                         self.order.LongOrderCreate()
 
@@ -226,7 +226,7 @@ class BuySellCal():
 
                         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
                 elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                    if not orderShortNum >= 2:
+                    if not orderShortNum > 2:
                         print("short in　以下short order数")
                         self.order.ShortOrderCreate()
                     else:
@@ -244,13 +244,20 @@ class BuySellCal():
                     if orderLongNum != 0:
                         print('long決済')
                         self.order.oderCloseAllLong()
-                    self.order.ShortOrderCreate()
+                    if not orderShortNum > 2:
+                        self.order.ShortOrderCreate()
+                    else:
+                        print('注文リミット')
+
                 elif is_shortInBB == False:
                     print('持ち合い相場の逆張りlong_in--同時にshort決済も行う。')
                     if orderShortNum != 0:
                         print('short決済')
                         self.order.oderCloseAllShort()
-                    self.order.LongOrderCreate()
+                    if not orderLongNum > 2:
+                        self.order.LongOrderCreate()
+                    else:
+                        print('注文リミット')
                 else:
                     print('BB持ち合い時の購買サイン出ていない')
 
