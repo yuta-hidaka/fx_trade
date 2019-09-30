@@ -134,8 +134,8 @@ class orderFx:
         # API経由で指値注文を実行
         r = orders.OrderCreate(self.fi.accountID, data=self.data)
         res = api.request(r)
-        print(self.data)
-        print(json.dumps(res, indent=2))
+        # print(self.data)
+        # print(json.dumps(res, indent=2))
         print('order create----------------------------------------------')
 
     def oderCloseAllLong(self):

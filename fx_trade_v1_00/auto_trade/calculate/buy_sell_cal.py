@@ -142,13 +142,22 @@ class BuySellCal():
             )['slope_comp5_20_40']
 
             # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
+            print('maNow')
+            print(maNow)
+            print('orderLongNum')
+            print(orderLongNum)
+            print('M5_1_close')
+            print(M5_1_close)
+            print('M5_1_closeNow')
+            print(M5_1_closeNow)
+
             if maNow == 2 and orderLongNum != 0:
-                print("long out")
+                print("long out by ma")
                 self.order.oderCloseAllLong()
 
                 # short　closeのタイミング if MA is 5 it have to close
             elif maNow == 5 and orderShortNum != 0:
-                print("short out")
+                print("short out by ma")
                 self.order.oderCloseAllShort()
 
                 # short　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
@@ -232,14 +241,16 @@ class BuySellCal():
                 print('持ち合い相場')
                 if is_shortInBB == True:
                     print('持ち合い相場の逆張りshort_inーー同時にlong決済も行う')
-                    self.order.oderCloseAllLong()
+                    if orderLongNum != 0:
+                        print('long決済')
+                        self.order.oderCloseAllLong()
                     self.order.ShortOrderCreate()
-
                 elif is_shortInBB == False:
                     print('持ち合い相場の逆張りlong_in--同時にshort決済も行う。')
-                    self.order.oderCloseAllShort()
+                    if orderShortNum != 0:
+                        print('short決済')
+                        self.order.oderCloseAllShort()
                     self.order.LongOrderCreate()
-
                 else:
                     print('BB持ち合い時の購買サイン出ていない')
 
