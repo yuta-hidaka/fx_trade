@@ -64,12 +64,20 @@ class orderFx:
 
         # """為替ペア"""
         self.instrument = "USD_JPY"
+
         # """購買件数マイナスでshort、プラスでlong"""
-        self.units = "-1000"
+        self.unitsShort = "-1000"
         # """指値注文"""
-        self.price = "109.780"
+        self.priceShort = "109.780"
         # """ストップロスの指定"""
-        self.stopLoss = 100.00
+        self.stopLossShort = 100.00
+
+        # """購買件数マイナスでshort、プラスでlong"""
+        self.unitsLong = "-1000"
+        # """指値注文"""
+        self.priceLong = "109.780"
+        # """ストップロスの指定"""
+        self.stopLossLong = 100.00
 
         self.data = {
             "order": {
@@ -82,20 +90,44 @@ class orderFx:
             }
         }
 
-    def orderCreate(self):
+    def ShortOrderCreate(self):
+            # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
+        print('order create----------------------------------------------')
+        api = self.fi.api
+        # stopPrice = 100.00
+        stoporder = StopLossDetails(
+            price=self.stopLossShort,
+            # timeInForce="GTD",
+            # gtdTime=self.now_utc
+        )
+
+        self.data['order']['price'] = self.priceShort
+        self.data['order']['instrument'] = self.instrument
+        self.data['order']['units'] = self.unitsShort
+        self.data['order']['stopLossOnFill'] = stoporder.data
+        # print(self.data)
+        # r = trades.TradeClose(accountID=accountID, tradeID=49, data=data)
+        # API経由で指値注文を実行
+        r = orders.OrderCreate(self.fi.accountID, data=self.data)
+        res = api.request(r)
+        print(self.data)
+        print(json.dumps(res, indent=2))
+        print('order create----------------------------------------------')
+
+    def LongOrderCreate(self):
         # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
         print('order create----------------------------------------------')
         api = self.fi.api
         # stopPrice = 100.00
         stoporder = StopLossDetails(
-            price=self.stopLoss,
+            price=self.stopLossLong,
             # timeInForce="GTD",
             # gtdTime=self.now_utc
         )
 
-        self.data['order']['price'] = self.price
+        self.data['order']['price'] = self.priceLong
         self.data['order']['instrument'] = self.instrument
-        self.data['order']['units'] = self.units
+        self.data['order']['units'] = self.unitsLong
         self.data['order']['stopLossOnFill'] = stoporder.data
         # print(self.data)
         # r = trades.TradeClose(accountID=accountID, tradeID=49, data=data)

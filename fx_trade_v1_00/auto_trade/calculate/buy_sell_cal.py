@@ -89,7 +89,7 @@ class BuySellCal():
         # 市場が閉じていたら計算等は行わない
         if not len(M5_1['candles']) == 0:
             # self.order.orderCreate()
-            print('----------------------------------------------------------------------------------------------------')
+            print('----------------------------------------------------購買条件中------------------------------------------------')
             # 取引条件作成-------------------------------------
             long_in = (
                 M5_1_close + M5_1_close*Decimal(0.0001)
@@ -108,6 +108,14 @@ class BuySellCal():
                 # M5_1_close + M5_1_close*Decimal(0.0002)
                 M5_1_close + M5_1_close*Decimal(0.0005)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+            self.order.priceLong = str(long_in)
+            self.order.stopLossLong = str(long_limit)
+            self.order.unitsLong = str(units)
+
+            self.order.priceShort = str(short_in)
+            self.order.stopLossShort = str(short_limit)
+            self.order.unitsShort = str(units*-1)
 
             # 購買判断材料-持ち合い形成時--------------------------------------
 
@@ -133,31 +141,31 @@ class BuySellCal():
                 condNow.condition_of_slope_M5
             )['slope_comp5_20_40']
 
-            # 上昇or下降相場だったら
-            if trend_id == 1 or trend_id == 2:
-
-                # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
-                if maNow == 2 and orderLongNum != 0:
-                    print("long out")
-                    self.order.oderCloseAllLong()
+            # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
+            if maNow == 2 and orderLongNum != 0:
+                print("long out")
+                self.order.oderCloseAllLong()
 
                 # short　closeのタイミング if MA is 5 it have to close
-                elif maNow == 5 and orderShortNum != 0:
-                    print("short out")
-                    self.order.oderCloseAllShort()
+            elif maNow == 5 and orderShortNum != 0:
+                print("short out")
+                self.order.oderCloseAllShort()
 
                 # short　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
-                elif M5_1_close > M5_1_closeNow and orderShortNum != 0:
-                    print("short out by candle")
-                    self.order.oderCloseAllShort()
+            elif M5_1_close > M5_1_closeNow and orderShortNum != 0:
+                print("short out by candle")
+                self.order.oderCloseAllShort()
 
                 # long　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
-                elif M5_1_close < M5_1_closeNow and orderLongNum != 0:
-                    print("long out by candle")
-                    self.order.oderCloseAllLong()
+            elif M5_1_close < M5_1_closeNow and orderLongNum != 0:
+                print("long out by candle")
+                self.order.oderCloseAllLong()
 
-                else:
-                    print('決済----様子見中')
+            else:
+                print('決済----様子見中')
+
+            # 上昇or下降トレンド相場だったら
+            if trend_id == 1 or trend_id == 2:
 
                 print('BB算術上昇・下降相場')
                 # 購買タイミング----------------------------------------------------------------------------------
@@ -165,22 +173,14 @@ class BuySellCal():
                 if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
                     if not orderLongNum >= 2:
                         print("long in 以下short order数")
-                        print(orderLongNum)
-                        self.order.price = str(long_in)
-                        self.order.stopLoss = str(long_limit)
-                        self.order.units = str(units)
-                        self.order.orderCreate()
+                        self.order.LongOrderCreate()
                     else:
                         print("long in　but position is too many")
-
                         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
                 elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
                     if not orderShortNum >= 2:
                         print("short in　以下short order数")
-                        self.order.price = str(short_in)
-                        self.order.stopLoss = str(short_limit)
-                        self.order.units = str(units*-1)
-                        self.order.orderCreate()
+                        self.order.ShortOrderCreate()
                     else:
                         print("short in　but position is too many")
 
@@ -210,11 +210,8 @@ class BuySellCal():
                 if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
                     if not orderLongNum >= 2:
                         print("long in 以下short order数__1624")
-                        print(orderLongNum)
-                        self.order.price = str(long_in)
-                        self.order.stopLoss = str(long_limit)
-                        self.order.units = str(units)
-                        self.order.orderCreate()
+                        self.order.LongOrderCreate()
+
                     else:
                         print("long in　but position is too many__1624")
 
@@ -222,10 +219,7 @@ class BuySellCal():
                 elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
                     if not orderShortNum >= 2:
                         print("short in　以下short order数")
-                        self.order.price = str(short_in)
-                        self.order.stopLoss = str(short_limit)
-                        self.order.units = str(units*-1)
-                        self.order.orderCreate()
+                        self.order.ShortOrderCreate()
                     else:
                         print("short in　but position is too many__1624")
 
@@ -239,19 +233,13 @@ class BuySellCal():
                 if is_shortInBB == True:
                     print('持ち合い相場の逆張りshort_inーー同時にlong決済も行う')
                     self.order.oderCloseAllLong()
+                    self.order.ShortOrderCreate()
 
-                    self.order.price = str(short_in)
-                    self.order.stopLoss = str(short_limit)
-                    self.order.units = str(units*-1)
-                    self.order.orderCreate()
                 elif is_shortInBB == False:
                     print('持ち合い相場の逆張りlong_in--同時にshort決済も行う。')
                     self.order.oderCloseAllShort()
+                    self.order.LongOrderCreate()
 
-                    self.order.price = str(long_in)
-                    self.order.stopLoss = str(long_limit)
-                    self.order.units = str(units)
-                    self.order.orderCreate()
                 else:
                     print('BB持ち合い時の購買サイン出ていない')
 
@@ -270,4 +258,4 @@ class BuySellCal():
         else:
             print('お休み中')
 
-        print('----------------------------------------------------------------------------------------------------')
+        print('-----------------------------------------------購買条件中-終了----------------------------------------------------')
