@@ -92,21 +92,21 @@ class BuySellCal():
             print('----------------------------------------------------購買条件中------------------------------------------------')
             # 取引条件作成-------------------------------------
             long_in = (
-                M5_1_close + M5_1_close*Decimal(0.0001)
+                M5_1_close + M5_1_close*Decimal(0.00005)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             long_limit = (
                 # M5_1_close + M5_1_close*Decimal(-0.0002)
-                M5_1_close + M5_1_close*Decimal(-0.0001)
+                M5_1_close + M5_1_close*Decimal(-0.0009)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_in = (
-                M5_1_close + M5_1_close*Decimal(-0.0001)
+                M5_1_close + M5_1_close*Decimal(-0.00005)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_limit = (
                 # M5_1_close + M5_1_close*Decimal(0.0002)
-                M5_1_close + M5_1_close*Decimal(0.0001)
+                M5_1_close + M5_1_close*Decimal(0.0009)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             self.order.priceLong = str(long_in)
