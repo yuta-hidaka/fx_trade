@@ -97,7 +97,7 @@ class BuySellCal():
 
             long_limit = (
                 # M5_1_close + M5_1_close*Decimal(-0.0002)
-                M5_1_close + M5_1_close*Decimal(-0.0009)
+                M5_1_close + M5_1_close*Decimal(-0.00005)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_in = (
@@ -106,7 +106,7 @@ class BuySellCal():
 
             short_limit = (
                 # M5_1_close + M5_1_close*Decimal(0.0002)
-                M5_1_close + M5_1_close*Decimal(0.0009)
+                M5_1_close + M5_1_close*Decimal(0.00005)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             self.order.priceLong = str(long_in)
@@ -183,7 +183,7 @@ class BuySellCal():
                 # 購買タイミング----------------------------------------------------------------------------------
                 # longのタイミング all slope is positive and before MA is 6or1 and now 1
                 if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
-                    if not orderLongNum > 1:
+                    if not orderLongNum >= 1:
                         print("long in 以下short order数")
                         orderLongNum += 1
 
@@ -192,7 +192,7 @@ class BuySellCal():
                         print("long in　but position is too many")
                         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
                 elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                    if not orderShortNum > 1:
+                    if not orderShortNum >= 1:
                         print("short in")
                         orderShortNum += 1
                         self.order.ShortOrderCreate()
@@ -223,7 +223,7 @@ class BuySellCal():
                 # 購買タイミング
                 # longのタイミング all slope is positive and before MA is 6or1 and now 1
                 if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
-                    if not orderLongNum > 1:
+                    if not orderLongNum >= 1:
                         print("long in 以下__1624")
                         orderLongNum += 1
                         self.order.LongOrderCreate()
@@ -233,7 +233,7 @@ class BuySellCal():
 
                         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
                 elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                    if not orderShortNum > 1:
+                    if not orderShortNum >= 1:
                         print("short in　以下__1624")
                         orderShortNum += 1
                         self.order.ShortOrderCreate()
@@ -252,7 +252,7 @@ class BuySellCal():
                     if orderLongNum != 0:
                         print('long決済')
                         self.order.oderCloseAllLong()
-                    if not orderShortNum > 1:
+                    if not orderShortNum >= 1:
                         self.order.ShortOrderCreate()
                     else:
                         print('注文リミット')
@@ -262,7 +262,7 @@ class BuySellCal():
                     if orderShortNum != 0:
                         print('short決済')
                         self.order.oderCloseAllShort()
-                    if not orderLongNum > 1:
+                    if not orderLongNum >= 1:
                         self.order.LongOrderCreate()
                     else:
                         print('注文リミット')
