@@ -17,13 +17,13 @@
             }
 
             $.ajax({
-                url: '../rest/tradeOnOff',
-                type: 'POST',
-                data: req,
-                headers: {
-                    "X-CSRFToken": token
-                }
-            })
+                    url: '../rest/tradeOnOff',
+                    type: 'POST',
+                    data: req,
+                    headers: {
+                        "X-CSRFToken": token
+                    }
+                })
                 // Ajaxリクエストが成功した時発動
                 .done((data) => {
 
@@ -54,16 +54,16 @@
 
         $('#getRate').on('click', function () {
             $.ajax({
-                url: '../rest/M5vsMA',
-                type: 'POST',
-                data: {
-                    'userid': $('#userid').val(),
-                    'passward': $('#passward').val()
-                },
-                headers: {
-                    "X-CSRFToken": token
-                }
-            })
+                    url: '../rest/M5vsMA',
+                    type: 'POST',
+                    data: {
+                        'userid': $('#userid').val(),
+                        'passward': $('#passward').val()
+                    },
+                    headers: {
+                        "X-CSRFToken": token
+                    }
+                })
                 // Ajaxリクエストが成功した時発動
                 .done((data) => {
                     $('.result').html(data);
@@ -150,6 +150,50 @@
                         name: 'ma72',
                         mode: 'lines'
                     };
+                    var sig1 = {
+                        x: [],
+                        y: [],
+                        name: 'sig1',
+                        mode: 'lines'
+                    };
+                    var sig2 = {
+                        x: [],
+                        y: [],
+                        name: 'sig2',
+                        mode: 'lines'
+                    };
+                    var sig3 = {
+                        x: [],
+                        y: [],
+                        name: 'sig3',
+                        mode: 'lines'
+                    };
+
+                    var mSig1 = {
+                        x: [],
+                        y: [],
+                        name: 'mSig1',
+                        mode: 'lines'
+                    };
+                    var mSig2 = {
+                        x: [],
+                        y: [],
+                        name: 'mSig2',
+                        mode: 'lines'
+                    };
+                    var mSig3 = {
+                        x: [],
+                        y: [],
+                        name: 'mSig3',
+                        mode: 'lines'
+                    };
+                    var sma = {
+                        x: [],
+                        y: [],
+                        name: 'mSig3',
+                        mode: 'lines'
+                    };
+
                     console.log(trace1);
 
                     data['m5'].forEach(function (list, i) {
@@ -159,22 +203,42 @@
                         trace1.low.push(list.low);
                         trace1.open.push(list.open);
                         trace1.text.push(
-                            '短期、中期、長期線の状態：<br>5-20-75:' + data['condMa'][i].ma_comp5_20_75 +
+                            '短期、中期、長期線の状態：<br>5-20-75:' + data['condMa'][i]
+                            .ma_comp5_20_75 +
                             '<br>6-24-72:' + data['condMa'][i].ma_comp6_24_72
                         );
                         // 
                         // console.log(list['recorded_at_utc']);
                         // console.log(list.recorded_at_utc);
-                        trace1.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
+                        trace1.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
+                            ' '));
                         ma5.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
-                        ma40.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
-                        ma20.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
-                        ma75.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
+                        ma40.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
+                            ' '));
+                        ma20.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
+                            ' '));
+                        ma75.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
+                            ' '));
 
                         ma6.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
-                        ma24.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
-                        ma50.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
-                        ma72.x.push(list['recorded_at_utc'].split('.')[0].replace('T', ' '));
+                        ma24.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
+                            ' '));
+                        ma50.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
+                            ' '));
+                        ma72.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
+                            ' '));
+
+                        sig1.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
+                            ' '));
+                        sig2.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
+                            ' '));
+                        mSig1.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
+                            ' '));
+                        mSig2.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
+                            ' '));
+                        sma.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
+                            ' '));
+
                     });
                     let text = '';
 
@@ -188,6 +252,18 @@
                         ma24.y.push(list.m5_ma24)
                         ma50.y.push(list.m5_ma50)
                         ma72.y.push(list.m5_ma72)
+
+                        sig1.y.push(data['bb'][i]['sma_M50'] + data['bb'][i]['abs_sigma_1'])
+                        sig2.y.push(data['bb'][i]['sma_M50'] + data['bb'][i]['abs_sigma_2'])
+                        mSig1.y.push(data['bb'][i]['sma_M50'] - data['bb'][i][
+                            'abs_sigma_1'
+                        ])
+                        mSig2.y.push(data['bb'][i]['sma_M50'] - data['bb'][i][
+                            'abs_sigma_2'
+                        ])
+                        sma.y.push(data['bb'][i]['sma_M50'])
+
+
                         text =
                             '<tr>' +
                             '<td>' + data['m5'][i]['close'] + '</td>' +
