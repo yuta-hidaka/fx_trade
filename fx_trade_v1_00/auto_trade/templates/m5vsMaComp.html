@@ -162,12 +162,12 @@
                         name: 'sig2',
                         mode: 'lines'
                     };
-                    var sig3 = {
-                        x: [],
-                        y: [],
-                        name: 'sig3',
-                        mode: 'lines'
-                    };
+                    //     var sig3 = {
+                    //       x: [],
+                    //     y: [],
+                    //   name: 'sig3',
+                    // mode: 'lines'
+                    //};
 
                     var mSig1 = {
                         x: [],
@@ -181,16 +181,16 @@
                         name: 'mSig2',
                         mode: 'lines'
                     };
-                    var mSig3 = {
-                        x: [],
-                        y: [],
-                        name: 'mSig3',
-                        mode: 'lines'
-                    };
+                    //                  var mSig3 = {
+                    //                    x: [],
+                    //                  y: [],
+                    //                name: 'mSig3',
+                    //              mode: 'lines'
+                    //        };
                     var sma = {
                         x: [],
                         y: [],
-                        name: 'mSig3',
+                        name: 'sma',
                         mode: 'lines'
                     };
 
@@ -255,12 +255,15 @@
 
                         sig1.y.push(data['bb'][i]['sma_M50'] + data['bb'][i]['abs_sigma_1'])
                         sig2.y.push(data['bb'][i]['sma_M50'] + data['bb'][i]['abs_sigma_2'])
-                        mSig1.y.push(data['bb'][i]['sma_M50'] - data['bb'][i][
-                            'abs_sigma_1'
-                        ])
-                        mSig2.y.push(data['bb'][i]['sma_M50'] - data['bb'][i][
-                            'abs_sigma_2'
-                        ])
+
+                        mSig1.y.push(
+                            data['bb'][i]['sma_M50'] -
+                            data['bb'][i]['abs_sigma_1']
+                        )
+                        mSig2.y.push(
+                            data['bb'][i]['sma_M50'] -
+                            data['bb'][i]['abs_sigma_2']
+                        )
                         sma.y.push(data['bb'][i]['sma_M50'])
 
 
