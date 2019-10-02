@@ -252,7 +252,12 @@
                         ma24.y.push(list.m5_ma24)
                         ma50.y.push(list.m5_ma50)
                         ma72.y.push(list.m5_ma72)
-
+                        console.log(data['bb'][i]['sma_M50'] + data['bb'][i][
+                            'abs_sigma_1'
+                        ]);
+                        console.log(data['bb'][i]['sma_M50'] - data['bb'][i][
+                            'abs_sigma_1'
+                        ]);
                         sig1.y.push(data['bb'][i]['sma_M50'] + data['bb'][i]['abs_sigma_1'])
                         sig2.y.push(data['bb'][i]['sma_M50'] + data['bb'][i]['abs_sigma_2'])
 
