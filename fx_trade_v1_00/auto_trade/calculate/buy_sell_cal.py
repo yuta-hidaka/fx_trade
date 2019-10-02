@@ -188,7 +188,7 @@ class BuySellCal():
             elif trend_id == 2:
                 print('BB---下降相場')
 
-            if trend_id == 1 or trend_id == 2:
+            if trend_id == 1 or trend_id == 2 or slopeNow == 1 or slopeNow == 2:
                 # 購買タイミング----------------------------------------------------------------------------------
                 # longのタイミング all slope is positive and before MA is 6or1 and now 1
                 if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
