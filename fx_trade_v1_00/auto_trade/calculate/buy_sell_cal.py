@@ -163,6 +163,8 @@ class BuySellCal():
             print(M5_1_close)
             print('M5_1_closeNow')
             print(M5_1_closeNow)
+            print('is_expansion')
+            print(is_expansion)
 
 
 # --------------------------------------------------------------------------
