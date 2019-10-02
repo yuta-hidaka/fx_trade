@@ -80,7 +80,7 @@ class setBollingerBand_USD_JPY:
         # そうでなければ、もみ合い相場なので、ボリンジャーバンドでの売買を有効にしてもよい。
         print(np.absolute(ans))
         print('np.absolute(ans)')
-        if np.absolute(ans) >= 80:
+        if np.absolute(ans) >= 65:
             is_trend = True
         else:
             is_trend = False
