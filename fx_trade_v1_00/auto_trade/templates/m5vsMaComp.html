@@ -252,22 +252,23 @@
                         ma24.y.push(list.m5_ma24)
                         ma50.y.push(list.m5_ma50)
                         ma72.y.push(list.m5_ma72)
-                        console.log(data['bb'][i]['sma_M50'] + data['bb'][i][
-                            'abs_sigma_1'
-                        ]);
-                        console.log(data['bb'][i]['sma_M50'] - data['bb'][i][
-                            'abs_sigma_1'
-                        ]);
-                        sig1.y.push(data['bb'][i]['sma_M50'] + data['bb'][i]['abs_sigma_1'])
-                        sig2.y.push(data['bb'][i]['sma_M50'] + data['bb'][i]['abs_sigma_2'])
+
+                        sig1.y.push(
+                            Number(data['bb'][i]['sma_M50']) +
+                            Number(data['bb'][i]['abs_sigma_1'])
+                        )
+                        sig2.y.push(
+                            Number(data['bb'][i]['sma_M50']) +
+                            Number(data['bb'][i]['abs_sigma_2'])
+                        )
 
                         mSig1.y.push(
-                            data['bb'][i]['sma_M50'] -
-                            data['bb'][i]['abs_sigma_1']
+                            Number(data['bb'][i]['sma_M50']) -
+                            Number(data['bb'][i]['abs_sigma_1'])
                         )
                         mSig2.y.push(
-                            data['bb'][i]['sma_M50'] -
-                            data['bb'][i]['abs_sigma_2']
+                            Number(data['bb'][i]['sma_M50']) -
+                            Number(data['bb'][i]['abs_sigma_2'])
                         )
                         sma.y.push(data['bb'][i]['sma_M50'])
 
