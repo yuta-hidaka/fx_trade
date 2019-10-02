@@ -199,7 +199,7 @@ class BuySellCal():
                 # longのタイミング all slope is positive and before MA is 6or1 and now 1
                 if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
                     if not orderLongNum >= 1:
-                        print("long in 以下short order数")
+                        print("long in by ma")
                         orderLongNum += 1
                         self.order.LongOrderCreate()
                         nowInL = True
@@ -209,7 +209,7 @@ class BuySellCal():
                         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
                 elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
                     if not orderShortNum >= 1:
-                        print("short in")
+                        print("short in by ma")
                         orderShortNum += 1
                         self.order.ShortOrderCreate()
                         nowInS = True
