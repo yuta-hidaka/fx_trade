@@ -53,8 +53,12 @@ class setBollingerBand_USD_JPY:
             is_shortIn = None
 
         # 持ち合い相場かトレンド相場かを判断
+        print(SMA)
+        print('SMA')
         for m in MHalf:
-            if Decimal(m['mid']['c']) - SMA == 0:
+            print("m['mid']['c']")
+            print(m['mid']['c'])
+            if (Decimal(m['mid']['c']) - SMA) == 0:
                 data += 0
             elif Decimal(m['mid']['c']) < SMA:
                 data -= 1
