@@ -164,27 +164,6 @@ class BuySellCal():
             print('M5_1_closeNow')
             print(M5_1_closeNow)
 
-            if maNow == 2 and orderLongNum != 0:
-                print("long out by ma")
-                self.order.oderCloseAllLong()
-
-                # short　closeのタイミング if MA is 5 it have to close
-            elif maNow == 5 and orderShortNum != 0:
-                print("short out by ma")
-                self.order.oderCloseAllShort()
-
-                # short　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
-            elif M5_1_close > M5_1_closeNow and orderShortNum != 0:
-                print("short out by candle")
-                self.order.oderCloseAllShort()
-
-                # long　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
-            elif M5_1_close < M5_1_closeNow and orderLongNum != 0:
-                print("long out by candle")
-                self.order.oderCloseAllLong()
-
-            else:
-                print('決済----様子見中')
 
 # --------------------------------------------------------------------------
             if is_expansion:
@@ -270,6 +249,28 @@ class BuySellCal():
                         # long closeのタイミング if MA is 2 it have to close
                 else:
                     print('購買----様子見中__1624')
+
+                if maNow == 2 and orderLongNum != 0:
+                    print("long out by ma")
+                    self.order.oderCloseAllLong()
+
+                    # short　closeのタイミング if MA is 5 it have to close
+                elif maNow == 5 and orderShortNum != 0:
+                    print("short out by ma")
+                    self.order.oderCloseAllShort()
+
+                    # short　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
+                elif M5_1_close > M5_1_closeNow and orderShortNum != 0:
+                    print("short out by candle")
+                    self.order.oderCloseAllShort()
+
+                    # long　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
+                elif M5_1_close < M5_1_closeNow and orderLongNum != 0:
+                    print("long out by candle")
+                    self.order.oderCloseAllLong()
+
+                else:
+                    print('決済----様子見中')
 
             # 持ち合い相場でエクスパンションしてなかったら
             elif trend_id == 3 and not is_expansion:
