@@ -228,16 +228,7 @@
                         ma72.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
                             ' '));
 
-                        sig1.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
-                            ' '));
-                        sig2.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
-                            ' '));
-                        mSig1.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
-                            ' '));
-                        mSig2.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
-                            ' '));
-                        sma.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
-                            ' '));
+
 
                     });
                     let text = '';
@@ -271,6 +262,22 @@
                             Number(data['bb'][i]['abs_sigma_2'])
                         )
                         sma.y.push(data['bb'][i]['sma_M50'])
+
+                        sig1.x.push(
+                            data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T', ' ')
+                        );
+                        sig2.x.push(
+                            data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T', ' ')
+                        );
+                        mSig1.x.push(
+                            data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T', ' ')
+                        );
+                        mSig2.x.push(
+                            data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T', ' ')
+                        );
+                        sma.x.push(
+                            data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T', ' ')
+                        );
 
 
                         text =
