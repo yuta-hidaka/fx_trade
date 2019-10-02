@@ -14,6 +14,7 @@ class setBollingerBand_USD_JPY:
         sma2SigmaPlus = rs['sma_M50']+rs['abs_sigma_2']
         sma2SigmaMinus = rs['sma_M50']-rs['abs_sigma_2']
         nowClose = Decimal(nowMA['mid']['c'])
+        nowHigh = Decimal(nowMA['mid']['h'])
         length = len(MHalf)
         data = 0
         is_plus = True
@@ -24,9 +25,9 @@ class setBollingerBand_USD_JPY:
         # if nowClose
 
         # 持ち合い相場時の購買基準を判断
-        if sma2SigmaPlus <= nowClose:
+        if sma2SigmaPlus <= nowHigh:
             is_shortIn = True
-        elif sma2SigmaMinus >= nowClose:
+        elif sma2SigmaMinus >= nowHigh:
             is_shortIn = False
         else:
             is_shortIn = None
