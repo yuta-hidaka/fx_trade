@@ -19,7 +19,7 @@ class setBollingerBand_USD_JPY:
         is_plus = True
         is_trend = True
         is_shortIn = True
-        trandCondi = 0
+        trandCondi = 3
         listBB = listConditionOfBBTrande
         # if nowClose
 
@@ -71,6 +71,8 @@ class setBollingerBand_USD_JPY:
 
             print('is_shortIn')
             print(is_shortIn)
+            print('is_trend')
+            print(is_trend)
             print('trandCondi')
             print(trandCondi)
             print('result')
