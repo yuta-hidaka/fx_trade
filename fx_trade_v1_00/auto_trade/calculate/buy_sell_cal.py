@@ -97,7 +97,7 @@ class BuySellCal():
 
             long_limit = (
                 # M5_1_close + M5_1_close*Decimal(-0.0002)
-                M5_1_close + M5_1_close*Decimal(-0.00005)
+                M5_1_close + M5_1_close*Decimal(-0.03)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_in = (
@@ -106,7 +106,7 @@ class BuySellCal():
 
             short_limit = (
                 # M5_1_close + M5_1_close*Decimal(0.0002)
-                M5_1_close + M5_1_close*Decimal(0.00005)
+                M5_1_close + M5_1_close*Decimal(0.03)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             self.order.priceLong = str(long_in)
