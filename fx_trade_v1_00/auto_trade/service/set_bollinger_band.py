@@ -56,8 +56,6 @@ class setBollingerBand_USD_JPY:
         print(SMA)
         print('SMA')
         for m in MHalf:
-            print("m['mid']['c']")
-            print(m['mid']['c'])
             if (Decimal(m['mid']['c']) - SMA) == 0:
                 data += 0
             elif Decimal(m['mid']['c']) < SMA:
