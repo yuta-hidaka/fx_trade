@@ -43,6 +43,8 @@ class setBollingerBand_USD_JPY:
         # SMAより上にあるか下にあるのが多いかを100分率で表示
         ans = (data / length)*100
         f = np.sign(ans)
+        print("np.sign(ans)")
+        print(np.sign(ans))
 
         if np.sign(ans) == 1:
             is_plus = True
@@ -51,6 +53,8 @@ class setBollingerBand_USD_JPY:
 
         # 80%より大きければトレンドが発生中
         # そうでなければ、もみ合い相場なので、ボリンジャーバンドでの売買を有効にしてもよい。
+        print(np.absolute(ans))
+        print('np.absolute(ans)')
         if np.absolute(ans) >= 80:
             is_trend = True
         else:
