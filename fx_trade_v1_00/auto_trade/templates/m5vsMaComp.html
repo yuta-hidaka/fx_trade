@@ -307,7 +307,12 @@
                     console.log(trace1);
 
 
-                    var data = [trace1, ma5, ma20, ma40, ma75, ma6, ma24, ma50, ma72]
+                    var data = [
+                        trace1, ma5, ma20, ma40,
+                        ma75, ma6, ma24, ma50, ma72,
+                        sig1, sig2, mSig1, mSig2, sma
+                    ]
+                    var data2 = [trace1, sig1, sig2, mSig1, mSig2, sma]
 
                     var layout = {
                         dragmode: 'zoom',
@@ -337,6 +342,7 @@
                     };
                     console.log(trace1);
                     Plotly.plot('plotly-div', data, layout);
+                    Plotly.plot('plotly-div2', data2, layout);
 
                 })
                 // Ajaxリクエストが失敗した時発動
@@ -371,6 +377,7 @@
     </div>
 
     <div id="plotly-div"></div>
+    <div id="plotly-div2"></div>
     <div id="tbl" class="tableFixHead"></div>
 
 </body>
