@@ -169,6 +169,9 @@ class listConditionOfBBTrande(models.Model):
 
 # ボリンジャーバンドの状態からconditionを検証。(トレンド判定とレンジ相場中での売買判定)
 class conditionOfBB(models.Model):
+    is_expansion = models.BooleanField(null=True)
+    is_topTouch = models.BooleanField(null=True, default=False)
+    is_bottomTouch = models.BooleanField(null=True, default=False)
     is_shortIn = models.BooleanField(null=True)
     bb_trande = models.ForeignKey(
         'listConditionOfBBTrande', on_delete=models.CASCADE, related_name='bb_trande', null=True)
@@ -189,7 +192,7 @@ class bollingerBand(models.Model):
     abs_sigma_1 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000, null=True)
     abs_sigma_2 = models.DecimalField(
-        max_digits=8, decimal_places=4, default=0.0000,null=True)
+        max_digits=8, decimal_places=4, default=0.0000, null=True)
     abs_sigma_3 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000, null=True)
     recorded_at_utc = models.DateTimeField(default=timezone.now)

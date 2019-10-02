@@ -120,17 +120,20 @@ class BuySellCal():
             # 購買判断材料-持ち合い形成時--------------------------------------
 
             # BBから計算したトレンド持ち合い相場だったら下のshortINを使用する。そうでなければMAを使用する。
+            cbb = model_to_dict(condNow.condition_of_bb.bb_trande)
             try:
                 print(condNow.condition_of_bb.bb_trande)
-                trend_id = model_to_dict(
-                    condNow.condition_of_bb.bb_trande)['id']
+                trend_id = cbb['id']
                 pass
             except:
                 print("何かエラー起きてます。")
                 trend_id = 0
                 pass
             # もし持ち合い相場だったらこれを使って売買判断None何もしないTrue　shortで入る　False　Longで入る。
-            is_shortInBB = model_to_dict(condNow.condition_of_bb)['is_shortIn']
+            is_shortInBB = cbb['is_shortIn']
+            is_expansion = cbb['is_expansion']
+            is_topTouch = cbb['is_topTouch']
+            is_bottomTouch = cbb['is_bottomTouch']
 
             # 購買判断材料-トレンド形成時--------------------------------------
             maPrev = model_to_dict(
@@ -181,6 +184,21 @@ class BuySellCal():
             else:
                 print('決済----様子見中')
 
+# --------------------------------------------------------------------------
+            if is_expansion:
+                if is_topTouch:
+                    print('エクスパンションで上タッチなので買い')
+                    orderLongNum += 1
+                    self.order.LongOrderCreate()
+                    self.order.oderCloseAllShort()
+
+                elif is_bottomTouch:
+                    print('エクスパンションで下タッチなので売り')
+                    orderShortNum += 1
+                    self.order.ShortOrderCreate()
+                    self.order.oderCloseAllLong()
+# --------------------------------------------------------------------------
+
             # 上昇or下降トレンド相場だったら
             if trend_id == 1:
                 print('BB---上昇相場')
@@ -194,7 +212,6 @@ class BuySellCal():
                     if not orderLongNum >= 1:
                         print("long in 以下short order数")
                         orderLongNum += 1
-
                         self.order.LongOrderCreate()
                     else:
                         print("long in　but position is too many")
@@ -252,8 +269,8 @@ class BuySellCal():
                 else:
                     print('購買----様子見中__1624')
 
-            # 持ち合い相場だったら
-            elif trend_id == 3:
+            # 持ち合い相場でエクスパンションしてなかったら
+            elif trend_id == 3 and not is_expansion:
                 print('持ち合い相場')
                 if is_shortInBB == True:
                     print('持ち合い相場の逆張りshort_inーー同時にlong決済も行う')
@@ -279,7 +296,7 @@ class BuySellCal():
 
                     # それ以外
             else:
-                print('trend_idがないから何もしない')
+                print('サイン出てない')
 
     # --------------------------------------------------------------------------------------------------------------------
 

@@ -9,10 +9,26 @@ from django.forms.models import model_to_dict
 
 class setBollingerBand_USD_JPY:
 
-    def setBBCondition(self, MHalf, SMA, nowMA, result):
+    def setBBCondition(self, MHalf, SMA, nowMA, result, bbBefor):
         rs = model_to_dict(result)
+        bbb = model_to_dict(bbBefor)
         sma2SigmaPlus = rs['sma_M50']+rs['abs_sigma_2']
         sma2SigmaMinus = rs['sma_M50']-rs['abs_sigma_2']
+        sma2SigmaPlusBefor = bbb['sma_M50']+bbb['abs_sigma_2']
+        sma2SigmaMinusBefor = bbb['sma_M50']-bbb['abs_sigma_2']
+        is_expansion = False
+
+        diff = (
+            sma2SigmaPlus - sma2SigmaPlusBefor
+        ).quantize(
+            Decimal('0.00'),
+            rounding=ROUND_HALF_UP
+        )
+
+        # 小数第二以上でプラスであればエクスパンション
+        if np.sign(diff) == 1:
+            is_expansion = True
+
         nowClose = Decimal(nowMA['mid']['c'])
         nowHigh = Decimal(nowMA['mid']['h'])
         length = len(MHalf)
@@ -20,6 +36,8 @@ class setBollingerBand_USD_JPY:
         is_plus = True
         is_trend = True
         is_shortIn = True
+        is_topTouch = False
+        is_bottomTouch = False
         trandCondi = 3
         listBB = listConditionOfBBTrande
         # if nowClose
@@ -27,8 +45,10 @@ class setBollingerBand_USD_JPY:
         # 持ち合い相場時の購買基準を判断
         if sma2SigmaPlus <= nowHigh:
             is_shortIn = True
+            is_topTouch = True
         elif sma2SigmaMinus >= nowHigh:
             is_shortIn = False
+            is_bottomTouch = True
         else:
             is_shortIn = None
 
@@ -91,6 +111,9 @@ class setBollingerBand_USD_JPY:
             pass
 
         create = conditionOfBB.objects.create(
+            is_expansion=is_expansion,
+            is_topTouch=is_topTouch,
+            is_bottomTouch=is_bottomTouch,
             is_shortIn=is_shortIn,
             bb_trande=listBB.objects.filter(id=trandCondi).first(),
             bb=result
@@ -137,6 +160,7 @@ class setBollingerBand_USD_JPY:
         SD1 = SD * Decimal(1)
         SD2 = SD * Decimal(2)
         SD3 = SD * Decimal(3)
+        bbBefor = bollingerBand.objects.latest('created_at')
 
         # 平均から本日分の終値の標準偏差を計算する。
         result, created = bollingerBand.objects.filter(
@@ -148,6 +172,6 @@ class setBollingerBand_USD_JPY:
             abs_sigma_3=SD3,
         )
 
-        resultBBCondi = self.setBBCondition(MHalf, SMA, nowMA, result)
+        resultBBCondi = self.setBBCondition(MHalf, SMA, nowMA, result, bbBefor)
 
         return resultBBCondi
