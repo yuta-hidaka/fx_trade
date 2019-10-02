@@ -275,12 +275,12 @@ class BuySellCal():
                     self.order.oderCloseAllShort()
 
                     # short　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
-                elif M5_1_close > M5_1_closeNow and orderShortNum != 0 and not nowInS:
+                elif M5_1_close < M5_1_closeNow and orderShortNum != 0 and not nowInS:
                     print("short out by candle")
                     self.order.oderCloseAllShort()
 
                     # long　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
-                elif M5_1_close < M5_1_closeNow and orderLongNum != 0 and not nowInL:
+                elif M5_1_close > M5_1_closeNow and orderLongNum != 0 and not nowInL:
                     print("long out by candle")
                     self.order.oderCloseAllLong()
 
