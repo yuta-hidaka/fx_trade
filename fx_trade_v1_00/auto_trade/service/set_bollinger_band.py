@@ -58,13 +58,16 @@ class setBollingerBand_USD_JPY:
 
         if is_trend:
             if is_plus:
+                print('＋トレンド')
                 # プラスのトレンド
                 trandCondi = 1
             elif is_plus:
+                print('-トレンド')
                 # マイナスのトレンド
                 trandCondi = 2
         else:
             # もみ合い相場
+            print('もみ合いトレンドcondition条件判定内')
             trandCondi = 3
         try:
             print('bb作成中')
