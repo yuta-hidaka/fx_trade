@@ -66,6 +66,19 @@ class setBollingerBand_USD_JPY:
         else:
             # もみ合い相場
             trandCondi = 3
+        try:
+            print('bb作成中')
+
+            print('is_shortIn')
+            print(is_shortIn)
+            print('trandCondi')
+            print(trandCondi)
+            print('result')
+            print(result)
+        except:
+            print('bb作成中えらー')
+
+            pass
 
         create = conditionOfBB.objects.create(
             is_shortIn=is_shortIn,

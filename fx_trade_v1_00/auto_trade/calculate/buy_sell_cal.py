@@ -120,7 +120,15 @@ class BuySellCal():
             # 購買判断材料-持ち合い形成時--------------------------------------
 
             # BBから計算したトレンド持ち合い相場だったら下のshortINを使用する。そうでなければMAを使用する。
-            trend_id = model_to_dict(condNow.condition_of_bb.bb_trande)['id']
+            try:
+                print(condNow.condition_of_bb.bb_trande)
+                trend_id = model_to_dict(
+                    condNow.condition_of_bb.bb_trande)['id']
+                pass
+            except:
+                print("何かエラー起きてます。")
+                trend_id = 0
+                pass
             # もし持ち合い相場だったらこれを使って売買判断None何もしないTrue　shortで入る　False　Longで入る。
             is_shortInBB = model_to_dict(condNow.condition_of_bb)['is_shortIn']
 
