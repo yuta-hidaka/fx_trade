@@ -96,21 +96,21 @@ class BuySellCal():
             print('----------------------------------------------------購買条件中------------------------------------------------')
             # 取引条件作成-------------------------------------
             long_in = (
-                M5_1_close + M5_1_close*Decimal(0.00005)
+                M5_1_close + M5_1_close*Decimal(0.0001)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             long_limit = (
                 # M5_1_close + M5_1_close*Decimal(-0.0002)
-                M5_1_close + M5_1_close*Decimal(-0.03)
+                M5_1_close + M5_1_close*Decimal(-0.0003)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_in = (
-                M5_1_close + M5_1_close*Decimal(-0.00005)
+                M5_1_close + M5_1_close*Decimal(-0.0001)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_limit = (
                 # M5_1_close + M5_1_close*Decimal(0.0002)
-                M5_1_close + M5_1_close*Decimal(0.03)
+                M5_1_close + M5_1_close*Decimal(0.0003)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             self.order.priceLong = str(long_in)
@@ -159,6 +159,29 @@ class BuySellCal():
             )['slope_comp5_20_40']
 
             # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
+
+            if maNow == 2 and orderLongNum != 0 and not nowInL:
+                print("long out by ma")
+                self.order.oderCloseAllLong()
+
+                # short　closeのタイミング if MA is 5 it have to close
+            elif maNow == 5 and orderShortNum != 0 and not nowInS:
+                print("short out by ma")
+                self.order.oderCloseAllShort()
+
+                # short　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
+            elif M5_1_close < M5_1_closeNow and orderShortNum != 0 and not nowInS:
+                print("short out by candle")
+                self.order.oderCloseAllShort()
+
+                # long　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
+            elif M5_1_close > M5_1_closeNow and orderLongNum != 0 and not nowInL:
+                print("long out by candle")
+                self.order.oderCloseAllLong()
+
+            else:
+                print('決済----様子見中')
+
             print('maNow')
             print(maNow)
             print('orderLongNum')
@@ -264,28 +287,6 @@ class BuySellCal():
                         # long closeのタイミング if MA is 2 it have to close
                 else:
                     print('購買----様子見中__1624')
-
-                if maNow == 2 and orderLongNum != 0 and not nowInL:
-                    print("long out by ma")
-                    self.order.oderCloseAllLong()
-
-                    # short　closeのタイミング if MA is 5 it have to close
-                elif maNow == 5 and orderShortNum != 0 and not nowInS:
-                    print("short out by ma")
-                    self.order.oderCloseAllShort()
-
-                    # short　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
-                elif M5_1_close < M5_1_closeNow and orderShortNum != 0 and not nowInS:
-                    print("short out by candle")
-                    self.order.oderCloseAllShort()
-
-                    # long　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
-                elif M5_1_close > M5_1_closeNow and orderLongNum != 0 and not nowInL:
-                    print("long out by candle")
-                    self.order.oderCloseAllLong()
-
-                else:
-                    print('決済----様子見中')
 
             # 持ち合い相場でエクスパンションしてなかったら
             elif trend_id == 3 and not is_expansion:
