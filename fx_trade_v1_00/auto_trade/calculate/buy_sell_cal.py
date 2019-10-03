@@ -196,14 +196,14 @@ class BuySellCal():
 
 # --------------------------------------------------------------------------
             if is_expansion:
-                if is_topTouch:
+                if is_topTouch and not orderLongNum >= 1:
                     print('エクスパンションで上タッチなので買い')
                     orderLongNum += 1
                     self.order.LongOrderCreate()
                     self.order.oderCloseAllShort()
                     nowInL = True
 
-                elif is_bottomTouch:
+                elif is_bottomTouch and not orderShortNum >= 1:
                     print('エクスパンションで下タッチなので売り')
                     orderShortNum += 1
                     self.order.ShortOrderCreate()
