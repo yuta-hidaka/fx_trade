@@ -191,7 +191,9 @@
                         x: [],
                         y: [],
                         name: 'sma',
-                        mode: 'lines'
+                        mode: 'lines',
+                        text: []
+
                     };
 
                     console.log(trace1);
@@ -226,6 +228,9 @@
                         ma50.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
                             ' '));
                         ma72.x.push(list['recorded_at_utc'].split('.')[0].replace('T',
+                            ' '));
+
+                        sma.text.push(list['recorded_at_utc'].split('.')[0].replace('T',
                             ' '));
 
 
