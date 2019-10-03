@@ -76,8 +76,6 @@ class setBollingerBand_USD_JPY:
 
         # 80%より大きければトレンドが発生中
         # そうでなければ、もみ合い相場なので、ボリンジャーバンドでの売買を有効にしてもよい。
-        print(np.absolute(ans))
-        print('np.absolute(ans)')
         if np.absolute(ans) >= 75:
             is_trend = True
         else:
@@ -96,21 +94,6 @@ class setBollingerBand_USD_JPY:
             # もみ合い相場
             print('もみ合いトレンドcondition条件判定内')
             trandCondi = 3
-        try:
-            print('bb作成中')
-
-            print('is_shortIn')
-            print(is_shortIn)
-            print('is_trend')
-            print(is_trend)
-            print('trandCondi')
-            print(trandCondi)
-            print('result')
-            print(result)
-        except:
-            print('bb作成中えらー')
-
-            pass
 
         create = conditionOfBB.objects.create(
             is_expansion=is_expansion,
