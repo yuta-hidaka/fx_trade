@@ -48,6 +48,9 @@ class BuySellCal():
         nowInL = False
         nowInS = False
 
+        cbb = model_to_dict(condNow.condition_of_bb)
+        bb = model_to_dict(condNow.condition_of_bb.bb)
+
         # print(model_to_dict(condition))
         # ma_comp6_24_50＿＿＿＿＿＿＿＿＿2019/09/23現在
         # t = condition.select_related()
@@ -99,19 +102,22 @@ class BuySellCal():
                 M5_1_close + M5_1_close*Decimal(0.0001)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            long_limit = (
-                # M5_1_close + M5_1_close*Decimal(-0.0002)
-                M5_1_close + M5_1_close*Decimal(-0.003)
-            ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            long_limit = (bb['sma_M50'] - bb['abs_sigma_3'])
+            # (
+            #     # M5_1_close + M5_1_close*Decimal(-0.0002)
+            #     M5_1_close + M5_1_close*Decimal(-0.003)
+            # ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_in = (
                 M5_1_close + M5_1_close*Decimal(-0.0001)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            short_limit = (
-                # M5_1_close + M5_1_close*Decimal(0.0002)
-                M5_1_close + M5_1_close*Decimal(0.003)
-            ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            short_limit = (bb['sma_M50'] + bb['abs_sigma_3'])
+
+            # (
+            #     # M5_1_close + M5_1_close*Decimal(0.0002)
+            #     M5_1_close + M5_1_close*Decimal(0.003)
+            # ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             self.order.priceLong = str(long_in)
             self.order.stopLossLong = str(long_limit)
@@ -124,7 +130,6 @@ class BuySellCal():
             # 購買判断材料-持ち合い形成時--------------------------------------
 
             # BBから計算したトレンド持ち合い相場だったら下のshortINを使用する。そうでなければMAを使用する。
-            cbb = model_to_dict(condNow.condition_of_bb)
             try:
                 print(condNow.condition_of_bb.bb_trande)
                 trend_id = model_to_dict(
