@@ -28,8 +28,7 @@ class BuySellCal():
         api = self.fx.api
         res = api.request(r)
         pos = res['positions'][0]
-        print(json.dumps(pos), indent=4)
-
+        print(json.dumps(pos),  indent=2)
 
         # オーダーステータスを取得する。
         try:
