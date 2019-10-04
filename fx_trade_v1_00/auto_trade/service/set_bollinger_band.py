@@ -10,6 +10,7 @@ from django.forms.models import model_to_dict
 class setBollingerBand_USD_JPY:
 
     def setBBCondition(self, MHalf, SMA, nowMA, result, bbBefor):
+        JustNowMA = getMA_USD_JPY().get_5M_now()
         rs = model_to_dict(result)
         bbb = model_to_dict(bbBefor)
         sma2SigmaPlus = rs['sma_M50']+rs['abs_sigma_2']
@@ -17,6 +18,21 @@ class setBollingerBand_USD_JPY:
         sma2SigmaPlusBefor = bbb['sma_M50']+bbb['abs_sigma_2']
         sma2SigmaMinusBefor = bbb['sma_M50']-bbb['abs_sigma_2']
         is_expansion = False
+        nowClose = Decimal(nowMA['mid']['c'])
+        nowHigh = Decimal(nowMA['mid']['h'])
+        nowLow = Decimal(nowMA['mid']['l'])
+        JNowClose = Decimal(JustNowMA['candles'][0]['mid']['c'])
+        JNowHigh = Decimal(JustNowMA['candles'][0]['mid']['h'])
+        JNowLow = Decimal(JustNowMA['candles'][0]['mid']['l'])
+        length = len(MHalf)
+        data = 0
+        is_plus = True
+        is_trend = True
+        is_shortIn = True
+        is_topTouch = False
+        is_bottomTouch = False
+        trandCondi = 3
+        listBB = listConditionOfBBTrande
 
         diff = (
             sma2SigmaPlus - sma2SigmaPlusBefor
@@ -29,24 +45,13 @@ class setBollingerBand_USD_JPY:
         if np.sign(diff) == 1:
             is_expansion = True
 
-        nowClose = Decimal(nowMA['mid']['c'])
-        nowHigh = Decimal(nowMA['mid']['h'])
-        length = len(MHalf)
-        data = 0
-        is_plus = True
-        is_trend = True
-        is_shortIn = True
-        is_topTouch = False
-        is_bottomTouch = False
-        trandCondi = 3
-        listBB = listConditionOfBBTrande
         # if nowClose
 
         # 持ち合い相場時の購買基準を判断
-        if sma2SigmaPlus <= nowHigh:
+        if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh:
             is_shortIn = True
             is_topTouch = True
-        elif sma2SigmaMinus >= nowHigh:
+        elif sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow:
             is_shortIn = False
             is_bottomTouch = True
         else:
