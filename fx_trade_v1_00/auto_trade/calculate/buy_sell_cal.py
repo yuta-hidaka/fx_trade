@@ -100,7 +100,7 @@ class BuySellCal():
             print('----------------------------------------------------購買条件中------------------------------------------------')
             # 取引条件作成-------------------------------------
             long_in = (
-                M5_1_close + M5_1_close*Decimal(0.0001)
+                M5_1_close + M5_1_close*Decimal(0.0002)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             long_limit = (bb['sma_M50'] - bb['abs_sigma_3'])
@@ -110,7 +110,7 @@ class BuySellCal():
             # ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_in = (
-                M5_1_close + M5_1_close*Decimal(-0.0001)
+                M5_1_close + M5_1_close*Decimal(-0.0002)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_limit = (bb['sma_M50'] + bb['abs_sigma_3'])
@@ -222,10 +222,8 @@ class BuySellCal():
                 print('BB---上昇相場')
             elif trend_id == 2:
                 print('BB---下降相場')
-            elif trend_id ==3 :
+            elif trend_id == 3:
                 print('BB---持ち合い相場')
-
-
 
             if trend_id == 1 or trend_id == 2:
                 # 購買タイミング----------------------------------------------------------------------------------
