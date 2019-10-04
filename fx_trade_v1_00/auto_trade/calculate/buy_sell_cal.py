@@ -294,8 +294,8 @@ class BuySellCal():
                 if is_shortInBB == True:
                     print('持ち合い相場の逆張りshort_inーー同時にlong決済も行う')
                     if orderLongNum != 0 and not nowInL:
-                        print('long決済')
-                        self.order.oderCloseAllLong()
+                        print('long決済 now not')
+                        # self.order.oderCloseAllLong()
                     if not orderShortNum >= 1:
                         self.order.ShortOrderCreate()
                         nowInS = True
@@ -305,8 +305,8 @@ class BuySellCal():
                 elif is_shortInBB == False:
                     print('持ち合い相場の逆張りlong_in--同時にshort決済も行う。')
                     if orderShortNum != 0 and not nowInS:
-                        print('short決済')
-                        self.order.oderCloseAllShort()
+                        print('short決済 now not')
+                        # self.order.oderCloseAllShort()
                     if not orderLongNum >= 1:
                         self.order.LongOrderCreate()
                         nowInL = True
