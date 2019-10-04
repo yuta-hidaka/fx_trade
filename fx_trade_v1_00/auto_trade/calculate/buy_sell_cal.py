@@ -222,6 +222,10 @@ class BuySellCal():
                 print('BB---上昇相場')
             elif trend_id == 2:
                 print('BB---下降相場')
+            elif trend_id ==3 :
+                print('BB---持ち合い相場')
+
+
 
             if trend_id == 1 or trend_id == 2:
                 # 購買タイミング----------------------------------------------------------------------------------
