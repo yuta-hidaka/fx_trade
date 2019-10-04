@@ -55,13 +55,26 @@ class setBollingerBand_USD_JPY:
         # 持ち合い相場かトレンド相場かを判断
         print(SMA)
         print('SMA')
+        dd1 = 0
+        dd2 = 0
+        dd3 = 0
+
         for m in MHalf:
             if (Decimal(m['mid']['c']) - SMA) == 0:
                 data += 0
+                dd1 += 1
             elif Decimal(m['mid']['c']) < SMA:
                 data -= 1
+                dd2 += 1
+
             elif Decimal(m['mid']['c']) > SMA:
                 data += 1
+                dd3 += 1
+
+        print("上から0だった時、smaより小さかった時、smaより大きかった時の数量")
+        print(dd1)
+        print(dd2)
+        print(dd3)
 
         # SMAより上にあるか下にあるのが多いかを100分率で表示
         ans = (data / length)*100
@@ -76,7 +89,7 @@ class setBollingerBand_USD_JPY:
 
         # 80%より大きければトレンドが発生中
         # そうでなければ、もみ合い相場なので、ボリンジャーバンドでの売買を有効にしてもよい。
-        if np.absolute(ans) >= 80:
+        if np.absolute(ans) >= 90:
             is_trend = True
         else:
             is_trend = False
