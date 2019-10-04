@@ -42,7 +42,8 @@ class BuySellCal():
             orderShortNum = 0
 
         # 購入するユニット数
-        units = 7500
+        # units = 7500
+        units = 100000
         getNowRate = getMA_USD_JPY()
 
         # 今買ったかを判断
@@ -116,15 +117,6 @@ class BuySellCal():
 
             short_limit = (bb['sma_M50'] + bb['abs_sigma_3']
                            ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            print('short_in')
-            print(short_in)
-            print('short_limit')
-            print(short_limit)
-
-            print('long_in')
-            print(long_in)
-            print('long_limit')
-            print(long_limit)
 
             # (
             #     # M5_1_close + M5_1_close*Decimal(0.0002)
