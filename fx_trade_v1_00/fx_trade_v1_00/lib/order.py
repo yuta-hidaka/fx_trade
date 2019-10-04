@@ -10,7 +10,9 @@ from oandapyV20.endpoints.pricing import PricingInfo
 import oandapyV20.endpoints.orders as orders
 import oandapyV20.endpoints.trades as trades
 import oandapyV20.endpoints.positions as positions
-from oandapyV20.contrib.requests import (MarketOrderRequest, StopLossDetails)
+from oandapyV20.contrib.requests import (
+    MarketOrderRequest, StopLossDetails, TakeProfitOrderRequest
+)
 
 from .access_token import FxInfo
 
