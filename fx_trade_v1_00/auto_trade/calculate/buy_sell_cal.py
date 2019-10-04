@@ -114,6 +114,15 @@ class BuySellCal():
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_limit = (bb['sma_M50'] + bb['abs_sigma_3'])
+            print('short_in')
+            print(short_in)
+            print('short_limit')
+            print(short_limit)
+
+            print('long_in')
+            print(long_in)
+            print('long_limit')
+            print(long_limit)
 
             # (
             #     # M5_1_close + M5_1_close*Decimal(0.0002)
