@@ -25,10 +25,11 @@ class BuySellCal():
 
         # 口座のすべてのポジションをリストとして取得
         r = positions.PositionList(accountID=self.fx.accountID)
-        print(json.dumps(r), indent=4)
         api = self.fx.api
         res = api.request(r)
         pos = res['positions'][0]
+        print(json.dumps(pos), indent=4)
+
 
         # オーダーステータスを取得する。
         try:
