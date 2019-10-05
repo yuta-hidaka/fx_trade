@@ -35,7 +35,6 @@ class BuySellCal():
             orderLongNum = len(pos['long']['tradeIDs'])
         except:
             orderLongNum = 0
-
         try:
             orderShortNum = len(pos['short']['tradeIDs'])
         except:

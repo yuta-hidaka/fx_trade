@@ -92,6 +92,28 @@ class orderFx:
             }
         }
 
+    # すべてのポジションを決済します。
+    def allOrderClose(self):
+        # 口座のすべてのポジションをリストとして取得
+        r = positions.PositionList(accountID=self.fx.accountID)
+        api = self.fx.api
+        res = api.request(r)
+        pos = res['positions'][0]
+        # オーダーステータスを取得する。
+        try:
+            orderLongNum = len(pos['long']['tradeIDs'])
+        except:
+            orderLongNum = 0
+        try:
+            orderShortNum = len(pos['short']['tradeIDs'])
+        except:
+            orderShortNum = 0
+
+        if orderLongNum != 0:
+            self.oderCloseAllLong()
+        if orderShortNum != 0:
+            self.oderCloseAllShort()
+
     def ShortOrderCreate(self):
             # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
         api = self.fi.api
@@ -186,6 +208,6 @@ class orderFx:
         """
         id単位で決済する。
         """
-        # トレードID49の1000通貨のみ決済を行う
+        # トレードIDのみ決済を行う
         r = trades.TradeClose(accountID=self.fi.accountID, tradeID=id)
         api.request(r)
