@@ -24,19 +24,17 @@ class setMA_USD_JPY:
         comp = compaireMA()
         # print(preveousData)
         # print(leatestData)
-
         # print(model_to_dict(preveousData))
         # print(model_to_dict(leatestData))
+        ld = model_to_dict(leatestData)
+        pd = model_to_dict(preveousData)
 
         for ma in ListMa:
-            key = 'm5_ma'+str(ma)
-            data = Decimal(
-                model_to_dict(leatestData)[key])-(model_to_dict(preveousData)[key]
-                                                  )
+            key = 'm5_ma' + str(ma)
+            data = Decimal(ld[key])-(pd[key])
             vals.append(data)
 
-        qSet = SlopeM5_USD_JPY
-        create = qSet.objects.create(
+        create = SlopeM5_USD_JPY.objects.create(
             ma_previous=preveousData,
             ma_leatest=leatestData,
             slope_m5_ma5=vals[0],

@@ -31,6 +31,9 @@ class Command(BaseCommand):
 
     # コマンドが実行された際に呼ばれるメソッド
     def handle(self, *args, **options):
+        bb = setBollingerBand_USD_JPY()
+        setMA = setMA_USD_JPY()
+
         UTC = datetime.datetime.utcnow()
         adjTime = 9
         adjNum = 0
@@ -44,6 +47,7 @@ class Command(BaseCommand):
         qSetCheck = autoTradeOnOff.objects.filter(id=1).first()
         checkOn = model_to_dict(qSetCheck)['auto_trade_is_on']
 
+        # 日本時間取得
         jstMath = UTC + datetime.timedelta(hours=adjTime)
 
         # 土曜日の6時55分　夏時間で5時55分になってら、ポジションをすべて解除
@@ -80,9 +84,7 @@ class Command(BaseCommand):
         # 5分足が作成されたらMAを作成する。
         if created:
             # ボリンジャーバンドの設定
-            bb = setBollingerBand_USD_JPY()
             BBCondi = bb.setBB()
-            setMA = setMA_USD_JPY()
             condiPrev = condition.objects.latest('created_at')
             condiNow = setMA.setMA(result, BBCondi)
             if not is_closeMarket and checkOn:
