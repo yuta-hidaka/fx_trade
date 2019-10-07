@@ -301,7 +301,7 @@ class BuySellCal():
             # 持ち合い相場でエクスパンションしてなかったら
             elif trend_id == 3 and not is_expansion:
                 print('持ち合い相場')
-                if is_shortInBB == True:
+                if is_topTouch == True:
                     print('持ち合い相場の逆張りshort_inーー同時にlong決済も行う')
                     if orderLongNum != 0 and not nowInL:
                         print('long決済 now not')
@@ -312,7 +312,7 @@ class BuySellCal():
                     else:
                         print('注文リミット')
 
-                elif is_shortInBB == False:
+                elif is_bottomTouch == True:
                     print('持ち合い相場の逆張りlong_in--同時にshort決済も行う。')
                     if orderShortNum != 0 and not nowInS:
                         print('short決済 now not')
