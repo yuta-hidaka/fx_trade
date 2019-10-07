@@ -273,30 +273,30 @@ class BuySellCal():
                 )['slope_comp1_6_24']
                 # 購買タイミング
                 # longのタイミング all slope is positive and before MA is 6or1 and now 1
-                if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
-                    if not orderLongNum >= 1:
-                        print("long in 以下__1624")
-                        orderLongNum += 1
-                        self.order.LongOrderCreate()
-                        nowInL = True
+                # if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
+                #     if not orderLongNum >= 1:
+                #         print("long in 以下__1624")
+                #         orderLongNum += 1
+                #         self.order.LongOrderCreate()
+                #         nowInL = True
 
-                    else:
-                        print("long in　but position is too many__1624")
+                #     else:
+                #         print("long in　but position is too many__1624")
 
-                        # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
-                elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                    if not orderShortNum >= 1:
-                        print("short in　以下__1624")
-                        orderShortNum += 1
-                        self.order.ShortOrderCreate()
-                        nowInS = True
+                #         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
+                # elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
+                #     if not orderShortNum >= 1:
+                #         print("short in　以下__1624")
+                #         orderShortNum += 1
+                #         self.order.ShortOrderCreate()
+                #         nowInS = True
 
-                    else:
-                        print("short in　but position is too many__1624")
+                #     else:
+                #         print("short in　but position is too many__1624")
 
-                        # long closeのタイミング if MA is 2 it have to close
-                else:
-                    print('購買----様子見中__1624')
+                #         # long closeのタイミング if MA is 2 it have to close
+                # else:
+                #     print('購買----様子見中__1624')
 
             # 持ち合い相場でエクスパンションしてなかったら
             elif trend_id == 3 and not is_expansion:
