@@ -38,8 +38,8 @@
         $('#getRate').on('click', function () {
             text =
                 '<tr>' +
-                '<th>時間<th>' +
-                '<th>Log<th>' +
+                '<th>時間</th>' +
+                '<th>Log</th>' +
                 '</tr>'
             $.ajax({
                     url: '../rest/getLog',
@@ -56,10 +56,10 @@
                         console.log(d.created_at)
                         text =
                             '<tr>' +
-                            '<th>' + d.created_at + '<th>' +
-                            '<th><div class="small">' + 
-                                d.text.replace(/\r?\n/g, '<br>') +
-                            '</div><th>' +
+                            '<td>' + d.created_at + '</td>' +
+                            '<td><div class="small">' +
+                            d.text.replace(/\r?\n/g, '<br>') +
+                            '</div></td>' +
                             '</tr>'
                     })
 
@@ -78,7 +78,7 @@
 
 
 <body>
-    <h1>Log</h1>
+    <h2>Log</h2>
 
     <div class="w-100">
         <div class="m-auto text-center">
