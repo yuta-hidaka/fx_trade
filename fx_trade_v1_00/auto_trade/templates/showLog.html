@@ -60,10 +60,11 @@
                             '<td><div class="small">' +
                             d.text.replace(/\r?\n/g, '<br>') +
                             '</div></td>' +
-                            '</tr>'
+                            '</tr>' + text
                     })
 
                     text = '<table class="table table-bordered">' + text + '</table>'
+                    $('#log').empty()
                     $('#log').append(text)
 
                 })
