@@ -37,8 +37,8 @@ class setBollingerBand_USD_JPY:
         diff = (
             sma2SigmaPlus - sma2SigmaPlusBefor
         ).quantize(
-            Decimal('0.00'),
-            rounding=ROUND_HALF_UP
+            Decimal('0.000'),
+            rounding=ROUND_FLOOR
         )
 
         # 小数第二以上でプラスであればエクスパンション
@@ -94,7 +94,7 @@ class setBollingerBand_USD_JPY:
 
         # 80%より大きければトレンドが発生中
         # そうでなければ、もみ合い相場なので、ボリンジャーバンドでの売買を有効にしてもよい。
-        if np.absolute(ans) >= 90:
+        if np.absolute(ans) >= 80:
             is_trend = True
         else:
             is_trend = False
