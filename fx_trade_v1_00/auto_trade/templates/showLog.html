@@ -56,7 +56,7 @@
                         console.log(d.created_at)
                         text =
                             '<tr>' +
-                            '<td>' + d.created_at + '</td>' +
+                            '<td>' + d.created_at.replace('T', '<br>') + '</td>' +
                             '<td><div class="small">' +
                             d.text.replace(/\r?\n/g, '<br>') +
                             '</div></td>' +
