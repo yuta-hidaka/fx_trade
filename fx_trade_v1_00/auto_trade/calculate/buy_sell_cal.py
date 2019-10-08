@@ -20,7 +20,7 @@ class BuySellCal():
         self.order = orderFx()
 
     def BuySellCheck(self, condNow, condiPrev):
-        text = '--------------------------------------------/n'
+        text = ''
 
         # トレンド発生中はMAを指標に売買を行うが、もみ合い相場中はボリンジャーバンドを指標に売買を行う。
 
@@ -362,7 +362,6 @@ class BuySellCal():
             oderSTObj.long_order = orderLongNum
             oderSTObj.save()
 
-            text += '--------------------------------------------/n'
             batchLog.objects.create(text=text)
 
         else:
