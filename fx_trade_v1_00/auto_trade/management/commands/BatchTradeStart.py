@@ -33,6 +33,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         bb = setBollingerBand_USD_JPY()
         setMA = setMA_USD_JPY()
+        order = orderFx()
 
         UTC = datetime.datetime.utcnow()
         adjTime = 9
@@ -52,7 +53,6 @@ class Command(BaseCommand):
 
         # 土曜日の6時55分　夏時間で5時55分になってら、ポジションをすべて解除
         if jstMath.weekday() == 5 and jstMath.hour == 6-adjNum and jstMath.minute >= 55:
-            order = orderFx()
             order.allOrderClose()
             print('土曜日の6時55分になったので取引中止処理を行います。')
             is_closeMarket = True

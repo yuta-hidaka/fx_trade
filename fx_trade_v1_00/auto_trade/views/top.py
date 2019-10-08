@@ -29,3 +29,12 @@ def m5vsMaComp(request):
     }
     return HttpResponse(template.render(context, request))
     # return render(request, 'CurrentRate.html')
+
+
+def log(request):
+    template = loader.get_template('showLog.html')
+    context = {
+        'latest_question_list': "hi",
+    }
+    return HttpResponse(template.render(context, request))
+    # return render(request, 'CurrentRate.html')

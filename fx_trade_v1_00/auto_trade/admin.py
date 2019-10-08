@@ -3,7 +3,8 @@ from django.contrib import admin
 from .models import (
     autoTradeOnOff, batchRecord, M5_USD_JPY,
     MA_USD_JPY, SlopeM5_USD_JPY, conditionOfMA_M5, conditionOfSlope_M5,
-    listConditionOfMA, listConditionOfSlope, condition, sellBuyAlert, orderStatus, bollingerBand, conditionOfBB, listConditionOfBBTrande
+    listConditionOfMA, listConditionOfSlope, condition, sellBuyAlert, orderStatus, bollingerBand,
+    conditionOfBB, listConditionOfBBTrande, batchLog
 )
 
 
@@ -11,6 +12,7 @@ class DateTime(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at', )
 
 
+admin.site.register(batchLog)
 admin.site.register(conditionOfBB, DateTime)
 admin.site.register(listConditionOfBBTrande, DateTime)
 admin.site.register(bollingerBand, DateTime)

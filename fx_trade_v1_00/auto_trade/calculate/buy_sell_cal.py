@@ -1,4 +1,4 @@
-from ..models import MA_USD_JPY, orderStatus
+from ..models import MA_USD_JPY, orderStatus, batchLog
 from django.forms.models import model_to_dict
 from ..service.get_MA_USD_JPY import getMA_USD_JPY
 import oandapyV20.endpoints.accounts as accounts
@@ -20,6 +20,7 @@ class BuySellCal():
         self.order = orderFx()
 
     def BuySellCheck(self, condNow, condiPrev):
+        text = '--------------------------------------------/n'
 
         # トレンド発生中はMAを指標に売買を行うが、もみ合い相場中はボリンジャーバンドを指標に売買を行う。
 
@@ -170,25 +171,30 @@ class BuySellCal():
 
             if maNow == 2 and orderLongNum != 0 and not nowInL:
                 print("long out by ma")
+                text = "long out by ma\n"
                 self.order.oderCloseAllLong()
 
                 # short　closeのタイミング if MA is 5 it have to close
             elif maNow == 5 and orderShortNum != 0 and not nowInS:
                 print("short out by ma")
+                text += "short out by ma\n"
                 self.order.oderCloseAllShort()
 
                 # short　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
             elif M5_1_closePrev < M5_1_close < M5_1_closeNow and orderShortNum != 0 and not nowInS:
                 print("short out by candle")
+                text += "short out by candle\n"
                 self.order.oderCloseAllShort()
 
                 # long　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
             elif M5_1_closePrev > M5_1_close > M5_1_closeNow and orderLongNum != 0 and not nowInL:
                 print("long out by candle")
+                text += "long out by candle\n"
                 self.order.oderCloseAllLong()
 
             else:
                 print('決済----様子見中')
+                text += '決済----様子見中\n'
 
             print('maNow')
             print(maNow)
@@ -206,6 +212,7 @@ class BuySellCal():
             if is_expansion:
                 if is_topTouch and not orderLongNum >= 1:
                     print('エクスパンションで上タッチなので買い')
+                    text += 'エクスパンションで上タッチなので買い\n'
                     orderLongNum += 1
                     self.order.LongOrderCreate()
                     # self.order.oderCloseAllShort()
@@ -213,6 +220,7 @@ class BuySellCal():
 
                 elif is_bottomTouch and not orderShortNum >= 1:
                     print('エクスパンションで下タッチなので売り')
+                    text += 'エクスパンションで下タッチなので売り\n'
                     orderShortNum += 1
                     self.order.ShortOrderCreate()
                     # self.order.oderCloseAllLong()
@@ -222,10 +230,13 @@ class BuySellCal():
             # 上昇or下降トレンド相場だったら
             if trend_id == 1:
                 print('BB---上昇相場')
+                text += 'BB---上昇相場\n'
             elif trend_id == 2:
                 print('BB---下降相場')
+                text += 'BB---下降相場\n'
             elif trend_id == 3:
                 print('BB---持ち合い相場')
+                text += 'BB---持ち合い相場\n'
 
             if trend_id == 1 or trend_id == 2:
                 # 購買タイミング----------------------------------------------------------------------------------
@@ -233,26 +244,31 @@ class BuySellCal():
                 if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
                     if not orderLongNum >= 1:
                         print("long in by ma")
+                        text += "long in by ma\n"
                         orderLongNum += 1
                         self.order.LongOrderCreate()
                         nowInL = True
 
                     else:
                         print("long in　but position is too many")
+                        text += "long in　but position is too many\n"
                         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
                 elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
                     if not orderShortNum >= 1:
                         print("short in by ma")
+                        text += "short in by ma\n"
                         orderShortNum += 1
                         self.order.ShortOrderCreate()
                         nowInS = True
 
                     else:
                         print("short in　but position is too many")
+                        text += "short in　but position is too many\n"
 
                         # long closeのタイミング if MA is 2 it have to close
                 else:
                     print('購買----様子見中')
+                    text += '購買----様子見中\n'
 
                     # --------------------------------------------------------------------------------------------------------------------
 
@@ -301,33 +317,42 @@ class BuySellCal():
             # 持ち合い相場でエクスパンションしてなかったら
             elif trend_id == 3 and not is_expansion:
                 print('持ち合い相場')
+                text += '持ち合い相場\n'
                 if is_topTouch == True:
                     print('持ち合い相場の逆張りshort_inーー同時にlong決済も行う')
+                    text += '持ち合い相場の逆張りshort_inーー同時にlong決済も行う\n'
                     if orderLongNum != 0 and not nowInL:
                         print('long決済 now not')
+                        text += 'long決済 now not\n'
                         # self.order.oderCloseAllLong()
                     if not orderShortNum >= 1:
                         self.order.ShortOrderCreate()
                         nowInS = True
                     else:
                         print('注文リミット')
+                        text += '注文リミット\n'
 
                 elif is_bottomTouch == True:
                     print('持ち合い相場の逆張りlong_in--同時にshort決済も行う。')
+                    text += '持ち合い相場の逆張りlong_in--同時にshort決済も行う。\n'
                     if orderShortNum != 0 and not nowInS:
                         print('short決済 now not')
+                        text += 'short決済 now not\n'
                         # self.order.oderCloseAllShort()
                     if not orderLongNum >= 1:
                         self.order.LongOrderCreate()
                         nowInL = True
                     else:
                         print('注文リミット')
+                        text += '注文リミット\n'
                 else:
                     print('BB持ち合い時の購買サイン出ていない')
+                    text += 'BB持ち合い時の購買サイン出ていない\n'
 
                     # それ以外
             else:
                 print('サイン出てない')
+                text += 'サイン出てない\n'
 
     # --------------------------------------------------------------------------------------------------------------------
 
@@ -336,6 +361,9 @@ class BuySellCal():
             oderSTObj.short_order = orderShortNum
             oderSTObj.long_order = orderLongNum
             oderSTObj.save()
+
+            text += '--------------------------------------------/n'
+            batchLog.objects.create(text=text)
 
         else:
             print('お休み中')

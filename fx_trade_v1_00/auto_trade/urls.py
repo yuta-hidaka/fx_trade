@@ -23,6 +23,7 @@ urlpatterns = [
     path('', top.index, name='index'),
     path('M5/', top.M5, name='M5'),
     path('m5vsMaComp/', top.m5vsMaComp, name='m5vsMaComp'),
+    path('Log/', top.log, name='log'),
 
     # path('rest', rest.urls),
     path('rest/', include('auto_trade.rest.urls')),

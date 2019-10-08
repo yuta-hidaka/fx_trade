@@ -95,8 +95,8 @@ class orderFx:
     # すべてのポジションを決済します。
     def allOrderClose(self):
         # 口座のすべてのポジションをリストとして取得
-        r = positions.PositionList(accountID=self.fx.accountID)
-        api = self.fx.api
+        r = positions.PositionList(accountID=self.fi.accountID)
+        api = self.fi.api
         res = api.request(r)
         pos = res['positions'][0]
         # オーダーステータスを取得する。
