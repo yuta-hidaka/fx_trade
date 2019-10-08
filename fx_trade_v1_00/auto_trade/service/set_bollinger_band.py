@@ -37,7 +37,7 @@ class setBollingerBand_USD_JPY:
         diff = (
             sma2SigmaPlus - sma2SigmaPlusBefor
         ).quantize(
-            Decimal('0.000'),
+            Decimal('0.00'),
             rounding=ROUND_FLOOR
         )
 
