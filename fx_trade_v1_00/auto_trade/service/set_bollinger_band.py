@@ -105,7 +105,7 @@ class setBollingerBand_USD_JPY:
                 print('＋トレンド')
                 # プラスのトレンド
                 trandCondi = 1
-            elif is_plus:
+            else:
                 print('-トレンド')
                 # マイナスのトレンド
                 trandCondi = 2

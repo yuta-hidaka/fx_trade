@@ -59,7 +59,7 @@ class Command(BaseCommand):
         else:
             print('現在時刻上からweek、hour、min　、5だと金曜日、6:55をチェック')
             print(jstMath.weekday())
-            print(jstMath.weekday())
+            print(jstMath.hour)
             print(jstMath.minute)
 
         JST = timezone(timedelta(hours=+9), 'JST')
