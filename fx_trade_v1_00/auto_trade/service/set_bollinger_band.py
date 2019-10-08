@@ -80,6 +80,7 @@ class setBollingerBand_USD_JPY:
         print(dd1)
         print(dd2)
         print(dd3)
+        print(data)
 
         # SMAより上にあるか下にあるのが多いかを100分率で表示
         ans = (data / length)*100
