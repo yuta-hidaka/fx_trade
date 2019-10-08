@@ -54,13 +54,13 @@
                     data.result.forEach(d => {
                         console.log(d.text)
                         console.log(d.created_at)
-                        text =
+                        text = text +
                             '<tr>' +
                             '<td>' + d.created_at.replace('T', '<br>') + '</td>' +
                             '<td><div class="small">' +
                             d.text.replace(/\r?\n/g, '<br>') +
                             '</div></td>' +
-                            '</tr>' + text
+                            '</tr>'
                     })
 
                     text = '<table class="table table-bordered">' + text + '</table>'
