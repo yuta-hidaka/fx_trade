@@ -47,9 +47,7 @@ class setBollingerBand_USD_JPY:
         text += 'JNowLow<br>'
         text += str(JNowLow) + '<br>'
 
-        batchLog.objects.create(
-            text=text
-        )
+
         diff = (
             sma2SigmaPlus - sma2SigmaPlusBefor
         ).quantize(
@@ -76,9 +74,15 @@ class setBollingerBand_USD_JPY:
         if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh:
             is_shortIn = True
             is_topTouch = True
-        if sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow:
+            text += '上に触りました<br>'
+        elif sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow:
             is_shortIn = False
             is_bottomTouch = True
+            text += '下に触りました<br>'
+        else:
+            text += 'どちらにも触れてません<br>'
+
+
 
         # 持ち合い相場かトレンド相場かを判断
         for m in MHalf:
@@ -125,6 +129,10 @@ class setBollingerBand_USD_JPY:
             is_shortIn=is_shortIn,
             bb_trande=listBB.objects.filter(id=trandCondi).first(),
             bb=result
+        )
+
+        batchLog.objects.create(
+            text=text
         )
 
         return create
