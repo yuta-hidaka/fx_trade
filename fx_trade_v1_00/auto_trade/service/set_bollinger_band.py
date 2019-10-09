@@ -38,16 +38,6 @@ class setBollingerBand_USD_JPY:
         listBB = listConditionOfBBTrande
         text = ''
 
-        text += 'sma2SigmaPlus<br>'
-        text += str(sma2SigmaPlus) + '<br>'
-        text += 'sma2SigmaMinus<br>'
-        text += str(sma2SigmaMinus) + '<br>'
-        text += 'nowLow<br>'
-        text += str(nowLow) + '<br>'
-        text += 'JNowLow<br>'
-        text += str(JNowLow) + '<br>'
-
-
         diff = (
             sma2SigmaPlus - sma2SigmaPlusBefor
         ).quantize(
@@ -81,8 +71,6 @@ class setBollingerBand_USD_JPY:
             text += '下に触りました<br>'
         else:
             text += 'どちらにも触れてません<br>'
-
-
 
         # 持ち合い相場かトレンド相場かを判断
         for m in MHalf:
@@ -130,6 +118,17 @@ class setBollingerBand_USD_JPY:
             bb_trande=listBB.objects.filter(id=trandCondi).first(),
             bb=result
         )
+
+        text += 'diff<br>'
+        text += str(diff) + '<br>'
+        text += 'sma2SigmaPlus<br>'
+        text += str(sma2SigmaPlus) + '<br>'
+        text += 'sma2SigmaMinus<br>'
+        text += str(sma2SigmaMinus) + '<br>'
+        text += 'nowLow<br>'
+        text += str(nowLow) + '<br>'
+        text += 'JNowLow<br>'
+        text += str(JNowLow) + '<br>'
 
         batchLog.objects.create(
             text=text
