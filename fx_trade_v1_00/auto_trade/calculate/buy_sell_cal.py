@@ -88,21 +88,21 @@ class BuySellCal():
         # * 第6ステージ-上昇相場の入り口-**買いポイント**-→すべての傾きが正→買いのはや仕掛け
         # - 短期>長期>中期
 
-        M5_1 = getNowRate.get_5M_now()
-        # M5_1 = getNowRate.get_5M_1()
+        nowCndl = getNowRate.get_now()
+        # nowCndl = getNowRate.get_5M_1()
 
-        # 現在の為替情報をその5分10分前の為替の終値を取得する。
-        M5_1_close = Decimal(M5_1['candles'][0]['mid']['c'])
+        # 現在の為替情報とその5分10分前の為替の終値を取得する。
+        nowCndl_close = Decimal(nowCndl['candles'][0]['mid']['c'])
         M5_1_closeNow = model_to_dict(condNow.ma.m5)['close']
         M5_1_closePrev = model_to_dict(condiPrev.ma.m5)['close']
 
         # 市場が閉じていたら計算等は行わない
-        if not len(M5_1['candles']) == 0:
+        if not len(nowCndl['candles']) == 0:
             # self.order.orderCreate()
             # print('----------------------------------------------------購買条件中------------------------------------------------')
             # 取引条件作成-------------------------------------
             long_in = (
-                M5_1_close + M5_1_close*Decimal(0.0002)
+                nowCndl_close + nowCndl_close*Decimal(0.0002)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             long_limit = (bb['sma_M50'] - bb['abs_sigma_3']
@@ -113,7 +113,7 @@ class BuySellCal():
             # ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_in = (
-                M5_1_close + M5_1_close*Decimal(-0.0002)
+                nowCndl_close + nowCndl_close*Decimal(-0.0002)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_limit = (bb['sma_M50'] + bb['abs_sigma_3']
@@ -121,13 +121,13 @@ class BuySellCal():
 
             lDeff = np.abs(long_in - long_limit)
             if lDeff < 0.1:
-                long_limit = (M5_1_close - Decimal(0.05)
+                long_limit = (nowCndl_close - Decimal(0.05)
                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                 text += 'longのlimitが小さいので修正<br>'
 
             sDeff = np.abs(short_in - short_limit)
             if sDeff < 0.1:
-                short_limit = (M5_1_close + Decimal(0.05)
+                short_limit = (nowCndl_close + Decimal(0.05)
                                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                 text += 'shortのlimitが小さいので修正<br>'
 
@@ -244,13 +244,13 @@ class BuySellCal():
                     self.order.oderCloseAllShort()
 
                     # short　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
-                elif M5_1_closePrev < M5_1_close < M5_1_closeNow and orderShortNum != 0 and not nowInS:
+                elif M5_1_closePrev < nowCndl_close < M5_1_closeNow and orderShortNum != 0 and not nowInS:
                     # print("short out by candle")
                     text += "short out by candle<br>"
                     self.order.oderCloseAllShort()
 
                     # long　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
-                elif M5_1_closePrev > M5_1_close > M5_1_closeNow and orderLongNum != 0 and not nowInL:
+                elif M5_1_closePrev > nowCndl_close > M5_1_closeNow and orderLongNum != 0 and not nowInL:
                     # print("long out by candle")
                     text += "long out by candle<br>"
                     self.order.oderCloseAllLong()
