@@ -53,7 +53,7 @@
                     console.log(data.result)
                     data.result.forEach(d => {
                         console.log(d.text)
-                        console.log(new Date(d.created_at))
+                        console.log(new Date(d.created_at).toLocaleString())
                         text = text +
                             '<tr>' +
                             '<td>' + d.created_at + '</td>' +
