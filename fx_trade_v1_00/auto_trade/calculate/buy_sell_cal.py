@@ -229,6 +229,10 @@ class BuySellCal():
             elif trend_id == 3:
                 # print('BB---持ち合い相場')
                 text += 'BB---持ち合い相場<br>'
+                text += 'is_bottomTouch<br>'
+                text += str(is_bottomTouch) + '<br>'
+                text += 'is_topTouch<br>'
+                text += str(is_topTouch) + '<br>'
 
             if trend_id == 1 or trend_id == 2:
                 # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
