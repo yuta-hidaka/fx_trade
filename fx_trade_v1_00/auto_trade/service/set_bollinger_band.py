@@ -63,11 +63,9 @@ class setBollingerBand_USD_JPY:
         if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh:
             is_shortIn = True
             is_topTouch = True
-        elif sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow:
+        if sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow:
             is_shortIn = False
             is_bottomTouch = True
-        else:
-            is_shortIn = None
 
         # 持ち合い相場かトレンド相場かを判断
         for m in MHalf:
