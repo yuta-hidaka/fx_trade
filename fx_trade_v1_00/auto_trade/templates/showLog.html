@@ -54,7 +54,9 @@
                     data.result.forEach(d => {
                         console.log(d.text)
                         dt = new Date(d.created_at)
+                        console.log(dt)
                         console.log(dt.setHours(dt.getHours() + 9).toLocaleString())
+                        console.log(dt.setHours(dt.getHours() + 9))
 
                         text = text +
                             '<tr>' +
