@@ -38,14 +38,14 @@ class setBollingerBand_USD_JPY:
         listBB = listConditionOfBBTrande
         text = ''
 
-        text += 'sma2SigmaPlus'
-        text += str(sma2SigmaPlus)
-        text += 'sma2SigmaMinus'
-        text += str(sma2SigmaMinus)
-        text += 'nowLow'
-        text += str(nowLow)
-        text += 'JNowLow'
-        text += str(JNowLow)
+        text += 'sma2SigmaPlus<br>'
+        text += str(sma2SigmaPlus) + '<br>'
+        text += 'sma2SigmaMinus<br>'
+        text += str(sma2SigmaMinus) + '<br>'
+        text += 'nowLow<br>'
+        text += str(nowLow) + '<br>'
+        text += 'JNowLow<br>'
+        text += str(JNowLow) + '<br>'
 
         batchLog.objects.create(
             text=text

@@ -21,7 +21,7 @@ class getLogAPI(APIView):
         res = (
             batchLog.objects.order_by('-created_at').all().values(
                 'id', 'text', 'created_at'
-            )[:100]
+            )[:150]
         )
 
         data = {}
