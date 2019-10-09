@@ -118,13 +118,13 @@ class BuySellCal():
             short_limit = (bb['sma_M50'] + bb['abs_sigma_3']
                            ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            text += 'longの入り値　' + str(long_in)
-            text += 'longの損切　' + str(long_limit)
-            text += 'longの差　' + str(long_in - long_limit)
+            text += 'longの入り値　' + str(long_in) + '<br>'
+            text += 'longの損切　' + str(long_limit) + '<br>'
+            text += 'longの差　' + str(long_in - long_limit) + '<br>'
 
-            text += 'shortの入り値　' + str(short_in)
-            text += 'shortの損切　' + str(short_limit)
-            text += 'shortの差　' + str(short_in - short_limit)
+            text += 'shortの入り値　' + str(short_in) + '<br>'
+            text += 'shortの損切　' + str(short_limit) + '<br>'
+            text += 'shortの差　' + str(short_in - short_limit) + '<br>'
 
             # (
             #     # M5_1_close + M5_1_close*Decimal(0.0002)
@@ -331,7 +331,7 @@ class BuySellCal():
                         # print('long決済 now not')
                         text += 'long決済<br>'
                         self.order.oderCloseAllLong()
-                        
+
                     if not orderShortNum >= 1:
                         self.order.ShortOrderCreate()
                         nowInS = True
