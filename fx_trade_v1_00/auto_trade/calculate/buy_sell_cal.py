@@ -7,6 +7,7 @@ from fx_trade_v1_00.lib.access_token import FxInfo
 from fx_trade_v1_00.lib.order import orderFx
 import json
 from decimal import *
+import numpy as np
 
 # MAを比較する
 # 5分足 5本、20本、75本で比較する。
@@ -117,6 +118,16 @@ class BuySellCal():
 
             short_limit = (bb['sma_M50'] + bb['abs_sigma_3']
                            ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+            lDeff = np.abs(long_in - long_limit)
+            if lDeff <= 0.1:
+                long_limit = M5_1_close - Decimal(0.1)
+                text += 'longのlimitが小さいので修正<br>'
+
+            sDeff = np.abs(short_in - short_limit)
+            if sDeff <= 0.1:
+                short_limit = M5_1_close + Decimal(0.1)
+                text += 'shortのlimitが小さいので修正<br>'
 
             text += 'longの入り値　' + str(long_in) + '<br>'
             text += 'longの損切　' + str(long_limit) + '<br>'
