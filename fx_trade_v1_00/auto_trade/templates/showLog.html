@@ -54,13 +54,11 @@
                     data.result.forEach(d => {
                         console.log(d.text)
                         dt = new Date(d.created_at)
-                        console.log(dt)
-                        console.log(dt.setHours(dt.getHours() + 9).toLocaleString())
-                        console.log(dt.setHours(dt.getHours() + 9))
+                        dt.setHours(dt.getHours() + 9)
 
                         text = text +
                             '<tr>' +
-                            '<td>' + d.created_at + '</td>' +
+                            '<td>' + dt.toLocaleString() + '</td>' +
                             '<td><div class="small">' +
                             d.text +
                             '</div></td>' +
