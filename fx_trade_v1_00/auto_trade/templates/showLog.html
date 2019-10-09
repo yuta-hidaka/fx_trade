@@ -52,7 +52,7 @@
                 .done((data) => {
                     data.result.forEach(d => {
                         dt = new Date(d.created_at)
-                        dt.setHours(dt.getHours() + 9)
+                        dt.setHours(dt.getHours())
                         console.log(dt.toLocaleString())
 
                         text = text +
