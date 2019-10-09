@@ -51,7 +51,7 @@ class setBollingerBand_USD_JPY:
         elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
             is_expansion = True
 
-        elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose and sma2SigmaMinus <= prevClose:
+        elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose and sma2SigmaMinus >= prevClose:
             is_expansion = True
 
         else:
