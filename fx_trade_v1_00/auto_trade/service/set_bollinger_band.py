@@ -40,12 +40,12 @@ class setBollingerBand_USD_JPY:
         diff = (
             sma2SigmaPlus - sma2SigmaPlusBefor
         ).quantize(
-            Decimal('0.00'),
+            Decimal('0.0'),
             rounding=ROUND_HALF_UP
         )
 
         # 小数第二以上でプラスであればエクスパンション
-        if np.sign(diff) == 1 and np.abs(diff) >= Decimal(0.04):
+        if np.sign(diff) == 1:
             is_expansion = True
 
         elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
@@ -73,7 +73,6 @@ class setBollingerBand_USD_JPY:
                 data += 0
             elif Decimal(m['mid']['c']) < SMA:
                 data -= 1
-
             elif Decimal(m['mid']['c']) > SMA:
                 data += 1
 
