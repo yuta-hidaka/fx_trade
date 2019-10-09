@@ -135,7 +135,7 @@ class orderFx:
         res = api.request(r)
         # print(self.data)
         # print(json.dumps(res, indent=2))
-        print('order create----------------------------------------------')
+        print('order create')
 
     def LongOrderCreate(self):
         # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
