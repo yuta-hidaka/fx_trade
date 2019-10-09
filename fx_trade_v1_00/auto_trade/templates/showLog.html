@@ -54,6 +54,8 @@
                     data.result.forEach(d => {
                         console.log(d.text)
                         console.log(new Date(d.created_at).toLocaleString())
+                        console.log(new Date(d.created_at).toString())
+                        console.log(new Date(d.created_at).toUTCString())
                         text = text +
                             '<tr>' +
                             '<td>' + d.created_at + '</td>' +
