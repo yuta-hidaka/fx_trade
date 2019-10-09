@@ -120,13 +120,13 @@ class BuySellCal():
                            ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             lDeff = np.abs(long_in - long_limit)
-            if lDeff <= 0.1:
+            if lDeff < 0.1:
                 long_limit = (M5_1_close - Decimal(0.1)
                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                 text += 'longのlimitが小さいので修正<br>'
 
             sDeff = np.abs(short_in - short_limit)
-            if sDeff <= 0.1:
+            if sDeff < 0.1:
                 short_limit = (M5_1_close + Decimal(0.1)
                                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                 text += 'shortのlimitが小さいので修正<br>'
