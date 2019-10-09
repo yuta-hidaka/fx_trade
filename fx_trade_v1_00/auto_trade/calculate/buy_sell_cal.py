@@ -233,6 +233,8 @@ class BuySellCal():
                 text += str(is_bottomTouch) + '<br>'
                 text += 'is_topTouch<br>'
                 text += str(is_topTouch) + '<br>'
+                text += 'is_expansion<br> '
+                text += str(not is_expansion) + '<br>'
 
             if trend_id == 1 or trend_id == 2:
                 # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
