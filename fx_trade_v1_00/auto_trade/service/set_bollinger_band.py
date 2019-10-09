@@ -17,7 +17,6 @@ class setBollingerBand_USD_JPY:
         sma2SigmaMinus = rs['sma_M50']-rs['abs_sigma_2']
         sma2SigmaPlusBefor = bbb['sma_M50']+bbb['abs_sigma_2']
         sma2SigmaMinusBefor = bbb['sma_M50']-bbb['abs_sigma_2']
-        is_expansion = False
         prevClose = Decimal(model_to_dict(condiPrev.ma.m5)['close'])
 
         nowClose = Decimal(nowMA['mid']['c'])
@@ -34,6 +33,7 @@ class setBollingerBand_USD_JPY:
         is_shortIn = True
         is_topTouch = False
         is_bottomTouch = False
+        is_expansion = False
         trandCondi = 3
         listBB = listConditionOfBBTrande
 
@@ -45,7 +45,7 @@ class setBollingerBand_USD_JPY:
         )
 
         # 小数第二以上でプラスであればエクスパンション
-        if np.sign(diff) == 1:
+        if diff != Decimal(0):
             is_expansion = True
 
         elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
