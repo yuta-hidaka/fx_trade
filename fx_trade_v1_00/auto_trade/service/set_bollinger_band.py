@@ -48,14 +48,19 @@ class setBollingerBand_USD_JPY:
         # 小数第二以上でプラスであればエクスパンション
         if diff != Decimal(0):
             is_expansion = True
+            text += '価格差のエクスパンション<br>'
 
         # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
         elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose:
             is_expansion = True
+            is_bottomTouch = True
+            text += '上にエクスパンション<br>'
 
         # elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose and sma2SigmaMinus >= prevClose:
         elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose:
             is_expansion = True
+            is_bottomTouch = True
+            text += '下にエクスパンション<br>'
 
         else:
             is_expansion = False
