@@ -1,5 +1,5 @@
 from .get_MA_USD_JPY import getMA_USD_JPY
-from ..models import M5_USD_JPY, bollingerBand, conditionOfBB, listConditionOfBBTrande
+from ..models import M5_USD_JPY, bollingerBand, conditionOfBB, listConditionOfBBTrande, batchLog
 from ..rest.serializers.set_candle_serialize import SetCandleSerializer
 from decimal import *
 from datetime import *
@@ -36,7 +36,20 @@ class setBollingerBand_USD_JPY:
         is_expansion = False
         trandCondi = 3
         listBB = listConditionOfBBTrande
+        text = ''
 
+        text += 'sma2SigmaPlus'
+        text += str(sma2SigmaPlus)
+        text += 'sma2SigmaMinus'
+        text += str(sma2SigmaMinus)
+        text += 'nowLow'
+        text += str(nowLow)
+        text += 'JNowLow'
+        text += str(JNowLow)
+
+        batchLog.objects.create(
+            text=text
+        )
         diff = (
             sma2SigmaPlus - sma2SigmaPlusBefor
         ).quantize(
