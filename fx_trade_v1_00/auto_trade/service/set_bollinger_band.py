@@ -10,7 +10,7 @@ from django.forms.models import model_to_dict
 class setBollingerBand_USD_JPY:
 
     def setBBCondition(self, MHalf, SMA, nowMA, result, bbBefor, condiPrev):
-        JustNowMA = getMA_USD_JPY().get_5M_now()
+        JustNowMA = getMA_USD_JPY().get_now()
         rs = model_to_dict(result)
         bbb = model_to_dict(bbBefor)
         sma2SigmaPlus = rs['sma_M50']+rs['abs_sigma_2']
@@ -49,10 +49,12 @@ class setBollingerBand_USD_JPY:
         if diff != Decimal(0):
             is_expansion = True
 
-        elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
+        # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
+        elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose:
             is_expansion = True
 
-        elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose and sma2SigmaMinus >= prevClose:
+        # elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose and sma2SigmaMinus >= prevClose:
+        elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose:
             is_expansion = True
 
         else:
