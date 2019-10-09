@@ -202,6 +202,7 @@ class BuySellCal():
 
 # --------------------------------------------------------------------------
             if is_expansion:
+                text += 'エクスパンション<br>'
                 if is_topTouch and not orderLongNum >= 1:
                     # print('エクスパンションで上タッチなので買い')
                     text += 'エクスパンションで上タッチなので買い<br>'
@@ -233,8 +234,10 @@ class BuySellCal():
                 text += str(is_bottomTouch) + '<br>'
                 text += 'is_topTouch<br>'
                 text += str(is_topTouch) + '<br>'
-                text += 'is_expansion<br> '
+                text += 'not is_expansion<br> '
                 text += str(not is_expansion) + '<br>'
+                text += 'is_expansion<br> '
+                text += str(is_expansion) + '<br>'
 
             if trend_id == 1 or trend_id == 2:
                 # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
