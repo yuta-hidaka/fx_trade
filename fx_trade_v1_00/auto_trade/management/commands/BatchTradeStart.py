@@ -73,19 +73,19 @@ class Command(BaseCommand):
         result, created = setCandle.setM5()
 
 # '----------------デバッグ用-------------------------------'
-        # bb = setBollingerBand_USD_JPY()
-        # BBCondi = bb.setBB()
-        # setMA = setMA_USD_JPY()
         # condiPrev = condition.objects.latest('created_at')
+        # bb = setBollingerBand_USD_JPY()
+        # BBCondi = bb.setBB(condiPrev)
+        # setMA = setMA_USD_JPY()
         # condiNow = setMA.setMA(result, BBCondi)
         # bsCal.BuySellCheck(condiNow, condiPrev)
 # '----------------デバッグ用-------------------------------'
 
         # 5分足が作成されたらMAを作成する。
         if created:
-            # ボリンジャーバンドの設定
-            BBCondi = bb.setBB()
             condiPrev = condition.objects.latest('created_at')
+            # ボリンジャーバンドの設定
+            BBCondi = bb.setBB(condiPrev)
             condiNow = setMA.setMA(result, BBCondi)
             if not is_closeMarket and checkOn:
                 bsCal.BuySellCheck(condiNow, condiPrev)

@@ -9,7 +9,7 @@ from django.forms.models import model_to_dict
 
 class setBollingerBand_USD_JPY:
 
-    def setBBCondition(self, MHalf, SMA, nowMA, result, bbBefor):
+    def setBBCondition(self, MHalf, SMA, nowMA, result, bbBefor, condiPrev):
         JustNowMA = getMA_USD_JPY().get_5M_now()
         rs = model_to_dict(result)
         bbb = model_to_dict(bbBefor)
@@ -18,9 +18,12 @@ class setBollingerBand_USD_JPY:
         sma2SigmaPlusBefor = bbb['sma_M50']+bbb['abs_sigma_2']
         sma2SigmaMinusBefor = bbb['sma_M50']-bbb['abs_sigma_2']
         is_expansion = False
+        prevClose = Decimal(model_to_dict(condiPrev.ma.m5)['close'])
+
         nowClose = Decimal(nowMA['mid']['c'])
         nowHigh = Decimal(nowMA['mid']['h'])
         nowLow = Decimal(nowMA['mid']['l'])
+
         JNowClose = Decimal(JustNowMA['candles'][0]['mid']['c'])
         JNowHigh = Decimal(JustNowMA['candles'][0]['mid']['h'])
         JNowLow = Decimal(JustNowMA['candles'][0]['mid']['l'])
@@ -45,10 +48,10 @@ class setBollingerBand_USD_JPY:
         if np.sign(diff) == 1 and np.abs(diff) >= Decimal(0.04):
             is_expansion = True
 
-        elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose:
+        elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
             is_expansion = True
 
-        elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose:
+        elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose and sma2SigmaMinus <= prevClose:
             is_expansion = True
 
         else:
@@ -84,7 +87,7 @@ class setBollingerBand_USD_JPY:
         else:
             is_plus = False
 
-        # 80%より大きければトレンドが発生中
+        # 90%より大きければトレンドが発生中
         # そうでなければ、もみ合い相場なので、ボリンジャーバンドでの売買を有効にしてもよい。
         if np.absolute(ans) >= 90:
             is_trend = True
@@ -118,7 +121,7 @@ class setBollingerBand_USD_JPY:
 
         # 5MA*50　SMAを基準に標準偏差を算出していきます。
 
-    def setBB(self):
+    def setBB(self, condiPrev):
         gMA = getMA_USD_JPY()
         created = False
         result = None
@@ -167,6 +170,7 @@ class setBollingerBand_USD_JPY:
             abs_sigma_3=SD3,
         )
 
-        resultBBCondi = self.setBBCondition(MHalf, SMA, nowMA, result, bbBefor)
+        resultBBCondi = self.setBBCondition(
+            MHalf, SMA, nowMA, result, bbBefor, condiPrev)
 
         return resultBBCondi
