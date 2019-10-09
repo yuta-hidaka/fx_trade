@@ -48,6 +48,9 @@ class setBollingerBand_USD_JPY:
         elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose:
             is_expansion = True
 
+        elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose:
+            is_expansion = True
+
         else:
             is_expansion = False
 
@@ -64,23 +67,14 @@ class setBollingerBand_USD_JPY:
             is_shortIn = None
 
         # 持ち合い相場かトレンド相場かを判断
-        print(SMA)
-        print('SMA')
-        dd1 = 0
-        dd2 = 0
-        dd3 = 0
-
         for m in MHalf:
             if (Decimal(m['mid']['c']) - SMA) == 0:
                 data += 0
-                dd1 += 1
             elif Decimal(m['mid']['c']) < SMA:
                 data -= 1
-                dd2 += 1
 
             elif Decimal(m['mid']['c']) > SMA:
                 data += 1
-                dd3 += 1
 
         # SMAより上にあるか下にあるのが多いかを100分率で表示
         ans = (data / length)*100
