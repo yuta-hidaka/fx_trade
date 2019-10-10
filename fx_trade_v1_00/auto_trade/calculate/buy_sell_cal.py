@@ -146,9 +146,11 @@ class BuySellCal():
             is_topTouch = cbb['is_topTouch']
             is_bottomTouch = cbb['is_bottomTouch']
             is_expansionByStd = cbb['is_expansionByStd']
+            is_expansionByNum = cbb['is_expansionByNum']
 
             is_expansionPrev = cbbPrev['is_expansion']
             is_expansionByStdPrev = cbbPrev['is_expansionByStd']
+            is_expansionByNumPrev = cbbPrev['is_expansionByNum']
 
             # 購買判断材料-トレンド形成時--------------------------------------
             maPrev = model_to_dict(
@@ -198,11 +200,34 @@ class BuySellCal():
                 text += str(is_expansion) + '<br>'
                 text += 'is_expansionByStd<br> '
                 text += str(is_expansionByStd) + '<br>'
+                text += 'is_expansionByNum<br> '
+                text += str(is_expansionByNum) + '<br>'
 
             # --------------------------------------------------------------------------
-            # 前回エクスパンションしていなかったら初めてのエクスパンションとする,
+
+            # 偏差と数値によるエクスパンションで確度が高めのポジションを持つ
+            if not is_expansionPrev and is_expansion and is_expansionByStd and is_expansionByNum:
+                text += 'エクスパンションbyStd<br>'
+                if is_topTouch and not orderLongNum >= 1:
+                    # print('エクスパンションで上タッチなので買い')
+                    text += 'エクスパンションで上タッチなのでLong by Std<br>'
+                    orderLongNum += 1
+                    self.order.LongOrderCreate()
+                    self.order.oderCloseAllShort()
+                    nowInL = True
+                elif is_bottomTouch and not orderShortNum >= 1:
+                    # print('エクスパンションで下タッチなので売り')
+                    text += 'エクスパンションで下タッチなのでShort by Std<br>'
+                    orderShortNum += 1
+                    self.order.ShortOrderCreate()
+                    self.order.oderCloseAllLong()
+                    nowInS = True
+                else:
+                    text += 'エクスパンションbyStd_購買条件未該当<br>'
+
+                    # 前回エクスパンションしていなかったら初めてのエクスパンションとする,
             # 偏差によるエクスパンションでなければlong、short両方のポジションを持つ
-            if not is_expansionPrev and is_expansion and not is_expansionByStd:
+            elif not is_expansionPrev and is_expansion:
                 # 確度が小さいのでlimit小さく
                 long_limit = (nowCndl_close - (nowCndl_close * Decimal(0.002))
                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
@@ -212,43 +237,23 @@ class BuySellCal():
                 text += 'shortのlimitが小さいので修正<br>'
                 text += 'エクスパンションbyNum<br>'
                 if is_topTouch and not orderLongNum >= 1:
-                    # print('エクスパンションで上タッチなので買い')
-                    text += 'エクスパンションbyNumで上タッチなのでshortAndLong<br>'
+                    text += 'エクスパンションorだましで上タッチなのでshortAndLong<br>'
                     orderLongNum += 1
                     self.order.LongOrderCreate()
                     self.order.ShortOrderCreate()
                     # self.order.oderCloseAllShort()
                     nowInL = True
                 elif is_bottomTouch and not orderShortNum >= 1:
-                    # print('エクスパンションで下タッチなので売り')
-                    text += 'エクスパンションbyNumで下タッチなのでlongAndShort<br>'
+                    text += 'エクスパンションorだましで下タッチなのでlongAndShort<br>'
                     orderShortNum += 1
                     self.order.ShortOrderCreate()
                     self.order.LongOrderCreate()
                     # self.order.oderCloseAllLong()
                     nowInS = True
                 else:
-                    text += 'エクスパンションbyNum_購買条件未該当<br>'
+                    text += 'エクスパンションorだまし_購買条件未該当<br>'
 
-            # 偏差によるエクスパンションで確度が高めのポジションを持つ
-            elif not is_expansionPrev and is_expansion and is_expansionByStd:
-                text += 'エクスパンションbyStd<br>'
-                if is_topTouch and not orderLongNum >= 1:
-                    # print('エクスパンションで上タッチなので買い')
-                    text += 'エクスパンションで上タッチなのでbyStd<br>'
-                    orderLongNum += 1
-                    self.order.LongOrderCreate()
-                    self.order.oderCloseAllShort()
-                    nowInL = True
-                elif is_bottomTouch and not orderShortNum >= 1:
-                    # print('エクスパンションで下タッチなので売り')
-                    text += 'エクスパンションで下タッチなのでbyStd<br>'
-                    orderShortNum += 1
-                    self.order.ShortOrderCreate()
-                    self.order.oderCloseAllLong()
-                    nowInS = True
-                else:
-                    text += 'エクスパンションbyStd_購買条件未該当<br>'
+
 # 前回エクスパンションしていて、いまエクスパンションが収まったら、底の認識でそれぞれ売り払って逆方向にinする
             elif is_expansionPrev and not is_expansion and is_expansionByStdPrev:
                 text += 'エクスパンションの底値。ポジションを入れ替える <br>'
