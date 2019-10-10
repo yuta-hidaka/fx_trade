@@ -39,6 +39,7 @@ class setBollingerBand_USD_JPY:
         is_bottomTouch = False
         is_expansion = False
         is_expansionByStd = False
+        is_expansionByNum = False
 
         trandCondi = 3
         listBB = listConditionOfBBTrande
@@ -54,6 +55,7 @@ class setBollingerBand_USD_JPY:
         # 小数第二以上でプラスであればエクスパンション
         if diff != Decimal(0):
             is_expansion = True
+            is_expansionByNum = True
             text += '価格差のエクスパンション<br>'
 
         # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
