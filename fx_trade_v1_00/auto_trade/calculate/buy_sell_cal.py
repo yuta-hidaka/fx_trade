@@ -44,7 +44,7 @@ class BuySellCal():
 
         # 購入するユニット数
         # units = 7500
-        units = 100000
+        units = 250000
         getNowRate = getMA_USD_JPY()
 
         # 今買ったかを判断
@@ -89,20 +89,27 @@ class BuySellCal():
 
             lDeff = np.abs(long_in - long_limit)
             if lDeff < 0.1:
-                long_limit = (nowCndl_close - Decimal(0.05)
+                long_limit = (nowCndl_close - Decimal(0.1)
                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                 text += 'longのlimitが小さいので修正<br>'
+            elif lDeff > 0.15:
+                long_limit = (nowCndl_close - Decimal(0.15)
+                              ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                text += 'longのlimitが大きいので修正<br>'
 
             sDeff = np.abs(short_in - short_limit)
             if sDeff < 0.1:
-                short_limit = (nowCndl_close + Decimal(0.05)
+                short_limit = (nowCndl_close + Decimal(0.1)
                                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                 text += 'shortのlimitが小さいので修正<br>'
+            elif sDeff > 0.15:
+                short_limit = (nowCndl_close + Decimal(0.15)
+                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                text += 'shortのlimitが大きいので修正<br>'
 
             text += 'longの入り値　' + str(long_in) + '<br>'
             text += 'longの損切　' + str(long_limit) + '<br>'
             text += 'longの差　' + str(long_in - long_limit) + '<br>'
-
             text += 'shortの入り値　' + str(short_in) + '<br>'
             text += 'shortの損切　' + str(short_limit) + '<br>'
             text += 'shortの差　' + str(short_in - short_limit) + '<br>'
