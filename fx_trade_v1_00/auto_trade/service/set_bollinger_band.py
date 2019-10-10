@@ -132,6 +132,7 @@ class setBollingerBand_USD_JPY:
             is_topTouch=is_topTouch,
             is_bottomTouch=is_bottomTouch,
             is_expansionByStd=is_expansionByStd,
+            is_expansionByNum=is_expansionByNum,
             is_shortIn=is_shortIn,
             bb_trande=listBB.objects.filter(id=trandCondi).first(),
             bb=result
