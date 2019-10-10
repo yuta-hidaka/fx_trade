@@ -34,6 +34,8 @@ class setBollingerBand_USD_JPY:
         is_topTouch = False
         is_bottomTouch = False
         is_expansion = False
+        is_expansionByStd = False
+
         trandCondi = 3
         listBB = listConditionOfBBTrande
         text = ''
@@ -53,12 +55,14 @@ class setBollingerBand_USD_JPY:
         # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
         elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose:
             is_expansion = True
+            is_expansionByStd = True
             is_bottomTouch = True
             text += '上にエクスパンション<br>'
 
         # elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose and sma2SigmaMinus >= prevClose:
         elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose:
             is_expansion = True
+            is_expansionByStd = True
             is_bottomTouch = True
             text += '下にエクスパンション<br>'
 
@@ -121,6 +125,7 @@ class setBollingerBand_USD_JPY:
             is_expansion=is_expansion,
             is_topTouch=is_topTouch,
             is_bottomTouch=is_bottomTouch,
+            is_expansionByStd=is_expansionByStd,
             is_shortIn=is_shortIn,
             bb_trande=listBB.objects.filter(id=trandCondi).first(),
             bb=result

@@ -178,6 +178,7 @@ class conditionOfBB(models.Model):
     is_topTouch = models.BooleanField(null=True, default=False)
     is_bottomTouch = models.BooleanField(null=True, default=False)
     is_shortIn = models.BooleanField(null=True)
+    is_expansionByStd = models.BooleanField(null=True)
     bb_trande = models.ForeignKey(
         'listConditionOfBBTrande', on_delete=models.CASCADE, related_name='bb_trande', null=True)
     bb = models.ForeignKey(

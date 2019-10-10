@@ -52,41 +52,9 @@ class BuySellCal():
         nowInS = False
 
         cbb = model_to_dict(condNow.condition_of_bb)
+        cbbPrev = model_to_dict(condiPrev.condition_of_bb)
         bb = model_to_dict(condNow.condition_of_bb.bb)
-
-        # # print(model_to_dict(condition))
-        # ma_comp6_24_50＿＿＿＿＿＿＿＿＿2019/09/23現在
-        # t = condition.select_related()
-        # 前回のMAが6or1で今が1で現状がすべて正だったらlong　in
-        # 現状が2になったらlongの解体
-        # 前回が3or4かつ、現在が4の状態ですべての傾きが負でshort
-        # 5の状態であれば売りの手じまい
-        # 　現在4パターン
-        # longで二つ、shortで二つ
-        # 購買基準　現在の為替を取得する。そこからlongは+0.02%乗じる、shortは-0.02%でorder
-        # 損切の設定はlongは-0.05%乗じる、shortは+0.05%
-        # 売買時にどの程度購入する？所有金額の半分をぶち込む
-        # 売買時は問答無用で清算
-        # longとshotにはひとつづつしかポジションを持たない。
-        # 購買する際にはポジションを所有しているかチェック
-
-        # 傾きの状態は前回と比較する必要がない。
-
-        # # print(type(condition))
-
-        # 傾きが広がっている＝前の傾きを更新している
-        # * 第1ステージ-安定上昇期-すべて傾きが正かつ前よりも傾きの幅が広がっている→買いの仕掛け
-        # - 短期>中期>長期
-        # * 第2ステージ-下降変化期１上昇相場の終了--**買い清算ポイント**-
-        # - 中期>短期>長期
-        # * 第3ステージ-下降変化期２下降相場の入り口-売りのはや仕掛け
-        # - 中期>長期>短期
-        # * 第4ステージ-安定下降期-すべての傾きが負かつ、傾きの幅が広がっている→売りの仕掛け
-        # - 長期>中期>短期
-        # * 第5ステージ-上昇相場終焉-→売りの手じまい→中長期で幅が広く、すべての傾きがマイナス→戻す可能性あり。
-        # - 長期>短期>中期
-        # * 第6ステージ-上昇相場の入り口-**買いポイント**-→すべての傾きが正→買いのはや仕掛け
-        # - 短期>長期>中期
+        bbPrev = model_to_dict(condiPrev.condition_of_bb.bb)
 
         nowCndl = getNowRate.get_now()
         # nowCndl = getNowRate.get_5M_1()
@@ -170,6 +138,7 @@ class BuySellCal():
             is_expansion = cbb['is_expansion']
             is_topTouch = cbb['is_topTouch']
             is_bottomTouch = cbb['is_bottomTouch']
+            is_expansionPrev = cbbPrev['is_expansion']
 
             # 購買判断材料-トレンド形成時--------------------------------------
             maPrev = model_to_dict(
@@ -201,7 +170,7 @@ class BuySellCal():
 
 
 # --------------------------------------------------------------------------
-            if is_expansion:
+            if is_expansion and not is_expansionPrev:
                 text += 'エクスパンション<br>'
                 if is_topTouch and not orderLongNum >= 1:
                     # print('エクスパンションで上タッチなので買い')
@@ -218,6 +187,9 @@ class BuySellCal():
                     self.order.ShortOrderCreate()
                     self.order.oderCloseAllLong()
                     nowInS = True
+
+            elif not is_expansion and is_expansionPrev:
+                print('&')
 # --------------------------------------------------------------------------
 
             # 上昇or下降トレンド相場だったら
@@ -398,3 +370,37 @@ class BuySellCal():
             print('お休み中')
 
             # print('-----------------------------------------------購買条件中-終了----------------------------------------------------')
+
+        # # print(model_to_dict(condition))
+        # ma_comp6_24_50＿＿＿＿＿＿＿＿＿2019/09/23現在
+        # t = condition.select_related()
+        # 前回のMAが6or1で今が1で現状がすべて正だったらlong　in
+        # 現状が2になったらlongの解体
+        # 前回が3or4かつ、現在が4の状態ですべての傾きが負でshort
+        # 5の状態であれば売りの手じまい
+        # 　現在4パターン
+        # longで二つ、shortで二つ
+        # 購買基準　現在の為替を取得する。そこからlongは+0.02%乗じる、shortは-0.02%でorder
+        # 損切の設定はlongは-0.05%乗じる、shortは+0.05%
+        # 売買時にどの程度購入する？所有金額の半分をぶち込む
+        # 売買時は問答無用で清算
+        # longとshotにはひとつづつしかポジションを持たない。
+        # 購買する際にはポジションを所有しているかチェック
+
+        # 傾きの状態は前回と比較する必要がない。
+
+        # # print(type(condition))
+
+        # 傾きが広がっている＝前の傾きを更新している
+        # * 第1ステージ-安定上昇期-すべて傾きが正かつ前よりも傾きの幅が広がっている→買いの仕掛け
+        # - 短期>中期>長期
+        # * 第2ステージ-下降変化期１上昇相場の終了--**買い清算ポイント**-
+        # - 中期>短期>長期
+        # * 第3ステージ-下降変化期２下降相場の入り口-売りのはや仕掛け
+        # - 中期>長期>短期
+        # * 第4ステージ-安定下降期-すべての傾きが負かつ、傾きの幅が広がっている→売りの仕掛け
+        # - 長期>中期>短期
+        # * 第5ステージ-上昇相場終焉-→売りの手じまい→中長期で幅が広く、すべての傾きがマイナス→戻す可能性あり。
+        # - 長期>短期>中期
+        # * 第6ステージ-上昇相場の入り口-**買いポイント**-→すべての傾きが正→買いのはや仕掛け
+        # - 短期>長期>中期
