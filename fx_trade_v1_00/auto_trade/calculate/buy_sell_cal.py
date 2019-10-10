@@ -200,7 +200,8 @@ class BuySellCal():
                 text += str(is_expansionByStd) + '<br>'
 
             # --------------------------------------------------------------------------
-# 前回エクスパンションしていなかったら初めてのエクスパンションとする,偏差によるエクスパンションでなければlong、short両方のポジションを持つ
+            # 前回エクスパンションしていなかったら初めてのエクスパンションとする,
+            # 偏差によるエクスパンションでなければlong、short両方のポジションを持つ
             if not is_expansionPrev and is_expansion and not is_expansionByStd:
                 # 確度が小さいのでlimit小さく
                 long_limit = (nowCndl_close - (nowCndl_close * Decimal(0.002))
@@ -226,23 +227,28 @@ class BuySellCal():
                     self.order.LongOrderCreate()
                     # self.order.oderCloseAllLong()
                     nowInS = True
-# 偏差によるエクスパンションで確度が高めのポジションを持つ
+                else:
+                    text += 'エクスパンションbyNum_購買条件未該当<br>'
+
+            # 偏差によるエクスパンションで確度が高めのポジションを持つ
             elif not is_expansionPrev and is_expansion and is_expansionByStd:
-                text += 'エクスパンション2<br>'
+                text += 'エクスパンションbyStd<br>'
                 if is_topTouch and not orderLongNum >= 1:
                     # print('エクスパンションで上タッチなので買い')
-                    text += 'エクスパンションで上タッチなのでLong2<br>'
+                    text += 'エクスパンションで上タッチなのでbyStd<br>'
                     orderLongNum += 1
                     self.order.LongOrderCreate()
                     self.order.oderCloseAllShort()
                     nowInL = True
                 elif is_bottomTouch and not orderShortNum >= 1:
                     # print('エクスパンションで下タッチなので売り')
-                    text += 'エクスパンションで下タッチなのでshort2<br>'
+                    text += 'エクスパンションで下タッチなのでbyStd<br>'
                     orderShortNum += 1
                     self.order.ShortOrderCreate()
                     self.order.oderCloseAllLong()
                     nowInS = True
+                else:
+                    text += 'エクスパンションbyStd_購買条件未該当<br>'
 # 前回エクスパンションしていて、いまエクスパンションが収まったら、底の認識でそれぞれ売り払って逆方向にinする
             elif is_expansionPrev and not is_expansion and is_expansionByStdPrev:
                 text += 'エクスパンションの底値。ポジションを入れ替える <br>'
