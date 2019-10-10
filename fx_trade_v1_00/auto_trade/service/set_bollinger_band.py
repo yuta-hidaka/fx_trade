@@ -13,6 +13,10 @@ class setBollingerBand_USD_JPY:
         JustNowMA = getMA_USD_JPY().get_now()
         rs = model_to_dict(result)
         bbb = model_to_dict(bbBefor)
+
+        rs['abs_sigma_2'] = (rs['abs_sigma_2']*Decimal(0.95))
+        bbb['abs_sigma_2'] = (bbb['abs_sigma_2']*Decimal(0.95))
+
         sma2SigmaPlus = rs['sma_M50']+rs['abs_sigma_2']
         sma2SigmaMinus = rs['sma_M50']-rs['abs_sigma_2']
         sma2SigmaPlusBefor = bbb['sma_M50']+bbb['abs_sigma_2']

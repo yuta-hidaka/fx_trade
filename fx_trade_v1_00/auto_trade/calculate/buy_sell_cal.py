@@ -178,21 +178,67 @@ class BuySellCal():
             # print('is_expansion')
             # print(is_expansion)
 
+            # 上昇or下降トレンド相場だったら
+            if trend_id == 1:
+                # print('BB---上昇相場')
+                text += 'BB---上昇相場<br>'
+            elif trend_id == 2:
+                # print('BB---下降相場')
+                text += 'BB---下降相場<br>'
+            elif trend_id == 3:
+                # print('BB---持ち合い相場')
+                text += 'BB---持ち合い相場<br>'
+                text += 'is_bottomTouch<br>'
+                text += str(is_bottomTouch) + '<br>'
+                text += 'is_topTouch<br>'
+                text += str(is_topTouch) + '<br>'
+                text += 'not is_expansion<br> '
+                text += str(not is_expansion) + '<br>'
+                text += 'is_expansion<br> '
+                text += str(is_expansion) + '<br>'
+                text += 'is_expansionByStd<br> '
+                text += str(is_expansionByStd) + '<br>'
 
-# --------------------------------------------------------------------------
+            # --------------------------------------------------------------------------
 # 前回エクスパンションしていなかったら初めてのエクスパンションとする,偏差によるエクスパンションでなければlong、short両方のポジションを持つ
             if not is_expansionPrev and is_expansion and not is_expansionByStd:
-                text += 'エクスパンション<br>'
+                # 確度が小さいのでlimit小さく
+                long_limit = (nowCndl_close - (nowCndl_close * Decimal(0.002))
+                              ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                short_limit = (nowCndl_close - (nowCndl_close * Decimal(0.002))
+                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+                text += 'shortのlimitが小さいので修正<br>'
+                text += 'エクスパンションbyNum<br>'
                 if is_topTouch and not orderLongNum >= 1:
                     # print('エクスパンションで上タッチなので買い')
-                    text += 'エクスパンションで上タッチなので買い<br>'
+                    text += 'エクスパンションbyNumで上タッチなのでshortAndLong<br>'
+                    orderLongNum += 1
+                    self.order.LongOrderCreate()
+                    self.order.ShortOrderCreate()
+                    # self.order.oderCloseAllShort()
+                    nowInL = True
+                elif is_bottomTouch and not orderShortNum >= 1:
+                    # print('エクスパンションで下タッチなので売り')
+                    text += 'エクスパンションbyNumで下タッチなのでlongAndShort<br>'
+                    orderShortNum += 1
+                    self.order.ShortOrderCreate()
+                    self.order.LongOrderCreate()
+                    # self.order.oderCloseAllLong()
+                    nowInS = True
+# 偏差によるエクスパンションで確度が高めのポジションを持つ
+            elif not is_expansionPrev and is_expansion and is_expansionByStd:
+                text += 'エクスパンション2<br>'
+                if is_topTouch and not orderLongNum >= 1:
+                    # print('エクスパンションで上タッチなので買い')
+                    text += 'エクスパンションで上タッチなのでLong2<br>'
                     orderLongNum += 1
                     self.order.LongOrderCreate()
                     self.order.oderCloseAllShort()
                     nowInL = True
                 elif is_bottomTouch and not orderShortNum >= 1:
                     # print('エクスパンションで下タッチなので売り')
-                    text += 'エクスパンションで下タッチなので売り<br>'
+                    text += 'エクスパンションで下タッチなのでshort2<br>'
                     orderShortNum += 1
                     self.order.ShortOrderCreate()
                     self.order.oderCloseAllLong()
@@ -215,26 +261,6 @@ class BuySellCal():
                     self.order.oderCloseAllLong()
                     nowInS = True
 # --------------------------------------------------------------------------
-
-            # 上昇or下降トレンド相場だったら
-            if trend_id == 1:
-                # print('BB---上昇相場')
-                text += 'BB---上昇相場<br>'
-            elif trend_id == 2:
-                # print('BB---下降相場')
-                text += 'BB---下降相場<br>'
-            elif trend_id == 3:
-                # print('BB---持ち合い相場')
-                text += 'BB---持ち合い相場<br>'
-                text += 'is_bottomTouch<br>'
-                text += str(is_bottomTouch) + '<br>'
-                text += 'is_topTouch<br>'
-                text += str(is_topTouch) + '<br>'
-                text += 'not is_expansion<br> '
-                text += str(not is_expansion) + '<br>'
-                text += 'is_expansion<br> '
-                text += str(is_expansion) + '<br>'
-
             if trend_id == 1 or trend_id == 2:
                 # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
                 if maNow == 2 and trend_id != 1 and orderLongNum != 0 and not nowInL:
