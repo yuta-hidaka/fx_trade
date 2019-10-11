@@ -13,7 +13,7 @@ import oandapyV20.endpoints.positions as positions
 from oandapyV20.contrib.requests import (
     MarketOrderRequest, StopLossDetails, TakeProfitOrderRequest
 )
-
+from auto_trade.models import batchLog
 from .access_token import FxInfo
 
 import oandapyV20.endpoints.instruments as instruments
@@ -134,8 +134,10 @@ class orderFx:
         r = orders.OrderCreate(self.fi.accountID, data=self.data)
         res = api.request(r)
         # print(self.data)
+        text = json.dumps(res, indent=2)
+        batchLog.objects.create(text=text)
         # print(json.dumps(res, indent=2))
-        print('order create')
+        # print('order create')
 
     def LongOrderCreate(self):
         # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
@@ -156,6 +158,8 @@ class orderFx:
         # API経由で指値注文を実行
         r = orders.OrderCreate(self.fi.accountID, data=self.data)
         res = api.request(r)
+        text = json.dumps(res, indent=2)
+        batchLog.objects.create(text=text)
         # print(self.data)
         # print(json.dumps(res, indent=2))
         print('order create----------------------------------------------')
