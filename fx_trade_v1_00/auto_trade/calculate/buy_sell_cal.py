@@ -32,6 +32,31 @@ class BuySellCal():
         pos = res['positions'][0]
         # # print(json.dumps(pos),  indent=2)
 
+        cbb = model_to_dict(condNow.condition_of_bb)
+        cbbPrev = model_to_dict(condiPrev.condition_of_bb)
+        
+        bb = model_to_dict(condNow.condition_of_bb.bb)
+        bbPrev = model_to_dict(condiPrev.condition_of_bb.bb)
+
+
+        # もし持ち合い相場だったらこれを使って売買判断None何もしないTrue　shortで入る　False　Longで入る。
+        is_shortInBB = cbb['is_shortIn']
+        is_expansion = cbb['is_expansion']
+        is_topTouch = cbb['is_topTouch']
+        is_bottomTouch = cbb['is_bottomTouch']
+
+        is_shortClose = cbb['is_shortClose']
+        is_longClose = cbb['is_longClose']
+
+        is_expansionByStd = cbb['is_expansionByStd']
+        is_expansionByNum = cbb['is_expansionByNum']
+
+        is_expansionPrev = cbbPrev['is_expansion']
+        is_expansionByStdPrev = cbbPrev['is_expansionByStd']
+        is_expansionByNumPrev = cbbPrev['is_expansionByNum']
+        is_topTouchPrev = cbbPrev['is_topTouch']
+        is_bottomTouchPrev = cbbPrev['is_bottomTouch']
+
         # オーダーステータスを取得する。
         try:
             orderLongNum = len(pos['long']['tradeIDs'])
@@ -50,11 +75,6 @@ class BuySellCal():
         # 今買ったかを判断
         nowInL = False
         nowInS = False
-
-        cbb = model_to_dict(condNow.condition_of_bb)
-        cbbPrev = model_to_dict(condiPrev.condition_of_bb)
-        bb = model_to_dict(condNow.condition_of_bb.bb)
-        bbPrev = model_to_dict(condiPrev.condition_of_bb.bb)
 
         nowCndl = getNowRate.get_now()
         # nowCndl = getNowRate.get_5M_1()
@@ -106,6 +126,13 @@ class BuySellCal():
                 short_limit = (nowCndl_close + Decimal(0.15)
                                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                 text += 'shortのlimitが大きいので修正<br>'
+            
+            if not is_expansionPrev and is_expansion:
+                        # 確度が小さいのでlimit小さく
+                long_limit = (nowCndl_close - (nowCndl_close * Decimal(0.002))
+                              ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                short_limit = (nowCndl_close - (nowCndl_close * Decimal(0.002))
+                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             text += 'longの入り値　' + str(long_in) + '<br>'
             text += 'longの損切　' + str(long_limit) + '<br>'
@@ -118,14 +145,6 @@ class BuySellCal():
             #     # M5_1_close + M5_1_close*Decimal(0.0002)
             #     M5_1_close + M5_1_close*Decimal(0.003)
             # ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-
-            self.order.priceLong = str(long_in)
-            self.order.stopLossLong = str(long_limit)
-            self.order.unitsLong = str(units)
-
-            self.order.priceShort = str(short_in)
-            self.order.stopLossShort = str(short_limit)
-            self.order.unitsShort = str(units*-1)
 
             # 購買判断材料-持ち合い形成時--------------------------------------
 
@@ -140,23 +159,7 @@ class BuySellCal():
                 # print("何かエラー起きてます。")
                 trend_id = 0
                 pass
-            # もし持ち合い相場だったらこれを使って売買判断None何もしないTrue　shortで入る　False　Longで入る。
-            is_shortInBB = cbb['is_shortIn']
-            is_expansion = cbb['is_expansion']
-            is_topTouch = cbb['is_topTouch']
-            is_bottomTouch = cbb['is_bottomTouch']
 
-            is_shortClose = cbb['is_shortClose']
-            is_longClose = cbb['is_longClose']
-
-            is_expansionByStd = cbb['is_expansionByStd']
-            is_expansionByNum = cbb['is_expansionByNum']
-
-            is_expansionPrev = cbbPrev['is_expansion']
-            is_expansionByStdPrev = cbbPrev['is_expansionByStd']
-            is_expansionByNumPrev = cbbPrev['is_expansionByNum']
-            is_topTouchPrev = cbbPrev['is_topTouch']
-            is_bottomTouchPrev = cbbPrev['is_bottomTouch']
 
             # 購買判断材料-トレンド形成時--------------------------------------
             maPrev = model_to_dict(
@@ -209,6 +212,15 @@ class BuySellCal():
                 text += 'is_expansionByNum<br> '
                 text += str(is_expansionByNum) + '<br>'
 
+            self.order.priceLong = str(long_in)
+            self.order.stopLossLong = str(long_limit)
+            self.order.unitsLong = str(units)
+
+            self.order.priceShort = str(short_in)
+            self.order.stopLossShort = str(short_limit)
+            self.order.unitsShort = str(units*-1)
+
+
             # --------------------------------------------------------------------------
 
             # 偏差と数値によるエクスパンションで確度が高めのポジションを持つ
@@ -239,10 +251,9 @@ class BuySellCal():
                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                 short_limit = (nowCndl_close - (nowCndl_close * Decimal(0.002))
                                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-
-                text += 'shortのlimitが小さいので修正<br>'
+                text += 'shortLongInようにlimitを小さく設定<br>'
                 text += 'エクスパンションbyNum<br>'
-                if is_topTouch:
+                if is_topTouch or is_bottomTouch:
                     text += 'エクスパンションorだましで上タッチなのでshortAndLong<br>'
                     orderLongNum += 1
                     if not orderLongNum >= 1:
@@ -254,20 +265,6 @@ class BuySellCal():
                         nowInS = True
                         text += 'ShortIn<br>'
                     # self.order.oderCloseAllShort()
-
-                elif is_bottomTouch and not orderShortNum >= 1:
-                    text += 'エクスパンションorだましで下タッチなのでlongAndShort<br>'
-                    orderShortNum += 1
-                    if not orderLongNum >= 1:
-                        self.order.LongOrderCreate()
-                        nowInL = True
-                        text += 'LongIn<br>'
-
-                    if not orderShortNum >= 1:
-                        self.order.ShortOrderCreate()
-                        nowInS = True
-                        text += 'ShortIn<br>'
-
                     # self.order.oderCloseAllLong()
                 else:
                     text += 'エクスパンションorだまし_購買条件未該当<br>'
