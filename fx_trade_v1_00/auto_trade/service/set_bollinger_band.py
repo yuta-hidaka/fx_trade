@@ -91,6 +91,13 @@ class setBollingerBand_USD_JPY:
 
         # if nowClose
         # 持ち合い相場時の決済基準を判断
+            text += 'sma1SigmaPlus ' + str(sma1SigmaPlus) + '<br>'
+            text += 'nowHigh ' + str(nowHigh) + '<br>'
+            text += 'JNowHigh ' + str(JNowHigh) + '<br>'
+            text += 'sma1SigmaMinus ' + str(sma1SigmaMinus) + '<br>'
+            text += 'nowLow ' + str(nowLow) + '<br>'
+            text += 'JNowLow ' + str(JNowLow) + '<br>'
+
         if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
             text += 'sigma1 上に触りました 持ち合い決済基準<br>'
             is_longClose = True
