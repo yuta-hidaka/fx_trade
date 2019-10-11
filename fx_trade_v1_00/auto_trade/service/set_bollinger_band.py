@@ -131,6 +131,7 @@ class setBollingerBand_USD_JPY:
 
         # 90%より大きければトレンドが発生中
         # そうでなければ、もみ合い相場なので、ボリンジャーバンドでの売買を有効にしてもよい。
+        text += str(np.absolute(ans)) + '% トレンド割合<br>'
         if np.absolute(ans) >= 90:
             is_trend = True
         else:
@@ -138,16 +139,16 @@ class setBollingerBand_USD_JPY:
 
         if is_trend:
             if is_plus:
-                text += '＋トレンド'
+                text += '＋トレンド<br>'
                 # プラスのトレンド
                 trandCondi = 1
             else:
-                text += '-トレンド'
+                text += '-トレンド<br>'
                 # マイナスのトレンド
                 trandCondi = 2
         else:
             # もみ合い相場
-            text += 'もみ合いトレンドcondition条件判定内'
+            text += 'もみ合いトレンドcondition条件判定内<br>'
             trandCondi = 3
 
         create = conditionOfBB.objects.create(
