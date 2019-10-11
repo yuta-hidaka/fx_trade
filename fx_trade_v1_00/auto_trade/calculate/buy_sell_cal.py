@@ -146,6 +146,9 @@ class BuySellCal():
             is_topTouch = cbb['is_topTouch']
             is_bottomTouch = cbb['is_bottomTouch']
 
+            is_shortClose = cbb['is_shortClose']
+            is_longClose = cbb['is_longClose']
+
             is_expansionByStd = cbb['is_expansionByStd']
             is_expansionByNum = cbb['is_expansionByNum']
 
@@ -382,6 +385,12 @@ class BuySellCal():
 
             # 持ち合い相場でエクスパンションしてなかったら
             elif trend_id == 3 and not is_expansion:
+                if is_shortClose:
+                    text += 'sigma1 によるshortClose<br>'
+                    self.order.ShortOrderCreate()
+                elif is_longClose:
+                    text += 'sigma1 によるlongClose<br>'
+                    self.order.oderCloseAllLong()
                 # print('持ち合い相場')
                 text += '持ち合い相場<br>'
                 if is_topTouch == True:

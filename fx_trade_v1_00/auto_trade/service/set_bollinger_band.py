@@ -17,6 +17,9 @@ class setBollingerBand_USD_JPY:
         rs['abs_sigma_2'] = (rs['abs_sigma_2']*Decimal(0.95))
         bbb['abs_sigma_2'] = (bbb['abs_sigma_2']*Decimal(0.95))
 
+        rs['abs_sigma_2'] = (rs['abs_sigma_1']*Decimal(1.05))
+        bbb['abs_sigma_2'] = (bbb['abs_sigma_1']*Decimal(1.05))
+
         sma2SigmaPlus = rs['sma_M50']+rs['abs_sigma_2']
         sma2SigmaMinus = rs['sma_M50']-rs['abs_sigma_2']
         sma2SigmaPlusBefor = bbb['sma_M50']+bbb['abs_sigma_2']
