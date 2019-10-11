@@ -52,7 +52,6 @@ class Command(BaseCommand):
         # isDst =
         if self.is_dst(UTC):
             adjNum = 1
-            adjTime -= adjNum
 
         # 自動取引がOFFかONかを確認する。
         qSetCheck = autoTradeOnOff.objects.filter(id=1).first()
