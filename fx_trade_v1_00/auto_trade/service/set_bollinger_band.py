@@ -112,22 +112,12 @@ class setBollingerBand_USD_JPY:
         else:
             text += 'sigma2 どちらにも触れてません<br>'
 
-        text += str(SMA) + ' : SMA<br>'
-
         # 持ち合い相場かトレンド相場かを判断
         aaaa = 0
         aaaa2 = 0
         aaaa3 = 0
 
         for m in MHalf:
-            text += str(m['mid']['c']) + '<br>'
-            try:
-                text += str(m['time']) + '<br>'
-                pass
-            except:
-                text += 'error<br>'
-                pass
-
             if (Decimal(m['mid']['c']) - SMA) == 0:
                 data += 0
                 aaaa += 1
