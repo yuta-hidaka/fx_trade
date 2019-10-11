@@ -125,9 +125,8 @@ class setBollingerBand_USD_JPY:
                 text += str(m['time']) + '<br>'
                 pass
             except:
-                text +='error<br>'
+                text += 'error<br>'
                 pass
-            
 
             if (Decimal(m['mid']['c']) - SMA) == 0:
                 data += 0
@@ -230,11 +229,9 @@ class setBollingerBand_USD_JPY:
         SMA = 0
         listMA = []
         for M in M50:
-            MClose = Decimal(M['mid']['c'])
             listMA.append(Decimal(M['mid']['c']))
-            SMA += MClose
 
-        SMA = SMA / SMA_days
+        SMA = np.average(listMA)
 
         # 標準偏差の計算
         SD = np.std(listMA)
