@@ -36,6 +36,10 @@ class Command(BaseCommand):
         dt_now = datetime.datetime.now(JST)
         setCandle = setCandle_USD_JPY()
         bsCal = BuySellCal()
+        # バッチの実行状況を保存する。
+        qSetBatch = batchRecord.objects.filter(id=1).first()
+        # 5分足の保存
+        result, created = setCandle.setM5()
 
         bb = setBollingerBand_USD_JPY()
         setMA = setMA_USD_JPY()
@@ -79,11 +83,6 @@ class Command(BaseCommand):
         else:
             qSetBatch.text = '現在は、自動取引がOFFです。最終実行は ' + \
                 dt_now.strftime('%Y-%m-%d %H:%M:%S')
-
-        # バッチの実行状況を保存する。
-        qSetBatch = batchRecord.objects.filter(id=1).first()
-        # 5分足の保存
-        result, created = setCandle.setM5()
 
 # '----------------デバッグ用-------------------------------'
         # condiPrev = condition.objects.latest('created_at')
