@@ -257,18 +257,21 @@ class BuySellCal():
 # 前回エクスパンションしていて、いまエクスパンションが収まったら、底の認識でそれぞれ売り払って逆方向にinする
             elif is_expansionPrev and not is_expansion and is_expansionByStdPrev:
                 text += 'エクスパンションの底値。ポジションを入れ替える <br>'
-                if is_bottomTouch and not orderShortNum >= 1:
-                    # print('エクスパンションで上タッチなので買い')
+                if is_bottomTouch:
                     text += 'エクスパンション終了で下タッチなので、short決済でlongIn<br>'
-                    orderLongNum += 1
-                    self.order.LongOrderCreate()
+                    if not orderLongNum >= 1:
+                        self.order.LongOrderCreate()
+                    else:
+                        text += 'LongInはしませんでした。決済のみ行ってます。<br>'
                     self.order.oderCloseAllShort()
                     nowInL = True
-                elif is_topTouch and not orderLongNum >= 1:
-                    # print('エクスパンションで下タッチなので売り')
+
+                elif is_topTouch:
                     text += 'エクスパンション終了で上タッチなのでlong決済でshortIn<br>'
-                    orderShortNum += 1
-                    self.order.ShortOrderCreate()
+                    if not orderShortNum >= 1:
+                        self.order.ShortOrderCreate()
+                    else:
+                        text += 'shortInはしませんでした。決済のみ行ってます。<br>'
                     self.order.oderCloseAllLong()
                     nowInS = True
 # --------------------------------------------------------------------------
