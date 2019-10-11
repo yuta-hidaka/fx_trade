@@ -21,6 +21,12 @@ class setBollingerBand_USD_JPY:
         sma2SigmaMinus = rs['sma_M50']-rs['abs_sigma_2']
         sma2SigmaPlusBefor = bbb['sma_M50']+bbb['abs_sigma_2']
         sma2SigmaMinusBefor = bbb['sma_M50']-bbb['abs_sigma_2']
+
+        sma1SigmaPlus = rs['sma_M50']+rs['abs_sigma_1']
+        sma1SigmaMinus = rs['sma_M50']-rs['abs_sigma_1']
+        sma1SigmaPlusBefor = bbb['sma_M50']+bbb['abs_sigma_1']
+        sma1SigmaMinusBefor = bbb['sma_M50']-bbb['abs_sigma_1']
+
         prevClose = Decimal(model_to_dict(condiPrev.ma.m5)['close'])
 
         nowClose = Decimal(nowMA['mid']['c'])
@@ -40,6 +46,8 @@ class setBollingerBand_USD_JPY:
         is_expansion = False
         is_expansionByStd = False
         is_expansionByNum = False
+        is_longClose = False
+        is_shortClose = False
 
         trandCondi = 3
         listBB = listConditionOfBBTrande
@@ -76,18 +84,27 @@ class setBollingerBand_USD_JPY:
             is_expansion = False
 
         # if nowClose
+        # 持ち合い相場時の決済基準を判断
+        if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
+            text += 'sigma1 上に触りました 持ち合い決済基準<br>'
+            is_longClose = True
+        elif sma1SigmaMinus >= nowLow or sma1SigmaMinus >= JNowLow:
+            text += 'sigma1 下に触りました　持ち合い決済基準<br>'
+            is_shortClose = True
+        else:
+            text += 'どちらにも触れてません　持ち合い決済基準<br>'
 
         # 持ち合い相場時の購買基準を判断
         if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh:
             is_shortIn = True
             is_topTouch = True
-            text += '上に触りました<br>'
+            text += 'sigma2 上に触りました<br>'
         elif sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow:
             is_shortIn = False
             is_bottomTouch = True
-            text += '下に触りました<br>'
+            text += 'sigma2 下に触りました<br>'
         else:
-            text += 'どちらにも触れてません<br>'
+            text += 'sigma2 どちらにも触れてません<br>'
 
         # 持ち合い相場かトレンド相場かを判断
         for m in MHalf:
@@ -133,6 +150,8 @@ class setBollingerBand_USD_JPY:
             is_bottomTouch=is_bottomTouch,
             is_expansionByStd=is_expansionByStd,
             is_expansionByNum=is_expansionByNum,
+            is_shortClose=is_shortClose,
+            is_longClose=is_longClose,
             is_shortIn=is_shortIn,
             bb_trande=listBB.objects.filter(id=trandCondi).first(),
             bb=result
