@@ -145,12 +145,15 @@ class BuySellCal():
             is_expansion = cbb['is_expansion']
             is_topTouch = cbb['is_topTouch']
             is_bottomTouch = cbb['is_bottomTouch']
+
             is_expansionByStd = cbb['is_expansionByStd']
             is_expansionByNum = cbb['is_expansionByNum']
 
             is_expansionPrev = cbbPrev['is_expansion']
             is_expansionByStdPrev = cbbPrev['is_expansionByStd']
             is_expansionByNumPrev = cbbPrev['is_expansionByNum']
+            is_topTouchPrev = cbbPrev['is_topTouch']
+            is_bottomTouchPrev = cbbPrev['is_bottomTouch']
 
             # 購買判断材料-トレンド形成時--------------------------------------
             maPrev = model_to_dict(
@@ -257,7 +260,7 @@ class BuySellCal():
 # 前回エクスパンションしていて、いまエクスパンションが収まったら、底の認識でそれぞれ売り払って逆方向にinする
             elif is_expansionPrev and not is_expansion and is_expansionByStdPrev:
                 text += 'エクスパンションの底値。ポジションを入れ替える <br>'
-                if is_bottomTouch:
+                if is_bottomTouch or is_bottomTouchPrev:
                     text += 'エクスパンション終了で下タッチなので、short決済でlongIn<br>'
                     if not orderLongNum >= 1:
                         self.order.LongOrderCreate()
@@ -266,7 +269,7 @@ class BuySellCal():
                     self.order.oderCloseAllShort()
                     nowInL = True
 
-                elif is_topTouch:
+                elif is_topTouch or is_topTouchPrev:
                     text += 'エクスパンション終了で上タッチなのでlong決済でshortIn<br>'
                     if not orderShortNum >= 1:
                         self.order.ShortOrderCreate()
