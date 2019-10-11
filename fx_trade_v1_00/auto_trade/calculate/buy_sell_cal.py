@@ -242,22 +242,33 @@ class BuySellCal():
 
                 text += 'shortのlimitが小さいので修正<br>'
                 text += 'エクスパンションbyNum<br>'
-                if is_topTouch and not orderLongNum >= 1:
+                if is_topTouch:
                     text += 'エクスパンションorだましで上タッチなのでshortAndLong<br>'
                     orderLongNum += 1
-                    self.order.LongOrderCreate()
-                    self.order.ShortOrderCreate()
+                    if not orderLongNum >= 1:
+                        self.order.LongOrderCreate()
+                        nowInL = True
+                        text += 'LongIn<br>'
+                    if not orderShortNum >= 1:
+                        self.order.ShortOrderCreate()
+                        nowInS = True
+                        text += 'ShortIn<br>'
                     # self.order.oderCloseAllShort()
-                    nowInS = True
-                    nowInL = True
+
                 elif is_bottomTouch and not orderShortNum >= 1:
                     text += 'エクスパンションorだましで下タッチなのでlongAndShort<br>'
                     orderShortNum += 1
-                    self.order.ShortOrderCreate()
-                    self.order.LongOrderCreate()
+                    if not orderLongNum >= 1:
+                        self.order.LongOrderCreate()
+                        nowInL = True
+                        text += 'LongIn<br>'
+
+                    if not orderShortNum >= 1:
+                        self.order.ShortOrderCreate()
+                        nowInS = True
+                        text += 'ShortIn<br>'
+
                     # self.order.oderCloseAllLong()
-                    nowInS = True
-                    nowInL = True
                 else:
                     text += 'エクスパンションorだまし_購買条件未該当<br>'
 
