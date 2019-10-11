@@ -130,9 +130,9 @@ class setBollingerBand_USD_JPY:
             elif Decimal(m['mid']['c']) > SMA:
                 data += 1
                 aaaa3 += 1
-        text += str(aaaa) + ' : 0のかず'
-        text += str(aaaa2) + ' : SMAより小さい'
-        text += str(aaaa3) + ' : SMAより大きい'
+        text += str(aaaa) + ' : 0のかず<br>'
+        text += str(aaaa2) + ' : SMAより小さい<br>'
+        text += str(aaaa3) + ' : SMAより大きい<br>'
 
         # SMAより上にあるか下にあるのが多いかを100分率で表示
         ans = (data / length)*100
@@ -246,6 +246,7 @@ class setBollingerBand_USD_JPY:
         )
 
         resultBBCondi = self.setBBCondition(
-            MHalf, SMA, nowMA, result, bbBefor, condiPrev)
+            MHalf, SMA, nowMA, result, bbBefor, condiPrev
+        )
 
         return resultBBCondi
