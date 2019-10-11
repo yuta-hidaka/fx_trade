@@ -400,7 +400,6 @@ class BuySellCal():
                         # print('long決済 now not')
                         text += 'long決済<br>'
                         self.order.oderCloseAllLong()
-
                     if not orderShortNum >= 1:
                         self.order.ShortOrderCreate()
                         nowInS = True
