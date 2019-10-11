@@ -1,4 +1,4 @@
-from ...models import batchRecord, autoTradeOnOff, condition
+from ...models import batchRecord, autoTradeOnOff, condition, batchLog
 from datetime import datetime, timedelta, timezone
 
 import datetime
@@ -31,14 +31,20 @@ class Command(BaseCommand):
 
     # コマンドが実行された際に呼ばれるメソッド
     def handle(self, *args, **options):
+        text = ''
+        JST = timezone(timedelta(hours=+9), 'JST')
+        dt_now = datetime.datetime.now(JST)
+        setCandle = setCandle_USD_JPY()
+        bsCal = BuySellCal()
+
         bb = setBollingerBand_USD_JPY()
         setMA = setMA_USD_JPY()
         order = orderFx()
-
         UTC = datetime.datetime.utcnow()
         adjTime = 9
         adjNum = 0
         is_closeMarket = False
+
         # isDst =
         if self.is_dst(UTC):
             adjNum = 1
@@ -51,21 +57,28 @@ class Command(BaseCommand):
         # 日本時間取得
         jstMath = UTC + datetime.timedelta(hours=adjTime)
 
+        adjNum = 6-adjNum
+
         # 土曜日の6時55分　夏時間で5時55分になってら、ポジションをすべて解除
-        if jstMath.weekday() == 5 and jstMath.hour == 6-adjNum and jstMath.minute >= 55:
+        if jstMath.weekday() == 5 and jstMath.hour == adjNum and jstMath.minute >= 55:
             order.allOrderClose()
+            text += '土曜日の6時55分になったので取引中止処理を行います。'
             print('土曜日の6時55分になったので取引中止処理を行います。')
             is_closeMarket = True
         else:
-            print('現在時刻上からweek、hour、min　、5だと金曜日、6:55をチェック')
-            print(jstMath.weekday())
-            print(jstMath.hour)
-            print(jstMath.minute)
+            text += '現在時刻上からweek、hour、adjsttime, min　、5だと金曜日、6:55をチェック'
+            text += str(jstMath.weekday())
+            text += str(jstMath.hour)
+            text += str(adjNum)
+            text += str(jstMath.minute)
+            # conditionListをもとに売買ポイントを考える。
 
-        JST = timezone(timedelta(hours=+9), 'JST')
-        dt_now = datetime.datetime.now(JST)
-        setCandle = setCandle_USD_JPY()
-        bsCal = BuySellCal()
+        if checkOn:
+            qSetBatch.text = '現在は、自動取引がONです。最終実行は ' + \
+                dt_now.strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            qSetBatch.text = '現在は、自動取引がOFFです。最終実行は ' + \
+                dt_now.strftime('%Y-%m-%d %H:%M:%S')
 
         # バッチの実行状況を保存する。
         qSetBatch = batchRecord.objects.filter(id=1).first()
@@ -90,17 +103,9 @@ class Command(BaseCommand):
             if not is_closeMarket and checkOn:
                 bsCal.BuySellCheck(condiNow, condiPrev)
             else:
-                print('自動取引がOFFです。')
+                text += '自動取引がOFFです。'
                 order.allOrderClose()
 
-            # conditionListをもとに売買ポイントを考える。
-
-        if checkOn:
-            qSetBatch.text = '現在は、自動取引がONです。最終実行は ' + \
-                dt_now.strftime('%Y-%m-%d %H:%M:%S')
-
-        else:
-            qSetBatch.text = '現在は、自動取引がOFFです。最終実行は ' + \
-                dt_now.strftime('%Y-%m-%d %H:%M:%S')
+        batchLog.objects.create(text=text)
 
         qSetBatch.save()
