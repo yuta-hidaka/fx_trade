@@ -106,6 +106,8 @@ class setBollingerBand_USD_JPY:
             text += 'sma1SigmaMinus ' + str(sma1SigmaMinus) + '<br>'
             text += 'nowLow ' + str(nowLow) + '<br>'
             text += 'JNowLow ' + str(JNowLow) + '<br>'
+            text += 'sma2SigmaPlus ' + str(sma2SigmaPlus) + '<br>'
+            text += 'sma2SigmaMinus ' + str(sma2SigmaMinus) + '<br>'
 
         if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
             text += 'sigma1 上に触りました 持ち合い決済基準<br>'
