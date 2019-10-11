@@ -66,15 +66,14 @@ class Command(BaseCommand):
         # 土曜日の6時55分　夏時間で5時55分になってら、ポジションをすべて解除
         if jstMath.weekday() == 5 and jstMath.hour == adjNum and jstMath.minute >= 55:
             order.allOrderClose()
-            text += '土曜日の6時55分になったので取引中止処理を行います。'
-            print('土曜日の6時55分になったので取引中止処理を行います。')
+            text += '土曜日の6時55分になったので取引中止処理を行います。<br>'
             is_closeMarket = True
         else:
-            text += '現在時刻上からweek、hour、adjsttime, min　、5だと金曜日、6:55をチェック'
-            text += str(jstMath.weekday())
-            text += str(jstMath.hour)
-            text += str(adjNum)
-            text += str(jstMath.minute)
+            text += '現在時刻上からweek、hour、adjsttime, min　、5だと金曜日、6:55をチェック<br>'
+            text += str(jstMath.weekday())+'<br>'
+            text += str(jstMath.hour)+'<br>'
+            text += str(adjNum)+'<br>'
+            text += str(jstMath.minute)+'<br>'
             # conditionListをもとに売買ポイントを考える。
 
         if checkOn:
