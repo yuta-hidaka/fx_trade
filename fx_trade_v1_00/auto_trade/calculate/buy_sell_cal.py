@@ -213,7 +213,7 @@ class BuySellCal():
 
             # 偏差と数値によるエクスパンションで確度が高めのポジションを持つ
             if not is_expansionPrev and is_expansion and is_expansionByStd and is_expansionByNum:
-                text += 'エクスパンションbyStd<br>'
+                text += 'エクスパンション確度が高め<br>'
                 if is_topTouch and not orderLongNum >= 1:
                     # print('エクスパンションで上タッチなので買い')
                     text += 'エクスパンションで上タッチなのでLong by Std<br>'
@@ -248,6 +248,7 @@ class BuySellCal():
                     self.order.LongOrderCreate()
                     self.order.ShortOrderCreate()
                     # self.order.oderCloseAllShort()
+                    nowInS = True
                     nowInL = True
                 elif is_bottomTouch and not orderShortNum >= 1:
                     text += 'エクスパンションorだましで下タッチなのでlongAndShort<br>'
@@ -256,6 +257,7 @@ class BuySellCal():
                     self.order.LongOrderCreate()
                     # self.order.oderCloseAllLong()
                     nowInS = True
+                    nowInL = True
                 else:
                     text += 'エクスパンションorだまし_購買条件未該当<br>'
 
@@ -307,7 +309,7 @@ class BuySellCal():
                     self.order.oderCloseAllShort()
                 else:
                     # print('決済----様子見中')
-                    text += '状下降トレンドの決済様子見中<br>'
+                    text += '上下降トレンドの決済様子見中<br>'
                 # 購買タイミング----------------------------------------------------------------------------------
                 # longのタイミング all slope is positive and before MA is 6or1 and now 1
                 if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:

@@ -14,11 +14,15 @@ class setBollingerBand_USD_JPY:
         rs = model_to_dict(result)
         bbb = model_to_dict(bbBefor)
 
-        rs['abs_sigma_2'] = (rs['abs_sigma_2']*Decimal(0.95))
-        bbb['abs_sigma_2'] = (bbb['abs_sigma_2']*Decimal(0.95))
+        rs['abs_sigma_2'] = (rs['abs_sigma_2']*Decimal(0.95)
+                             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+        bbb['abs_sigma_2'] = (bbb['abs_sigma_2']*Decimal(0.95)
+                              ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-        rs['abs_sigma_2'] = (rs['abs_sigma_1']*Decimal(1.05))
-        bbb['abs_sigma_2'] = (bbb['abs_sigma_1']*Decimal(1.05))
+        rs['abs_sigma_2'] = (rs['abs_sigma_1']*Decimal(1.05)
+                             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+        bbb['abs_sigma_2'] = (bbb['abs_sigma_1']*Decimal(1.05)
+                              ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         sma2SigmaPlus = rs['sma_M50']+rs['abs_sigma_2']
         sma2SigmaMinus = rs['sma_M50']-rs['abs_sigma_2']
