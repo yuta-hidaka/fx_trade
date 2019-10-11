@@ -112,14 +112,27 @@ class setBollingerBand_USD_JPY:
         else:
             text += 'sigma2 どちらにも触れてません<br>'
 
+        text += str(SMA) + ' : SMA'
+
         # 持ち合い相場かトレンド相場かを判断
+        aaaa = 0
+        aaaa2 = 0
+        aaaa3 = 0
+
         for m in MHalf:
             if (Decimal(m['mid']['c']) - SMA) == 0:
                 data += 0
+                aaaa += 1
             elif Decimal(m['mid']['c']) < SMA:
                 data -= 1
+                aaaa2 += 1
+
             elif Decimal(m['mid']['c']) > SMA:
                 data += 1
+                aaaa3 += 1
+        text += str(aaaa) + ' : 0のかず'
+        text += str(aaaa2) + ' : SMAより小さい'
+        text += str(aaaa3) + ' : SMAより大きい'
 
         # SMAより上にあるか下にあるのが多いかを100分率で表示
         ans = (data / length)*100
