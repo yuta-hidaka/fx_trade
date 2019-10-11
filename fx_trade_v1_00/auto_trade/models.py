@@ -6,7 +6,7 @@ from django.utils import timezone
 
 
 class batchLog(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=2500)
     created_at = models.DateTimeField(auto_now_add=True)
 
 # 5分足
