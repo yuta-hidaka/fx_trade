@@ -24,15 +24,23 @@ class setBollingerBand_USD_JPY:
         bbb['abs_sigma_2'] = (bbb['abs_sigma_1']*Decimal(1.05)
                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-        sma2SigmaPlus = rs['sma_M50']+rs['abs_sigma_2']
-        sma2SigmaMinus = rs['sma_M50']-rs['abs_sigma_2']
-        sma2SigmaPlusBefor = bbb['sma_M50']+bbb['abs_sigma_2']
-        sma2SigmaMinusBefor = bbb['sma_M50']-bbb['abs_sigma_2']
+        sma2SigmaPlus = (rs['sma_M50']+rs['abs_sigma_2']
+                         ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+        sma2SigmaMinus = (rs['sma_M50']-rs['abs_sigma_2']
+                          ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+        sma2SigmaPlusBefor = (bbb['sma_M50']+bbb['abs_sigma_2']
+                              ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+        sma2SigmaMinusBefor = (bbb['sma_M50']-bbb['abs_sigma_2']
+                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-        sma1SigmaPlus = rs['sma_M50']+rs['abs_sigma_1']
-        sma1SigmaMinus = rs['sma_M50']-rs['abs_sigma_1']
-        sma1SigmaPlusBefor = bbb['sma_M50']+bbb['abs_sigma_1']
-        sma1SigmaMinusBefor = bbb['sma_M50']-bbb['abs_sigma_1']
+        sma1SigmaPlus = (rs['sma_M50']+rs['abs_sigma_1']
+                         ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+        sma1SigmaMinus = (rs['sma_M50']-rs['abs_sigma_1']
+                          ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+        sma1SigmaPlusBefor = (bbb['sma_M50']+bbb['abs_sigma_1']
+                              ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+        sma1SigmaMinusBefor = (bbb['sma_M50']-bbb['abs_sigma_1']
+                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         prevClose = Decimal(model_to_dict(condiPrev.ma.m5)['close'])
 
@@ -43,6 +51,7 @@ class setBollingerBand_USD_JPY:
         JNowClose = Decimal(JustNowMA['candles'][0]['mid']['c'])
         JNowHigh = Decimal(JustNowMA['candles'][0]['mid']['h'])
         JNowLow = Decimal(JustNowMA['candles'][0]['mid']['l'])
+
         length = len(MHalf)
         data = 0
         is_plus = True
