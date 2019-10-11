@@ -46,21 +46,18 @@ class Command(BaseCommand):
         order = orderFx()
         UTC = datetime.datetime.utcnow()
         adjTime = 9
-        adjNum = 0
+        adjNum = 6
         is_closeMarket = False
 
         # isDst =
         if self.is_dst(UTC):
-            adjNum = 1
+            adjNum = 5
 
         # 自動取引がOFFかONかを確認する。
         qSetCheck = autoTradeOnOff.objects.filter(id=1).first()
         checkOn = model_to_dict(qSetCheck)['auto_trade_is_on']
-
         # 日本時間取得
         jstMath = UTC + datetime.timedelta(hours=adjTime)
-
-        adjNum = 6-adjNum
 
         # 土曜日の6時55分　夏時間で5時55分になってら、ポジションをすべて解除
         if jstMath.weekday() == 5 and jstMath.hour == adjNum and jstMath.minute >= 55:
