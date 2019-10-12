@@ -5,6 +5,12 @@ from django.utils import timezone
 # Create your models here.
 
 
+class tradeSettings(models.Model):
+    lot = models.IntegerField(default=100)
+    text = models.CharField(max_length=2500)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class batchLog(models.Model):
     text = models.CharField(max_length=2500)
     created_at = models.DateTimeField(auto_now_add=True)
