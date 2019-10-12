@@ -19,8 +19,7 @@ from .access_token import FxInfo
 import oandapyV20.endpoints.instruments as instruments
 
 import datetime
-
-
+from auto_trade.models import batchLog
 from oandapyV20 import API
 
 """
@@ -94,6 +93,8 @@ class orderFx:
 
     # すべてのポジションを決済します。
     def allOrderClose(self):
+        text = 'allOrderClose'
+        batchLog.objects.create(text=text)
         # 口座のすべてのポジションをリストとして取得
         r = positions.PositionList(accountID=self.fi.accountID)
         api = self.fi.api
@@ -115,7 +116,8 @@ class orderFx:
             self.oderCloseAllShort()
 
     def ShortOrderCreate(self):
-            # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
+        text = 'ShortOrderCreate'
+        # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
         api = self.fi.api
         # stopPrice = 100.00
         stoporder = StopLossDetails(
@@ -134,12 +136,13 @@ class orderFx:
         r = orders.OrderCreate(self.fi.accountID, data=self.data)
         res = api.request(r)
         # print(self.data)
-        text = json.dumps(res, indent=2)
+        text += json.dumps(res, indent=2)
         batchLog.objects.create(text=text)
         # print(json.dumps(res, indent=2))
         # print('order create')
 
     def LongOrderCreate(self):
+        text = 'LongOrderCreate'
         # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
         api = self.fi.api
         # stopPrice = 100.00
@@ -158,13 +161,15 @@ class orderFx:
         # API経由で指値注文を実行
         r = orders.OrderCreate(self.fi.accountID, data=self.data)
         res = api.request(r)
-        text = json.dumps(res, indent=2)
+        text += json.dumps(res, indent=2)
         batchLog.objects.create(text=text)
         # print(self.data)
         # print(json.dumps(res, indent=2))
         print('order create----------------------------------------------')
 
     def oderCloseAllLong(self):
+        text = 'oderCloseAllLong'
+        batchLog.objects.create(text=text)
         api = self.fi.api
         """
         longをすべて決済する。
@@ -186,6 +191,8 @@ class orderFx:
             pass
 
     def oderCloseAllShort(self):
+        text = 'oderCloseAllShort'
+        batchLog.objects.create(text=text)
         api = self.fi.api
         """
         shortをすべて決済する。

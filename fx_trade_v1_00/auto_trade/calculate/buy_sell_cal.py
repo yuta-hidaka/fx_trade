@@ -290,28 +290,32 @@ class BuySellCal():
 # --------------------------------------------------------------------------
             if trend_id == 1 or trend_id == 2:
                 # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
-                if maNow == 2 and trend_id != 1 and orderLongNum != 0 and not nowInL:
+                if maNow == 2 and trend_id != 1 and orderLongNum != 0:
                     # print("long out by ma")
                     text = "long out by ma<br>"
-                    self.order.oderCloseAllLong()
+                    if not nowInL:
+                        self.order.oderCloseAllLong()
 
                     # short　closeのタイミング if MA is 5 it have to close
-                elif maNow == 5 and trend_id != 2 and orderShortNum != 0 and not nowInS:
+                elif maNow == 5 and trend_id != 2 and orderShortNum != 0:
                     # print("short out by ma")
                     text += "short out by ma<br>"
-                    self.order.oderCloseAllShort()
+                    if not nowInS:
+                        self.order.oderCloseAllShort()
 
                     # long　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
-                elif M5_1_closePrev > nowCndl_close > M5_1_closeNow and trend_id != 1 and orderLongNum != 0 and not nowInL:
+                elif M5_1_closePrev > nowCndl_close > M5_1_closeNow and trend_id != 1 and orderLongNum != 0:
                     # print("long out by candle")
                     text += "long out by candle<br>"
-                    self.order.oderCloseAllLong()
+                    if not nowInL:
+                        self.order.oderCloseAllLong()
 
                     # short　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
-                elif M5_1_closePrev < nowCndl_close < M5_1_closeNow and trend_id != 2 and orderShortNum != 0 and not nowInS:
+                elif M5_1_closePrev < nowCndl_close < M5_1_closeNow and trend_id != 2 and orderShortNum != 0:
                     # print("short out by candle")
                     text += "short out by candle<br>"
-                    self.order.oderCloseAllShort()
+                    if not nowInS:
+                        self.order.oderCloseAllShort()
                 else:
                     # print('決済----様子見中')
                     text += '上下降トレンドの決済様子見中<br>'
@@ -394,7 +398,7 @@ class BuySellCal():
             elif trend_id == 3 and not is_expansion:
                 if is_shortClose and not nowInS:
                     text += 'sigma1 によるshortClose<br>'
-                    self.order.ShortOrderCreate()
+                    self.order.oderCloseAllShort()
                 elif is_longClose and not nowInL:
                     text += 'sigma1 によるlongClose<br>'
                     self.order.oderCloseAllLong()

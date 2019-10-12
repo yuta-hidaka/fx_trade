@@ -37,7 +37,7 @@ class M5vsMaUsdJpyAPI(APIView):
 
         result = condition.objects.prefetch_related().order_by(
             '-created_at'
-        )[:1500]
+        )[:500]
 
         c = result.count()
 
