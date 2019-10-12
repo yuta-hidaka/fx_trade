@@ -1,4 +1,4 @@
-from ..models import MA_USD_JPY, orderStatus, batchLog
+from ..models import MA_USD_JPY, orderStatus, batchLog,tradeSettings
 from django.forms.models import model_to_dict
 from ..service.get_MA_USD_JPY import getMA_USD_JPY
 import oandapyV20.endpoints.accounts as accounts
@@ -31,6 +31,8 @@ class BuySellCal():
         res = api.request(r)
         pos = res['positions'][0]
         # # print(json.dumps(pos),  indent=2)
+        setting = tradeSettings.objects.filter(id=1).first()
+        print(setting.lot)
 
         cbb = model_to_dict(condNow.condition_of_bb)
         cbbPrev = model_to_dict(condiPrev.condition_of_bb)

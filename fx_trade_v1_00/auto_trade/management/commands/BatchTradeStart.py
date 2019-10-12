@@ -1,4 +1,4 @@
-from ...models import batchRecord, autoTradeOnOff, condition, batchLog
+from ...models import batchRecord, autoTradeOnOff, condition, batchLog, tradeSettings
 from datetime import datetime, timedelta, timezone
 
 import datetime
@@ -31,6 +31,8 @@ class Command(BaseCommand):
 
     # コマンドが実行された際に呼ばれるメソッド
     def handle(self, *args, **options):
+        setting = tradeSettings.objects.filter(id=1).first()
+        print(setting.lot)
         text = ''
         JST = timezone(timedelta(hours=+9), 'JST')
         dt_now = datetime.datetime.now(JST)
