@@ -1,4 +1,4 @@
-from ..models import MA_USD_JPY, orderStatus, batchLog,tradeSettings
+from ..models import MA_USD_JPY, orderStatus, batchLog, tradeSettings
 from django.forms.models import model_to_dict
 from ..service.get_MA_USD_JPY import getMA_USD_JPY
 import oandapyV20.endpoints.accounts as accounts
@@ -32,7 +32,7 @@ class BuySellCal():
         pos = res['positions'][0]
         # # print(json.dumps(pos),  indent=2)
         setting = tradeSettings.objects.filter(id=1).first()
-        print(setting.lot)
+        print()
 
         cbb = model_to_dict(condNow.condition_of_bb)
         cbbPrev = model_to_dict(condiPrev.condition_of_bb)
@@ -70,7 +70,14 @@ class BuySellCal():
 
         # 購入するユニット数
         # units = 7500
-        units = 250000
+        try:
+            units = setting.lot
+            pass
+        except:
+            text = '予期しないロット数が入っています'
+            units = 1
+            pass
+
         getNowRate = getMA_USD_JPY()
 
         # 今買ったかを判断

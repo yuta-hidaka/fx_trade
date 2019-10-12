@@ -1,4 +1,4 @@
-from ...models import batchRecord, autoTradeOnOff, condition, batchLog, tradeSettings
+from ...models import batchRecord, autoTradeOnOff, condition, batchLog
 from datetime import datetime, timedelta, timezone
 
 import datetime
@@ -31,8 +31,6 @@ class Command(BaseCommand):
 
     # コマンドが実行された際に呼ばれるメソッド
     def handle(self, *args, **options):
-        setting = tradeSettings.objects.filter(id=1).first()
-        print(setting.lot)
         text = ''
         JST = timezone(timedelta(hours=+9), 'JST')
         dt_now = datetime.datetime.now(JST)
@@ -65,7 +63,7 @@ class Command(BaseCommand):
         wk = jstMath.weekday()
         hr = jstMath.hour
         mi = jstMath.minute
-        if wk == 5 and hr >= adjNum and mi >= 0:
+        if wk == 5 and adjNum+2 > hr >= adjNum and mi >= 0:
             order.allOrderClose()
             text += '土曜日の終了時刻以降になったので取引中止処理を行います。<br>'
             is_closeMarket = True
