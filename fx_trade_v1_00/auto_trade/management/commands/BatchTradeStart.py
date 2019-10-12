@@ -46,12 +46,12 @@ class Command(BaseCommand):
         order = orderFx()
         UTC = datetime.datetime.utcnow()
         adjTime = 9
-        adjNum = 6
+        adjNum = 7
         is_closeMarket = False
 
         # isDst =
         if self.is_dst(UTC):
-            adjNum = 5
+            adjNum = 6
 
         # 自動取引がOFFかONかを確認する。
         qSetCheck = autoTradeOnOff.objects.filter(id=1).first()
@@ -60,19 +60,24 @@ class Command(BaseCommand):
         jstMath = UTC + datetime.timedelta(hours=adjTime)
 
         # 土曜日の6時55分　夏時間で5時55分になってら、ポジションをすべて解除
-        if jstMath.weekday() == 5 and jstMath.hour == adjNum and jstMath.minute >= 55:
+        wk = jstMath.weekday()
+        hr = jstMath.hour
+        mi = jstMath.minute
+        if wk == 5 and hr >= adjNum and mi >= 0:
             order.allOrderClose()
-            text += '土曜日の6時55分になったので取引中止処理を行います。<br>'
+            text += '土曜日の終了時刻以降になったので取引中止処理を行います。<br>'
             is_closeMarket = True
-        else:
-            text += '現在時刻上からweek、hour、adjsttime, min　、5だと土曜日、6:55をチェック<br>'
-            text += str(jstMath.weekday())+'　→　jstMath.weekday()<br>'
-            text += str(jstMath.weekday() == 5)+'　→　jstMath.weekday() == 5<br>'
-            text += str(jstMath.hour)+'　→　jstMath.hour<br>'
-            text += str(jstMath.hour == adjNum)+'　→　jstMath.hour == adjNum<br>'
-            text += str(adjNum)+'　→　adjNum<br>'
-            text += str(jstMath.minute)+'　→　jstMath.minute<br>'
-            text += str(jstMath.minute >= 55)+'　→　jstMath.minute >= 55<br>'
+        # else:
+            # text += '土曜日の終了時刻以降になったので取引中止処理を行います。<br>'
+
+            # text += '現在時刻上からweek、hour、adjsttime, min　、5だと土曜日、6:55をチェック<br>'
+            # text += str(jstMath.weekday())+'　→　jstMath.weekday()<br>'
+            # text += str(jstMath.weekday() == 5)+'　→　jstMath.weekday() == 5<br>'
+            # text += str(jstMath.hour)+'　→　jstMath.hour<br>'
+            # text += str(jstMath.hour == adjNum)+'　→　jstMath.hour == adjNum<br>'
+            # text += str(adjNum)+'　→　adjNum<br>'
+            # text += str(jstMath.minute)+'　→　jstMath.minute<br>'
+            # text += str(jstMath.minute >= 55)+'　→　jstMath.minute >= 55<br>'
             # conditionListをもとに売買ポイントを考える。
 
         if checkOn:
