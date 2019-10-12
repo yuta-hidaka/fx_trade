@@ -14,33 +14,11 @@ class setBollingerBand_USD_JPY:
         rs = model_to_dict(result)
         bbb = model_to_dict(bbBefor)
 
-        rs['abs_sigma_2'] = (rs['abs_sigma_2']*Decimal(0.98)
-                             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-        bbb['abs_sigma_2'] = (bbb['abs_sigma_2']*Decimal(0.98)
-                              ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+        sig1 = (rs['abs_sigma_1'] * Decimal(1.3))
+        sig2 = (rs['abs_sigma_2'] * Decimal(0.90))
 
-        rs['abs_sigma_2'] = (rs['abs_sigma_1']*Decimal(1.1)
-                             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-        bbb['abs_sigma_2'] = (bbb['abs_sigma_1']*Decimal(1.1)
-                              ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-
-        sma2SigmaPlus = (rs['sma_M50']+rs['abs_sigma_2']
-                         ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-        sma2SigmaMinus = (rs['sma_M50']-rs['abs_sigma_2']
-                          ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-        sma2SigmaPlusBefor = (bbb['sma_M50']+bbb['abs_sigma_2']
-                              ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-        sma2SigmaMinusBefor = (bbb['sma_M50']-bbb['abs_sigma_2']
-                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-
-        sma1SigmaPlus = (rs['sma_M50']+rs['abs_sigma_1']
-                         ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-        sma1SigmaMinus = (rs['sma_M50']-rs['abs_sigma_1']
-                          ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-        sma1SigmaPlusBefor = (bbb['sma_M50']+bbb['abs_sigma_1']
-                              ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-        sma1SigmaMinusBefor = (bbb['sma_M50']-bbb['abs_sigma_1']
-                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+        bSig1 = (bbb['abs_sigma_1'] * Decimal(1.3))
+        bSig2 = (bbb['abs_sigma_2'] * Decimal(0.90))
 
         prevClose = Decimal(model_to_dict(condiPrev.ma.m5)['close'])
 
@@ -67,6 +45,34 @@ class setBollingerBand_USD_JPY:
         trandCondi = 3
         listBB = listConditionOfBBTrande
         text = ''
+
+        sma = rs['sma_M50']
+        bSma = bbb['sma_M50']
+
+        sma2SigmaPlus = (
+            sma + sig2).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+        sma2SigmaMinus = (
+            sma - sig2).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+        sma2SigmaPlusBefor = (
+            bSma + bSig2).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+        sma2SigmaMinusBefor = (
+            bSma - bSig2).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+        # 決済基準用のやつ
+        sma1SigmaPlus = (
+            sma + sig1).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+        sma1SigmaMinus = (
+            sma - sig1).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+        sma1SigmaPlusBefor = (
+            bSma + bSig1).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+        sma1SigmaMinusBefor = (
+            bSma - bSig1).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         diff = (
             sma2SigmaPlus - sma2SigmaPlusBefor
@@ -100,17 +106,18 @@ class setBollingerBand_USD_JPY:
 
         # if nowClose
         # 持ち合い相場時の決済基準を判断
-            text += 'sma1SigmaPlus ' + str(sma1SigmaPlus) + '<br>'
-            text += 'nowHigh ' + str(nowHigh) + '<br>'
-            text += 'JNowHigh ' + str(JNowHigh) + '<br>'
-            text += 'sma1SigmaMinus ' + str(sma1SigmaMinus) + '<br>'
-            text += 'nowLow ' + str(nowLow) + '<br>'
-            text += 'JNowLow ' + str(JNowLow) + '<br>'
-            text += 'sma2SigmaPlus ' + str(sma2SigmaPlus) + '<br>'
-            text += 'sma2SigmaMinus ' + str(sma2SigmaMinus) + '<br>'
+        text += 'nowHigh ' + str(nowHigh) + '<br>'
+        text += 'JNowHigh ' + str(JNowHigh) + '<br>'
+        text += 'nowLow ' + str(nowLow) + '<br>'
+        text += 'JNowLow ' + str(JNowLow) + '<br>'
+        text += 'SMA ' + str(SMA) + '<br>'
+        text += 'sma2SigmaPlus ' + str(sma2SigmaPlus) + '<br>'
+        text += 'sma2SigmaMinus ' + str(sma2SigmaMinus) + '<br>'
+        text += 'sma1SigmaPlus ' + str(sma1SigmaPlus) + '<br>'
+        text += 'sma1SigmaMinus ' + str(sma1SigmaMinus) + '<br>'
 
-            text += 'JNowClose ' + str(JNowClose) + '<br>'
-            text += 'nowClose ' + str(nowClose) + '<br>'
+        text += 'JNowClose ' + str(JNowClose) + '<br>'
+        text += 'nowClose ' + str(nowClose) + '<br>'
 
         if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
             text += 'sigma1 上に触りました 持ち合い決済基準<br>'
@@ -194,17 +201,6 @@ class setBollingerBand_USD_JPY:
             bb_trande=listBB.objects.filter(id=trandCondi).first(),
             bb=result
         )
-
-        text += 'diff<br>'
-        text += str(diff) + '<br>'
-        text += 'sma2SigmaPlus<br>'
-        text += str(sma2SigmaPlus) + '<br>'
-        text += 'sma2SigmaMinus<br>'
-        text += str(sma2SigmaMinus) + '<br>'
-        text += 'nowLow<br>'
-        text += str(nowLow) + '<br>'
-        text += 'JNowLow<br>'
-        text += str(JNowLow) + '<br>'
 
         batchLog.objects.create(
             text=text
