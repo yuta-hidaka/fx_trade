@@ -12,7 +12,7 @@ import oandapyV20.endpoints.instruments as instruments
 
 import oandapyV20.endpoints.trades as trades
 import datetime
-from auto_trade.models import tradeSettings,batchLog
+from auto_trade.models import tradeSettings, batchLog
 
 
 from oandapyV20 import API
@@ -44,6 +44,10 @@ class FxInfo:
             environment = "live"
             self.accountID = setting.realId
             self.access_token = setting.realToken
+
+        text = str(setting.on_real_trade)
+        text += str(setting.practiceId)
+        text += str(setting.practiceToken)
 
         # oandaAPI情報
         try:
