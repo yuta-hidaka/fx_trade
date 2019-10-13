@@ -12,6 +12,7 @@ import oandapyV20.endpoints.instruments as instruments
 
 import oandapyV20.endpoints.trades as trades
 import datetime
+from auto_trade.models import tradeSettings,batchLog
 
 
 from oandapyV20 import API
@@ -23,20 +24,35 @@ class FxInfo:
     """API情報取得"""
 
     def __init__(self):
+        setting = tradeSettings.objects.filter(id=1).first()
+        text = ''
 
         is_practice = True
         # is_practice = False
         # OANDA API v20の口座IDとAPIトークン
 
-        self.accountID = "101-009-11457637-001"
-        self.access_token = "46c8cbca4d7b1ed7533cdca8bd0b2eea-ce54c2371b95860a91bc0a977fd923c5"
+        self.accountID = ""
+        self.access_token = ""
 
-        if is_practice:
+        if setting.on_real_trade:
+            self.accountID = setting.practiceId
+            self.access_token = setting.practiceToken
             # print("practice")
             environment = "practice"
         else:
             # print("live")
             environment = "live"
+            self.accountID = setting.realId
+            self.access_token = setting.realToken
 
         # oandaAPI情報
-        self.api = API(environment=environment, access_token=self.access_token)
+        try:
+            self.api = API(environment=environment,
+                           access_token=self.access_token)
+            pass
+        except:
+            text = 'OANDA APIから情報の取得に失敗しました。'
+            pass
+
+        if text != '':
+            batchLog.objects.create(text=text)
