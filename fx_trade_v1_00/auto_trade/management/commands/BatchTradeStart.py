@@ -1,4 +1,4 @@
-from ...models import batchRecord, autoTradeOnOff, condition, batchLog
+from ...models import batchRecord, autoTradeOnOff, condition, batchLog, assets
 from datetime import datetime, timedelta, timezone
 
 import datetime
@@ -10,6 +10,7 @@ from ...service.set_MA_USD_JPY import setMA_USD_JPY
 from ...service.set_bollinger_band import setBollingerBand_USD_JPY
 from ...service.set_candle_USD_JPY import setCandle_USD_JPY
 from fx_trade_v1_00.lib.order import orderFx
+from decimal import *
 
 import datetime
 import pytz
@@ -43,6 +44,7 @@ class Command(BaseCommand):
 
         bb = setBollingerBand_USD_JPY()
         setMA = setMA_USD_JPY()
+        order = orderFx()
         order = orderFx()
         UTC = datetime.datetime.utcnow()
         adjTime = 9
@@ -107,6 +109,10 @@ class Command(BaseCommand):
             else:
                 text += '自動取引がOFFです。'
                 order.allOrderClose()
+
+            ast = order.fi.getAsset()
+            ast = Decimal(ast['account']['balance'])
+            assets.objects.create(assets=ast)
 
         if text != '':
             batchLog.objects.create(text=text)

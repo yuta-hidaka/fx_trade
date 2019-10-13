@@ -6,9 +6,9 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from oandapyV20 import API
 from oandapyV20.exceptions import V20Error
-from oandapyV20.endpoints.pricing import PricingInfo
 
 import oandapyV20.endpoints.instruments as instruments
+import oandapyV20.endpoints.accounts as accounts
 
 import oandapyV20.endpoints.trades as trades
 import datetime
@@ -60,3 +60,9 @@ class FxInfo:
 
         if text != '':
             batchLog.objects.create(text=text)
+
+    def getAsset(self):
+        r = accounts.AccountDetails(self.accountID)
+        res = self.api.request(r)
+
+        return res
