@@ -108,6 +108,7 @@ class Command(BaseCommand):
                 text += '自動取引がOFFです。'
                 order.allOrderClose()
 
-        batchLog.objects.create(text=text)
+        if text != '':
+            batchLog.objects.create(text=text)
 
         qSetBatch.save()

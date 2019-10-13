@@ -6,8 +6,16 @@ from django.utils import timezone
 
 
 class tradeSettings(models.Model):
-    lot = models.IntegerField(default=100)
-    text = models.CharField(max_length=2500)
+    on_unit_trade = models.BooleanField(null=True, default=False)
+    units = models.IntegerField(default=100)
+    revelage = models.IntegerField(default=1)
+    use_amount = models.DecimalField(
+        max_digits=5, decimal_places=2, default=1.00)
+    practiceId = models.CharField(max_length=100, default='')
+    practiceToken = models.CharField(max_length=100, default='')
+    realId = models.CharField(max_length=100, default='')
+    realToken = models.CharField(max_length=100, default='')
+
     created_at = models.DateTimeField(auto_now_add=True)
 
 

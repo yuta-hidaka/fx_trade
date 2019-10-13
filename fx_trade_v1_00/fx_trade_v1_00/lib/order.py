@@ -187,7 +187,6 @@ class orderFx:
             api.request(r)
         except:
             print('long決済するデータがありませんでした。')
-
             pass
 
     def oderCloseAllShort(self):
