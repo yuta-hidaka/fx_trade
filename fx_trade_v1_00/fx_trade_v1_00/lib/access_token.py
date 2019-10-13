@@ -34,7 +34,7 @@ class FxInfo:
         self.accountID = ""
         self.access_token = ""
 
-        if setting.on_real_trade:
+        if not setting.on_real_trade:
             self.accountID = setting.practiceId
             self.access_token = setting.practiceToken
             # print("practice")
@@ -46,8 +46,8 @@ class FxInfo:
             self.access_token = setting.realToken
 
         text = str(setting.on_real_trade)
-        text += str(setting.practiceId)
-        text += str(setting.practiceToken)
+        text += str(self.accountID)
+        text += str(self.access_token)
 
         # oandaAPI情報
         try:
