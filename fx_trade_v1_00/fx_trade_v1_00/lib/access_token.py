@@ -45,9 +45,9 @@ class FxInfo:
             self.accountID = setting.realId
             self.access_token = setting.realToken
 
-        text = str(setting.on_real_trade)
-        text += str(self.accountID)
-        text += str(self.access_token)
+        # text = str(setting.on_real_trade)
+        # text += str(self.accountID)
+        # text += str(self.access_token)
 
         # oandaAPI情報
         try:
