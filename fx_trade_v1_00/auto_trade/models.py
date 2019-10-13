@@ -7,6 +7,7 @@ from django.utils import timezone
 
 class tradeSettings(models.Model):
     on_unit_trade = models.BooleanField(null=True, default=False)
+    on_real_trade = models.BooleanField(null=True, default=False)
     units = models.IntegerField(default=100)
     revelage = models.IntegerField(default=1)
     use_amount = models.DecimalField(
