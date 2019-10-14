@@ -335,6 +335,32 @@ class BuySellCal():
                     text += '上下降トレンドの決済様子見中<br>'
                 # 購買タイミング----------------------------------------------------------------------------------
                 # longのタイミング all slope is positive and before MA is 6or1 and now 1
+                if trend_id == 1:
+                    if orderLongNum == 0 and not nowInL:
+                        # print("long in by ma")
+                        text += "BB算出の上昇トレンド、long<br>"
+                        orderLongNum += 1
+                        self.order.LongOrderCreate()
+                        nowInL = True
+                    else:
+                        # print("long in　but position is too many")
+                        text += "long in　but position is too many<br>"
+                        # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
+
+                elif trend_id == 2:
+                        if orderShortNum == 0 and not nowInS:
+                            # self.order.oderCloseAllLong()
+                            # print("short in by ma")
+                            text += "BB算出の下降トレンド、long<br>"
+                            orderShortNum += 1
+                            self.order.ShortOrderCreate()
+                            nowInS = True
+                        else:
+                            # print("short in　but position is too many")
+                            text += "short in　but position is too many<br>"
+
+
+
                 if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
                     
                     if orderLongNum == 0 and not nowInL:

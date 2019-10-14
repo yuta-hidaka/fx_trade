@@ -165,11 +165,6 @@ class setBollingerBand_USD_JPY:
         aaaa2 = 0
         aaaa3 = 0
 
-        cBB = list(conditionOfBB.objects.all().order_by(
-            'created_at')[:12].values())
-        ma = list(M5_USD_JPY.objects.all().order_by(
-            'created_at')[1:13].values())
-
         if nowMA.close - SMA == 0:
             data += 0
             aaaa += 1
