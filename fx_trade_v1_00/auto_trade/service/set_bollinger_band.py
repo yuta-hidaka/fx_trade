@@ -165,10 +165,10 @@ class setBollingerBand_USD_JPY:
         aaaa2 = 0
         aaaa3 = 0
 
-        text += str(nowMA.recorded_at_utc)+' 最新　<br>'
-        text += str(nowMA.close)+'　最新 close<br>'
-        text += str(sma)+'　最新 sma<br>'
-        text += str(nowMA.close - SMA)+'　最新 deff<br>'
+        # text += str(nowMA.recorded_at_utc)+' 最新　<br>'
+        # text += str(nowMA.close)+'　最新 close<br>'
+        # text += str(sma)+'　最新 sma<br>'
+        # text += str(nowMA.close - SMA)+'　最新 deff<br>'
         if nowMA.close - SMA == 0:
             data += 0
             aaaa += 1
@@ -180,10 +180,10 @@ class setBollingerBand_USD_JPY:
             aaaa3 += 1
 
         for c in cond:
-            text += str(c.ma.m5.recorded_at_utc)+' date<br>'
-            text += str(c.ma.m5.close)+'　close<br>'
-            text += str(c.condition_of_bb.bb.sma_M50)+'　sma<br>'
-            text += str(c.ma.m5.close - c.condition_of_bb.bb.sma_M50)+'　deff<br>'
+            # text += str(c.ma.m5.recorded_at_utc)+' date<br>'
+            # text += str(c.ma.m5.close)+'　close<br>'
+            # text += str(c.condition_of_bb.bb.sma_M50)+'　sma<br>'
+            # text += str(c.ma.m5.close - c.condition_of_bb.bb.sma_M50)+'　deff<br>'
             if (c.ma.m5.close - c.condition_of_bb.bb.sma_M50) == 0:
                 data += 0
                 aaaa += 1
