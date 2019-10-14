@@ -290,21 +290,21 @@ class BuySellCal():
                 text += 'エクスパンションの底値。ポジションを入れ替える <br>'
                 if is_bottomTouch or is_bottomTouchPrev:
                     text += 'エクスパンション終了で下タッチなので、short決済でlongIn<br>'
+                    self.order.oderCloseAllShort()
                     if orderLongNum == 0:
                         self.order.LongOrderCreate()
                         nowInL = True
                     else:
                         text += 'LongInはしませんでした。決済のみ行ってます。<br>'
-                    self.order.oderCloseAllShort()
 
                 elif is_topTouch or is_topTouchPrev:
                     text += 'エクスパンション終了で上タッチなのでlong決済でshortIn<br>'
+                    self.order.oderCloseAllLong()
                     if orderShortNum == 0:
                         self.order.ShortOrderCreate()
                         nowInS = True
                     else:
                         text += 'shortInはしませんでした。決済のみ行ってます。<br>'
-                    self.order.oderCloseAllLong()
 # --------------------------------------------------------------------------
             if trend_id == 1 or trend_id == 2:
                 # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------

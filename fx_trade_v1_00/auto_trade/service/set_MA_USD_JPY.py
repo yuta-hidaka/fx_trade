@@ -31,7 +31,9 @@ class setMA_USD_JPY:
 
         for ma in ListMa:
             key = 'm5_ma' + str(ma)
-            data = Decimal(ld[key])-(pd[key])
+            data = Decimal(
+                ld[key])-(pd[key]
+                ).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
             vals.append(data)
 
         create = SlopeM5_USD_JPY.objects.create(
