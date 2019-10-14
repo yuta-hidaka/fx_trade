@@ -91,9 +91,6 @@ class orderFx:
             }
         }
 
-    # すべてのポジションを決済します。
-    def allOrderClose(self):
-        text = 'allOrderClose'
         # 口座のすべてのポジションをリストとして取得
         r = positions.PositionList(accountID=self.fi.accountID)
         api = self.fi.api
@@ -101,15 +98,19 @@ class orderFx:
         pos = res['positions'][0]
         # オーダーステータスを取得する。
         try:
-            orderLongNum = len(pos['long']['tradeIDs'])
+            self.orderLongNum = len(pos['long']['tradeIDs'])
         except:
-            orderLongNum = 0
+            self.orderLongNum = 0
         try:
-            orderShortNum = len(pos['short']['tradeIDs'])
+            self.orderShortNum = len(pos['short']['tradeIDs'])
         except:
-            orderShortNum = 0
+            self.orderShortNum = 0
 
-        if orderLongNum != 0:
+    # すべてのポジションを決済します。
+    def allOrderClose(self):
+        text = 'allOrderClose'
+
+        if self.orderLongNum != 0:
             self.oderCloseAllLong()
         if orderShortNum != 0:
             self.oderCloseAllShort()
@@ -134,13 +135,12 @@ class orderFx:
         # print(self.data)
         # r = trades.TradeClose(accountID=accountID, tradeID=49, data=data)
         # API経由で指値注文を実行
-        r = orders.OrderCreate(self.fi.accountID, data=self.data)
-        res = api.request(r)
-        # print(self.data)
-        text += json.dumps(res, indent=2)
+        if self.orderShortNum == 0:
+            r = orders.OrderCreate(self.fi.accountID, data=self.data)
+            res = api.request(r)
+            text += json.dumps(res, indent=2)
         batchLog.objects.create(text=text)
-        # print(json.dumps(res, indent=2))
-        # print('order create')
+
 
     def LongOrderCreate(self):
         text = 'LongOrderCreate<br>'
@@ -160,9 +160,10 @@ class orderFx:
         # print(self.data)
         # r = trades.TradeClose(accountID=accountID, tradeID=49, data=data)
         # API経由で指値注文を実行
-        r = orders.OrderCreate(self.fi.accountID, data=self.data)
-        res = api.request(r)
-        text += json.dumps(res, indent=2)
+        if self.orderLongNum == 0:
+            r = orders.OrderCreate(self.fi.accountID, data=self.data)
+            res = api.request(r)
+            text += json.dumps(res, indent=2)
         batchLog.objects.create(text=text)
         # print(self.data)
         # print(json.dumps(res, indent=2))
@@ -185,7 +186,8 @@ class orderFx:
         )
 
         try:
-            api.request(r)
+            if self.orderLongNum != 0:
+                api.request(r)
         except:
             print('long決済するデータがありませんでした。')
             pass
@@ -209,7 +211,8 @@ class orderFx:
         )
 
         try:
-            api.request(r)
+            if self.orderShortNum != 0:
+                api.request(r)
         except:
             print('short決済するデータがありませんでした。')
             pass
