@@ -14,7 +14,6 @@ class setBollingerBand_USD_JPY:
         rs = model_to_dict(result)
         bbb = model_to_dict(bbBefor)
 
-
         sig1 = (rs['abs_sigma_1'] * Decimal(1.4))
         sig2 = (rs['abs_sigma_2'] * Decimal(0.90))
 
@@ -172,7 +171,6 @@ class setBollingerBand_USD_JPY:
             text += str(m['mid']['c']) + ' : close<br>'
             try:
                 text += str(nowMA['time'])+'<br>'
-
                 text += str(m['time']) + ' : close<br>'
                 pass
             except:
@@ -269,7 +267,7 @@ class setBollingerBand_USD_JPY:
 
         listMA = []
         fff = 0
-        for M in M50:
+        for M in M50[0:idx:]:
             fff += Decimal(M['mid']['c'])
             listMA.append(Decimal(M['mid']['c']))
 
