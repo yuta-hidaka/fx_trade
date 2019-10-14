@@ -27,7 +27,7 @@ class assets(models.Model):
 
 
 class batchLog(models.Model):
-    text = models.CharField(max_length=2500)
+    text = models.CharField(max_length=3000)
     created_at = models.DateTimeField(auto_now_add=True)
 
 # 5分足
