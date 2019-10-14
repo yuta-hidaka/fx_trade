@@ -9,7 +9,7 @@ from django.forms.models import model_to_dict
 
 class setBollingerBand_USD_JPY:
 
-    def setBBCondition(self, MHalf, SMA, nowMA, result, bbBefor, condiPrev):
+    def setBBCondition(self, MHalf, SMA, nowMA, result, bbBefor, condiPrev, BBB):
         JustNowMA = getMA_USD_JPY().get_now()
         rs = model_to_dict(result)
         bbb = model_to_dict(bbBefor)
@@ -167,6 +167,7 @@ class setBollingerBand_USD_JPY:
 
         for m in MHalf:
             text += str(SMA) + ' : SMA<br>'
+            text += str(BBB) + ' : SMA<br>'
             text += str(m['mid']['c']) + ' : close<br>'
             try:
                 text += str(m['time']) + ' : close<br>'
@@ -264,11 +265,14 @@ class setBollingerBand_USD_JPY:
         nowMA = M50[idx]
 
         listMA = []
+        fff = 0
         for M in M50:
+            fff += Decimal(M['mid']['c'])
             listMA.append(Decimal(M['mid']['c']))
 
         # SMA = np.average(listMA)
         SMA = np.mean(listMA)
+        BBB = fff/Decimal(len(listMA))
 
         # 標準偏差の計算
         SD = np.std(listMA)
@@ -288,7 +292,7 @@ class setBollingerBand_USD_JPY:
         )
 
         resultBBCondi = self.setBBCondition(
-            MHalf, SMA, nowMA, result, bbBefor, condiPrev
+            MHalf, SMA, nowMA, result, bbBefor, condiPrev, BBB
         )
 
         return resultBBCondi
