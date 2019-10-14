@@ -13,7 +13,7 @@ class setBollingerBand_USD_JPY:
         JustNowMA = getMA_USD_JPY().get_now()
         rs = model_to_dict(result)
         bbb = model_to_dict(bbBefor)
-        cond = condition.objects.all().order_by('created_at')[:11]
+        cond = condition.objects.all().order_by('-created_at')[:11]
         sig1 = (rs['abs_sigma_1'] * Decimal(1.4))
         sig2 = (rs['abs_sigma_2'] * Decimal(0.90))
 
