@@ -97,7 +97,7 @@ class BuySellCal():
             # print('----------------------------------------------------購買条件中------------------------------------------------')
             # 取引条件作成-------------------------------------
             long_in = (
-                nowCndl_close + nowCndl_close*Decimal(0.00025)
+                nowCndl_close + nowCndl_close*Decimal(0.0002)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             long_limit = (bb['sma_M50'] - bb['abs_sigma_3']
@@ -108,7 +108,7 @@ class BuySellCal():
             # ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_in = (
-                nowCndl_close + nowCndl_close*Decimal(-0.00025)
+                nowCndl_close + nowCndl_close*Decimal(-0.0002)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_limit = (bb['sma_M50'] + bb['abs_sigma_3']
@@ -134,7 +134,7 @@ class BuySellCal():
                                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                 text += 'shortのlimitが大きいので修正<br>'
 
-            if not is_expansionPrev and is_expansion:
+            if not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
                 text += '確度が小さいのでlimit小さく<br>'
                         # 確度が小さいのでlimit小さく
                 long_limit = (nowCndl_close - (nowCndl_close * Decimal(0.002))
@@ -232,14 +232,14 @@ class BuySellCal():
             # 偏差と数値によるエクスパンションで確度が高めのポジションを持つ
             if not is_expansionPrev and is_expansion and is_expansionByStd and is_expansionByNum:
                 text += 'エクスパンション確度が高め<br>'
-                if is_topTouch and not orderLongNum >= 1:
+                if is_topTouch and orderLongNum == 0:
                     # print('エクスパンションで上タッチなので買い')
                     text += 'エクスパンションで上タッチなのでLong by Std<br>'
                     orderLongNum += 1
                     self.order.oderCloseAllShort()
                     self.order.LongOrderCreate()
                     nowInL = True
-                elif is_bottomTouch and not orderShortNum >= 1:
+                elif is_bottomTouch and orderShortNum == 0:
                     # print('エクスパンションで下タッチなので売り')
                     text += 'エクスパンションで下タッチなのでShort by Std<br>'
                     orderShortNum += 1
@@ -253,17 +253,32 @@ class BuySellCal():
             # 偏差によるエクスパンションでなければlong、short両方のポジションを持つ
             elif not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
                 text += 'エクスパンションbyNum<br>'
-                if is_topTouch or is_bottomTouch:
-                    text += 'エクスパンションorだましで上タッチなのでshortAndLong<br>'
+                text += 'エクスパンションbyNumすべてのポジション解除<br>'
+                self.order.allOrderClose()
+                if is_topTouch:
+                    text += 'エクスパンションorだましで上タッチのLongIn<br>'
                     orderLongNum += 1
-                    if not orderLongNum >= 1:
-                        self.order.LongOrderCreate()
-                        nowInL = True
-                        text += 'LongIn<br>'
-                    if not orderShortNum >= 1:
+                    # if orderLongNum == 0:
+                    #     self.order.LongOrderCreate()
+                    #     nowInL = True
+                    #     text += 'LongIn<br>'
+                    if orderShortNum == 0:
                         self.order.ShortOrderCreate()
                         nowInS = True
                         text += 'ShortIn<br>'
+                    # self.order.oderCloseAllShort()
+                    # self.order.oderCloseAllLong()
+                elif is_bottomTouch:
+                    text += 'エクスパンションorだましで上タッチなのでshortIn<br>'
+                    orderLongNum += 1
+                    if orderLongNum == 0:
+                        self.order.LongOrderCreate()
+                        nowInL = True
+                        text += 'LongIn<br>'
+                    # if orderShortNum == 0:
+                    #     self.order.ShortOrderCreate()
+                    #     nowInS = True
+                    #     text += 'ShortIn<br>'
                     # self.order.oderCloseAllShort()
                     # self.order.oderCloseAllLong()
                 else:
@@ -275,7 +290,7 @@ class BuySellCal():
                 text += 'エクスパンションの底値。ポジションを入れ替える <br>'
                 if is_bottomTouch or is_bottomTouchPrev:
                     text += 'エクスパンション終了で下タッチなので、short決済でlongIn<br>'
-                    if not orderLongNum >= 1:
+                    if orderLongNum == 0:
                         self.order.LongOrderCreate()
                         nowInL = True
                     else:
@@ -284,7 +299,7 @@ class BuySellCal():
 
                 elif is_topTouch or is_topTouchPrev:
                     text += 'エクスパンション終了で上タッチなのでlong決済でshortIn<br>'
-                    if not orderShortNum >= 1:
+                    if orderShortNum == 0:
                         self.order.ShortOrderCreate()
                         nowInS = True
                     else:
@@ -325,7 +340,7 @@ class BuySellCal():
                 # 購買タイミング----------------------------------------------------------------------------------
                 # longのタイミング all slope is positive and before MA is 6or1 and now 1
                 if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
-                    if not orderLongNum >= 1 and not nowInL:
+                    if orderLongNum == 0 and not nowInL:
                         # print("long in by ma")
                         text += "long in by ma<br>"
                         orderLongNum += 1
@@ -337,7 +352,7 @@ class BuySellCal():
                         text += "long in　but position is too many<br>"
                         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
                 elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                    if not orderShortNum >= 1 and not nowInS:
+                    if orderShortNum == 0 and not nowInS:
                         # print("short in by ma")
                         text += "short in by ma<br>"
                         orderShortNum += 1
@@ -373,7 +388,7 @@ class BuySellCal():
                 # 購買タイミング
                 # longのタイミング all slope is positive and before MA is 6or1 and now 1
                 # if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
-                #     if not orderLongNum >= 1:
+                #     if orderLongNum == 0:
                 #         print("long in 以下__1624")
                 #         orderLongNum += 1
                 #         self.order.LongOrderCreate()
@@ -384,7 +399,7 @@ class BuySellCal():
 
                 #         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
                 # elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                #     if not orderShortNum >= 1:
+                #     if orderShortNum == 0:
                 #         print("short in　以下__1624")
                 #         orderShortNum += 1
                 #         self.order.ShortOrderCreate()
@@ -427,7 +442,7 @@ class BuySellCal():
                         text += 'short決済<br>'
                         self.order.oderCloseAllShort()
 
-                    if not orderLongNum == 0 and not nowInL:
+                    if orderLongNum == 0 and not nowInL:
                         self.order.LongOrderCreate()
                         nowInL = True
                     else:
