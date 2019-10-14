@@ -165,6 +165,7 @@ class setBollingerBand_USD_JPY:
         aaaa2 = 0
         aaaa3 = 0
 
+        text += str(nowMA.recorded_at_utc)+' 最新　<br>'
         if nowMA.close - SMA == 0:
             data += 0
             aaaa += 1
@@ -177,7 +178,7 @@ class setBollingerBand_USD_JPY:
 
         klkl = None
         for c in cond:
-            klkl = str(c.ma.m5.recorded_at_utc)+'<br>'
+            klkl = str(c.ma.m5.recorded_at_utc)+'　最新から二番目<br>'
             if (c.ma.m5.close - c.condition_of_bb.bb.sma_M50) == 0:
                 data += 0
                 aaaa += 1
