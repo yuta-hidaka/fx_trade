@@ -118,6 +118,7 @@ class orderFx:
         batchLog.objects.create(text=text)
 
     def ShortOrderCreate(self):
+        self.oderCloseAllLong()
         text = 'ShortOrderCreate<br>'
         # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
         api = self.fi.api
@@ -142,6 +143,7 @@ class orderFx:
         batchLog.objects.create(text=text)
 
     def LongOrderCreate(self):
+        self.oderCloseAllShort()
         text = 'LongOrderCreate<br>'
         # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
         api = self.fi.api
