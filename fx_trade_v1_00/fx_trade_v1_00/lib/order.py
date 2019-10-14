@@ -94,7 +94,6 @@ class orderFx:
     # すべてのポジションを決済します。
     def allOrderClose(self):
         text = 'allOrderClose'
-        batchLog.objects.create(text=text)
         # 口座のすべてのポジションをリストとして取得
         r = positions.PositionList(accountID=self.fi.accountID)
         api = self.fi.api
@@ -115,8 +114,10 @@ class orderFx:
         if orderShortNum != 0:
             self.oderCloseAllShort()
 
+        batchLog.objects.create(text=text)
+
     def ShortOrderCreate(self):
-        text = 'ShortOrderCreate'
+        text = 'ShortOrderCreate<br>'
         # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
         api = self.fi.api
         # stopPrice = 100.00
@@ -142,7 +143,7 @@ class orderFx:
         # print('order create')
 
     def LongOrderCreate(self):
-        text = 'LongOrderCreate'
+        text = 'LongOrderCreate<br>'
         # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
         api = self.fi.api
         # stopPrice = 100.00
@@ -168,7 +169,7 @@ class orderFx:
         print('order create----------------------------------------------')
 
     def oderCloseAllLong(self):
-        text = 'oderCloseAllLong'
+        text = 'oderCloseAllLong<br>'
         batchLog.objects.create(text=text)
         api = self.fi.api
         """
@@ -190,7 +191,7 @@ class orderFx:
             pass
 
     def oderCloseAllShort(self):
-        text = 'oderCloseAllShort'
+        text = 'oderCloseAllShort<br>'
         batchLog.objects.create(text=text)
         api = self.fi.api
         """
