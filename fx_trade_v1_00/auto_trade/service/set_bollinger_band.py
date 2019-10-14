@@ -181,7 +181,6 @@ class setBollingerBand_USD_JPY:
             aaaa3 += 1
 
         for c in cond:
-            print(c.ma.m5.close)
             if (c.ma.m5.close - c.condition_of_bb.bb.sma_M50) == 0:
                 data += 0
                 aaaa += 1
