@@ -135,10 +135,11 @@ class BuySellCal():
                 text += 'shortのlimitが大きいので修正<br>'
 
             if not is_expansionPrev and is_expansion:
+                text += '確度が小さいのでlimit小さく<br>'
                         # 確度が小さいのでlimit小さく
                 long_limit = (nowCndl_close - (nowCndl_close * Decimal(0.002))
                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                short_limit = (nowCndl_close - (nowCndl_close * Decimal(0.002))
+                short_limit = (nowCndl_close + (nowCndl_close * Decimal(0.002))
                                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             text += 'longの入り値　' + str(long_in) + '<br>'
