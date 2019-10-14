@@ -176,6 +176,7 @@ class setBollingerBand_USD_JPY:
             aaaa3 += 1
 
         for c in cond:
+            text += str(c.ma.recorded_at_utc)+'<br>'
             if (c.ma.m5.close - c.condition_of_bb.bb.sma_M50) == 0:
                 data += 0
                 aaaa += 1
