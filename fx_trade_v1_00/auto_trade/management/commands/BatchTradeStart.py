@@ -92,7 +92,7 @@ class Command(BaseCommand):
 # '----------------デバッグ用-------------------------------'
         # condiPrev = condition.objects.latest('created_at')
         # bb = setBollingerBand_USD_JPY()
-        # BBCondi = bb.setBB(condiPrev)
+        # BBCondi = bb.setBB(nowMA=result, condiPrev=condiPrev)
         # setMA = setMA_USD_JPY()
         # condiNow = setMA.setMA(result, BBCondi)
         # bsCal.BuySellCheck(condiNow, condiPrev)
@@ -102,7 +102,7 @@ class Command(BaseCommand):
         if created:
             condiPrev = condition.objects.latest('created_at')
             # ボリンジャーバンドの設定
-            BBCondi = bb.setBB(condiPrev)
+            BBCondi = bb.setBB(nowMA=result, condiPrev=condiPrev)
             condiNow = setMA.setMA(result, BBCondi)
             if not is_closeMarket and checkOn:
                 bsCal.BuySellCheck(condiNow, condiPrev)

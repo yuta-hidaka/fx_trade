@@ -1,5 +1,5 @@
 from .get_MA_USD_JPY import getMA_USD_JPY
-from ..models import M5_USD_JPY, bollingerBand, conditionOfBB, listConditionOfBBTrande, batchLog
+from ..models import M5_USD_JPY, bollingerBand, conditionOfBB, listConditionOfBBTrande, batchLog, M5_USD_JPY, condition
 from ..rest.serializers.set_candle_serialize import SetCandleSerializer
 from decimal import *
 from datetime import *
@@ -9,11 +9,11 @@ from django.forms.models import model_to_dict
 
 class setBollingerBand_USD_JPY:
 
-    def setBBCondition(self, MHalf, SMA, nowMA, result, bbBefor, condiPrev, BBB):
+    def setBBCondition(self, MHalf, SMA, nowMA, result, bbBefor, condiPrev):
         JustNowMA = getMA_USD_JPY().get_now()
         rs = model_to_dict(result)
         bbb = model_to_dict(bbBefor)
-
+        cond = condition.objects.all().order_by('created_at')[:11]
         sig1 = (rs['abs_sigma_1'] * Decimal(1.4))
         sig2 = (rs['abs_sigma_2'] * Decimal(0.90))
 
@@ -28,15 +28,15 @@ class setBollingerBand_USD_JPY:
 
         prevClose = Decimal(model_to_dict(condiPrev.ma.m5)['close'])
 
-        nowClose = Decimal(nowMA['mid']['c'])
-        nowHigh = Decimal(nowMA['mid']['h'])
-        nowLow = Decimal(nowMA['mid']['l'])
+        nowClose = Decimal(nowMA.close)
+        nowHigh = Decimal(nowMA.high)
+        nowLow = Decimal(nowMA.low)
 
         JNowClose = Decimal(JustNowMA['candles'][0]['mid']['c'])
         JNowHigh = Decimal(JustNowMA['candles'][0]['mid']['h'])
         JNowLow = Decimal(JustNowMA['candles'][0]['mid']['l'])
 
-        length = len(MHalf)
+        length = len(list(cond)) + 1
         data = 0
         is_plus = True
         is_trend = True
@@ -165,27 +165,63 @@ class setBollingerBand_USD_JPY:
         aaaa2 = 0
         aaaa3 = 0
 
-        for m in MHalf:
-            text += str(SMA) + ' : SMA<br>'
-            text += str(BBB) + ' : SMA<br>'
-            text += str(m['mid']['c']) + ' : close<br>'
-            try:
-                text += str(nowMA['time'])+'<br>'
-                text += str(m['time']) + ' : close<br>'
-                pass
-            except:
-                pass
-            text += str(SMA - Decimal(m['mid']['c'])) + ' : SMA - close<br>'
+        cBB = list(conditionOfBB.objects.all().order_by(
+            'created_at')[:12].values())
+        ma = list(M5_USD_JPY.objects.all().order_by(
+            'created_at')[1:13].values())
 
-            if (Decimal(m['mid']['c']) - SMA) == 0:
+        if nowMA.close - SMA == 0:
+            data += 0
+            aaaa += 1
+        elif nowMA.close < SMA:
+            data -= 1
+            aaaa2 += 1
+        elif nowMA.close > SMA:
+            data += 1
+            aaaa3 += 1
+
+        for c in cond:
+            print(c.ma.m5.close)
+            if (c.ma.m5.close - c.condition_of_bb.bb.sma_M50) == 0:
                 data += 0
                 aaaa += 1
-            elif Decimal(m['mid']['c']) < SMA:
+            elif c.ma.m5.close < c.condition_of_bb.bb.sma_M50:
                 data -= 1
                 aaaa2 += 1
-            elif Decimal(m['mid']['c']) > SMA:
+            elif c.ma.m5.close > c.condition_of_bb.bb.sma_M50:
                 data += 1
                 aaaa3 += 1
+
+        # for d in cBB:
+        #     if (Decimal(m['mid']['c']) - d.bb.sma) == 0:
+        #         data += 0
+        #         aaaa += 1
+        #     elif Decimal(m['mid']['c']) < SMA:
+        #         data -= 1
+        #         aaaa2 += 1
+        #     elif Decimal(m['mid']['c']) > SMA:
+        #         data += 1
+        #         aaaa3 += 1
+
+        # for m in MHalf:
+        #     text += str(SMA) + ' : SMA<br>'
+        #     text += str(m['mid']['c']) + ' : close<br>'
+        #     try:
+        #         text += str(m['time']) + ' : close<br>'
+        #         pass
+        #     except:
+        #         pass
+        #     text += str(SMA - Decimal(m['mid']['c'])) + ' : SMA - close<br>'
+
+        #     if (Decimal(m['mid']['c']) - SMA) == 0:
+        #         data += 0
+        #         aaaa += 1
+        #     elif Decimal(m['mid']['c']) < SMA:
+        #         data -= 1
+        #         aaaa2 += 1
+        #     elif Decimal(m['mid']['c']) > SMA:
+        #         data += 1
+        #         aaaa3 += 1
         text += str(aaaa) + ' : 0のかず<br>'
         text += str(aaaa2) + ' : SMAより小さい<br>'
         text += str(aaaa3) + ' : SMAより大きい<br>'
@@ -241,7 +277,7 @@ class setBollingerBand_USD_JPY:
 
         # 5MA*50　SMAを基準に標準偏差を算出していきます。
 
-    def setBB(self, condiPrev):
+    def setBB(self, nowMA, condiPrev):
         gMA = getMA_USD_JPY()
         created = False
         result = None
@@ -263,17 +299,14 @@ class setBollingerBand_USD_JPY:
         MHalf = M50[stIdx:idx]
 
         # 取得した最新のMA
-        nowMA = M50[idx]
+        # nowMA = M50[idx]
 
         listMA = []
-        fff = 0
-        for M in M50[0:idx:]:
-            fff += Decimal(M['mid']['c'])
+        for M in M50:
             listMA.append(Decimal(M['mid']['c']))
 
         # SMA = np.average(listMA)
         SMA = np.mean(listMA)
-        BBB = fff/Decimal(len(listMA))
 
         # 標準偏差の計算
         SD = np.std(listMA)
@@ -293,7 +326,7 @@ class setBollingerBand_USD_JPY:
         )
 
         resultBBCondi = self.setBBCondition(
-            MHalf, SMA, nowMA, result, bbBefor, condiPrev, BBB
+            MHalf, SMA, nowMA, result, bbBefor, condiPrev
         )
 
         return resultBBCondi

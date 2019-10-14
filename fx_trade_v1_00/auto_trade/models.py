@@ -195,6 +195,7 @@ class listConditionOfBBTrande(models.Model):
 
 # ボリンジャーバンドの状態からconditionを検証。(トレンド判定とレンジ相場中での売買判定)
 class conditionOfBB(models.Model):
+    is_high_sma = models.BooleanField(null=True, default=False)
     is_expansion = models.BooleanField(null=True, default=False)
     is_topTouch = models.BooleanField(null=True, default=False)
     is_bottomTouch = models.BooleanField(null=True, default=False)
