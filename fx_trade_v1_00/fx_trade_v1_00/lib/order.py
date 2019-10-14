@@ -112,7 +112,7 @@ class orderFx:
 
         if self.orderLongNum != 0:
             self.oderCloseAllLong()
-        if orderShortNum != 0:
+        if self.orderShortNum != 0:
             self.oderCloseAllShort()
 
         batchLog.objects.create(text=text)
@@ -140,7 +140,6 @@ class orderFx:
             res = api.request(r)
             text += json.dumps(res, indent=2)
         batchLog.objects.create(text=text)
-
 
     def LongOrderCreate(self):
         text = 'LongOrderCreate<br>'

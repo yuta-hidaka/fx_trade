@@ -422,7 +422,7 @@ class BuySellCal():
                     self.order.oderCloseAllLong()
                 text += '持ち合い相場<br>'
 
-                if is_topTouch == True:
+                if is_topTouch:
                     text += '持ち合い相場の逆張りshort_inーー同時にlong決済も行う<br>'
                     if orderLongNum != 0 and not nowInL:
                         text += 'long決済<br>'
@@ -434,7 +434,7 @@ class BuySellCal():
                         # print('注文リミット')
                         text += '注文リミット<br>'
 
-                elif is_bottomTouch == True:
+                elif is_bottomTouch:
                     # print('持ち合い相場の逆張りlong_in--同時にshort決済も行う。')
                     text += '持ち合い相場の逆張りlong_in--同時にshort決済も行う。<br>'
                     if orderShortNum != 0 and not nowInS:
