@@ -15,10 +15,16 @@ class setBollingerBand_USD_JPY:
         bbb = model_to_dict(bbBefor)
 
         sig1 = (rs['abs_sigma_1'] * Decimal(1.4))
-        sig2 = (rs['abs_sigma_2'] * Decimal(0.80))
+        sig2 = (rs['abs_sigma_2'] * Decimal(0.90))
 
         bSig1 = (bbb['abs_sigma_1'] * Decimal(1.4))
-        bSig2 = (bbb['abs_sigma_2'] * Decimal(0.80))
+        bSig2 = (bbb['abs_sigma_2'] * Decimal(0.90))        
+        
+        # sig1forEx = (rs['abs_sigma_1'])
+        sig2forEx = (rs['abs_sigma_2'])
+
+        # bSig1forEx = (bbb['abs_sigma_1'])
+        bSig2forEx = (bbb['abs_sigma_2'])
 
         prevClose = Decimal(model_to_dict(condiPrev.ma.m5)['close'])
 
@@ -49,6 +55,20 @@ class setBollingerBand_USD_JPY:
         sma = rs['sma_M50']
         bSma = bbb['sma_M50']
 
+        # エクスパンション判断用
+        sma2SigmaPlusEx = (
+            sma + sig2forEx).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+        sma2SigmaMinusEx = (
+            sma - sig2forEx).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+        sma2SigmaPlusBeforEx = (
+            bSma + bSig2forEx).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+        sma2SigmaMinusBeforEx = (
+            bSma - bSig2forEx).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+        # 購買基準用
         sma2SigmaPlus = (
             sma + sig2).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
@@ -74,8 +94,10 @@ class setBollingerBand_USD_JPY:
         sma1SigmaMinusBefor = (
             bSma - bSig1).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
+
+
         diff = (
-            sma2SigmaPlus - sma2SigmaPlusBefor
+            sma2SigmaPlusEx - sma2SigmaPlusBeforEx
         ).quantize(
             Decimal('0.0'),
             rounding=ROUND_HALF_UP
@@ -88,14 +110,15 @@ class setBollingerBand_USD_JPY:
             text += '価格差のエクスパンション<br>'
 
         # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
-        elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose:
+        # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose:
+        elif sma2SigmaPlusEx <= nowClose and sma2SigmaPlusEx <= JNowClose:
             is_expansion = True
             is_expansionByStd = True
             is_topTouch = True
             text += '上にエクスパンション<br>'
 
         # elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose and sma2SigmaMinus >= prevClose:
-        elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose:
+        elif sma2SigmaMinusEx >= nowClose and sma2SigmaMinusEx >= JNowClose:
             is_expansion = True
             is_expansionByStd = True
             is_bottomTouch = True
@@ -119,25 +142,25 @@ class setBollingerBand_USD_JPY:
         text += 'nowClose ' + str(nowClose) + '<br>'
 
         if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
-            text += 'sigma1 上に触りました<br>'
+            text += 'sigma1＋α 上に触りました<br>'
             is_longClose = True
         elif sma1SigmaMinus >= nowLow or sma1SigmaMinus >= JNowLow:
-            text += 'sigma1 下に触りました<br>'
+            text += 'sigma1＋α 下に触りました<br>'
             is_shortClose = True
         else:
-            text += 'sigma1 どちらにも触れてません<br>'
+            text += 'sigma1＋α どちらにも触れてません<br>'
 
         # 持ち合い相場時の購買基準を判断
         if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh:
             is_shortIn = True
             is_topTouch = True
-            text += 'sigma2 上に触りました<br>'
+            text += 'sigma2＋α 上に触りました<br>'
         elif sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow:
             is_shortIn = False
             is_bottomTouch = True
-            text += 'sigma2 下に触りました<br>'
+            text += 'sigma2＋α 下に触りました<br>'
         else:
-            text += 'sigma2 どちらにも触れてません<br>'
+            text += 'sigma2＋α どちらにも触れてません<br>'
 
         # 持ち合い相場かトレンド相場かを判断
         aaaa = 0
