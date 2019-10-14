@@ -175,8 +175,9 @@ class setBollingerBand_USD_JPY:
             data += 1
             aaaa3 += 1
 
+        klkl = None
         for c in cond:
-            text += str(c.ma.recorded_at_utc)+'<br>'
+            klkl = str(c.ma.recorded_at_utc)+'<br>'
             if (c.ma.m5.close - c.condition_of_bb.bb.sma_M50) == 0:
                 data += 0
                 aaaa += 1
@@ -186,6 +187,7 @@ class setBollingerBand_USD_JPY:
             elif c.ma.m5.close > c.condition_of_bb.bb.sma_M50:
                 data += 1
                 aaaa3 += 1
+        text += klkl
 
         # for d in cBB:
         #     if (Decimal(m['mid']['c']) - d.bb.sma) == 0:
