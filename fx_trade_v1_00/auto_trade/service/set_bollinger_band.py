@@ -166,6 +166,10 @@ class setBollingerBand_USD_JPY:
         aaaa3 = 0
 
         for m in MHalf:
+            text += str(SMA) + ' : SMA<br>'
+            text += str(m['mid']['c']) + ' : close<br>'
+            text += str(SMA - m['mid']['c']) + ' : SMA - close<br>'
+
             if (Decimal(m['mid']['c']) - SMA) == 0:
                 data += 0
                 aaaa += 1
