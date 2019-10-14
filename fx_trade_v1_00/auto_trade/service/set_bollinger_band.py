@@ -18,8 +18,8 @@ class setBollingerBand_USD_JPY:
         sig2 = (rs['abs_sigma_2'] * Decimal(0.90))
 
         bSig1 = (bbb['abs_sigma_1'] * Decimal(1.4))
-        bSig2 = (bbb['abs_sigma_2'] * Decimal(0.90))        
-        
+        bSig2 = (bbb['abs_sigma_2'] * Decimal(0.90))
+
         # sig1forEx = (rs['abs_sigma_1'])
         sig2forEx = (rs['abs_sigma_2'])
 
@@ -93,8 +93,6 @@ class setBollingerBand_USD_JPY:
 
         sma1SigmaMinusBefor = (
             bSma - bSig1).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-
-
 
         diff = (
             sma2SigmaPlusEx - sma2SigmaPlusBeforEx
@@ -238,7 +236,8 @@ class setBollingerBand_USD_JPY:
         result = None
         # if gMA.get_5M_1()['candles']:
         #     dictM5 = gMA.get_5M_1()['candles'][0]
-        M50 = gMA.get_5M_50()['candles']
+        # M50 = gMA.get_5M_50()['candles']
+        M50 = gMA.get_5M_25()['candles']
         # M50 = M50.reverse()
         SMA_days = len(M50)
         idx = SMA_days - 1
