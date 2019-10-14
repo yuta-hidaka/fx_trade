@@ -253,11 +253,11 @@ class BuySellCal():
             # 偏差によるエクスパンションでなければlong、short両方のポジションを持つ
             elif not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
                 # 確度が小さいのでlimit小さく
-                long_limit = (nowCndl_close - (nowCndl_close * Decimal(0.002))
-                              ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                short_limit = (nowCndl_close - (nowCndl_close * Decimal(0.002))
-                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                text += 'shortLongInようにlimitを小さく設定<br>'
+                # long_limit = (nowCndl_close - (nowCndl_close * Decimal(0.002))
+                #               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                # short_limit = (nowCndl_close + (nowCndl_close * Decimal(0.002))
+                #                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                # text += 'shortLongInようにlimitを小さく設定<br>'
                 text += 'エクスパンションbyNum<br>'
                 if is_topTouch or is_bottomTouch:
                     text += 'エクスパンションorだましで上タッチなのでshortAndLong<br>'
