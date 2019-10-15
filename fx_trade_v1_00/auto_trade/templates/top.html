@@ -8,16 +8,16 @@
   {% include 'base.html' %}
 
   <body>
-    <h2>為替自動売買サイト</h2>
-    <div>
+    <!-- <h2>為替自動売買サイト</h2> -->
+    <!-- <div>
       <a href="auto_trade" class="btn" role="button">getRateAPI</a>
     </div>
     <div>
       <a href="M5" class="btn" role="button">M5</a>
-    </div>
+    </div> -->
     <div>
       <a href="m5vsMaComp" class="btn" role="button"
-        >【グラフ】短期中期・長期比較のデータとM5の比較</a
+        >【グラフ】短期中期・長期比較&BB</a
       >
     </div>
     <div>
@@ -25,6 +25,27 @@
     </div>
     <div>
       <a href="assets" class="btn" role="button">資産</a>
+    </div>
+    <div style="width:300px">
+      <button
+        class="btn btn-outline-info"
+        onclick="location.href='m5vsMaComp'"
+        type="button"
+      >グラフ】短期中期・長期比較&BB</button>
+    </div>
+    <div style="width:300px">
+      <button
+        class="btn btn-outline-info"
+        onclick="location.href='Log'"
+        type="button"
+      >実行ログ</button>
+    </div>
+    <div style="width:300px">
+      <button
+        class="btn btn-outline-info"
+        onclick="location.href='assets'"
+        type="button"
+      >資産</button>
     </div>
   </body>
 </html>
