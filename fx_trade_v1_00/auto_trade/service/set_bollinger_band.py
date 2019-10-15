@@ -169,6 +169,12 @@ class setBollingerBand_USD_JPY:
         # text += str(nowMA.close)+'　最新 close<br>'
         # text += str(sma)+'　最新 sma<br>'
         # text += str(nowMA.close - SMA)+'　最新 deff<br>'
+        xClose = []
+        yClose = []
+
+        xClose.append(nowMA.close)
+        yClose.append(1)
+
         if nowMA.close - SMA == 0:
             data += 0
             aaaa += 1
@@ -180,6 +186,8 @@ class setBollingerBand_USD_JPY:
             aaaa3 += 1
 
         for c in cond:
+            xClose.append(c.ma.m5.close)
+            yClose.append(1)
             # text += str(c.ma.m5.recorded_at_utc)+' date<br>'
             # text += str(c.ma.m5.close)+'　close<br>'
             # text += str(c.condition_of_bb.bb.sma_M50)+'　sma<br>'
@@ -193,6 +201,17 @@ class setBollingerBand_USD_JPY:
             elif c.ma.m5.close > c.condition_of_bb.bb.sma_M50:
                 data += 1
                 aaaa3 += 1
+
+        try:
+            rs = np.polyfit(xClose, yClose, 1)
+            text += str(rs[0])+' 傾き<br>'
+            text += str(rs[1])+' 切片<br>'
+
+            pass
+        except Exception as e:
+            text += str(e)+' error<br>'
+
+            pass
 
         # for d in cBB:
         #     if (Decimal(m['mid']['c']) - d.bb.sma) == 0:
