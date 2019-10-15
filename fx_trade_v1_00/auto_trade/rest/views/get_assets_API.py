@@ -16,8 +16,6 @@ class getAssetsAPI(APIView):
         print('hi')
 
     def post(self, request):
-        result = model_to_dict(assets.objects.all()[
-            :300].orderby('-id').values())
 
         res = (
             assets.objects.order_by('-created_at').all().values(
