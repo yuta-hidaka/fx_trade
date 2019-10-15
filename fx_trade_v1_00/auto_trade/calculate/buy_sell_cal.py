@@ -260,6 +260,8 @@ class BuySellCal():
                     text += 'エクスパンションbyNum<br>'
                     text += 'エクスパンションbyNumすべてのポジション解除<br>'
                     self.order.allOrderClose()
+                    orderLongNum -= 1
+                    orderShortNum -= 1
                     if is_topTouch:
                         text += 'エクスパンションorだましで上タッチのLongIn<br>'
                         orderLongNum += 1
@@ -275,7 +277,7 @@ class BuySellCal():
                         # self.order.oderCloseAllLong()
                     elif is_bottomTouch:
                         text += 'エクスパンションorだましで上タッチなのでshortIn<br>'
-                        orderLongNum += 1
+                        orderShortNum += 1
                         if orderLongNum == 0:
                             self.order.LongOrderCreate()
                             nowInL = True
@@ -313,7 +315,9 @@ class BuySellCal():
             # 前回までトレンドで今が持ち合い相場であればいったん決済する。
             if trend_id==3:
                 if preTrend_id == 1 or preTrend_id == 2:
-                            self.order.allOrderClose()
+                        text += 'いったん決済。<br>'
+                            
+                        self.order.allOrderClose()
 
     # --------------------------------------------------------------------------
             if trend_id == 1 or trend_id == 2:

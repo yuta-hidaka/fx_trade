@@ -106,10 +106,27 @@ class orderFx:
         except:
             self.orderShortNum = 0
 
+    def orderNum(self):
+                # 口座のすべてのポジションをリストとして取得
+        r = positions.PositionList(accountID=self.fi.accountID)
+        api = self.fi.api
+        res = api.request(r)
+        pos = res['positions'][0]
+        # オーダーステータスを取得する。
+        try:
+            self.orderLongNum = len(pos['long']['tradeIDs'])
+        except:
+            self.orderLongNum = 0
+        try:
+            self.orderShortNum = len(pos['short']['tradeIDs'])
+        except:
+            self.orderShortNum = 0
+
     # すべてのポジションを決済します。
+
     def allOrderClose(self):
         text = 'allOrderClose'
-
+        self.orderNum()
         if self.orderLongNum != 0:
             self.oderCloseAllLong()
         if self.orderShortNum != 0:
@@ -118,6 +135,8 @@ class orderFx:
         batchLog.objects.create(text=text)
 
     def ShortOrderCreate(self):
+        self.orderNum()
+
         self.oderCloseAllLong()
         text = 'ShortOrderCreate<br>'
         # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
@@ -143,6 +162,8 @@ class orderFx:
         batchLog.objects.create(text=text)
 
     def LongOrderCreate(self):
+        self.orderNum()
+
         self.oderCloseAllShort()
         text = 'LongOrderCreate<br>'
         # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
@@ -171,6 +192,8 @@ class orderFx:
         print('order create----------------------------------------------')
 
     def oderCloseAllLong(self):
+        self.orderNum()
+
         text = 'oderCloseAllLong<br>'
         batchLog.objects.create(text=text)
         api = self.fi.api
@@ -194,6 +217,9 @@ class orderFx:
             pass
 
     def oderCloseAllShort(self):
+
+        self.orderNum()
+
         text = 'oderCloseAllShort<br>'
         batchLog.objects.create(text=text)
         api = self.fi.api
@@ -219,6 +245,8 @@ class orderFx:
             pass
 
     def oderCloseById(self, id):
+        self.orderNum()
+
         api = self.fi.api
         """
         id単位で決済する。
