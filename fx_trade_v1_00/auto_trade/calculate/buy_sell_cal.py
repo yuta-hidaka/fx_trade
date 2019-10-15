@@ -337,8 +337,7 @@ class BuySellCal():
                 # 購買タイミング----------------------------------------------------------------------------------
                 # longのタイミング all slope is positive and before MA is 6or1 and now 1
                 if trend_id == 1:
-                    long_limit = (nowCndl_close - (nowCndl_close * Decimal(0.002))
-                                  ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                    long_limit = ((nowCndl_close * Decimal(1.0005))).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                     self.order.stopLossLong = str(long_limit)
                     if orderLongNum == 0 and not nowInL:
                         # print("long in by ma")
@@ -352,8 +351,7 @@ class BuySellCal():
                         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
 
                 elif trend_id == 2:
-                    short_limit = (nowCndl_close + (nowCndl_close * Decimal(0.002))
-                                   ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                    short_limit = ((nowCndl_close * Decimal(0.9995))).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                     self.order.stopLossShort = str(short_limit)
                     if orderShortNum == 0 and not nowInS:
                             # self.order.oderCloseAllLong()
