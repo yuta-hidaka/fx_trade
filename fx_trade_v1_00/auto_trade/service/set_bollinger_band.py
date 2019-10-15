@@ -203,8 +203,11 @@ class setBollingerBand_USD_JPY:
                 aaaa3 += 1
 
         try:
+            text += str(11)+' 傾き<br>'
+
             x = np.arange(0, len(xClose))
             y = np.array(xClose)
+            text += str(12)+' 傾き<br>'
 
             rs = np.polyfit(x, y, 1)
             text += str(rs[0])+' 傾き<br>'
