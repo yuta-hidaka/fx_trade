@@ -172,13 +172,6 @@ class setBollingerBand_USD_JPY:
         xClose = []
         yClose = []
 
-        try:
-            xClose.append(float(nowMA.close))
-            pass
-        except:
-            text += 'error<br>'
-
-            pass
         # yClose.append(Decimal(1))
 
         if nowMA.close - SMA == 0:
@@ -192,15 +185,10 @@ class setBollingerBand_USD_JPY:
             aaaa3 += 1
 
         for c in cond:
-            try:
-                xClose.append(float(c.ma.m5.close))
-                pass
-            except:
-                text += 'error<br>'
-
+            xClose.append(float(c.ma.m5.close))
             pass
             # yClose.append(Decimal(1))
-            text += str(c.ma.m5.recorded_at_utc)+' date<br>'
+            # text += str(c.ma.m5.recorded_at_utc)+' date<br>'
             # text += str(c.ma.m5.close)+'　close<br>'
             # text += str(c.condition_of_bb.bb.sma_M50)+'　sma<br>'
             # text += str(c.ma.m5.close - c.condition_of_bb.bb.sma_M50)+'　deff<br>'
@@ -213,15 +201,19 @@ class setBollingerBand_USD_JPY:
             elif c.ma.m5.close > c.condition_of_bb.bb.sma_M50:
                 data += 1
                 aaaa3 += 1
+        xClose.append(float(nowMA.close))
+
+        slope = 0
+        slopeDir = 0
 
         try:
-            text += str(11)+' 傾き<br>'
 
             x = np.arange(0, len(xClose))
             y = np.array(xClose)
-            text += str(12)+' 傾き<br>'
-
             rs = np.polyfit(x, y, 1)
+            slope = Decimal(rs[0]).quantize(
+                Decimal('0.001'), rounding=ROUND_HALF_UP)
+            slopeDir = np.sign(slope)
             text += str(rs[0])+' 傾き<br>'
             text += str(rs[1])+' 切片<br>'
 
@@ -281,7 +273,7 @@ class setBollingerBand_USD_JPY:
         else:
             is_trend = False
 
-        if is_trend:
+        if is_trend and slopeDir != 0:
             if is_plus:
                 text += '＋トレンド<br>'
                 # プラスのトレンド
