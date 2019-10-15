@@ -172,7 +172,13 @@ class setBollingerBand_USD_JPY:
         xClose = []
         yClose = []
 
-        xClose.append(nowMA.close)
+        try:
+            xClose.append(float(nowMA.close))
+            pass
+        except:
+            text += 'error<br>'
+
+            pass
         # yClose.append(Decimal(1))
 
         if nowMA.close - SMA == 0:
@@ -186,7 +192,13 @@ class setBollingerBand_USD_JPY:
             aaaa3 += 1
 
         for c in cond:
-            xClose.append(c.ma.m5.close)
+            try:
+                xClose.append(float(c.ma.m5.close))
+                pass
+            except:
+                text += 'error<br>'
+
+            pass
             # yClose.append(Decimal(1))
             # text += str(c.ma.m5.recorded_at_utc)+' date<br>'
             # text += str(c.ma.m5.close)+'　close<br>'
