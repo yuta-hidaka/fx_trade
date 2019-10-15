@@ -173,7 +173,7 @@ class setBollingerBand_USD_JPY:
         yClose = []
 
         xClose.append(nowMA.close)
-        yClose.append(1)
+        yClose.append(Decimal(1))
 
         if nowMA.close - SMA == 0:
             data += 0
@@ -187,7 +187,7 @@ class setBollingerBand_USD_JPY:
 
         for c in cond:
             xClose.append(c.ma.m5.close)
-            yClose.append(1)
+            yClose.append(Decimal(1))
             # text += str(c.ma.m5.recorded_at_utc)+' date<br>'
             # text += str(c.ma.m5.close)+'　close<br>'
             # text += str(c.condition_of_bb.bb.sma_M50)+'　sma<br>'
