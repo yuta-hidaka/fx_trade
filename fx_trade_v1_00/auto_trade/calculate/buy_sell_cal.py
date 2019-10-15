@@ -162,9 +162,16 @@ class BuySellCal():
                 trend_id = model_to_dict(
                     condNow.condition_of_bb.bb_trande
                 )['id']
+
+                preTrend_id = model_to_dict(
+                    condiPrev.condition_of_bb.bb_trande
+                )['id']
+                
                 pass
             except:
                 # print("何かエラー起きてます。")
+                text += 'Condiでエラーです。く<br>'
+
                 trend_id = 0
                 pass
 
@@ -281,6 +288,7 @@ class BuySellCal():
                         # self.order.oderCloseAllLong()
                     else:
                         text += 'エクスパンションorだまし_購買条件未該当<br>'
+                        
 
 
                     # 前回エクスパンションしていて、いまエクスパンションが収まったら、底の認識でそれぞれ売り払って逆方向にinする
@@ -301,6 +309,12 @@ class BuySellCal():
                             nowInS = True
                         else:
                             text += 'shortInはしませんでした。<br>'
+                            
+            # 前回までトレンドで今が持ち合い相場であればいったん決済する。
+            if trend_id==3:
+                if preTrend_id == 1 or preTrend_id == 2:
+                            self.order.allOrderClose()
+
     # --------------------------------------------------------------------------
             if trend_id == 1 or trend_id == 2:
                 # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
