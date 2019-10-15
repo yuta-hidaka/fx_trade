@@ -200,7 +200,7 @@ class setBollingerBand_USD_JPY:
 
             pass
             # yClose.append(Decimal(1))
-            # text += str(c.ma.m5.recorded_at_utc)+' date<br>'
+            text += str(c.ma.m5.recorded_at_utc)+' date<br>'
             # text += str(c.ma.m5.close)+'　close<br>'
             # text += str(c.condition_of_bb.bb.sma_M50)+'　sma<br>'
             # text += str(c.ma.m5.close - c.condition_of_bb.bb.sma_M50)+'　deff<br>'
