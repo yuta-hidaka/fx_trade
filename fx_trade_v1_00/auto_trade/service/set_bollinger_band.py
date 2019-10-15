@@ -216,6 +216,7 @@ class setBollingerBand_USD_JPY:
             slopeDir = np.sign(slope)
             text += str(rs[0])+' 傾き<br>'
             text += str(rs[1])+' 切片<br>'
+            text += str(slopeDir)+' slopeDir<br>'
 
             pass
         except Exception as e:
