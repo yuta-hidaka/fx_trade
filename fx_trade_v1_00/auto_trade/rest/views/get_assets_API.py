@@ -28,5 +28,6 @@ class getAssetsAPI(APIView):
 
         for r in res:
             data['result'].append(r)
+        data['result'].reverse()
 
         return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type='application/json')
