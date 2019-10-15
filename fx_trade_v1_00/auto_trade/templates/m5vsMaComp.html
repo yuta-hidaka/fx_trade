@@ -193,7 +193,6 @@
                         name: 'sma',
                         mode: 'lines',
                         text: []
-
                     };
 
                     console.log(trace1);
@@ -354,9 +353,9 @@
                         xaxis: {
                             autorange: true,
                             domain: [0, 1],
-                            range: [trace1.x[0], trace1.x[trace1.x.length - 1]],
+                            range: [trace1.x[0], trace1.x[trace1.x.length - 0.3]],
                             rangeslider: {
-                                range: [trace1.x[0], trace1.x[trace1.x.length - 1]]
+                                range: [trace1.x[0], trace1.x[trace1.x.length - 0.3]]
                             },
                             title: 'Date',
                             type: 'date'
@@ -364,7 +363,7 @@
                         yaxis: {
                             autorange: true,
                             domain: [0, 1],
-                            range: [(Math.min(trace1.high) - 1), (Math.max(trace1.high) + 1)],
+                            range: [(Math.min(trace1.high) - 0.3), (Math.max(trace1.high) + 0.3)],
                             type: 'linear'
                         }
                     };

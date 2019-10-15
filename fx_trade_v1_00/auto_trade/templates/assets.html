@@ -23,12 +23,57 @@
         })
           // Ajaxリクエストが成功した時発動
           .done(data => {
-            $(".result").html(data);
+            // $(".result").html(data);
             console.log(data);
+            var asset = {
+              x: [],
+              y: [],
+              name: "資産(JPY)",
+              mode: "lines",
+              text: []
+            };
+
+            data.forEach(elm => {
+              asset.x.push(elm.assets);
+              asset.y.push(elm.created_at);
+            });
+
+            var layout = {
+              dragmode: "zoom",
+              margin: {
+                r: 10,
+                t: 25,
+                b: 40,
+                l: 60
+              },
+              showlegend: false,
+              xaxis: {
+                autorange: true,
+                domain: [0, 1],
+                range: [trace1.x[0], trace1.x[trace1.x.length - 10000]],
+                rangeslider: {
+                  range: [trace1.x[0], trace1.x[trace1.x.length - 10000]]
+                },
+                title: "Date",
+                type: "date"
+              },
+              yaxis: {
+                autorange: true,
+                domain: [0, 1],
+                range: [
+                  Math.min(trace1.high) - 10000,
+                  Math.max(trace1.high) + 10000
+                ],
+                type: "linear"
+              }
+            };
+            console.log(trace1);
+            Plotly.plot("plotly-div", asset, layout);
           })
+
           // Ajaxリクエストが失敗した時発動
           .fail(data => {
-            $(".result").html(data);
+            // $(".result").html(data);
             console.log(data);
           });
       });
