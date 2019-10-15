@@ -35,8 +35,12 @@
             };
 
             data.forEach(elm => {
+              dt = new Date(elm.created_at);
+              dt.setHours(dt.getHours());
+              //   console.log(dt.toLocaleString());
+
               asset.y.push(elm.assets);
-              asset.x.push(elm.created_at);
+              asset.x.push(dt.toLocaleString());
             });
 
             var layout = {
