@@ -15,7 +15,7 @@
 # """
 from django.contrib import admin
 from django.urls import path, include
-from .views import get_rate_API, get_ma_API, trade_switch_API, get_m5vsMa, get_log, trade_settings, get_asset_API
+from .views import get_rate_API, get_ma_API, trade_switch_API, get_m5vsMa, get_log, trade_settings, get_assets_API
 # from . import getRate
 
 urlpatterns = [
