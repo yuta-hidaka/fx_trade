@@ -47,26 +47,26 @@
                 b: 40,
                 l: 60
               },
-              showlegend: false,
-              xaxis: {
-                autorange: true,
-                domain: [0, 1],
-                range: [trace1.x[0], trace1.x[trace1.x.length - 10000]],
-                rangeslider: {
-                  range: [trace1.x[0], trace1.x[trace1.x.length - 10000]]
-                },
-                title: "Date",
-                type: "date"
-              },
-              yaxis: {
-                autorange: true,
-                domain: [0, 1],
-                range: [
-                  Math.min(trace1.high) - 10000,
-                  Math.max(trace1.high) + 10000
-                ],
-                type: "linear"
-              }
+              showlegend: false
+              //   xaxis: {
+              //     autorange: true,
+              //     domain: [0, 1],
+              //     range: [trace1.x[0], trace1.x[trace1.x.length - 10000]],
+              //     rangeslider: {
+              //       range: [trace1.x[0], trace1.x[trace1.x.length - 10000]]
+              //     },
+              //     title: "Date",
+              //     type: "date"
+              //   },
+              //   yaxis: {
+              //     autorange: true,
+              //     domain: [0, 1],
+              //     range: [
+              //       Math.min(trace1.high) - 10000,
+              //       Math.max(trace1.high) + 10000
+              //     ],
+              //     type: "linear"
+              //   }
             };
             Plotly.plot("plotly-div", [asset], layout);
           })
