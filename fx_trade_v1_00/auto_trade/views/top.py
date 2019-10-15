@@ -38,3 +38,12 @@ def log(request):
     }
     return HttpResponse(template.render(context, request))
     # return render(request, 'CurrentRate.html')
+
+
+def assets(request):
+    template = loader.get_template('assets.html')
+    context = {
+        'latest_question_list': "hi",
+    }
+    return HttpResponse(template.render(context, request))
+    # return render(request, 'CurrentRate.html')

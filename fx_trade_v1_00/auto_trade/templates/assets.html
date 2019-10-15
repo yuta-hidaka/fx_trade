@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+  </head>
+
+  {% include 'base.html' %}
+
+  <script>
+    $(document).ready(function() {
+      function OnAutoTrade(bool) {
+        let req = {
+          auto_trade_is_on: bool
+        };
+
+        $.ajax({
+          url: "../rest/tradeOnOff",
+          type: "POST",
+          data: req,
+          headers: {
+            "X-CSRFToken": token
+          }
+        })
+          // Ajaxリクエストが成功した時発動
+          .done(data => {})
+          // Ajaxリクエストが失敗した時発動
+          .fail(data => {
+            $(".result").html(data);
+            console.log(data);
+          });
+      }
+
+      $("#selectON").on("change", function() {
+        console.log($("#selectON").val());
+        if (Number($("#selectON").val())) {
+          let ans = confirm("自動取引を開始しますか？");
+          if (ans) {
+            OnAutoTrade(true);
+          }
+        } else {
+          let ans = confirm("自動取引を終了しますか？");
+          if (ans) {
+            OnAutoTrade(false);
+          }
+        }
+      });
+
+      $("#getRate").on("click", function() {
+        $.ajax({
+          url: "../rest/assets",
+          type: "POST",
+          data: {
+            userid: $("#userid").val(),
+            passward: $("#passward").val()
+          },
+          headers: {
+            "X-CSRFToken": token
+          }
+        })
+          // Ajaxリクエストが成功した時発動
+          .done(data => {
+            $(".result").html(data);
+            console.log(data);
+          })
+          // Ajaxリクエストが失敗した時発動
+          .fail(data => {
+            $(".result").html(data);
+            console.log(data);
+          });
+      });
+    });
+  </script>
+
+  <body>
+    <h2>為替とMA状態検証</h2>
+
+    <div class="w-100">
+      <div class="m-auto text-center">
+        <!-- <select class="" id="pare">
+                <option value="USD_JPY">USD_JPY</option>
+                <option value="EUR_JPY">EUR_JPY</option>
+                <option value="GBP_JPY">GBP_JPY</option>
+            </select>
+
+            <select class="" id="granularity">
+                <option value="USD_JPY">USD_JPY</option>
+                <option value="EUR_JPY">EUR_JPY</option>
+                <option value="GBP_JPY">GBP_JPY</option>
+            </select> -->
+
+        <input type="button" class="btn" value="為替情報を検索" id="getRate" />
+      </div>
+    </div>
+
+    <div id="plotly-div"></div>
+    <div id="plotly-div2"></div>
+    <div id="tbl" class="tableFixHead"></div>
+  </body>
+</html>
