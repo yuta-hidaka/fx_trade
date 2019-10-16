@@ -16,9 +16,11 @@ class setBollingerBand_USD_JPY:
         cond = condition.objects.all().order_by('-created_at')[:11]
         sig1 = (rs['abs_sigma_1'] * Decimal(1.4))
         sig2 = (rs['abs_sigma_2'] * Decimal(0.85))
+        sig3 = (rs['abs_sigma_3'] * Decimal(0.85))
 
         bSig1 = (bbb['abs_sigma_1'] * Decimal(1.4))
         bSig2 = (bbb['abs_sigma_2'] * Decimal(0.85))
+        bSig3 = (bbb['abs_sigma_3'] * Decimal(0.85))
 
         # sig1forEx = (rs['abs_sigma_1'])
         sig2forEx = (rs['abs_sigma_2'])
@@ -39,6 +41,7 @@ class setBollingerBand_USD_JPY:
         length = len(list(cond)) + 1
         data = 0
         is_plus = True
+        is_peak = True
         is_trend = True
         is_shortIn = True
         is_topTouch = False
@@ -67,6 +70,19 @@ class setBollingerBand_USD_JPY:
 
         sma2SigmaMinusBeforEx = (
             bSma - bSig2forEx).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+        # エクスパンションピーク判断用
+        sma3SigmaPlusExP = (
+            sma + sig3).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+        sma3SigmaMinusExP = (
+            sma - sig3).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+        sma3SigmaPlusBeforExP = (
+            bSma + bSig3).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+        sma3SigmaMinusBeforExP = (
+            bSma - bSig3).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         # 購買基準用
         sma2SigmaPlus = (
@@ -138,6 +154,17 @@ class setBollingerBand_USD_JPY:
         text += 'sma1SigmaMinus ' + str(sma1SigmaMinus) + '<br>'
         text += 'JNowClose ' + str(JNowClose) + '<br>'
         text += 'nowClose ' + str(nowClose) + '<br>'
+
+        if sma3SigmaPlusExP <= nowClose or sma3SigmaPlusExP <= nowClose:
+            text += 'sigma3＋α closeが上に触りました<br>'
+            is_topTouch = True
+            is_peak = True
+        elif sma3SigmaMinusExP >= nowClose or sma3SigmaMinusExP >= nowClose:
+            text += 'sigma3＋α closeが下に触りました<br>'
+            is_bottomTouch = True
+            is_peak = True
+        else:
+            text += 'sigma3+α どちらにも触れてません<br>'
 
         if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
             text += 'sigma1＋α 上に触りました<br>'
@@ -299,6 +326,7 @@ class setBollingerBand_USD_JPY:
             trandCondi = 3
 
         create = conditionOfBB.objects.create(
+            is_peak=is_peak,
             is_expansion=is_expansion,
             is_topTouch=is_topTouch,
             is_bottomTouch=is_bottomTouch,
