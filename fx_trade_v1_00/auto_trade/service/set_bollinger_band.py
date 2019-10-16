@@ -210,10 +210,11 @@ class setBollingerBand_USD_JPY:
         elif nowMA.close > SMA:
             data += 1
             aaaa3 += 1
-
-        for c in cond[:3]:
+        xClose.append(float(nowMA.close))
+        for c in cond[:2]:
             # text += str(c.ma.m5.recorded_at_utc)+' date max hhhhhhhh<br>'
             xClose.append(float(c.ma.m5.close))
+        xClose.reverse()
 
         for c in cond:
             pass
@@ -231,7 +232,9 @@ class setBollingerBand_USD_JPY:
             elif c.ma.m5.close > c.condition_of_bb.bb.sma_M50:
                 data += 1
                 aaaa3 += 1
-        xClose.append(float(nowMA.close))
+
+        for vv in xClose:
+            text += str(vv)+' hhhhhhhh<br>'
 
         slope = 0
         slopeDir = 0
