@@ -45,6 +45,7 @@ class BuySellCal():
         is_topTouch = cbb['is_topTouch']
         is_bottomTouch = cbb['is_bottomTouch']
 
+        is_peak = cbb['is_peak']
         is_shortClose = cbb['is_shortClose']
         is_longClose = cbb['is_longClose']
 
@@ -226,6 +227,19 @@ class BuySellCal():
             # 前回までトレンドで今が持ち合い相場であればいったん決済する。
 
             # --------------------------------------------------------------------------
+
+            if is_peak:
+                    text += 'sigma3 エクスパンションの底値。ポジションを入れ替える <br>'
+                    if is_bottomTouch:
+                        text += 'sigma3 エクスパンション終了で下タッチなのでlongIn<br>'
+                        self.order.LongOrderCreate()
+                        nowInL = True
+
+                    elif is_topTouch :
+                        text += 'sigma3 エクスパンション終了で上タッチなのでshortIn<br>'
+                        self.order.ShortOrderCreate()
+                        nowInS = True
+
             if trend_id == 3:
                 if preTrend_id == 1 or preTrend_id == 2:
                         text += '前回までトレンドで今が持ち合い相場でいったん決済。<br>'
@@ -255,7 +269,6 @@ class BuySellCal():
              
                     if is_topTouch:
                         text += 'エクスパンションorだましで上タッチのLongIn<br>'
-                       
                         self.order.LongOrderCreate()
                         nowInL = True
                         text += 'LongIn<br>'
