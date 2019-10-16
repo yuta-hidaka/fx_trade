@@ -138,6 +138,7 @@ class setBollingerBand_USD_JPY:
         text += 'sma1SigmaMinus ' + str(sma1SigmaMinus) + '<br>'
         text += 'JNowClose ' + str(JNowClose) + '<br>'
         text += 'nowClose ' + str(nowClose) + '<br>'
+        
 
         if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
             text += 'sigma1＋α 上に触りました<br>'
@@ -188,7 +189,7 @@ class setBollingerBand_USD_JPY:
             xClose.append(float(c.ma.m5.close))
             pass
             # yClose.append(Decimal(1))
-            # text += str(c.ma.m5.recorded_at_utc)+' date<br>'
+            text += str(c.ma.m5.recorded_at_utc)+' date<br>'
             # text += str(c.ma.m5.close)+'　close<br>'
             # text += str(c.condition_of_bb.bb.sma_M50)+'　sma<br>'
             # text += str(c.ma.m5.close - c.condition_of_bb.bb.sma_M50)+'　deff<br>'
