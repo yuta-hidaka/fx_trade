@@ -307,11 +307,11 @@ class setBollingerBand_USD_JPY:
 
         if is_trend and slopeDir == 1 or slopeDir == -1:
 
-            if is_plus:
+            if is_plus and slopeDir == 1 or slopeDir == 0:
                 text += '＋トレンド<br>'
                 # プラスのトレンド
                 trandCondi = 1
-            elif not is_plus:
+            elif not is_plus and slopeDir == -1 or slopeDir == 0:
                 text += '-トレンド<br>'
                 # マイナスのトレンド
                 trandCondi = 2
