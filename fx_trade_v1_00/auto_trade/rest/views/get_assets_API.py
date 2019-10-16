@@ -18,9 +18,9 @@ class getAssetsAPI(APIView):
     def post(self, request):
 
         res = (
-            assets.objects.order_by('-created_at').all().values(
+            assets.objects.order_by('-created_at').all().distinct('assets').values(
                 'assets', 'created_at'
-            )[:1000].distinct('assets')
+            )[:1000]
         )
 
         data = {}
