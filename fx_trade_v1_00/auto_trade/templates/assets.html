@@ -40,7 +40,7 @@
                 dt = new Date(elm.created_at);
                 dt.setHours(dt.getHours());
                 //   console.log(dt.toLocaleString());
-                asset.y.push(elm.assets);
+                asset.y.push(elm.assets / 10000);
                 asset.x.push(dt);
               }
               beforData = elm.assets;
