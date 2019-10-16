@@ -274,7 +274,7 @@ class setBollingerBand_USD_JPY:
         else:
             is_trend = False
 
-        if is_trend:
+        if is_trend :
             # if is_trend and slopeDir != 0:
             if is_plus:
                 text += '＋トレンド<br>'

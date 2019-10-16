@@ -265,6 +265,19 @@ class BuySellCal():
                     if is_topTouch:
                         text += 'エクスパンションorだましで上タッチのLongIn<br>'
                         orderLongNum += 1
+                        if orderLongNum == 0:
+                            self.order.LongOrderCreate()
+                            nowInL = True
+                            text += 'LongIn<br>'
+                        # if orderShortNum == 0:
+                        #     self.order.ShortOrderCreate()
+                        #     nowInS = True
+                        #     text += 'ShortIn<br>'   
+                        # self.order.oderCloseAllShort()
+                        # self.order.oderCloseAllLong()
+                    elif is_bottomTouch:
+                        text += 'エクスパンションorだましで上タッチなのでshortIn<br>'
+                        orderShortNum += 1
                         # if orderLongNum == 0:
                         #     self.order.LongOrderCreate()
                         #     nowInL = True
@@ -273,19 +286,6 @@ class BuySellCal():
                             self.order.ShortOrderCreate()
                             nowInS = True
                             text += 'ShortIn<br>'
-                        # self.order.oderCloseAllShort()
-                        # self.order.oderCloseAllLong()
-                    elif is_bottomTouch:
-                        text += 'エクスパンションorだましで上タッチなのでshortIn<br>'
-                        orderShortNum += 1
-                        if orderLongNum == 0:
-                            self.order.LongOrderCreate()
-                            nowInL = True
-                            text += 'LongIn<br>'
-                        # if orderShortNum == 0:
-                        #     self.order.ShortOrderCreate()
-                        #     nowInS = True
-                        #     text += 'ShortIn<br>'
                         # self.order.oderCloseAllShort()
                         # self.order.oderCloseAllLong()
                     else:
