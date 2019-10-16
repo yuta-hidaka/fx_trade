@@ -41,7 +41,7 @@ class setBollingerBand_USD_JPY:
         length = len(list(cond)) + 1
         data = 0
         is_plus = True
-        is_peak = True
+        is_peak = False
         is_trend = True
         is_shortIn = True
         is_topTouch = False
@@ -234,10 +234,6 @@ class setBollingerBand_USD_JPY:
             elif c.ma.m5.close > c.condition_of_bb.bb.sma_M50:
                 data += 1
                 aaaa3 += 1
-
-        for vv in xClose:
-            text += str(vv)+' hhhhhhhh<br>'
-
         slope = 0
         slopeDir = 0
 
