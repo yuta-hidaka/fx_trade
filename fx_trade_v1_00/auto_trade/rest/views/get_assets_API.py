@@ -20,7 +20,7 @@ class getAssetsAPI(APIView):
         res = (
             assets.objects.order_by('-created_at').all().values(
                 'assets', 'created_at'
-            ).distinct()[:1000]
+            ).distinct('assets')[:1000]
         )
 
         data = {}
