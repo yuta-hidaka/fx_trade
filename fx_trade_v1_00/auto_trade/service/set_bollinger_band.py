@@ -192,8 +192,8 @@ class setBollingerBand_USD_JPY:
         aaaa2 = 0
         aaaa3 = 0
 
-        # text += str(nowMA.recorded_at_utc)+' 最新　<br>'
-        # text += str(nowMA.close)+'　最新 close<br>'
+        text += str(nowMA.recorded_at_utc)+' 最新　<br>'
+        text += str(nowMA.close)+'　最新 close<br>'
         # text += str(sma)+'　最新 sma<br>'
         # text += str(nowMA.close - SMA)+'　最新 deff<br>'
         xClose = []
@@ -213,6 +213,8 @@ class setBollingerBand_USD_JPY:
         xClose.append(float(nowMA.close))
         for c in cond[:2]:
             # text += str(c.ma.m5.recorded_at_utc)+' date max hhhhhhhh<br>'
+            text += str(c.ma.m5.recorded_at_utc)+' date<br>'
+            text += str(c.ma.m5.close)+'　close<br>'
             xClose.append(float(c.ma.m5.close))
         xClose.reverse()
 
