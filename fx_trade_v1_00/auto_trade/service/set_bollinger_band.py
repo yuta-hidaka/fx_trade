@@ -187,6 +187,8 @@ class setBollingerBand_USD_JPY:
         try:
             for c in cond[len(cond)-4:len(cond)]:
                 text += str(c.ma.m5.recorded_at_utc)+' date max 4<br>'
+            for c in cond[:2]:
+                text += str(c.ma.m5.recorded_at_utc)+' date max hhhhhhhh<br>'
             pass
         except:
             pass
