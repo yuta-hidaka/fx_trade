@@ -211,20 +211,14 @@ class setBollingerBand_USD_JPY:
             data += 1
             aaaa3 += 1
 
-        try:
-            for c in cond[len(cond)-4:len(cond)]:
-                text += str(c.ma.m5.recorded_at_utc)+' date max 4<br>'
-            for c in cond[:2]:
-                text += str(c.ma.m5.recorded_at_utc)+' date max hhhhhhhh<br>'
-            pass
-        except:
-            pass
+        for c in cond[:3]:
+            # text += str(c.ma.m5.recorded_at_utc)+' date max hhhhhhhh<br>'
+            xClose.append(float(c.ma.m5.close))
 
         for c in cond:
-            xClose.append(float(c.ma.m5.close))
             pass
             # yClose.append(Decimal(1))
-            text += str(c.ma.m5.recorded_at_utc)+' date<br>'
+            # text += str(c.ma.m5.recorded_at_utc)+' date<br>'
             # text += str(c.ma.m5.close)+'　close<br>'
             # text += str(c.condition_of_bb.bb.sma_M50)+'　sma<br>'
             # text += str(c.ma.m5.close - c.condition_of_bb.bb.sma_M50)+'　deff<br>'
