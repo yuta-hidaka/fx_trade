@@ -15,10 +15,10 @@ class setBollingerBand_USD_JPY:
         bbb = model_to_dict(bbBefor)
         cond = condition.objects.all().order_by('-created_at')[:11]
         sig1 = (rs['abs_sigma_1'] * Decimal(1.4))
-        sig2 = (rs['abs_sigma_2'] * Decimal(0.90))
+        sig2 = (rs['abs_sigma_2'] * Decimal(0.85))
 
         bSig1 = (bbb['abs_sigma_1'] * Decimal(1.4))
-        bSig2 = (bbb['abs_sigma_2'] * Decimal(0.90))
+        bSig2 = (bbb['abs_sigma_2'] * Decimal(0.85))
 
         # sig1forEx = (rs['abs_sigma_1'])
         sig2forEx = (rs['abs_sigma_2'])
@@ -274,7 +274,7 @@ class setBollingerBand_USD_JPY:
         else:
             is_trend = False
 
-        if is_trend :
+        if is_trend:
             # if is_trend and slopeDir != 0:
             if is_plus:
                 text += '＋トレンド<br>'
