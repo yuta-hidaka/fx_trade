@@ -34,13 +34,16 @@
               text: []
             };
 
+            beforData = "";
             data.forEach(elm => {
-              dt = new Date(elm.created_at);
-              dt.setHours(dt.getHours());
-              //   console.log(dt.toLocaleString());
-
-              asset.y.push(elm.assets);
-              asset.x.push(dt);
+              if (elm.assets !== beforData) {
+                dt = new Date(elm.created_at);
+                dt.setHours(dt.getHours());
+                //   console.log(dt.toLocaleString());
+                asset.y.push(elm.assets);
+                asset.x.push(dt);
+              }
+              beforData = elm.assets;
             });
 
             var layout = {
