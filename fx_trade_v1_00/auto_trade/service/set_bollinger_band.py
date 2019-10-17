@@ -220,10 +220,11 @@ class setBollingerBand_USD_JPY:
             # text += str(c.ma.m5.recorded_at_utc)+' date<br>'
             # text += str(c.ma.m5.close)+'　close<br>'
             xClose.append(float(c.ma.m5.close))
-        xClose.reverse()
 
         for c in cond:
-            pass
+            # xClose.append(float(c.ma.m5.close))
+
+            # pass
             # yClose.append(Decimal(1))
             # text += str(c.ma.m5.recorded_at_utc)+' date<br>'
             # text += str(c.ma.m5.close)+'　close<br>'
@@ -238,16 +239,17 @@ class setBollingerBand_USD_JPY:
             elif c.ma.m5.close > c.condition_of_bb.bb.sma_M50:
                 data += 1
                 aaaa3 += 1
+
         slope = 0
         slopeDir = 0
 
         try:
-
+            xClose.reverse()
             x = np.arange(0, len(xClose))
             y = np.array(xClose)
             rs = np.polyfit(x, y, 1)
             slope = Decimal(rs[0]).quantize(
-                Decimal('0.001'), rounding=ROUND_HALF_UP)
+                Decimal('0.01'), rounding=ROUND_HALF_UP)
             slopeDir = np.sign(slope)
             text += str(rs[0])+' 傾き<br>'
             text += str(rs[1])+' 切片<br>'
