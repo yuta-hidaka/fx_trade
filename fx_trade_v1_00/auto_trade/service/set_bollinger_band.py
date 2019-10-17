@@ -16,11 +16,11 @@ class setBollingerBand_USD_JPY:
         cond = condition.objects.all().order_by('-created_at')[:11]
         sig1 = (rs['abs_sigma_1'] * Decimal(1.4))
         sig2 = (rs['abs_sigma_2'] * Decimal(0.85))
-        sig3 = (rs['abs_sigma_3'] * Decimal(0.85))
+        sig3 = (rs['abs_sigma_3'])
 
         bSig1 = (bbb['abs_sigma_1'] * Decimal(1.4))
         bSig2 = (bbb['abs_sigma_2'] * Decimal(0.85))
-        bSig3 = (bbb['abs_sigma_3'] * Decimal(0.85))
+        bSig3 = (bbb['abs_sigma_3'])
 
         # sig1forEx = (rs['abs_sigma_1'])
         sig2forEx = (rs['abs_sigma_2'])
@@ -166,21 +166,25 @@ class setBollingerBand_USD_JPY:
         else:
             text += 'sigma3＋α どちらにも触れてません<br>'
 
-        if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
+        # if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
+        if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose:
             text += 'sigma1＋α 上に触りました<br>'
             is_longClose = True
-        elif sma1SigmaMinus >= nowLow or sma1SigmaMinus >= JNowLow:
+        # elif sma1SigmaMinus >= nowLow or sma1SigmaMinus >= JNowLow:
+        elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose:
             text += 'sigma1＋α 下に触りました<br>'
             is_shortClose = True
         else:
             text += 'sigma1＋α どちらにも触れてません<br>'
 
         # 持ち合い相場時の購買基準を判断
-        if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh:
+        # if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh:
+        if sma2SigmaPlus <= nowClose or sma2SigmaPlus <= nowClose:
             is_shortIn = True
             is_topTouch = True
             text += 'sigma2＋α 上に触りました<br>'
-        elif sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow:
+        # elif sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow:
+        elif sma2SigmaMinus >= nowClose or sma2SigmaMinus >= nowClose:
             is_shortIn = False
             is_bottomTouch = True
             text += 'sigma2＋α 下に触りました<br>'
@@ -306,28 +310,20 @@ class setBollingerBand_USD_JPY:
             is_trend = False
 
         if is_trend:
-
-            if is_plus and slopeDir == 1 or slopeDir == 0:
+            if is_plus and slopeDir == 1:
                 text += '＋トレンド<br>'
                 # プラスのトレンド
                 trandCondi = 1
-            elif not is_plus and slopeDir == -1 or slopeDir == 0:
+            elif not is_plus and slopeDir == -1:
                 text += '-トレンド<br>'
                 # マイナスのトレンド
                 trandCondi = 2
+            elif slopeDir == 0:
+                text += 'トレンドだけど傾きが真逆 一旦静観<br>'
+                trandCondi = 4
             else:
-                text += 'トレンドだけど傾きが真逆<br>'
-                trandCondi = 3
-
-            # # if is_trend and slopeDir != 0:
-            # if is_plus:
-            #     text += '＋トレンド<br>'
-            #     # プラスのトレンド
-            #     trandCondi = 1
-            # else:
-            #     text += '-トレンド<br>'
-            #     # マイナスのトレンド
-            #     trandCondi = 2
+                text += 'トレンドだけど傾きが真逆 一旦静観else<br>'
+                trandCondi = 4
         else:
             # もみ合い相場
             text += 'もみ合いトレンドcondition条件判定内<br>'
