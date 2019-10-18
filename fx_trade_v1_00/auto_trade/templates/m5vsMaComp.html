@@ -170,10 +170,10 @@
                         x: [],
                         y: [],
                         name: 'cv',
-                        mode: 'bar',
-                        yaxis: "cv",
-                        type: "scatter",
-                        mode: "lines+markers",
+                        // mode: 'bar',
+                        name: 'cv',
+                        yaxis: 'y2',
+                        type: 'scatter'
                     };
                     var sig3 = {
                         x: [],
@@ -384,7 +384,7 @@
                         ma75, ma6, ma24, ma50, ma72,
                         sig1, sig2, mSig1, mSig2, sma
                     ]
-                    var data2 = [sig1, sig2, sig3, mSig1, mSig2, mSig3, sma,]
+                    var data2 = [sig1, sig2, sig3, mSig1, mSig2, mSig3, sma, cv]
 
                     var data3 = [cv]
 
@@ -396,18 +396,14 @@
                             showgrid: false,
                             domain: [0.15, 1]
                         },
-                        "bb": {
-                            title: "bb",
-                            side: "left"
+                        yaxis: { title: 'bb' },
+                        yaxis2: {
+                            title: 'cv',
+                            titlefont: { color: 'rgb(148, 103, 189)' },
+                            tickfont: { color: 'rgb(148, 103, 189)' },
+                            overlaying: 'y',
+                            side: 'right'
                         },
-                        // "cv": {
-                        //     title: "cv",
-                        //     titlefont: { color: "green" },
-                        //     tickfont: { color: "green" },
-                        //     overlaying: 'bb',
-                        //     side: "left",
-                        //     position: 0
-                        // },
                         hovermode: 'x',
                         showlegend: true
                     };
@@ -443,20 +439,20 @@
                     Plotly.plot('plotly-div2', data2, layout2);
                     Plotly.plot('plotly-div3', data3);
 
-                    Plotly.addTraces('plotly-div2', cv);
-                    Plotly.relayout(
-                        'plotly-div2',
-                        {
-                            "cv": {
-                                title: "cv",
-                                titlefont: { color: "green" },
-                                tickfont: { color: "green" },
-                                overlaying: 'bb',
-                                side: "left",
-                                position: 0
-                            }
-                        }
-                    );
+                    //     Plotly.addTraces('plotly-div2', cv);
+                    //     Plotly.relayout(
+                    //         'plotly-div2',
+                    //         {
+                    //             "cv": {
+                    //                 title: "cv",
+                    //                 titlefont: { color: "green" },
+                    //                 tickfont: { color: "green" },
+                    //                 overlaying: 'bb',
+                    //                 side: "left",
+                    //                 position: 0
+                    //             }
+                    //         }
+                    //     );
                 })
                 // Ajaxリクエストが失敗した時発動
                 .fail((data) => {
