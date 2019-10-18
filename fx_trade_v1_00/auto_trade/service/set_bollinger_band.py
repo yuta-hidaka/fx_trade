@@ -381,6 +381,27 @@ class setBollingerBand_USD_JPY:
         for M in M50:
             listMA.append(Decimal(M['mid']['c']))
 
+        text = ''
+        try:
+            listMA.reverse()
+            x = np.arange(0, len(listMA))
+            y = np.array(listMA)
+            rs = np.polyfit(x, y, 1)
+            slope = Decimal(rs[0]).quantize(
+                Decimal('0.01'), rounding=ROUND_HALF_UP)
+            slopeDir = np.sign(slope)
+            text += str(rs[0])+' 傾き_SMA<br>'
+            text += str(rs[1])+' 切片_SMA<br>'
+            text += str(slopeDir)+' slopeDir_SMA<br>'
+
+            pass
+        except Exception as e:
+            text += str(e)+' error<br>'
+
+            pass
+        batchLog.objects.create(
+            text=text
+        )
         # SMA = np.average(listMA)
         SMA = np.mean(listMA)
 
