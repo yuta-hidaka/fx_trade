@@ -241,7 +241,7 @@ class BuySellCal():
                         nowInS = True
 
             if trend_id == 3 and not is_peak:
-                if preTrend_id == 1 or preTrend_id == 2:
+                if preTrend_id == 1 or preTrend_id == 2 or preTrend_id == 4:
                         text += '前回までトレンドで今が持ち合い相場でいったん決済。<br>'
                         self.order.allOrderClose()
                 # 偏差と数値によるエクスパンションで確度が高めのポジションを持つ
