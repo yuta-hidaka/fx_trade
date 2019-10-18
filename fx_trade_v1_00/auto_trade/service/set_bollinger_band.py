@@ -9,7 +9,7 @@ from django.forms.models import model_to_dict
 
 class setBollingerBand_USD_JPY:
 
-    def setBBCondition(self, MHalf, SMA, nowMA, result, bbBefor, condiPrev, is_squeeze):
+    def setBBCondition(self, MHalf, SMA, nowMA, result, bbBefor, condiPrev):
         JustNowMA = getMA_USD_JPY().get_now()
         rs = model_to_dict(result)
         bbb = model_to_dict(bbBefor)
@@ -42,7 +42,7 @@ class setBollingerBand_USD_JPY:
         data = 0
         slope = 0
         slopeDir = 0
-
+        # is_squeeze=False
         is_plus = True
         is_peak = False
         is_trend = True
@@ -124,9 +124,6 @@ class setBollingerBand_USD_JPY:
         yClose = []
         xClose.append(float(nowMA.close))
         for c in cond[:3]:
-            # text += str(c.ma.m5.recorded_at_utc)+' date max hhhhhhhh<br>'
-            # text += str(c.ma.m5.recorded_at_utc)+' date<br>'
-            # text += str(c.ma.m5.close)+'　close<br>'
             xClose.append(float(c.ma.m5.close))
 
         try:
@@ -351,7 +348,7 @@ class setBollingerBand_USD_JPY:
 
     def setBB(self, nowMA, condiPrev):
         gMA = getMA_USD_JPY()
-        is_squeeze = False
+        # is_squeeze = False
         created = False
         result = None
         # if gMA.get_5M_1()['candles']:
@@ -375,36 +372,36 @@ class setBollingerBand_USD_JPY:
         # nowMA = M50[idx]
 
         listMA = []
-        listMAflt = []
+        # listMAflt = []
         for M in M50:
             listMA.append(Decimal(M['mid']['c']))
-            listMAflt.append(float(M['mid']['c']))
+            # listMAflt.append(float(M['mid']['c']))
 
-        text = ''
-        try:
-            # listMAflt.reverse()
-            x = np.arange(0, len(listMAflt))
-            y = np.array(listMAflt)
-            rs = np.polyfit(x, y, 1)
-            slope = Decimal(rs[0]).quantize(
-                Decimal('0.01'), rounding=ROUND_HALF_UP)
-            slopeDir = np.sign(slope)
-            text += str(rs[0])+' 傾き_SMA<br>'
-            text += str(rs[1])+' 切片_SMA<br>'
-            text += str(slopeDir)+' slopeDir_SMA<br>'
+        # text = ''
+        # try:
+        #     # listMAflt.reverse()
+        #     x = np.arange(0, len(listMAflt))
+        #     y = np.array(listMAflt)
+        #     rs = np.polyfit(x, y, 1)
+        #     slope = Decimal(rs[0]).quantize(
+        #         Decimal('0.01'), rounding=ROUND_HALF_UP)
+        #     slopeDir = np.sign(slope)
+        #     text += str(rs[0])+' 傾き_SMA<br>'
+        #     text += str(rs[1])+' 切片_SMA<br>'
+        #     text += str(slopeDir)+' slopeDir_SMA<br>'
 
-            pass
-        except Exception as e:
-            text += str(e)+' error<br>'
+        #     pass
+        # except Exception as e:
+        #     text += str(e)+' error<br>'
 
-        if slopeDir == 0:
-            is_squeeze = True
-            text += ' スクイーズ中<br>'
+        # if slopeDir == 0:
+        #     is_squeeze = True
+        #     text += ' スクイーズ中<br>'
 
-            pass
-        batchLog.objects.create(
-            text=text
-        )
+        #     pass
+        # batchLog.objects.create(
+        #     text=text
+        # )
         # SMA = np.average(listMA)
         SMA = np.mean(listMA)
 
@@ -426,7 +423,7 @@ class setBollingerBand_USD_JPY:
         )
 
         resultBBCondi = self.setBBCondition(
-            MHalf, SMA, nowMA, result, bbBefor, condiPrev, is_squeeze
+            MHalf, SMA, nowMA, result, bbBefor, condiPrev
         )
 
         return resultBBCondi
