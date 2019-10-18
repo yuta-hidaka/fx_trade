@@ -14,13 +14,13 @@ class setBollingerBand_USD_JPY:
         rs = model_to_dict(result)
         bbb = model_to_dict(bbBefor)
         cond = condition.objects.all().order_by('-created_at')[:15]
-        sig1 = (rs['abs_sigma_1'] * Decimal(1.4))
+        sig1 = (rs['abs_sigma_1'] * Decimal(1.5))
         sig2 = (rs['abs_sigma_2'] * Decimal(0.85))
         sig3 = (rs['abs_sigma_3'] * Decimal(0.9))
 
-        bSig1 = (bbb['abs_sigma_1'] * Decimal(1.4))
+        bSig1 = (bbb['abs_sigma_1'] * Decimal(1.5))
         bSig2 = (bbb['abs_sigma_2'] * Decimal(0.85))
-        bSig3 = (bbb['abs_sigma_3'] * Decimal(0.9))
+        bSig3 = (bbb['abs_sigma_3'] * Decimal(0.85))
 
         # sig1forEx = (rs['abs_sigma_1'])
         sig2forEx = (rs['abs_sigma_2'])
