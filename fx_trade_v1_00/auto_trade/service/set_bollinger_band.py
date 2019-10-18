@@ -134,6 +134,8 @@ class setBollingerBand_USD_JPY:
             slope = Decimal(rs[0]).quantize(
                 Decimal('0.01'), rounding=ROUND_HALF_UP)
             slopeDir = np.sign(slope)
+
+            text += str(rs['cv'])+' 変動係数<br>'
             text += str(rs[0])+' 傾き<br>'
             text += str(rs[1])+' 切片<br>'
             text += str(slopeDir)+' slopeDir<br>'
