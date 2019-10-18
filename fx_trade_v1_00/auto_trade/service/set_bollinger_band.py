@@ -9,7 +9,7 @@ from django.forms.models import model_to_dict
 
 class setBollingerBand_USD_JPY:
 
-    def setBBCondition(self, MHalf, SMA, nowMA, result, bbBefor, condiPrev):
+    def setBBCondition(self, MHalf, SMA, nowMA, result, bbBefor, condiPrev, is_squeeze):
         JustNowMA = getMA_USD_JPY().get_now()
         rs = model_to_dict(result)
         bbb = model_to_dict(bbBefor)
@@ -40,6 +40,7 @@ class setBollingerBand_USD_JPY:
 
         length = len(list(cond)) + 1
         data = 0
+
         is_plus = True
         is_peak = False
         is_trend = True
@@ -117,26 +118,27 @@ class setBollingerBand_USD_JPY:
             rounding=ROUND_HALF_UP
         )
 
-        # 小数第二以上でプラスであればエクスパンション
-        if diff != Decimal(0):
-            is_expansion = True
-            is_expansionByNum = True
-            text += '価格差のエクスパンション<br>'
+        if is_squeeze:
+            # 小数第二以上でプラスであればエクスパンション
+            if diff != Decimal(0):
+                is_expansion = True
+                is_expansionByNum = True
+                text += '価格差のエクスパンション<br>'
 
-        # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
-        # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose:
-        if sma2SigmaPlusEx <= nowClose and sma2SigmaPlusEx <= JNowClose:
-            is_expansion = True
-            is_expansionByStd = True
-            is_topTouch = True
-            text += '上にエクスパンション<br>'
+            # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
+            # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose:
+            if sma2SigmaPlusEx <= nowClose and sma2SigmaPlusEx <= JNowClose:
+                is_expansion = True
+                is_expansionByStd = True
+                is_topTouch = True
+                text += '上にエクスパンション<br>'
 
-        # elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose and sma2SigmaMinus >= prevClose:
-        if sma2SigmaMinusEx >= nowClose and sma2SigmaMinusEx >= JNowClose:
-            is_expansion = True
-            is_expansionByStd = True
-            is_bottomTouch = True
-            text += '下にエクスパンション<br>'
+            # elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose and sma2SigmaMinus >= prevClose:
+            if sma2SigmaMinusEx >= nowClose and sma2SigmaMinusEx >= JNowClose:
+                is_expansion = True
+                is_expansionByStd = True
+                is_bottomTouch = True
+                text += '下にエクスパンション<br>'
 
         # else:
         #     is_expansion = False
@@ -355,6 +357,7 @@ class setBollingerBand_USD_JPY:
 
     def setBB(self, nowMA, condiPrev):
         gMA = getMA_USD_JPY()
+        is_squeeze = False
         created = False
         result = None
         # if gMA.get_5M_1()['candles']:
@@ -400,6 +403,10 @@ class setBollingerBand_USD_JPY:
         except Exception as e:
             text += str(e)+' error<br>'
 
+        if slopeDir == 0:
+            is_squeeze = True
+            text += ' スクイーズ中<br>'
+
             pass
         batchLog.objects.create(
             text=text
@@ -425,7 +432,7 @@ class setBollingerBand_USD_JPY:
         )
 
         resultBBCondi = self.setBBCondition(
-            MHalf, SMA, nowMA, result, bbBefor, condiPrev
+            MHalf, SMA, nowMA, result, bbBefor, condiPrev, is_squeeze
         )
 
         return resultBBCondi
