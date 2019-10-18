@@ -370,7 +370,7 @@
                         ma75, ma6, ma24, ma50, ma72,
                         sig1, sig2, mSig1, mSig2, sma
                     ]
-                    var data2 = [sig1, sig2, sig3, mSig1, mSig2, mSig3, sma, cv]
+                    var data2 = [sig1, sig2, sig3, mSig1, mSig2, mig3, sma, cv]
 
                     var data3 = [cv]
 
@@ -404,7 +404,19 @@
                     Plotly.plot('plotly-div', data, layout);
                     Plotly.plot('plotly-div2', data2);
                     Plotly.plot('plotly-div3', data3);
-
+                    Plotly.relayout(
+                        'plotly-div3',
+                        {
+                            "yaxis2": {
+                                title: "cv",
+                                titlefont: { color: "green" },
+                                tickfont: { color: "green" },
+                                overlaying: 'cv',
+                                side: "left",
+                                position: 0
+                            }
+                        }
+                    );
                 })
                 // Ajaxリクエストが失敗した時発動
                 .fail((data) => {
