@@ -14,7 +14,7 @@ class setBollingerBand_USD_JPY:
         rs = model_to_dict(result)
         bbb = model_to_dict(bbBefor)
         cond = condition.objects.all().order_by('-created_at')[:10]
-        cv = rs['cv'].quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+        cv = rs['cv'].quantize(Decimal('0.00001'), rounding=ROUND_HALF_UP)
         sig1 = (rs['abs_sigma_1'] * Decimal(1.5))
         sig2 = (rs['abs_sigma_2'] * Decimal(0.85))
         sig3 = (rs['abs_sigma_3'] * Decimal(0.9))
