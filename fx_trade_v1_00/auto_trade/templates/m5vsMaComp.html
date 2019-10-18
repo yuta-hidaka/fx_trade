@@ -171,8 +171,9 @@
                         y: [],
                         name: 'cv',
                         mode: 'bar',
-                        yaxis: "cv"
-
+                        yaxis: "cv",
+                        type: "scatter",
+                        mode: "lines+markers",
                     };
                     var sig3 = {
                         x: [],
@@ -387,6 +388,30 @@
 
                     var data3 = [cv]
 
+                    var layout2 = {
+                        xaxis: {
+                            type: 'date',
+                            showticklabels: true,
+                            showline: true,
+                            showgrid: false,
+                            domain: [0.15, 1]
+                        },
+                        "bb": {
+                            title: "bb",
+                            side: "left"
+                        },
+                        "cv": {
+                            title: "cv",
+                            titlefont: { color: "green" },
+                            tickfont: { color: "green" },
+                            overlaying: 'bb',
+                            side: "left",
+                            position: 0
+                        },
+                        hovermode: 'x',
+                        showlegend: true
+                    };
+
                     var layout = {
                         dragmode: 'zoom',
                         margin: {
@@ -415,21 +440,21 @@
                     };
                     console.log(trace1);
                     Plotly.plot('plotly-div', data, layout);
-                    Plotly.plot('plotly-div2', data2);
+                    Plotly.plot('plotly-div2', data2, layout2);
                     Plotly.plot('plotly-div3', data3);
-                    Plotly.relayout(
-                        'plotly-div3',
-                        {
-                            "cv": {
-                                title: "cv",
-                                titlefont: { color: "green" },
-                                tickfont: { color: "green" },
-                                overlaying: 'bb',
-                                side: "left",
-                                position: 0
-                            }
-                        }
-                    );
+                    // Plotly.relayout(
+                    //     'plotly-div3',
+                    //     {
+                    //         "cv": {
+                    //             title: "cv",
+                    //             titlefont: { color: "green" },
+                    //             tickfont: { color: "green" },
+                    //             overlaying: 'bb',
+                    //             side: "left",
+                    //             position: 0
+                    //         }
+                    //     }
+                    // );
                 })
                 // Ajaxリクエストが失敗した時発動
                 .fail((data) => {
