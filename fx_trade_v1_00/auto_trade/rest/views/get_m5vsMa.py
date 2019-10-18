@@ -35,8 +35,7 @@ class M5vsMaUsdJpyAPI(APIView):
 
         try:
             for r in result:
-                if not r.ma.m5 == None and not r.condition_of_bb == None:
-                    res['bb'].append(model_to_dict(r.condition_of_bb.bb))
+                res['bb'].append(model_to_dict(r.condition_of_bb.bb))
 
         except:
             print('hik')
