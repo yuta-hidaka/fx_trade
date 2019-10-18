@@ -120,9 +120,6 @@ class setBollingerBand_USD_JPY:
             rounding=ROUND_HALF_UP
         )
 
-
-
-
         xClose = []
         yClose = []
         xClose.append(float(nowMA.close))
@@ -274,7 +271,7 @@ class setBollingerBand_USD_JPY:
                 is_expansionByStd = True
                 is_bottomTouch = True
                 text += '下にエクスパンション<br>'
-        else :
+        else:
             text += '傾きが0ではなくトレンド<br>'
 
         # else:
@@ -329,8 +326,6 @@ class setBollingerBand_USD_JPY:
             text += 'sigma2＋α 下に触りました<br>'
         else:
             text += 'sigma2＋α どちらにも触れてません<br>'
-
-
 
         create = conditionOfBB.objects.create(
             is_peak=is_peak,
@@ -387,7 +382,7 @@ class setBollingerBand_USD_JPY:
 
         text = ''
         try:
-            listMAflt.reverse()
+            # listMAflt.reverse()
             x = np.arange(0, len(listMAflt))
             y = np.array(listMAflt)
             rs = np.polyfit(x, y, 1)
