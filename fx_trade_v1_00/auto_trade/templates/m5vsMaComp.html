@@ -150,55 +150,64 @@
                         name: 'ma72',
                         mode: 'lines'
                     };
+
+
                     var sig1 = {
                         x: [],
                         y: [],
                         name: 'sig1',
-                        mode: 'lines'
+                        mode: 'lines',
+                        yaxis: "bb"
                     };
                     var sig2 = {
                         x: [],
                         y: [],
                         name: 'sig2',
-                        mode: 'lines'
+                        mode: 'lines',
+                        yaxis: "bb"
                     };
                     var cv = {
                         x: [],
                         y: [],
                         name: 'cv',
-                        mode: 'bar'
+                        mode: 'bar',
+                        yaxis: "cv"
+
                     };
-                    //     var sig3 = {
-                    //       x: [],
-                    //     y: [],
-                    //   name: 'sig3',
-                    // mode: 'lines'
-                    //};
+                    var sig3 = {
+                        x: [],
+                        y: [],
+                        name: 'sig3',
+                        mode: 'lines'
+                    };
 
                     var mSig1 = {
                         x: [],
                         y: [],
                         name: 'mSig1',
-                        mode: 'lines'
+                        mode: 'lines',
+                        yaxis: "bb"
                     };
                     var mSig2 = {
                         x: [],
                         y: [],
                         name: 'mSig2',
+                        mode: 'lines',
+                        yaxis: "bb"
+                    };
+                    var mSig3 = {
+                        x: [],
+                        y: [],
+                        name: 'mSig3',
                         mode: 'lines'
                     };
-                    //                  var mSig3 = {
-                    //                    x: [],
-                    //                  y: [],
-                    //                name: 'mSig3',
-                    //              mode: 'lines'
-                    //        };
                     var sma = {
                         x: [],
                         y: [],
                         name: 'sma',
                         mode: 'lines',
-                        text: []
+                        text: [],
+                        yaxis: "bb"
                     };
 
                     console.log(trace1);
@@ -264,6 +273,10 @@
                             Number(data['bb'][i]['sma_M50']) +
                             Number(data['bb'][i]['abs_sigma_2'])
                         )
+                        sig3.y.push(
+                            Number(data['bb'][i]['sma_M50']) +
+                            Number(data['bb'][i]['abs_sigma_3'])
+                        )
 
                         mSig1.y.push(
                             Number(data['bb'][i]['sma_M50']) -
@@ -272,6 +285,10 @@
                         mSig2.y.push(
                             Number(data['bb'][i]['sma_M50']) -
                             Number(data['bb'][i]['abs_sigma_2'])
+                        )
+                        mSig2.y.push(
+                            Number(data['bb'][i]['sma_M50']) -
+                            Number(data['bb'][i]['abs_sigma_3'])
                         )
                         sma.y.push(data['bb'][i]['sma_M50'])
 
@@ -353,7 +370,7 @@
                         ma75, ma6, ma24, ma50, ma72,
                         sig1, sig2, mSig1, mSig2, sma
                     ]
-                    var data2 = [trace1, sig1, sig2, mSig1, mSig2, sma, cv]
+                    var data2 = [sig1, sig2, sig3, mSig1, mSig2, msig3, sma, cv]
 
                     var data3 = [cv]
 
@@ -385,7 +402,7 @@
                     };
                     console.log(trace1);
                     Plotly.plot('plotly-div', data, layout);
-                    Plotly.plot('plotly-div2', data2, layout);
+                    Plotly.plot('plotly-div2', data2);
                     Plotly.plot('plotly-div3', data3);
 
                 })
@@ -428,3 +445,131 @@
 </body>
 
 </html>
+
+<script>
+
+    // get node wrapper
+    var graph = document.getElementById('graph');
+
+    // Plotly configuration
+    var layout = {
+        xaxis: {
+            type: 'date',
+            showticklabels: true,
+            showline: true,
+            showgrid: false,
+            domain: [0.15, 1]
+        },
+        "yaxis": {
+            title: "y1",
+            titlefont: { color: "red" },
+            tickfont: { color: "red" },
+            side: "left"
+        },
+        hovermode: 'x',
+        showlegend: true
+    };
+
+    var config = {
+        showLink: false,
+        editable: false,
+        displayModeBar: true,
+        displaylogo: false,
+        modeBarButtonsToRemove: ['sendDataToCloud']
+    };
+
+    // create graph
+    Plotly.newPlot(graph, [], layout, config);
+
+    // add y1 trace
+    Plotly.addTraces(
+        graph,
+        {
+            name: "y1",
+            type: "scatter",
+            mode: "lines+markers",
+            marker: { color: "red", size: 8 },
+            line: { width: 4 },
+            x: [],
+            y: [],
+            yaxis: "y1"
+        }
+    );
+
+    var intervalY1, intervalY2;
+
+    // start y1
+    startY1();
+
+    function startY1() {
+        if (!intervalY1) {
+            intervalY1 = setInterval(
+                function () {
+                    Plotly.extendTraces(
+                        graph,
+                        {
+                            x: [[(new Date()).getTime()]],
+                            y: [[100 * Math.random()]]
+                        },
+                        [0]
+                    );
+                },
+                2000
+            );
+        }
+    }
+
+    function startY2() {
+        if (!intervalY2) {
+            // add y2 trace
+            Plotly.addTraces(
+                graph,
+                {
+                    name: "y2",
+                    type: "scatter",
+                    mode: "lines+markers",
+                    marker: { color: "green", size: 8 },
+                    line: { width: 4 },
+                    x: [],
+                    y: [],
+                    yaxis: "y2"
+                }
+            );
+
+            // add y2 axis
+            Plotly.relayout(
+                graph,
+                {
+                    "yaxis2": {
+                        title: "y2",
+                        titlefont: { color: "green" },
+                        tickfont: { color: "green" },
+                        overlaying: 'y1',
+                        side: "left",
+                        position: 0
+                    }
+                }
+            );
+
+            // start y2
+            intervalY2 = setInterval(
+                function () {
+                    Plotly.extendTraces(
+                        graph,
+                        {
+                            x: [[(new Date()).getTime()]],
+                            y: [[100 * Math.random()]]
+                        },
+                        [1]
+                    );
+                },
+                2500
+            );
+        }
+    }
+
+
+
+
+
+</script>
