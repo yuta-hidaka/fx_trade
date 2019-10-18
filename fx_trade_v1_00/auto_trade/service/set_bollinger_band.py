@@ -127,6 +127,12 @@ class setBollingerBand_USD_JPY:
             xClose.append(float(c.ma.m5.close))
 
         try:
+            text += str(rs['cv'])+' 変動係数<br>'
+            pass
+        except Exception as e:
+            text += str(e)+' error　cv<br>'
+            pass
+        try:
             xClose.reverse()
             x = np.arange(0, len(xClose))
             y = np.array(xClose)
@@ -135,11 +141,9 @@ class setBollingerBand_USD_JPY:
                 Decimal('0.01'), rounding=ROUND_HALF_UP)
             slopeDir = np.sign(slope)
 
-            text += str(rs['cv'])+' 変動係数<br>'
             text += str(rs[0])+' 傾き<br>'
             text += str(rs[1])+' 切片<br>'
             text += str(slopeDir)+' slopeDir<br>'
-
             pass
         except Exception as e:
             text += str(e)+' error<br>'
