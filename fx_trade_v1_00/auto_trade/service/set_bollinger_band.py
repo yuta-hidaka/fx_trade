@@ -13,14 +13,14 @@ class setBollingerBand_USD_JPY:
         JustNowMA = getMA_USD_JPY().get_now()
         rs = model_to_dict(result)
         bbb = model_to_dict(bbBefor)
-        cond = condition.objects.all().order_by('-created_at')[:11]
+        cond = condition.objects.all().order_by('-created_at')[:15]
         sig1 = (rs['abs_sigma_1'] * Decimal(1.4))
         sig2 = (rs['abs_sigma_2'] * Decimal(0.85))
-        sig3 = (rs['abs_sigma_3'])
+        sig3 = (rs['abs_sigma_3'] * Decimal(0.9))
 
         bSig1 = (bbb['abs_sigma_1'] * Decimal(1.4))
         bSig2 = (bbb['abs_sigma_2'] * Decimal(0.85))
-        bSig3 = (bbb['abs_sigma_3'])
+        bSig3 = (bbb['abs_sigma_3'] * Decimal(0.9))
 
         # sig1forEx = (rs['abs_sigma_1'])
         sig2forEx = (rs['abs_sigma_2'])
@@ -215,7 +215,7 @@ class setBollingerBand_USD_JPY:
             data += 1
             aaaa3 += 1
         xClose.append(float(nowMA.close))
-        for c in cond[:2]:
+        for c in cond[:3]:
             # text += str(c.ma.m5.recorded_at_utc)+' date max hhhhhhhh<br>'
             # text += str(c.ma.m5.recorded_at_utc)+' date<br>'
             # text += str(c.ma.m5.close)+'　close<br>'
@@ -306,7 +306,7 @@ class setBollingerBand_USD_JPY:
         # 90%より大きければトレンドが発生中
         # そうでなければ、もみ合い相場なので、ボリンジャーバンドでの売買を有効にしてもよい。
         text += str(np.absolute(ans)) + '% トレンド割合<br>'
-        if np.absolute(ans) >= 90:
+        if np.absolute(ans) >= 80:
             is_trend = True
         else:
             is_trend = False
