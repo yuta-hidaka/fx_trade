@@ -17,13 +17,13 @@
             }
 
             $.ajax({
-                    url: '../rest/tradeOnOff',
-                    type: 'POST',
-                    data: req,
-                    headers: {
-                        "X-CSRFToken": token
-                    }
-                })
+                url: '../rest/tradeOnOff',
+                type: 'POST',
+                data: req,
+                headers: {
+                    "X-CSRFToken": token
+                }
+            })
                 // Ajaxリクエストが成功した時発動
                 .done((data) => {
 
@@ -54,16 +54,16 @@
 
         $('#getRate').on('click', function () {
             $.ajax({
-                    url: '../rest/M5vsMA',
-                    type: 'POST',
-                    data: {
-                        'userid': $('#userid').val(),
-                        'passward': $('#passward').val()
-                    },
-                    headers: {
-                        "X-CSRFToken": token
-                    }
-                })
+                url: '../rest/M5vsMA',
+                type: 'POST',
+                data: {
+                    'userid': $('#userid').val(),
+                    'passward': $('#passward').val()
+                },
+                headers: {
+                    "X-CSRFToken": token
+                }
+            })
                 // Ajaxリクエストが成功した時発動
                 .done((data) => {
                     $('.result').html(data);
@@ -162,6 +162,12 @@
                         name: 'sig2',
                         mode: 'lines'
                     };
+                    var cv = {
+                        x: [],
+                        y: [],
+                        name: 'cv',
+                        mode: 'lines'
+                    };
                     //     var sig3 = {
                     //       x: [],
                     //     y: [],
@@ -205,7 +211,7 @@
                         trace1.open.push(list.open);
                         trace1.text.push(
                             '短期、中期、長期線の状態：<br>5-20-75:' + data['condMa'][i]
-                            .ma_comp5_20_75 +
+                                .ma_comp5_20_75 +
                             '<br>6-24-72:' + data['condMa'][i].ma_comp6_24_72
                         );
                         // 
@@ -247,6 +253,9 @@
                         ma50.y.push(list.m5_ma50)
                         ma72.y.push(list.m5_ma72)
 
+                        cv.y.push(Number(data['bb'][i]['cv']));
+
+
                         sig1.y.push(
                             Number(data['bb'][i]['sma_M50']) +
                             Number(data['bb'][i]['abs_sigma_1'])
@@ -266,6 +275,11 @@
                         )
                         sma.y.push(data['bb'][i]['sma_M50'])
 
+
+                        cv.x.push(
+                            data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T',
+                                ' ')
+                        );
                         sig1.x.push(
                             data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T',
                                 ' ')
@@ -341,6 +355,8 @@
                     ]
                     var data2 = [trace1, sig1, sig2, mSig1, mSig2, sma]
 
+                    var data3 = [cv]
+
                     var layout = {
                         dragmode: 'zoom',
                         margin: {
@@ -370,6 +386,7 @@
                     console.log(trace1);
                     Plotly.plot('plotly-div', data, layout);
                     Plotly.plot('plotly-div2', data2, layout);
+                    Plotly.plot('plotly-div3', data3);
 
                 })
                 // Ajaxリクエストが失敗した時発動
@@ -405,6 +422,7 @@
 
     <div id="plotly-div"></div>
     <div id="plotly-div2"></div>
+    <div id="plotly-div3"></div>
     <div id="tbl" class="tableFixHead"></div>
 
 </body>
