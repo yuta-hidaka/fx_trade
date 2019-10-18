@@ -378,14 +378,16 @@ class setBollingerBand_USD_JPY:
         # nowMA = M50[idx]
 
         listMA = []
+        listMAflt = []
         for M in M50:
             listMA.append(Decimal(M['mid']['c']))
+            listMAflt.append(float(M['mid']['c']))
 
         text = ''
         try:
-            listMA.reverse()
-            x = np.arange(0, len(listMA))
-            y = np.array(listMA)
+            listMAflt.reverse()
+            x = np.arange(0, len(listMAflt))
+            y = np.array(listMAflt)
             rs = np.polyfit(x, y, 1)
             slope = Decimal(rs[0]).quantize(
                 Decimal('0.01'), rounding=ROUND_HALF_UP)
