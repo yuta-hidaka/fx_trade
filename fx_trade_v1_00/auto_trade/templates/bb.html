@@ -174,7 +174,7 @@
                             title: 'cv',
                             titlefont: { color: 'rgb(148, 103, 189)' },
                             tickfont: { color: 'rgb(148, 103, 189)' },
-                            range: [(Math.min(cv.high) * 0.3), (Math.max(cv.high) * -0.3)],
+                            range: [Math.min.apply(null, cv.y), Math.max.apply(null, cv.y)],
                             overlaying: 'y',
                             side: 'right'
                         },
