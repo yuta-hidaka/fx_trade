@@ -384,7 +384,7 @@
                         ma75, ma6, ma24, ma50, ma72,
                         sig1, sig2, mSig1, mSig2, sma
                     ]
-                    var data2 = [sig1, sig2, sig3, mSig1, mSig2, mSig3, sma]
+                    var data2 = [sig1, sig2, sig3, mSig1, mSig2, mSig3, sma,]
 
                     var data3 = [cv]
 
@@ -443,9 +443,9 @@
                     Plotly.plot('plotly-div2', data2, layout2);
                     Plotly.plot('plotly-div3', data3);
 
-                    Plotly.addTraces('plotly-div3', cv);
+                    Plotly.addTraces('plotly-div2', cv);
                     Plotly.relayout(
-                        'plotly-div3',
+                        'plotly-div2',
                         {
                             "cv": {
                                 title: "cv",
