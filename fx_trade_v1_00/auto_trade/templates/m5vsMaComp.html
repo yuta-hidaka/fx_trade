@@ -286,10 +286,12 @@
                             Number(data['bb'][i]['sma_M50']) -
                             Number(data['bb'][i]['abs_sigma_2'])
                         )
-                        mSig2.y.push(
+                        mSig3.y.push(
                             Number(data['bb'][i]['sma_M50']) -
                             Number(data['bb'][i]['abs_sigma_3'])
                         )
+
+                        
                         sma.y.push(data['bb'][i]['sma_M50'])
 
 
@@ -305,6 +307,11 @@
                             data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T',
                                 ' ')
                         );
+                        sig3.x.push(
+                            data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T',
+                                ' ')
+                        );
+
                         mSig1.x.push(
                             data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T',
                                 ' ')
@@ -313,6 +320,12 @@
                             data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T',
                                 ' ')
                         );
+                        mSig3.x.push(
+                            data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T',
+                                ' ')
+                        );
+
+
                         sma.x.push(
                             data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T',
                                 ' ')
@@ -370,7 +383,7 @@
                         ma75, ma6, ma24, ma50, ma72,
                         sig1, sig2, mSig1, mSig2, sma
                     ]
-                    var data2 = [sig1, sig2, sig3, mSig1, mSig2, mig3, sma, cv]
+                    var data2 = [sig1, sig2, sig3, mSig1, mSig2, mSig3, sma, cv]
 
                     var data3 = [cv]
 
