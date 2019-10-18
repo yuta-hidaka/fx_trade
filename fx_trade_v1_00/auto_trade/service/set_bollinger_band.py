@@ -247,7 +247,7 @@ class setBollingerBand_USD_JPY:
             trandCondi = 3
 
         if slopeDir == 0 and not is_trend:
-            text += '傾き0でトレンドじゃない<br>'
+            text += '傾き0でトレンドじゃない=スクイーズの可能性<br>'
             # 小数第二以上でプラスであればエクスパンション
             if diff != Decimal(0):
                 is_expansion = True
@@ -407,6 +407,8 @@ class setBollingerBand_USD_JPY:
 
         # 標準偏差の計算
         SD = np.std(listMA)
+        # 変動係数の算出
+        cv = SD / SMA
         SD1 = SD * Decimal(1)
         SD2 = SD * Decimal(2)
         SD3 = SD * Decimal(3)
@@ -420,6 +422,7 @@ class setBollingerBand_USD_JPY:
             abs_sigma_1=SD1,
             abs_sigma_2=SD2,
             abs_sigma_3=SD3,
+            cv=cv
         )
 
         resultBBCondi = self.setBBCondition(
