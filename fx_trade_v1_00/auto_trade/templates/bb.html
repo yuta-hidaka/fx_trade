@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+{% include 'base.html' %}
+
+<script>
+    $(document).ready(function () {
+
+
+        $('#getRate').on('click', function () {
+            $.ajax({
+                url: '../rest/M5vsMA',
+                type: 'GET',
+                headers: {
+                    "X-CSRFToken": token
+                }
+            })
+                // Ajaxリクエストが成功した時発動
+                .done((data) => {
+                    var sig1 = {
+                        x: [],
+                        y: [],
+                        name: 'sig1',
+                        mode: 'lines',
+                        yaxis: "bb"
+                    };
+                    var sig2 = {
+                        x: [],
+                        y: [],
+                        name: 'sig2',
+                        mode: 'lines',
+                        yaxis: "bb"
+                    };
+                    var cv = {
+                        x: [],
+                        y: [],
+                        name: 'cv',
+                        // mode: 'bar',
+                        name: 'cv',
+                        yaxis: 'y2',
+                        type: 'scatter'
+                    };
+                    var sig3 = {
+                        x: [],
+                        y: [],
+                        name: 'sig3',
+                        mode: 'lines'
+                    };
+
+                    var mSig1 = {
+                        x: [],
+                        y: [],
+                        name: 'mSig1',
+                        mode: 'lines',
+                        yaxis: "bb"
+                    };
+                    var mSig2 = {
+                        x: [],
+                        y: [],
+                        name: 'mSig2',
+                        mode: 'lines',
+                        yaxis: "bb"
+                    };
+                    var mSig3 = {
+                        x: [],
+                        y: [],
+                        name: 'mSig3',
+                        mode: 'lines'
+                    };
+                    var sma = {
+                        x: [],
+                        y: [],
+                        name: 'sma',
+                        mode: 'lines',
+                        text: [],
+                        yaxis: "bb"
+                    };
+
+                    data['bb'].forEach(function (list, i) {
+                        cv.y.push(Number(data['bb'][i]['cv']));
+                        sig1.y.push(
+                            Number(data['bb'][i]['sma_M50']) +
+                            Number(data['bb'][i]['abs_sigma_1'])
+                        )
+                        sig2.y.push(
+                            Number(data['bb'][i]['sma_M50']) +
+                            Number(data['bb'][i]['abs_sigma_2'])
+                        )
+                        sig3.y.push(
+                            Number(data['bb'][i]['sma_M50']) +
+                            Number(data['bb'][i]['abs_sigma_3'])
+                        )
+
+                        mSig1.y.push(
+                            Number(data['bb'][i]['sma_M50']) -
+                            Number(data['bb'][i]['abs_sigma_1'])
+                        )
+                        mSig2.y.push(
+                            Number(data['bb'][i]['sma_M50']) -
+                            Number(data['bb'][i]['abs_sigma_2'])
+                        )
+                        mSig3.y.push(
+                            Number(data['bb'][i]['sma_M50']) -
+                            Number(data['bb'][i]['abs_sigma_3'])
+                        )
+
+
+                        sma.y.push(data['bb'][i]['sma_M50'])
+
+
+                        cv.x.push(
+                            data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T',
+                                ' ')
+                        );
+                        sig1.x.push(
+                            data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T',
+                                ' ')
+                        );
+                        sig2.x.push(
+                            data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T',
+                                ' ')
+                        );
+                        sig3.x.push(
+                            data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T',
+                                ' ')
+                        );
+
+                        mSig1.x.push(
+                            data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T',
+                                ' ')
+                        );
+                        mSig2.x.push(
+                            data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T',
+                                ' ')
+                        );
+                        mSig3.x.push(
+                            data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T',
+                                ' ')
+                        );
+
+
+                        sma.x.push(
+                            data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T',
+                                ' ')
+                        );
+                        sma.text.push(
+                            data['bb'][i]['recorded_at_utc'].split('.')[0].replace('T',
+                                ' ')
+                        );
+
+
+                    });
+
+
+
+                    var data2 = [sig1, sig2, sig3, mSig1, mSig2, mSig3, sma, cv]
+
+
+                    var layout2 = {
+                        xaxis: {
+                            type: 'date',
+                            showticklabels: true,
+                            showline: true,
+                            showgrid: false,
+                            domain: [0.15, 1]
+                        },
+                        yaxis: { title: 'bb' },
+                        yaxis2: {
+                            title: 'cv',
+                            titlefont: { color: 'rgb(148, 103, 189)' },
+                            tickfont: { color: 'rgb(148, 103, 189)' },
+                            overlaying: 'y',
+                            side: 'right'
+                        },
+                        hovermode: 'x',
+                        showlegend: true
+                    };
+
+                    Plotly.plot('plotly-div2', data2, layout2);
+
+                })
+                // Ajaxリクエストが失敗した時発動
+                .fail((data) => {
+                    $('.result').html(data);
+                    console.log(data);
+                });
+        });
+    });
+</script>
+
+
+<body>
+    <h2>ボリンジャーバンド</h2>
+
+    <div class="w-100">
+        <div class="m-auto text-center">
+            <!-- <select class="" id="pare">
+                <option value="USD_JPY">USD_JPY</option>
+                <option value="EUR_JPY">EUR_JPY</option>
+                <option value="GBP_JPY">GBP_JPY</option>
+            </select>
+
+            <select class="" id="granularity">
+                <option value="USD_JPY">USD_JPY</option>
+                <option value="EUR_JPY">EUR_JPY</option>
+                <option value="GBP_JPY">GBP_JPY</option>
+            </select> -->
+
+            <input type="button" class="btn" value="ボリンジャーバンドを検索" id="getRate">
+        </div>
+    </div>
+
+    <div id="plotly-div2"></div>
+    <div id="tbl" class="tableFixHead"></div>
+
+</body>
+
+</html>
+<!-- 
+<script>
+
+    // get node wrapper
+    var graph = document.getElementById('graph');
+
+    // Plotly configuration
+    var layout = {
+        xaxis: {
+            type: 'date',
+            showticklabels: true,
+            showline: true,
+            showgrid: false,
+            domain: [0.15, 1]
+        },
+        "yaxis": {
+            title: "y1",
+            titlefont: { color: "red" },
+            tickfont: { color: "red" },
+            side: "left"
+        },
+        hovermode: 'x',
+        showlegend: true
+    };
+
+    var config = {
+        showLink: false,
+        editable: false,
+        displayModeBar: true,
+        displaylogo: false,
+        modeBarButtonsToRemove: ['sendDataToCloud']
+    };
+
+    // create graph
+    Plotly.newPlot(graph, [], layout, config);
+
+    // add y1 trace
+    Plotly.addTraces(
+        graph,
+        {
+            name: "y1",
+            type: "scatter",
+            mode: "lines+markers",
+            marker: { color: "red", size: 8 },
+            line: { width: 4 },
+            x: [],
+            y: [],
+            yaxis: "y1"
+        }
+    );
+
+    var intervalY1, intervalY2;
+
+    // start y1
+    startY1();
+
+    function startY1() {
+        if (!intervalY1) {
+            intervalY1 = setInterval(
+                function () {
+                    Plotly.extendTraces(
+                        graph,
+                        {
+                            x: [[(new Date()).getTime()]],
+                            y: [[100 * Math.random()]]
+                        },
+                        [0]
+                    );
+                },
+                2000
+            );
+        }
+    }
+
+    function startY2() {
+        if (!intervalY2) {
+            // add y2 trace
+            Plotly.addTraces(
+                graph,
+                {
+                    name: "y2",
+                    type: "scatter",
+                    mode: "lines+markers",
+                    marker: { color: "green", size: 8 },
+                    line: { width: 4 },
+                    x: [],
+                    y: [],
+                    yaxis: "y2"
+                }
+            );
+
+            // add y2 axis
+            Plotly.relayout(
+                graph,
+                {
+                    "yaxis2": {
+                        title: "y2",
+                        titlefont: { color: "green" },
+                        tickfont: { color: "green" },
+                        overlaying: 'y1',
+                        side: "left",
+                        position: 0
+                    }
+                }
+            );
+
+            // start y2
+            intervalY2 = setInterval(
+                function () {
+                    Plotly.extendTraces(
+                        graph,
+                        {
+                            x: [[(new Date()).getTime()]],
+                            y: [[100 * Math.random()]]
+                        },
+                        [1]
+                    );
+                },
+                2500
+            );
+        }
+    }
+
+
+
+
+
+</script> -->

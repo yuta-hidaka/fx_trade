@@ -47,3 +47,12 @@ def assets(request):
     }
     return HttpResponse(template.render(context, request))
     # return render(request, 'CurrentRate.html')
+
+
+def bb(request):
+    template = loader.get_template('bb.html')
+    context = {
+        'latest_question_list': "hi",
+    }
+    return HttpResponse(template.render(context, request))
+    # return render(request, 'CurrentRate.html')

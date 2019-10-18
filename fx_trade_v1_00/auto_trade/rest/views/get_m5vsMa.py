@@ -20,7 +20,29 @@ from fx_trade_v1_00.lib.order import orderFx
 class M5vsMaUsdJpyAPI(APIView):
 
     def get(self, request, format=None):
-        print('hi')
+                # デバッグ用
+        # c = Command()
+        # a = c.handle()
+
+        res = {}
+        res['bb'] = []
+
+        result = condition.objects.prefetch_related().order_by(
+            '-created_at'
+        )[:500]
+
+        c = result.count()
+
+        try:
+            for r in result:
+                if not r.ma.m5 == None and not r.condition_of_bb == None:
+                    res['bb'].append(model_to_dict(r.condition_of_bb.bb))
+
+        except:
+            print('hik')
+            pass
+
+        return JsonResponse(res, safe=False)
 
     def post(self, request):
         # デバッグ用
