@@ -291,7 +291,7 @@
                             Number(data['bb'][i]['abs_sigma_3'])
                         )
 
-                        
+
                         sma.y.push(data['bb'][i]['sma_M50'])
 
 
@@ -420,11 +420,11 @@
                     Plotly.relayout(
                         'plotly-div3',
                         {
-                            "yaxis2": {
+                            "cv": {
                                 title: "cv",
                                 titlefont: { color: "green" },
                                 tickfont: { color: "green" },
-                                overlaying: 'cv',
+                                overlaying: 'bb',
                                 side: "left",
                                 position: 0
                             }
