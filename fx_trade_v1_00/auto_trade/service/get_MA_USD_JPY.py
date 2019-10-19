@@ -138,6 +138,16 @@ class getMA_USD_JPY():
 
         return self.get_MA(parm)
 
+    def get_5M_num(self, num):
+        parm = {
+            "instruments": "USD_JPY",
+            "alignmentTimezone": "Japan",
+            "count": num,
+            "granularity": 'M5'
+        }
+
+        return self.get_MA(parm)
+
     def get_5M_25(self):
         parm = {
             "instruments": "USD_JPY",

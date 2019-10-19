@@ -10,6 +10,22 @@ class tradeSettings(models.Model):
     on_real_trade = models.BooleanField(null=True, default=False)
     units = models.IntegerField(default=100)
     revelage = models.IntegerField(default=1)
+    bb_count = models.IntegerField(default=15)
+    bb_cv_count = models.IntegerField(default=3)
+    bb_slope_dir_count = models.IntegerField(default=10)
+    sig1_adj = models.DecimalField(
+        max_digits=5, decimal_places=2, default=1.50)
+    sig2_adj = models.DecimalField(
+        max_digits=5, decimal_places=2, default=1.00)
+    sig3_adj = models.DecimalField(
+        max_digits=5, decimal_places=2, default=1.00)
+
+    sig1_adj_exit = models.DecimalField(
+        max_digits=5, decimal_places=2, default=1.50)
+    sig2_adj_exit = models.DecimalField(
+        max_digits=5, decimal_places=2, default=1.00)
+    sig3_adj_exit = models.DecimalField(
+        max_digits=5, decimal_places=2, default=1.00)
     use_amount = models.DecimalField(
         max_digits=5, decimal_places=2, default=1.00)
     practiceId = models.CharField(max_length=100, default='')
