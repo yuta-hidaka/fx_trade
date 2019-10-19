@@ -20,10 +20,6 @@ from fx_trade_v1_00.lib.order import orderFx
 class M5vsMaUsdJpyAPI(APIView):
 
     def get(self, request, format=None):
-                # デバッグ用
-        # c = Command()
-        # a = c.handle()
-
         res = {}
         res['bb'] = []
 

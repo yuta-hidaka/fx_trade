@@ -222,6 +222,9 @@ class conditionOfBB(models.Model):
     is_shortClose = models.BooleanField(null=True)
     is_longClose = models.BooleanField(null=True)
 
+    slope_001 = models.IntegerField(default=0)
+    slope_01 = models.IntegerField(default=0)
+
     bb_trande = models.ForeignKey(
         'listConditionOfBBTrande', on_delete=models.CASCADE, related_name='bb_trande', null=True)
     bb = models.ForeignKey(

@@ -24,7 +24,7 @@ class setBollingerBand_USD_JPY:
             '-created_at')[:self.setting.bb_slope_dir_count]
         cv = rs['cv'].quantize(Decimal('0.00001'), rounding=ROUND_HALF_UP)
 
-        # sig_adj
+        # sig_adj_settingsから取得
         sig1 = (rs['abs_sigma_1'] * self.setting.sig1_adj)
         sig2 = (rs['abs_sigma_2'] * self.setting.sig2_adj)
         sig3 = (rs['abs_sigma_3'] * self.setting.sig3_adj)
@@ -153,9 +153,20 @@ class setBollingerBand_USD_JPY:
                 Decimal('0.01'), rounding=ROUND_HALF_UP)
             slopeDir = np.sign(slope)
 
+
+# -----------------------------------------------------------------------
+            slope_01 = Decimal(rs[0]).quantize(
+                Decimal('0.1'), rounding=ROUND_HALF_UP)
+            slope_001 = Decimal(rs[0]).quantize(
+                Decimal('0.01'), rounding=ROUND_HALF_UP)
+            slopeDir_01 = np.sign(slope_01)
+            slopeDir_001 = np.sign(slope_001)
+# -----------------------------------------------------------------------
+
             text += str(rs[0])+' 傾き<br>'
             text += str(rs[1])+' 切片<br>'
-            text += str(slopeDir)+' slopeDir<br>'
+            text += str(slopeDir_001)+' slopeDir 0.01で丸めたバージョン<br>'
+            text += str(slopeDir_01)+' slopeDir 0.1で丸めたバージョン<br>'
             pass
         except Exception as e:
             text += str(e)+' error<br>'
@@ -353,7 +364,9 @@ class setBollingerBand_USD_JPY:
             is_longClose=is_longClose,
             is_shortIn=is_shortIn,
             bb_trande=listBB.objects.filter(id=trandCondi).first(),
-            bb=result
+            bb=result,
+            slope_001=slopeDir_001,
+            slope_01=slopeDir_01
         )
 
         batchLog.objects.create(
