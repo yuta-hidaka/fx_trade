@@ -65,22 +65,19 @@ class Command(BaseCommand):
         wk = jstMath.weekday()
         hr = jstMath.hour
         mi = jstMath.minute
-        if wk == 5 and adjNum+2 > hr >= adjNum and mi >= 0:
-            order.allOrderClose()
-            text += '土曜日の終了時刻以降になったので取引中止処理を行います。<br>'
-            is_closeMarket = True
-        # else:
-            # text += '土曜日の終了時刻以降になったので取引中止処理を行います。<br>'
 
-            # text += '現在時刻上からweek、hour、adjsttime, min　、5だと土曜日、6:55をチェック<br>'
-            # text += str(jstMath.weekday())+'　→　jstMath.weekday()<br>'
-            # text += str(jstMath.weekday() == 5)+'　→　jstMath.weekday() == 5<br>'
-            # text += str(jstMath.hour)+'　→　jstMath.hour<br>'
-            # text += str(jstMath.hour == adjNum)+'　→　jstMath.hour == adjNum<br>'
-            # text += str(adjNum)+'　→　adjNum<br>'
-            # text += str(jstMath.minute)+'　→　jstMath.minute<br>'
-            # text += str(jstMath.minute >= 55)+'　→　jstMath.minute >= 55<br>'
-            # conditionListをもとに売買ポイントを考える。
+        # else:
+        # text += '土曜日の終了時刻以降になったので取引中止処理を行います。<br>'
+
+        # text += '現在時刻上からweek、hour、adjsttime, min　、5だと土曜日、6:55をチェック<br>'
+        # text += str(jstMath.weekday())+'　→　jstMath.weekday()<br>'
+        # text += str(jstMath.weekday() == 5)+'　→　jstMath.weekday() == 5<br>'
+        # text += str(jstMath.hour)+'　→　jstMath.hour<br>'
+        # text += str(jstMath.hour == adjNum)+'　→　jstMath.hour == adjNum<br>'
+        # text += str(adjNum)+'　→　adjNum<br>'
+        # text += str(jstMath.minute)+'　→　jstMath.minute<br>'
+        # text += str(jstMath.minute >= 55)+'　→　jstMath.minute >= 55<br>'
+        # conditionListをもとに売買ポイントを考える。
 
         if checkOn:
             qSetBatch.text = '現在は、自動取引がONです。最終実行は ' + \
@@ -97,7 +94,10 @@ class Command(BaseCommand):
         # condiNow = setMA.setMA(result, BBCondi)
         # bsCal.BuySellCheck(condiNow, condiPrev)
 # '----------------デバッグ用-------------------------------'
-
+        if wk == 5 and hr == adjNum and mi == 59:
+            order.allOrderClose()
+            text += '土曜日の終了時刻以降になったので取引中止処理を行います。<br>'
+            is_closeMarket = True
         # 5分足が作成されたらMAを作成する。
         if created:
             condiPrev = condition.objects.latest('created_at')

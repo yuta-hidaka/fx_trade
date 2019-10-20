@@ -37,8 +37,7 @@ class setCondition:
         rComp5 = listConditionOfSlope.objects.filter(id=resultComp5).first()
         # print(rComp1)
 
-        qSetCondition = conditionOfSlope_M5
-        result = qSetCondition.objects.create(
+        result = conditionOfSlope_M5.objects.create(
             slope_comp5_20_75=rComp1,
             slope_comp5_20_40=rComp3,
             slope_comp6_24_72=rComp2,
@@ -49,6 +48,10 @@ class setCondition:
         return result
 
     def setMAComp(self, vals, create):
+
+        # [5, 6, 10, 12, 15, 20, 24, 30, 36, 40, 50, 70, 72, 75, 140, 144, 150, 288]
+        # [1, 2,  3,  4,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,  16,  17,  18,  19]
+
         comp = compaireMA()
         m5_1 = Decimal(model_to_dict(create.m5)['close'])
         # ma_comp5_20_75
@@ -61,6 +64,8 @@ class setCondition:
         resultComp4 = comp.comp3MA(vals[1], vals[6], vals[10])
         # ma_comp6_24_72
         resultComp5 = comp.comp3MA(m5_1, vals[1], vals[6])
+        # ma_comp24_74_288
+        resultComp6 = comp.comp3MA(vals[7], vals[14], vals[17])
 
         # 状態に関連するobject取得
         rComp1 = listConditionOfMA.objects.filter(id=resultComp1).first()
@@ -68,14 +73,15 @@ class setCondition:
         rComp3 = listConditionOfMA.objects.filter(id=resultComp3).first()
         rComp4 = listConditionOfMA.objects.filter(id=resultComp4).first()
         rComp5 = listConditionOfMA.objects.filter(id=resultComp5).first()
+        rComp6 = listConditionOfMA.objects.filter(id=resultComp5).first()
 
-        qSetCondition = conditionOfMA_M5
-        result = qSetCondition.objects.create(
+        result = conditionOfMA_M5.objects.create(
             ma_comp5_20_75=rComp1,
             ma_comp5_20_40=rComp3,
             ma_comp6_24_72=rComp2,
             ma_comp6_24_50=rComp4,
             ma_comp1_6_24=rComp5,
+            ma_comp24_75_288=rComp6,
             ma=create
         )
         return result

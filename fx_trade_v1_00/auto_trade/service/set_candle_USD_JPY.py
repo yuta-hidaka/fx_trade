@@ -9,8 +9,8 @@ class setCandle_USD_JPY:
         gMA = getMA_USD_JPY()
         created = False
         # デバッグ用(休日でデータが拾えない時用)
-        # result = M5_USD_JPY.objects.first()
         result = None
+        # result = M5_USD_JPY.objects.first()
         if gMA.get_5M_1()['candles']:
             dictM5 = gMA.get_5M_1()['candles'][0]
 

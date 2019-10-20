@@ -29,16 +29,22 @@ class setBollingerBand_USD_JPY:
         sig2 = (rs['abs_sigma_2'] * self.setting.sig2_adj)
         sig3 = (rs['abs_sigma_3'] * self.setting.sig3_adj)
 
-        bSig1 = (bbb['abs_sigma_1'] * self.setting.sig1_adj_exit)
-        bSig2 = (bbb['abs_sigma_2'] * self.setting.sig2_adj_exit)
-        bSig3 = (bbb['abs_sigma_3'] * self.setting.sig3_adj_exit)
+        bSig1 = (bbb['abs_sigma_1'] * self.setting.sig1_adj)
+        bSig2 = (bbb['abs_sigma_2'] * self.setting.sig2_adj)
+        bSig3 = (bbb['abs_sigma_3'] * self.setting.sig3_adj)
 
         # sig_adj_ex
         # sig1forEx = (rs['abs_sigma_1'])
+
+        # エクスパンション判定用
+        sig1forEx = (rs['abs_sigma_1'])
         sig2forEx = (rs['abs_sigma_2'])
+        sig3forEx = (rs['abs_sigma_3'])
 
         # bSig1forEx = (bbb['abs_sigma_1'])
+        bSig1forEx = (bbb['abs_sigma_1'])
         bSig2forEx = (bbb['abs_sigma_2'])
+        bSig3forEx = (bbb['abs_sigma_3'])
 
         prevClose = Decimal(model_to_dict(condiPrev.ma.m5)['close'])
 
@@ -250,7 +256,7 @@ class setBollingerBand_USD_JPY:
         # 90%より大きければトレンドが発生中
         # そうでなければ、もみ合い相場なので、ボリンジャーバンドでの売買を有効にしてもよい。
         text += str(np.absolute(ans)) + '% トレンド割合<br>'
-        if np.absolute(ans) >= 80:
+        if np.absolute(ans) >= 90:
             is_trend = True
         else:
             is_trend = False
@@ -275,7 +281,8 @@ class setBollingerBand_USD_JPY:
             text += '持ち合いトレンドcondition条件判定内<br>'
             trandCondi = 3
 
-        if slopeDir == 0 and not is_trend:
+        if not is_trend:
+            # if slopeDir == 0 and not is_trend:
             text += '傾き0でトレンドじゃない=スクイーズの可能性<br>'
             # 小数第二以上でプラスであればエクスパンション
             if diff != Decimal(0):
@@ -317,6 +324,7 @@ class setBollingerBand_USD_JPY:
         text += 'JNowClose ' + str(JNowClose) + '<br>'
         text += 'nowClose ' + str(nowClose) + '<br>'
 
+        # peak  判定
         if sma3SigmaPlusExP <= nowClose or sma3SigmaPlusExP <= nowClose:
             text += 'sigma3＋α closeが上に触りました<br>'
             is_topTouch = True
@@ -328,25 +336,28 @@ class setBollingerBand_USD_JPY:
         else:
             text += 'sigma3＋α どちらにも触れてません<br>'
 
+        # 売却判定
         # if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
         if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose:
-            text += 'sigma1＋α 上に触りました<br>'
-            is_longClose = True
+            text += 'sigma1＋α 上に触りました　未使用<br>'
+            # is_longClose = True
         # elif sma1SigmaMinus >= nowLow or sma1SigmaMinus >= JNowLow:
         elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose:
-            text += 'sigma1＋α 下に触りました<br>'
-            is_shortClose = True
+            text += 'sigma1＋α 下に触りました　未使用<br>'
+            # is_shortClose = True
         else:
             text += 'sigma1＋α どちらにも触れてません<br>'
 
         # 持ち合い相場時の購買基準を判断
-        if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh:
-            # if sma2SigmaPlus <= nowClose or sma2SigmaPlus <= nowClose:
+        # if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh:
+        if sma2SigmaPlus <= nowClose or sma2SigmaPlus <= nowClose:
+            is_longClose = True
             is_shortIn = True
             is_topTouch = True
             text += 'sigma2＋α 上に触りました<br>'
-        elif sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow:
-            # elif sma2SigmaMinus >= nowClose or sma2SigmaMinus >= nowClose:
+        # elif sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow:
+        elif sma2SigmaMinus >= nowClose or sma2SigmaMinus >= nowClose:
+            is_shortClose = True
             is_shortIn = False
             is_bottomTouch = True
             text += 'sigma2＋α 下に触りました<br>'

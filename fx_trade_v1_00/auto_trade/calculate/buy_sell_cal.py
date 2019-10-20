@@ -32,13 +32,13 @@ class BuySellCal():
         pos = res['positions'][0]
         # # print(json.dumps(pos),  indent=2)
         setting = tradeSettings.objects.filter(id=1).first()
-
+        getNowRate = getMA_USD_JPY()
+        
         cbb = model_to_dict(condNow.condition_of_bb)
         cbbPrev = model_to_dict(condiPrev.condition_of_bb)
 
         bb = model_to_dict(condNow.condition_of_bb.bb)
         bbPrev = model_to_dict(condiPrev.condition_of_bb.bb)
-
         # もし持ち合い相場だったらこれを使って売買判断None何もしないTrue　shortで入る　False　Longで入る。
         is_shortInBB = cbb['is_shortIn']
         is_expansion = cbb['is_expansion']
@@ -68,7 +68,6 @@ class BuySellCal():
             units = 1
             pass
 
-        getNowRate = getMA_USD_JPY()
 
         # 今買ったかを判断
         nowInL = False
@@ -158,30 +157,34 @@ class BuySellCal():
                     condiPrev.condition_of_bb.bb_trande
                 )['id']
 
+                maPrev = model_to_dict(
+                    condiPrev.condition_of_ma_M5
+                )['ma_comp24_75_288']
+
+                maNow = model_to_dict(
+                    condNow.condition_of_ma_M5
+                )['ma_comp24_75_288']
+
+                slopePrev = model_to_dict(
+                    condiPrev.condition_of_slope_M5
+                )['slope_comp24_75_288']
+                
+                slopeNow = model_to_dict(
+                    condNow.condition_of_slope_M5
+                )['slope_comp24_75_288']
+
                 pass
             except:
+                maPrev = 1
+                maNow = 1
+                slopePrev = 1
+                slopeNow = 1
                 # print("何かエラー起きてます。")
                 text += 'Condiでエラーです。く<br>'
-
                 trend_id = 0
                 pass
 
             # 購買判断材料-トレンド形成時--------------------------------------
-            maPrev = model_to_dict(
-                condiPrev.condition_of_ma_M5
-            )['ma_comp5_20_40']
-
-            maNow = model_to_dict(
-                condNow.condition_of_ma_M5
-            )['ma_comp5_20_40']
-
-            slopePrev = model_to_dict(
-                condiPrev.condition_of_slope_M5
-            )['slope_comp5_20_40']
-
-            slopeNow = model_to_dict(
-                condNow.condition_of_slope_M5
-            )['slope_comp5_20_40']
 
             # print('maNow')
             # print(maNow)
@@ -313,33 +316,34 @@ class BuySellCal():
                 # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
                 if maNow == 2 and trend_id != 1 :
                     # print("long out by ma")
-                    text = "long out by ma<br>"
-                    if not nowInL:
-                        self.order.oderCloseAllLong()
+                    text = "long out by ma　現在未使用<br>"
+                    # if not nowInL:
+                    #     self.order.oderCloseAllLong()
 
                     # short　closeのタイミング if MA is 5 it have to close
                 elif maNow == 5 and trend_id != 2 :
                     # print("short out by ma")
-                    text += "short out by ma<br>"
-                    if not nowInS:
-                        self.order.oderCloseAllShort()
+                    text += "short out by ma　現在未使用<br>"
+                    # if not nowInS:
+                    #     self.order.oderCloseAllShort()
 
                     # long　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
                 elif M5_1_closePrev > nowCndl_close > M5_1_closeNow and trend_id != 1 :
                     # print("long out by candle")
-                    text += "long out by candle<br>"
-                    if not nowInL:
-                        self.order.oderCloseAllLong()
+                    text += "long out by candle　現在未使用<br>"
+                    # if not nowInL:
+                    #     self.order.oderCloseAllLong()
+                    
 
                     # short　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
                 elif M5_1_closePrev < nowCndl_close < M5_1_closeNow and trend_id != 2 :
                     # print("short out by candle")
-                    text += "short out by candle<br>"
-                    if not nowInS:
-                        self.order.oderCloseAllShort()
+                    text += "short out by candle　現在未使用<br>"
+                    # if not nowInS:
+                    #     self.order.oderCloseAllShort()
                 else:
                     # print('決済----様子見中')
-                    text += '上下降トレンドの決済様子見中<br>'
+                    text += '上下降トレンドの決済様子見中　現在未使用<br>'
                 # 購買タイミング----------------------------------------------------------------------------------
                 # longのタイミング all slope is positive and before MA is 6or1 and now 1
                 if trend_id == 1:
@@ -375,21 +379,21 @@ class BuySellCal():
 
                     if  not nowInL:
                         # print("long in by ma")
-                        text += "long in by ma<br>"
-                        self.order.LongOrderCreate()
-                        nowInL = True
+                        text += "long in by ma　現在未使用<br>"
+                        # self.order.LongOrderCreate()
+                        # nowInL = True
 
                     else:
                         # print("long in　but position is too many")
-                        text += "long in　but position is too many<br>"
+                        text += "long in　but position is too many　　現在未使用<br>"
                         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
                 elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
                     if not nowInS:
                         # self.order.oderCloseAllLong()
                         # print("short in by ma")
-                        text += "short in by ma<br>"
-                        self.order.ShortOrderCreate()
-                        nowInS = True
+                        text += "short in by ma　現在未使用<br>"
+                        # self.order.ShortOrderCreate()
+                        # nowInS = True
 
                     else:
                         # print("short in　but position is too many")
@@ -398,7 +402,7 @@ class BuySellCal():
                         # long closeのタイミング if MA is 2 it have to close
                 else:
                     # print('購買----様子見中')
-                    text += '購買----様子見中<br>'
+                    text += '購買----様子見中　現在未使用<br>'
 
                     # --------------------------------------------------------------------------------------------------------------------
 
