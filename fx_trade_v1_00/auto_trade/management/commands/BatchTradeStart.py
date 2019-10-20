@@ -94,7 +94,7 @@ class Command(BaseCommand):
         # condiNow = setMA.setMA(result, BBCondi)
         # bsCal.BuySellCheck(condiNow, condiPrev)
 # '----------------デバッグ用-------------------------------'
-        if wk == 5 and hr == adjNum and mi == 59:
+        if wk == 5 and hr == adjNum and mi == 54:
             order.allOrderClose()
             text += '土曜日の終了時刻以降になったので取引中止処理を行います。<br>'
             is_closeMarket = True
