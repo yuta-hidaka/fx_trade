@@ -49,19 +49,9 @@ class setBollingerBand_USD_JPY:
 
         prevClose = Decimal(model_to_dict(condiPrev.ma.m5)['close'])
 
-        try:
-            bfClose = condiPrev.ma.m5.close
-            bfHigh = condiPrev.ma.m5.high
-            bfLow = condiPrev.ma.m5.low
-            text += 'OK<br>'
-
-            pass
-        except Exception as e:
-            bfClose = 0
-            bfHigh = 0
-            bfLow = 0
-            text += str(e)+' error　cv<br>'
-            pass
+        bfClose = condiPrev.ma.m5.close
+        bfHigh = condiPrev.ma.m5.high
+        bfLow = condiPrev.ma.m5.low
 
         nowClose = Decimal(nowMA.close)
         nowHigh = Decimal(nowMA.high)
@@ -159,12 +149,6 @@ class setBollingerBand_USD_JPY:
             xClose.append(float(c.ma.m5.close))
 
         try:
-            text += str(cv)+' 変動係数<br>'
-            pass
-        except Exception as e:
-            text += str(e)+' error　cv<br>'
-            pass
-        try:
             xClose.reverse()
             x = np.arange(0, len(xClose))
             y = np.array(xClose)
@@ -172,7 +156,6 @@ class setBollingerBand_USD_JPY:
             slope = Decimal(rs[0]).quantize(
                 Decimal('0.01'), rounding=ROUND_HALF_UP)
             slopeDir = np.sign(slope)
-
 
 # -----------------------------------------------------------------------
             slope_01 = Decimal(rs[0]).quantize(
@@ -197,13 +180,6 @@ class setBollingerBand_USD_JPY:
         aaaa2 = 0
         aaaa3 = 0
 
-        # text += str(nowMA.recorded_at_utc)+' 最新　<br>'
-        # text += str(nowMA.close)+'　最新 close<br>'
-        # text += str(sma)+'　最新 sma<br>'
-        # text += str(nowMA.close - SMA)+'　最新 deff<br>'
-
-        # yClose.append(Decimal(1))
-
         if nowMA.close - SMA == 0:
             data += 0
             aaaa += 1
@@ -225,36 +201,6 @@ class setBollingerBand_USD_JPY:
                 data += 1
                 aaaa3 += 1
 
-        # for d in cBB:
-        #     if (Decimal(m['mid']['c']) - d.bb.sma) == 0:
-        #         data += 0
-        #         aaaa += 1
-        #     elif Decimal(m['mid']['c']) < SMA:
-        #         data -= 1
-        #         aaaa2 += 1
-        #     elif Decimal(m['mid']['c']) > SMA:
-        #         data += 1
-        #         aaaa3 += 1
-
-        # for m in MHalf:
-        #     text += str(SMA) + ' : SMA<br>'
-        #     text += str(m['mid']['c']) + ' : close<br>'
-        #     try:
-        #         text += str(m['time']) + ' : close<br>'
-        #         pass
-        #     except:
-        #         pass
-        #     text += str(SMA - Decimal(m['mid']['c'])) + ' : SMA - close<br>'
-
-        #     if (Decimal(m['mid']['c']) - SMA) == 0:
-        #         data += 0
-        #         aaaa += 1
-        #     elif Decimal(m['mid']['c']) < SMA:
-        #         data -= 1
-        #         aaaa2 += 1
-        #     elif Decimal(m['mid']['c']) > SMA:
-        #         data += 1
-        #         aaaa3 += 1
         text += str(aaaa) + ' : 0のかず<br>'
         text += str(aaaa2) + ' : SMAより小さい<br>'
         text += str(aaaa3) + ' : SMAより大きい<br>'
@@ -330,13 +276,15 @@ class setBollingerBand_USD_JPY:
         text += 'JNowHigh ' + str(JNowHigh) + '<br>'
         text += 'nowLow ' + str(nowLow) + '<br>'
         text += 'JNowLow ' + str(JNowLow) + '<br>'
+        text += 'JNowClose ' + str(JNowClose) + '<br>'
+        text += 'nowClose ' + str(nowClose) + '<br>'
+        text += 'bfClose ' + str(bfClose) + '<br>'
         text += 'SMA ' + str(SMA) + '<br>'
         text += 'sma2SigmaPlus ' + str(sma2SigmaPlus) + '<br>'
         text += 'sma2SigmaMinus ' + str(sma2SigmaMinus) + '<br>'
         text += 'sma1SigmaPlus ' + str(sma1SigmaPlus) + '<br>'
         text += 'sma1SigmaMinus ' + str(sma1SigmaMinus) + '<br>'
-        text += 'JNowClose ' + str(JNowClose) + '<br>'
-        text += 'nowClose ' + str(nowClose) + '<br>'
+
 
         # peak  判定
         if sma3SigmaPlusExP >= nowClose and sma3SigmaPlusBeforExP <= bfClose:
