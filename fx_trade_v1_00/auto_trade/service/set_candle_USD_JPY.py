@@ -28,3 +28,27 @@ class setCandle_USD_JPY:
                 print('setCandle_USD:is_not_valid')
 
         return result, created
+
+    def setM1(self):
+        gMA = getMA_USD_JPY()
+        created = False
+        # デバッグ用(休日でデータが拾えない時用)
+        result = None
+        # result = M5_USD_JPY.objects.first()
+        rs = gMA.get_1M_num(1)['candles']
+        if rs:
+        
+            rs['recorded_at_utc'] = rs.pop('time')
+            rs['close'] = rs['mid']['c']
+            rs['open'] = rs['mid']['o']
+            rs['high'] = rs['mid']['h']
+            rs['low'] = rs['mid']['l']
+
+            serial = SetCandleSerializer(data=rs)
+            if serial.is_valid():
+                result, created = serial.create(serial.validated_data)
+                # print('setCandle_USD:is_valid')
+            else:
+                print('setCandle_USD:is_not_valid')
+
+        return result, created
