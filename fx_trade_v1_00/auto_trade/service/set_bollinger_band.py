@@ -349,14 +349,14 @@ class setBollingerBand_USD_JPY:
             text += 'sigma1＋α どちらにも触れてません<br>'
 
         # 持ち合い相場時の購買基準を判断
-        # if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh:
-        if sma2SigmaPlus <= nowClose or sma2SigmaPlus <= nowClose:
+        if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh:
+            # if sma2SigmaPlus <= nowClose or sma2SigmaPlus <= nowClose:
             is_longClose = True
             is_shortIn = True
             is_topTouch = True
             text += 'sigma2＋α 上に触りました<br>'
-        # elif sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow:
-        elif sma2SigmaMinus >= nowClose or sma2SigmaMinus >= nowClose:
+        elif sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow:
+            # elif sma2SigmaMinus >= nowClose or sma2SigmaMinus >= nowClose:
             is_shortClose = True
             is_shortIn = False
             is_bottomTouch = True
