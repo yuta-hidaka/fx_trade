@@ -174,13 +174,13 @@ class BuySellCal():
                 )['slope_comp24_75_288']
 
                 pass
-            except:
+            except Exception as e:
+                text += str(e)+' error　error<br>'
                 maPrev = 1
                 maNow = 1
                 slopePrev = 1
                 slopeNow = 1
                 # print("何かエラー起きてます。")
-                text += 'Condiでエラーです。く<br>'
                 trend_id = 0
                 pass
 
