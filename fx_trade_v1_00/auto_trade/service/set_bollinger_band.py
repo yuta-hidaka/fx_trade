@@ -23,6 +23,7 @@ class setBollingerBand_USD_JPY:
         cond = condition.objects.all().order_by(
             '-created_at')[:self.setting.bb_slope_dir_count]
         cv = rs['cv'].quantize(Decimal('0.00001'), rounding=ROUND_HALF_UP)
+        text = ''
 
         # sig_adj_settingsから取得
         sig1 = (rs['abs_sigma_1'] * self.setting.sig1_adj)
@@ -47,6 +48,15 @@ class setBollingerBand_USD_JPY:
         bSig3forEx = (bbb['abs_sigma_3'])
 
         prevClose = Decimal(model_to_dict(condiPrev.ma.m5)['close'])
+
+        try:
+            bfClose = condiPrev.ma.m5.close
+            bfHigh = condiPrev.ma.m5.high
+            bfLow = condiPrev.ma.m5.low
+            pass
+        except Exception as e:
+            text += str(e)+' error　cv<br>'
+            pass
 
         nowClose = Decimal(nowMA.close)
         nowHigh = Decimal(nowMA.high)
@@ -74,7 +84,6 @@ class setBollingerBand_USD_JPY:
         is_shortClose = False
         trandCondi = 3
         listBB = listConditionOfBBTrande
-        text = ''
 
         sma = rs['sma_M50']
         bSma = bbb['sma_M50']
@@ -325,7 +334,9 @@ class setBollingerBand_USD_JPY:
         text += 'nowClose ' + str(nowClose) + '<br>'
 
         # peak  判定
-        if sma3SigmaPlusExP <= nowClose or sma3SigmaPlusExP <= nowClose:
+        if sma3SigmaPlusExP <= nowClose or sma3SigmaPlusBeforExP <= nowClose:
+            # if sma3SigmaPlusExP <= nowClose or sma3SigmaPlusExP <= nowClose:
+            # if sma2SigmaMinusEx <= nowClose and sma2SigmaMinusEx <= JNowClose:
             text += 'sigma3＋α closeが上に触りました<br>'
             is_topTouch = True
             is_peak = True
