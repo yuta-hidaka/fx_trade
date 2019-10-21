@@ -37,7 +37,7 @@ class setCondition:
         rComp3 = listConditionOfSlope.objects.filter(id=resultComp3).first()
         rComp4 = listConditionOfSlope.objects.filter(id=resultComp4).first()
         rComp5 = listConditionOfSlope.objects.filter(id=resultComp5).first()
-        rComp6 = listConditionOfSlope.objects.filter(id=resultComp5).first()
+        rComp6 = listConditionOfSlope.objects.filter(id=resultComp6).first()
         # print(rComp1)
 
         result = conditionOfSlope_M5.objects.create(
@@ -77,7 +77,7 @@ class setCondition:
         rComp3 = listConditionOfMA.objects.filter(id=resultComp3).first()
         rComp4 = listConditionOfMA.objects.filter(id=resultComp4).first()
         rComp5 = listConditionOfMA.objects.filter(id=resultComp5).first()
-        rComp6 = listConditionOfMA.objects.filter(id=resultComp5).first()
+        rComp6 = listConditionOfMA.objects.filter(id=resultComp6).first()
 
         result = conditionOfMA_M5.objects.create(
             ma_comp5_20_75=rComp1,
