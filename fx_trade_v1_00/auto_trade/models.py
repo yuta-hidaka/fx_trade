@@ -273,6 +273,9 @@ class conditionOfSlope_M5(models.Model):
     slope_comp6_24_50 = models.ForeignKey(
         'listConditionOfSlope', on_delete=models.CASCADE, related_name='slope_comp6_24_50', null=True)
 
+    slope_comp24_75_288 = models.ForeignKey(
+        'listConditionOfMA', on_delete=models.CASCADE, related_name='slope_comp24_74_288', null=True)
+
     ma = models.ForeignKey(
         'MA_USD_JPY', on_delete=models.CASCADE, related_name='ma_slope')
 

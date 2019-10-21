@@ -28,6 +28,8 @@ class setCondition:
         resultComp4 = comp.comp3MASlope(vals[1], vals[6], vals[10])
         # ma_comp1_6_24
         resultComp5 = comp.comp3MASlope(m5_1, vals[1], vals[6])
+        # ma_comp1_6_24
+        resultComp6 = comp.comp3MASlope(vals[7], vals[14], vals[17])
 
         # 状態に関連するobject取得
         rComp1 = listConditionOfSlope.objects.filter(id=resultComp1).first()
@@ -35,6 +37,7 @@ class setCondition:
         rComp3 = listConditionOfSlope.objects.filter(id=resultComp3).first()
         rComp4 = listConditionOfSlope.objects.filter(id=resultComp4).first()
         rComp5 = listConditionOfSlope.objects.filter(id=resultComp5).first()
+        rComp6 = listConditionOfSlope.objects.filter(id=resultComp5).first()
         # print(rComp1)
 
         result = conditionOfSlope_M5.objects.create(
@@ -43,6 +46,7 @@ class setCondition:
             slope_comp6_24_72=rComp2,
             slope_comp6_24_50=rComp4,
             slope_comp1_6_24=rComp5,
+            slope_comp24_75_288=rComp6,
             ma=create
         )
         return result
