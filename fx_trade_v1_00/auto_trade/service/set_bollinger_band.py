@@ -360,9 +360,9 @@ class setBollingerBand_USD_JPY:
         #     dictM5 = gMA.get_5M_1()['candles'][0]
         # M50 = gMA.get_5M_50()['candles']
 
-        # mas = gMA.get_5M_num(self.setting.bb_count)['candles']
-        mas = gMA.get_1M_num(self.setting.bb_count)['candles']
-        
+        mas = gMA.get_5M_num(self.setting.bb_count)['candles']
+        # mas = gMA.get_1M_num(self.setting.bb_count)['candles']
+
         # M50 = M50.reverse()
         SMA_days = len(mas)
         idx = SMA_days - 1
