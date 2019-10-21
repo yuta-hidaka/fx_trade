@@ -53,8 +53,13 @@ class setBollingerBand_USD_JPY:
             bfClose = condiPrev.ma.m5.close
             bfHigh = condiPrev.ma.m5.high
             bfLow = condiPrev.ma.m5.low
+            text += 'OK<br>'
+
             pass
         except Exception as e:
+            bfClose = 0
+            bfHigh = 0
+            bfLow = 0
             text += str(e)+' error　cv<br>'
             pass
 
@@ -334,13 +339,13 @@ class setBollingerBand_USD_JPY:
         text += 'nowClose ' + str(nowClose) + '<br>'
 
         # peak  判定
-        if sma3SigmaPlusExP <= nowClose or sma3SigmaPlusBeforExP <= nowClose:
+        if sma3SigmaPlusExP >= nowClose and sma3SigmaPlusBeforExP <= bfClose:
             # if sma3SigmaPlusExP <= nowClose or sma3SigmaPlusExP <= nowClose:
             # if sma2SigmaMinusEx <= nowClose and sma2SigmaMinusEx <= JNowClose:
             text += 'sigma3＋α closeが上に触りました<br>'
             is_topTouch = True
             is_peak = True
-        elif sma3SigmaMinusExP >= nowClose or sma3SigmaMinusExP >= nowClose:
+        elif sma3SigmaMinusExP >= nowClose and sma3SigmaMinusExP >= bfClose:
             text += 'sigma3＋α closeが下に触りました<br>'
             is_bottomTouch = True
             is_peak = True
