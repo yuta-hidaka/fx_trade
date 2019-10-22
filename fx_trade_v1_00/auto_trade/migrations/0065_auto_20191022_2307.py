@@ -14,8 +14,5 @@ class Migration(migrations.Migration):
             model_name='bollingerband',
             old_name='sma_M50',
             new_name='sma',
-        ), migrations.RemoveField(
-            model_name='bollingerband',
-            name='sma_3',
         ),
     ]
