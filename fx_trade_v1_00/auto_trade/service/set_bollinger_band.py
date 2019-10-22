@@ -241,31 +241,32 @@ class setBollingerBand_USD_JPY:
             text += '持ち合いトレンドcondition条件判定内<br>'
             trandCondi = 3
 
-        if not is_trend:
-            # if slopeDir == 0 and not is_trend:
-            text += '傾き0でトレンドじゃない=スクイーズの可能性<br>'
-            # 小数第二以上でプラスであればエクスパンション
-            if diff != Decimal(0):
-                is_expansion = True
-                is_expansionByNum = True
-                text += '価格差のエクスパンション<br>'
+        text += str(aaaa) + ' : 0のかず<br>'
+        text += str(aaaa2) + ' : SMAより小さい<br>'
+        text += str(aaaa3) + ' : SMAより大きい<br>'
 
-            # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
-            # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose:
-            if sma2SigmaPlusEx <= nowClose and sma2SigmaPlusEx <= JNowClose:
-                is_expansion = True
-                is_expansionByStd = True
-                is_topTouch = True
-                text += '上にエクスパンション<br>'
+        # if slopeDir == 0 and not is_trend:
+        text += '傾き0でトレンドじゃない=スクイーズの可能性<br>'
+        # 小数第二以上でプラスであればエクスパンション
+        if diff != Decimal(0):
+            is_expansion = True
+            is_expansionByNum = True
+            text += '価格差のエクスパンション<br>'
 
-            # elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose and sma2SigmaMinus >= prevClose:
-            if sma2SigmaMinusEx >= nowClose and sma2SigmaMinusEx >= JNowClose:
-                is_expansion = True
-                is_expansionByStd = True
-                is_bottomTouch = True
-                text += '下にエクスパンション<br>'
-        else:
-            text += '傾きが0ではなくトレンド<br>'
+        # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
+        # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose:
+        if sma2SigmaPlusEx <= nowClose and sma2SigmaPlusEx <= JNowClose:
+            is_expansion = True
+            is_expansionByStd = True
+            is_topTouch = True
+            text += '上にエクスパンション<br>'
+
+        # elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose and sma2SigmaMinus >= prevClose:
+        if sma2SigmaMinusEx >= nowClose and sma2SigmaMinusEx >= JNowClose:
+            is_expansion = True
+            is_expansionByStd = True
+            is_bottomTouch = True
+            text += '下にエクスパンション<br>'
 
         # else:
         #     is_expansion = False
@@ -312,7 +313,7 @@ class setBollingerBand_USD_JPY:
             text += 'sigma1＋α どちらにも触れてません<br>'
 
         # 持ち合い相場時の購買基準を判断
-        if nowClose <= sma2SigmaPlus <= nowHigh or JNowClose <= sma2SigmaPlus <= JNowHigh :
+        if nowClose <= sma2SigmaPlus <= nowHigh or JNowClose <= sma2SigmaPlus <= JNowHigh:
             # if sma2SigmaPlus <= nowClose or sma2SigmaPlus <= nowClose:
             is_longClose = True
             is_shortIn = True

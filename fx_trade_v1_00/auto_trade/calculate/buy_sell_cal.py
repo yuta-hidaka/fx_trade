@@ -379,13 +379,13 @@ class BuySellCal():
 
                     if  not nowInL:
                         # print("long in by ma")
-                        text += "long in by ma　現在未使用<br>"
+                        text += "long in by ma<br>"
                         # self.order.LongOrderCreate()
                         # nowInL = True
 
                     else:
                         # print("long in　but position is too many")
-                        text += "long in　but position is too many　　現在未使用<br>"
+                        text += "long in　but position is too many<br>"
                         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
                 elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
                     if not nowInS:
@@ -402,7 +402,7 @@ class BuySellCal():
                         # long closeのタイミング if MA is 2 it have to close
                 else:
                     # print('購買----様子見中')
-                    text += '購買----様子見中　現在未使用<br>'
+                    text += '購買----様子見中<br>'
 
                     # --------------------------------------------------------------------------------------------------------------------
 
