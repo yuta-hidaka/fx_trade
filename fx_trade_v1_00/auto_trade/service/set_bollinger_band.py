@@ -578,7 +578,7 @@ class setBollingerBand_USD_JPY:
         SD2 = SD * Decimal(2)
         SD3 = SD * Decimal(3)
 
-        mas2 = gMA.get_5M_num(self.setting.bb_count)['candles']
+        mas2 = gMA.get_5M_num(self.setting.bb_count_2)['candles']
         listMA2 = []
         # listMAflt = []
         for M in mas2:
