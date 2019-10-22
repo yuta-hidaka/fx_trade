@@ -41,6 +41,7 @@ class BuySellCal():
         bbPrev = model_to_dict(condiPrev.condition_of_bb.bb)
         # もし持ち合い相場だったらこれを使って売買判断None何もしないTrue　shortで入る　False　Longで入る。
         is_shortInBB = cbb['is_shortIn']
+        is_longInBB = cbb['is_longIn']
         is_expansion = cbb['is_expansion']
         is_topTouch = cbb['is_topTouch']
         is_bottomTouch = cbb['is_bottomTouch']
@@ -246,6 +247,7 @@ class BuySellCal():
                         self.order.ShortOrderCreate()
                         nowInS = True
 
+
             if trend_id == 3 and not is_peak:
                 # if preTrend_id == 1 or preTrend_id == 2 or preTrend_id == 4:
                 #         text += '前回までトレンドで今が持ち合い相場でいったん決済。<br>'
@@ -316,6 +318,10 @@ class BuySellCal():
 
     # --------------------------------------------------------------------------
             if trend_id == 1 or trend_id == 2 and not is_peak:
+                # if is_longInBB:
+                
+                # elif is_shortInBB:
+
                 # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
                 if maNow == 2 and trend_id != 1 :
                     # print("long out by ma")

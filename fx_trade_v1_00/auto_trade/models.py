@@ -217,6 +217,7 @@ class conditionOfBB(models.Model):
     is_topTouch = models.BooleanField(null=True, default=False)
     is_bottomTouch = models.BooleanField(null=True, default=False)
     is_shortIn = models.BooleanField(null=True)
+    is_longIn = models.BooleanField(null=True)
     is_expansionByStd = models.BooleanField(null=True)
     is_expansionByNum = models.BooleanField(null=True)
     is_shortClose = models.BooleanField(null=True)

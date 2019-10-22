@@ -63,6 +63,7 @@ class setBollingerBand_USD_JPY:
 
         length = len(list(cond)) + 1
         data = 0
+        slope_cv = 0
         slope = 0
         slopeDir = 0
         # is_squeeze=False
@@ -70,6 +71,7 @@ class setBollingerBand_USD_JPY:
         is_peak = False
         is_trend = True
         is_shortIn = True
+        is_longIn = False
         is_topTouch = False
         is_bottomTouch = False
         is_expansion = False
@@ -77,6 +79,7 @@ class setBollingerBand_USD_JPY:
         is_expansionByNum = False
         is_longClose = False
         is_shortClose = False
+
         trandCondi = 3
         listBB = listConditionOfBBTrande
 
@@ -153,9 +156,9 @@ class setBollingerBand_USD_JPY:
             x = np.arange(0, len(xClose))
             y = np.array(xClose)
             rs = np.polyfit(x, y, 1)
-            slope = Decimal(rs[0]).quantize(
+            slope_cv = Decimal(rs[0]).quantize(
                 Decimal('0.01'), rounding=ROUND_HALF_UP)
-            slopeDir = np.sign(slope)
+            slopeDir = np.sign(slope_cv)
 
 # -----------------------------------------------------------------------
             slope_01 = Decimal(rs[0]).quantize(
@@ -190,7 +193,9 @@ class setBollingerBand_USD_JPY:
             data += 1
             aaaa3 += 1
 
+        xClose = []
         for c in cond:
+            xClose.append(float(c.ma.m5.close))
             if (c.ma.m5.close - c.condition_of_bb.bb.sma_M50) == 0:
                 data += 0
                 aaaa += 1
@@ -200,6 +205,14 @@ class setBollingerBand_USD_JPY:
             elif c.ma.m5.close > c.condition_of_bb.bb.sma_M50:
                 data += 1
                 aaaa3 += 1
+
+        xClose.reverse()
+        x = np.arange(0, len(xClose))
+        y = np.array(xClose)
+        rs = np.polyfit(x, y, 1)
+        slope = Decimal(rs[0]).quantize(
+            Decimal('0.01'), rounding=ROUND_HALF_UP)
+        slopeDir2 = np.sign(slope)
 
         text += str(aaaa) + ' : 0のかず<br>'
         text += str(aaaa2) + ' : SMAより小さい<br>'
@@ -226,10 +239,12 @@ class setBollingerBand_USD_JPY:
                 text += '＋トレンド<br>'
                 # プラスのトレンド
                 trandCondi = 1
+                is_longIn = True
             elif not is_plus and slopeDir == -1:
                 text += '-トレンド<br>'
                 # マイナスのトレンド
                 trandCondi = 2
+                is_shortIn = True
             elif slopeDir == 0:
                 text += 'トレンドだけど傾きが真逆 一旦静観<br>'
                 trandCondi = 4
@@ -302,33 +317,37 @@ class setBollingerBand_USD_JPY:
         else:
             text += 'sigma3＋α どちらにも触れてません<br>'
 
-        # 売却判定
-        # if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
-        if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose:
-            text += 'sigma1＋α 上に触りました<br>'
-            is_longClose = True
-        # elif sma1SigmaMinus >= nowLow or sma1SigmaMinus >= JNowLow:
-        elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose:
-            text += 'sigma1＋α 下に触りました<br>'
-            is_shortClose = True
-        else:
-            text += 'sigma1＋α どちらにも触れてません<br>'
+        if not is_trend:
+            # 売却判定
+            # if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
+            if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose:
+                # if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose and slopeDir2 == -1:
+                text += 'sigma1＋α 上に触りました<br>'
+                is_longClose = True
+            # elif sma1SigmaMinus >= nowLow or sma1SigmaMinus >= JNowLow:
+            elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose:
+                # elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose and slopeDir2 == 1:
+                text += 'sigma1＋α 下に触りました<br>'
+                is_shortClose = True
+            else:
+                text += 'sigma1＋α どちらにも触れてません<br>'
 
-        # 持ち合い相場時の購買基準を判断
-        if nowClose <= sma2SigmaPlus <= nowHigh or JNowClose <= sma2SigmaPlus <= JNowHigh:
-            # if sma2SigmaPlus <= nowClose or sma2SigmaPlus <= nowClose:
-            is_longClose = True
-            is_shortIn = True
-            is_topTouch = True
-            text += 'sigma2＋α 上に高値のみ触りました<br>'
-        elif nowClose >= sma2SigmaMinus >= nowLow or JNowClose >= sma2SigmaMinus >= JNowLow:
-            # elif sma2SigmaMinus >= nowClose or sma2SigmaMinus >= nowClose:
-            is_shortClose = True
-            is_shortIn = False
-            is_bottomTouch = True
-            text += 'sigma2＋α 下に底値のみ触りました<br>'
-        else:
-            text += 'sigma2＋α どちらにも触れてません<br>'
+            # 持ち合い相場時の購買基準を判断
+            if nowClose <= sma2SigmaPlus <= nowHigh or JNowClose <= sma2SigmaPlus <= JNowHigh:
+                # if sma2SigmaPlus <= nowClose or sma2SigmaPlus <= nowClose:
+                is_longClose = True
+                is_shortIn = True
+                is_topTouch = True
+                text += 'sigma2＋α 上に高値のみ触りました<br>'
+            elif nowClose >= sma2SigmaMinus >= nowLow or JNowClose >= sma2SigmaMinus >= JNowLow:
+                # elif sma2SigmaMinus >= nowClose or sma2SigmaMinus >= nowClose:
+                is_shortClose = True
+                # is_shortIn = False
+                is_longIn = True
+                is_bottomTouch = True
+                text += 'sigma2＋α 下に底値のみ触りました<br>'
+            else:
+                text += 'sigma2＋α どちらにも触れてません<br>'
 
         create = conditionOfBB.objects.create(
             is_peak=is_peak,
@@ -340,6 +359,7 @@ class setBollingerBand_USD_JPY:
             is_shortClose=is_shortClose,
             is_longClose=is_longClose,
             is_shortIn=is_shortIn,
+            is_longIn=is_longIn,
             bb_trande=listBB.objects.filter(id=trandCondi).first(),
             bb=result,
             slope_001=slopeDir_001,
