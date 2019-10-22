@@ -89,39 +89,42 @@ class BuySellCal():
                 nowCndl_close + nowCndl_close*Decimal(0.0002)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            long_limit = (bb['sma_M50'] - bb['abs_sigma_3']
+            # long_limit = (bb['sma_M50'] - bb['abs_sigma_3']
+            #               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+            long_limit = (bb['sma_M50'] * Decimal(1.1)
                           ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            # (
-            #     # M5_1_close + M5_1_close*Decimal(-0.0002)
-            #     M5_1_close + M5_1_close*Decimal(-0.003)
-            # ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
 
             short_in = (
                 nowCndl_close + nowCndl_close*Decimal(-0.0002)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            short_limit = (bb['sma_M50'] + bb['abs_sigma_3']
+            # short_limit = (bb['sma_M50'] + bb['abs_sigma_3']
+            #                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+            short_limit = (bb['sma_M50'] * Decimal(1.1)
                            ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            lDeff = np.abs(long_in - long_limit)
-            if lDeff < 0.1:
-                long_limit = (nowCndl_close - Decimal(0.115)
-                              ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                text += 'longのlimitが小さいので修正<br>'
-            elif lDeff > 0.115:
-                long_limit = (nowCndl_close - Decimal(0.115)
-                              ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                text += 'longのlimitが大きいので修正<br>'
+            # lDeff = np.abs(long_in - long_limit)
+            # if lDeff < 0.1:
+            #     long_limit = (nowCndl_close - Decimal(0.115)
+            #                   ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            #     text += 'longのlimitが小さいので修正<br>'
+            # elif lDeff > 0.115:
+            #     long_limit = (nowCndl_close - Decimal(0.115)
+            #                   ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            #     text += 'longのlimitが大きいので修正<br>'
 
-            sDeff = np.abs(short_in - short_limit)
-            if sDeff < 0.1:
-                short_limit = (nowCndl_close + Decimal(0.115)
-                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                text += 'shortのlimitが小さいので修正<br>'
-            elif sDeff > 0.115:
-                short_limit = (nowCndl_close + Decimal(0.115)
-                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                text += 'shortのlimitが大きいので修正<br>'
+            # sDeff = np.abs(short_in - short_limit)
+            # if sDeff < 0.1:
+            #     short_limit = (nowCndl_close + Decimal(0.115)
+            #                    ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            #     text += 'shortのlimitが小さいので修正<br>'
+            # elif sDeff > 0.115:
+            #     short_limit = (nowCndl_close + Decimal(0.115)
+            #                    ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            #     text += 'shortのlimitが大きいので修正<br>'
 
             if not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
                 text += '確度が小さいのでlimit小さく<br>'
