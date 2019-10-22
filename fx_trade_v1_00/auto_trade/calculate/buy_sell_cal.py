@@ -33,7 +33,7 @@ class BuySellCal():
         # # print(json.dumps(pos),  indent=2)
         setting = tradeSettings.objects.filter(id=1).first()
         getNowRate = getMA_USD_JPY()
-        
+
         cbb = model_to_dict(condNow.condition_of_bb)
         cbbPrev = model_to_dict(condiPrev.condition_of_bb)
 
@@ -67,7 +67,6 @@ class BuySellCal():
             text = '予期しないロット数が入っています'
             units = 1
             pass
-
 
         # 今買ったかを判断
         nowInL = False
@@ -147,31 +146,32 @@ class BuySellCal():
             # 購買判断材料-持ち合い形成時--------------------------------------
 
             # BBから計算したトレンド持ち合い相場だったら下のshortINを使用する。そうでなければMAを使用する。
+            trend_id = model_to_dict(
+                condNow.condition_of_bb.bb_trande
+            )['id']
+
+            preTrend_id = model_to_dict(
+                condiPrev.condition_of_bb.bb_trande
+            )['id']
             try:
                 # print(condNow.condition_of_bb.bb_trande)
-                trend_id = model_to_dict(
-                    condNow.condition_of_bb.bb_trande
-                )['id']
 
-                preTrend_id = model_to_dict(
-                    condiPrev.condition_of_bb.bb_trande
-                )['id']
 
                 maPrev = model_to_dict(
                     condiPrev.condition_of_ma_M5
-                )['ma_comp24_75_288']
+                )['ma_comp6_24_72']
 
                 maNow = model_to_dict(
                     condNow.condition_of_ma_M5
-                )['ma_comp24_75_288']
+                )['ma_comp6_24_72']
 
                 slopePrev = model_to_dict(
                     condiPrev.condition_of_slope_M5
-                )['slope_comp24_75_288']
+                )['slope_comp6_24_72']
                 
                 slopeNow = model_to_dict(
                     condNow.condition_of_slope_M5
-                )['slope_comp24_75_288']
+                )['slope_comp6_24_72']
 
                 pass
             except Exception as e:
@@ -316,31 +316,31 @@ class BuySellCal():
                 # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
                 if maNow == 2 and trend_id != 1 :
                     # print("long out by ma")
-                    text = "long out by ma　現在未使用<br>"
-                    # if not nowInL:
-                    #     self.order.oderCloseAllLong()
+                    text = "long out by ma<br>"
+                    if not nowInL:
+                        self.order.oderCloseAllLong()
 
                     # short　closeのタイミング if MA is 5 it have to close
                 elif maNow == 5 and trend_id != 2 :
                     # print("short out by ma")
-                    text += "short out by ma　現在未使用<br>"
-                    # if not nowInS:
-                    #     self.order.oderCloseAllShort()
+                    text += "short out by ma<br>"
+                    if not nowInS:
+                        self.order.oderCloseAllShort()
 
                     # long　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
                 elif M5_1_closePrev > nowCndl_close > M5_1_closeNow and trend_id != 1 :
                     # print("long out by candle")
-                    text += "long out by candle　現在未使用<br>"
-                    # if not nowInL:
-                    #     self.order.oderCloseAllLong()
+                    text += "long out by candle<br>"
+                    if not nowInL:
+                        self.order.oderCloseAllLong()
                     
 
                     # short　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
                 elif M5_1_closePrev < nowCndl_close < M5_1_closeNow and trend_id != 2 :
                     # print("short out by candle")
-                    text += "short out by candle　現在未使用<br>"
-                    # if not nowInS:
-                    #     self.order.oderCloseAllShort()
+                    text += "short out by candle<br>"
+                    if not nowInS:
+                        self.order.oderCloseAllShort()
                 else:
                     # print('決済----様子見中')
                     text += '上下降トレンドの決済様子見中　現在未使用<br>'
