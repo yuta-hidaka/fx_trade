@@ -241,9 +241,7 @@ class conditionOfBB(models.Model):
 
 
 class bollingerBand(models.Model):
-    sma_3 = models.DecimalField(
-        max_digits=8, decimal_places=4, default=0.0000, null=True)
-    sma = models.DecimalField(
+    sma_M50 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000, null=True)
     abs_sigma_1 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000, null=True)
