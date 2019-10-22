@@ -93,7 +93,7 @@ class BuySellCal():
             # long_limit = (bb['sma_M50'] - bb['abs_sigma_3']
             #               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            long_limit = (bb['sma_M50'] * Decimal(1.1)
+            long_limit = (nowCndl_close - nowCndl_close*Decimal(0.1)
                           ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
 
@@ -104,7 +104,7 @@ class BuySellCal():
             # short_limit = (bb['sma_M50'] + bb['abs_sigma_3']
             #                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            short_limit = (bb['sma_M50'] * Decimal(1.1)
+            short_limit = (nowCndl_close + nowCndl_close*Decimal(0.1)
                            ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             # lDeff = np.abs(long_in - long_limit)
@@ -130,9 +130,9 @@ class BuySellCal():
             if not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
                 text += '確度が小さいのでlimit小さく<br>'
                        # 確度が小さいのでlimit小さく
-                long_limit = (nowCndl_close - (nowCndl_close * Decimal(0.0015))
+                long_limit = (nowCndl_close - (nowCndl_close * Decimal(0.05))
                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                short_limit = (nowCndl_close + (nowCndl_close * Decimal(0.0015))
+                short_limit = (nowCndl_close + (nowCndl_close * Decimal(0.05))
                                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             text += 'longの入り値　' + str(long_in) + '<br>'
