@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             name='conditionOfBB',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('sma_M50', models.DecimalField(decimal_places=4, default=0.0, max_digits=8)),
+                ('sma', models.DecimalField(decimal_places=4, default=0.0, max_digits=8)),
                 ('abs_sigma_1', models.DecimalField(decimal_places=4, default=0.0, max_digits=8)),
                 ('abs_sigma_2', models.DecimalField(decimal_places=4, default=0.0, max_digits=8)),
                 ('abs_sigma_3', models.DecimalField(decimal_places=4, default=0.0, max_digits=8)),

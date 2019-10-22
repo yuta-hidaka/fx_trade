@@ -90,7 +90,7 @@ class BuySellCal():
                 nowCndl_close + nowCndl_close*Decimal(0.0002)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            # long_limit = (bb['sma_M50'] - bb['abs_sigma_3']
+            # long_limit = (bb['sma'] - bb['abs_sigma_3']
             #               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             long_limit = (nowCndl_close - nowCndl_close*Decimal(0.1)
@@ -101,7 +101,7 @@ class BuySellCal():
                 nowCndl_close + nowCndl_close*Decimal(-0.0002)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            # short_limit = (bb['sma_M50'] + bb['abs_sigma_3']
+            # short_limit = (bb['sma'] + bb['abs_sigma_3']
             #                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_limit = (nowCndl_close + nowCndl_close*Decimal(0.1)

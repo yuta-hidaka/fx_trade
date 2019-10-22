@@ -11,6 +11,7 @@ class tradeSettings(models.Model):
     units = models.IntegerField(default=100)
     revelage = models.IntegerField(default=1)
     bb_count = models.IntegerField(default=15)
+    bb_count_2 = models.IntegerField(default=100)
     bb_cv_count = models.IntegerField(default=3)
     bb_slope_dir_count = models.IntegerField(default=10)
     sig1_adj = models.DecimalField(
@@ -240,13 +241,23 @@ class conditionOfBB(models.Model):
 
 
 class bollingerBand(models.Model):
-    sma_M50 = models.DecimalField(
+    sma = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000, null=True)
     abs_sigma_1 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000, null=True)
     abs_sigma_2 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000, null=True)
     abs_sigma_3 = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000, null=True)
+    cv = models.DecimalField(
+        max_digits=8, decimal_places=8, default=0.0000, null=True)
+    sma_2 = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000, null=True)
+    abs_sigma_1_2 = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000, null=True)
+    abs_sigma_2_2 = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000, null=True)
+    abs_sigma_3_2 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000, null=True)
     cv = models.DecimalField(
         max_digits=8, decimal_places=8, default=0.0000, null=True)

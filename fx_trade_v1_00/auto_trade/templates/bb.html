@@ -84,33 +84,33 @@
                     data['bb'].forEach(function (list, i) {
                         cv.y.push(Number(data['bb'][i]['cv']));
                         sig1.y.push(
-                            Number(data['bb'][i]['sma_M50']) +
+                            Number(data['bb'][i]['sma']) +
                             Number(data['bb'][i]['abs_sigma_1'])
                         )
                         sig2.y.push(
-                            Number(data['bb'][i]['sma_M50']) +
+                            Number(data['bb'][i]['sma']) +
                             Number(data['bb'][i]['abs_sigma_2'])
                         )
                         sig3.y.push(
-                            Number(data['bb'][i]['sma_M50']) +
+                            Number(data['bb'][i]['sma']) +
                             Number(data['bb'][i]['abs_sigma_3'])
                         )
 
                         mSig1.y.push(
-                            Number(data['bb'][i]['sma_M50']) -
+                            Number(data['bb'][i]['sma']) -
                             Number(data['bb'][i]['abs_sigma_1'])
                         )
                         mSig2.y.push(
-                            Number(data['bb'][i]['sma_M50']) -
+                            Number(data['bb'][i]['sma']) -
                             Number(data['bb'][i]['abs_sigma_2'])
                         )
                         mSig3.y.push(
-                            Number(data['bb'][i]['sma_M50']) -
+                            Number(data['bb'][i]['sma']) -
                             Number(data['bb'][i]['abs_sigma_3'])
                         )
 
 
-                        sma.y.push(data['bb'][i]['sma_M50'])
+                        sma.y.push(data['bb'][i]['sma'])
 
 
                         cv.x.push(

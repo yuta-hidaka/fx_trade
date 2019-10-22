@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
         ),
         migrations.RemoveField(
             model_name='conditionofbb',
-            name='sma_M50',
+            name='sma',
         ),
         migrations.AddField(
             model_name='conditionofbb',

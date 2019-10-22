@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.RenameField(
             model_name='bollingerband',
             old_name='sma_D20',
-            new_name='sma_M50',
+            new_name='sma',
         ),
     ]
