@@ -369,7 +369,7 @@ class setBollingerBand_USD_JPY:
             is_expansion = True
             is_expansionByNum = True
             text += '価格差のエクスパンション<br>'
-        if diff_2 != Decimal(0):
+        elif diff_2 != Decimal(0):
             is_expansion = True
             is_expansionByNum = True
             text += '価格差のエクスパンション②<br>'
@@ -381,7 +381,7 @@ class setBollingerBand_USD_JPY:
             is_expansionByStd = True
             is_topTouch = True
             text += '上にエクスパンション<br>'
-        if sma2SigmaPlusEx_2 <= nowClose:
+        elif sma2SigmaPlusEx_2 <= nowClose:
             is_expansion = True
             is_expansionByStd = True
             is_topTouch = True
@@ -393,7 +393,7 @@ class setBollingerBand_USD_JPY:
             is_expansionByStd = True
             is_bottomTouch = True
             text += '下にエクスパンション<br>'
-        if sma2SigmaMinusEx_2 >= nowClose:
+        elif sma2SigmaMinusEx_2 >= nowClose:
             is_expansion = True
             is_expansionByStd = True
             is_bottomTouch = True
@@ -434,18 +434,18 @@ class setBollingerBand_USD_JPY:
         else:
             text += 'sigma3＋α どちらにも触れてません<br>'
 
-        if sma3SigmaPlusExP_2 >= nowClose and sma3SigmaPlusBeforExP_2 <= bfClose:
-                # if sma3SigmaPlusExP <= nowClose or sma3SigmaPlusExP <= nowClose:
-                # if sma2SigmaMinusEx <= nowClose and sma2SigmaMinusEx <= JNowClose:
-            text += 'sigma3＋α closeが上に触りました②<br>'
-            is_topTouch = True
-            is_peak = True
-        elif sma3SigmaMinusExP_2 >= nowClose and sma3SigmaMinusExP_2 >= bfClose:
-            text += 'sigma3＋α closeが下に触りました②<br>'
-            is_bottomTouch = True
-            is_peak = True
-        else:
-            text += 'sigma3＋α どちらにも触れてません②<br>'
+            if sma3SigmaPlusExP_2 >= nowClose and sma3SigmaPlusBeforExP_2 <= bfClose:
+                    # if sma3SigmaPlusExP <= nowClose or sma3SigmaPlusExP <= nowClose:
+                    # if sma2SigmaMinusEx <= nowClose and sma2SigmaMinusEx <= JNowClose:
+                text += 'sigma3＋α closeが上に触りました②<br>'
+                is_topTouch = True
+                is_peak = True
+            elif sma3SigmaMinusExP_2 >= nowClose and sma3SigmaMinusExP_2 >= bfClose:
+                text += 'sigma3＋α closeが下に触りました②<br>'
+                is_bottomTouch = True
+                is_peak = True
+            else:
+                text += 'sigma3＋α どちらにも触れてません②<br>'
 
         if not is_trend:
             # 売却判定
@@ -461,6 +461,20 @@ class setBollingerBand_USD_JPY:
                 is_shortClose = True
             else:
                 text += 'sigma1＋α どちらにも触れてません<br>'
+
+                # 売却判定②
+                # if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
+                if sma1SigmaPlus_2 <= nowClose or sma1SigmaPlus_2 <= nowClose:
+                    # if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose and slopeDir2 == -1:
+                    text += 'sigma1＋α 上に触りました②<br>'
+                    is_longClose = True
+                # elif sma1SigmaMinus >= nowLow or sma1SigmaMinus >= JNowLow:
+                elif sma1SigmaMinus_2 >= nowClose or sma1SigmaMinus_2 >= nowClose:
+                    # elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose and slopeDir2 == 1:
+                    text += 'sigma1＋α 下に触りました②<br>'
+                    is_shortClose = True
+                else:
+                    text += 'sigma1＋α どちらにも触れてません②<br>'
 
             # 持ち合い相場時の購買基準を判断
             if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh:
@@ -478,37 +492,22 @@ class setBollingerBand_USD_JPY:
                 text += 'sigma2＋α 下に底値のみ触りました<br>'
             else:
                 text += 'sigma2＋α どちらにも触れてません<br>'
-
-            # 売却判定②
-            # if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
-            if sma1SigmaPlus_2 <= nowClose or sma1SigmaPlus_2 <= nowClose:
-                # if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose and slopeDir2 == -1:
-                text += 'sigma1＋α 上に触りました②<br>'
-                is_longClose = True
-            # elif sma1SigmaMinus >= nowLow or sma1SigmaMinus >= JNowLow:
-            elif sma1SigmaMinus_2 >= nowClose or sma1SigmaMinus_2 >= nowClose:
-                # elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose and slopeDir2 == 1:
-                text += 'sigma1＋α 下に触りました②<br>'
-                is_shortClose = True
-            else:
-                text += 'sigma1＋α どちらにも触れてません②<br>'
-
-            # 持ち合い相場時の購買基準を判断
-            if sma2SigmaPlus_2 <= nowHigh or sma2SigmaPlus_2 <= JNowHigh:
-                # if sma2SigmaPlus <= nowClose or sma2SigmaPlus <= nowClose:
-                is_longClose = True
-                is_shortIn = True
-                is_topTouch = True
-                text += 'sigma2＋α 上に高値のみ触りました②<br>'
-            elif sma2SigmaMinus_2 >= nowLow or sma2SigmaMinus_2 >= JNowLow:
-                # elif sma2SigmaMinus >= nowClose or sma2SigmaMinus >= nowClose:
-                is_shortClose = True
-                # is_shortIn = False
-                is_longIn = True
-                is_bottomTouch = True
-                text += 'sigma2＋α 下に底値のみ触りました②<br>'
-            else:
-                text += 'sigma2＋α どちらにも触れてません②<br>'
+                # 持ち合い相場時の購買基準を判断
+                if sma2SigmaPlus_2 <= nowHigh or sma2SigmaPlus_2 <= JNowHigh:
+                    # if sma2SigmaPlus <= nowClose or sma2SigmaPlus <= nowClose:
+                    is_longClose = True
+                    is_shortIn = True
+                    is_topTouch = True
+                    text += 'sigma2＋α 上に高値のみ触りました②<br>'
+                elif sma2SigmaMinus_2 >= nowLow or sma2SigmaMinus_2 >= JNowLow:
+                    # elif sma2SigmaMinus >= nowClose or sma2SigmaMinus >= nowClose:
+                    is_shortClose = True
+                    # is_shortIn = False
+                    is_longIn = True
+                    is_bottomTouch = True
+                    text += 'sigma2＋α 下に底値のみ触りました②<br>'
+                else:
+                    text += 'sigma2＋α どちらにも触れてません②<br>'
 
         create = conditionOfBB.objects.create(
             is_peak=is_peak,
