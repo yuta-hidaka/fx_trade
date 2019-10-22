@@ -108,7 +108,7 @@ class BuySellCal():
                 long_limit = (nowCndl_close - Decimal(0.115)
                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                 text += 'longのlimitが小さいので修正<br>'
-            elif lDeff > 0.15:
+            elif lDeff > 0.115:
                 long_limit = (nowCndl_close - Decimal(0.115)
                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                 text += 'longのlimitが大きいので修正<br>'
@@ -118,7 +118,7 @@ class BuySellCal():
                 short_limit = (nowCndl_close + Decimal(0.115)
                                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                 text += 'shortのlimitが小さいので修正<br>'
-            elif sDeff > 0.15:
+            elif sDeff > 0.115:
                 short_limit = (nowCndl_close + Decimal(0.115)
                                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                 text += 'shortのlimitが大きいので修正<br>'
