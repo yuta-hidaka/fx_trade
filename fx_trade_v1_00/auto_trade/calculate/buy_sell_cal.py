@@ -92,11 +92,6 @@ class BuySellCal():
 
             # long_limit = (bb['sma'] - bb['abs_sigma_3']
             #               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-
-            long_limit = (nowCndl_close - nowCndl_close*Decimal(0.1)
-                          ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-
-
             short_in = (
                 nowCndl_close + nowCndl_close*Decimal(-0.0002)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
@@ -104,8 +99,11 @@ class BuySellCal():
             # short_limit = (bb['sma'] + bb['abs_sigma_3']
             #                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            short_limit = (nowCndl_close + nowCndl_close*Decimal(0.1)
-                           ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            long_limit = (nowCndl_close - (nowCndl_close * Decimal(0.15))
+                              ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+            short_limit = (nowCndl_close + (nowCndl_close * Decimal(0.15))
+                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             # lDeff = np.abs(long_in - long_limit)
             # if lDeff < 0.1:
