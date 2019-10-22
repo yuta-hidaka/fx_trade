@@ -303,11 +303,11 @@ class setBollingerBand_USD_JPY:
         # if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
         if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose:
             text += 'sigma1＋α 上に触りました　未使用<br>'
-            # is_longClose = True
+            is_longClose = True
         # elif sma1SigmaMinus >= nowLow or sma1SigmaMinus >= JNowLow:
         elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose:
             text += 'sigma1＋α 下に触りました　未使用<br>'
-            # is_shortClose = True
+            is_shortClose = True
         else:
             text += 'sigma1＋α どちらにも触れてません<br>'
 
