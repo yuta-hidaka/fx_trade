@@ -414,6 +414,7 @@ class setBollingerBand_USD_JPY:
                 text += '持ち合いトレンドcondition条件判定内<br>'
                 trandCondi = 3
 
+
         # if nowClose
         # 持ち合い相場時の決済基準を判断
         text += 'is_trend ' + str(is_trend) + '<br>'
