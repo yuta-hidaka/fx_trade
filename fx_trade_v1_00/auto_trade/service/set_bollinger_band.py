@@ -386,7 +386,7 @@ class setBollingerBand_USD_JPY:
             #     is_expansion = False
 
         if not is_expansion:
-            trendRatio = 80
+            trendRatio = 90
             if np.absolute(ans) >= trendRatio or np.absolute(ans_2) >= trendRatio:
                 is_trend = True
             else:
