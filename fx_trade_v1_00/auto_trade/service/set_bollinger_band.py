@@ -239,12 +239,10 @@ class setBollingerBand_USD_JPY:
             slopeDir_001 = np.sign(slope_001)
 # -----------------------------------------------------------------------
 
-            s01 = Decimal('0.01039999999999003').quantize(
-                Decimal('0.1'), rounding=ROUND_DOWN)
+
             s001 = Decimal('0.01039999999999003').quantize(
                 Decimal('0.01'), rounding=ROUND_DOWN)
             text += ' test 0.01039999999999003を丸めた<br>'
-            text += str(s01)+' 傾き<br>'
             text += str(s001)+' 傾き<br>'
 
             text += str(rs[0])+' 傾き<br>'
@@ -377,41 +375,42 @@ class setBollingerBand_USD_JPY:
         # if slopeDir == 0 and not is_trend:
         # text += '傾き0でトレンドじゃない=スクイーズの可能性<br>'
         # 小数第二以上でプラスであればエクスパンション
-        if diff != Decimal(0):
-            is_expansion = True
-            is_expansionByNum = True
-            text += '価格差のエクスパンション<br>'
-        elif diff_2 != Decimal(0):
-            is_expansion = True
-            is_expansionByNum = True
-            text += '価格差のエクスパンション②<br>'
-        # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
-        # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose:
-        # if sma2SigmaPlusEx <= nowClose and sma2SigmaPlusEx <= JNowClose:
-        if sma2SigmaPlusEx <= nowClose:
-            is_expansion = True
-            is_expansionByStd = True
-            is_topTouch = True
-            text += '上にエクスパンション<br>'
-        elif sma2SigmaPlusEx_2 <= nowClose:
-            is_expansion = True
-            is_expansionByStd = True
-            is_topTouch = True
-            text += '上にエクスパンション②<br>'
-        # elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose and sma2SigmaMinus >= prevClose:
-        # if sma2SigmaMinusEx >= nowClose and sma2SigmaMinusEx >= JNowClose:
-        if sma2SigmaMinusEx >= nowClose:
-            is_expansion = True
-            is_expansionByStd = True
-            is_bottomTouch = True
-            text += '下にエクスパンション<br>'
-        elif sma2SigmaMinusEx_2 >= nowClose:
-            is_expansion = True
-            is_expansionByStd = True
-            is_bottomTouch = True
-            text += '下にエクスパンション②<br>'
-        # else:
-        #     is_expansion = False
+        if slopeDir != 0:
+            if diff != Decimal(0):
+                is_expansion = True
+                is_expansionByNum = True
+                text += '価格差のエクスパンション<br>'
+            elif diff_2 != Decimal(0):
+                is_expansion = True
+                is_expansionByNum = True
+                text += '価格差のエクスパンション②<br>'
+            # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
+            # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose:
+            # if sma2SigmaPlusEx <= nowClose and sma2SigmaPlusEx <= JNowClose:
+            if sma2SigmaPlusEx <= nowClose:
+                is_expansion = True
+                is_expansionByStd = True
+                is_topTouch = True
+                text += '上にエクスパンション<br>'
+            elif sma2SigmaPlusEx_2 <= nowClose:
+                is_expansion = True
+                is_expansionByStd = True
+                is_topTouch = True
+                text += '上にエクスパンション②<br>'
+            # elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose and sma2SigmaMinus >= prevClose:
+            # if sma2SigmaMinusEx >= nowClose and sma2SigmaMinusEx >= JNowClose:
+            if sma2SigmaMinusEx >= nowClose:
+                is_expansion = True
+                is_expansionByStd = True
+                is_bottomTouch = True
+                text += '下にエクスパンション<br>'
+            elif sma2SigmaMinusEx_2 >= nowClose:
+                is_expansion = True
+                is_expansionByStd = True
+                is_bottomTouch = True
+                text += '下にエクスパンション②<br>'
+            # else:
+            #     is_expansion = False
 
         # if nowClose
         # 持ち合い相場時の決済基準を判断
