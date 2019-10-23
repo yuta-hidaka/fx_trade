@@ -249,7 +249,9 @@ class setBollingerBand_USD_JPY:
 
             text += str(rs[0])+' 傾き<br>'
             text += str(rs[1])+' 切片<br>'
+            text += str(slope_001)+' slopeDir 0.01で丸めたバージョン<br>'
             text += str(slopeDir_001)+' slopeDir 0.01で丸めたバージョン<br>'
+            text += str(slope_01)+' slopeDir 0.1で丸めたバージョン<br>'
             text += str(slopeDir_01)+' slopeDir 0.1で丸めたバージョン<br>'
             pass
         except Exception as e:
