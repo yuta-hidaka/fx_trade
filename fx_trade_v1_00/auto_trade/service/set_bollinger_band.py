@@ -589,9 +589,9 @@ class setBollingerBand_USD_JPY:
         SD_2 = np.std(listMA2)
         # 変動係数の算出
         cv2 = SD_2 / SMA2
-        SD1_2 = SD * Decimal(1)
-        SD2_2 = SD * Decimal(2)
-        SD3_2 = SD * Decimal(3)
+        SD1_2 = SD_2 * Decimal(1)
+        SD2_2 = SD_2 * Decimal(2)
+        SD3_2 = SD_2 * Decimal(3)
 
         bbBefor = bollingerBand.objects.latest('created_at')
 
