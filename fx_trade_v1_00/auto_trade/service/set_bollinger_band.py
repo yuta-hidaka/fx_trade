@@ -231,18 +231,18 @@ class setBollingerBand_USD_JPY:
 
 # -----------------------------------------------------------------------
             slope_01 = Decimal(dcml).quantize(
-                Decimal('.1'), rounding=ROUND_DOWN)
+                Decimal('0.1'), rounding=ROUND_DOWN)
             slope_001 = Decimal(dcml).quantize(
-                Decimal('.01'), rounding=ROUND_DOWN)
+                Decimal('0.01'), rounding=ROUND_DOWN)
 
             slopeDir_01 = np.sign(slope_01)
             slopeDir_001 = np.sign(slope_001)
 # -----------------------------------------------------------------------
 
-            s01 = Decimal('0.001039999999999003').quantize(
-                Decimal('.1'), rounding=ROUND_DOWN)
-            s001 = Decimal('0.001039999999999003').quantize(
-                Decimal('.01'), rounding=ROUND_DOWN)
+            s01 = Decimal('0.01039999999999003').quantize(
+                Decimal('0.1'), rounding=ROUND_DOWN)
+            s001 = Decimal('0.01039999999999003').quantize(
+                Decimal('0.01'), rounding=ROUND_DOWN)
             text += ' test 0.01039999999999003を丸めた<br>'
             text += str(s01)+' 傾き<br>'
             text += str(s001)+' 傾き<br>'
