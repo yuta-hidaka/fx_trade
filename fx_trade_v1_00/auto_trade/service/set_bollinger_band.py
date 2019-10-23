@@ -225,17 +225,26 @@ class setBollingerBand_USD_JPY:
             y = np.array(xClose)
             rs = np.polyfit(x, y, 1)
             slope_cv = Decimal(rs[0]).quantize(
-                Decimal('0.01'), rounding=ROUND_HALF_UP)
+                Decimal('0.01'), rounding=ROUND_UP)
             slopeDir = np.sign(slope_cv)
 
 # -----------------------------------------------------------------------
             slope_01 = Decimal(rs[0]).quantize(
-                Decimal('0.1'), rounding=ROUND_HALF_UP)
+                Decimal('0.1'), rounding=ROUND_UP)
             slope_001 = Decimal(rs[0]).quantize(
-                Decimal('0.01'), rounding=ROUND_HALF_UP)
+                Decimal('0.01'), rounding=ROUND_UP)
+
             slopeDir_01 = np.sign(slope_01)
             slopeDir_001 = np.sign(slope_001)
 # -----------------------------------------------------------------------
+
+            s01 = Decimal('0.01039999999999003').quantize(
+                Decimal('0.1'), rounding=ROUND_UP)
+            s001 = Decimal('0.01039999999999003').quantize(
+                Decimal('0.01'), rounding=ROUND_UP)
+            text += ' test 0.01039999999999003を丸めた<br>'
+            text += str(s01)+' 傾き<br>'
+            text += str(s001)+' 傾き<br>'
 
             text += str(rs[0])+' 傾き<br>'
             text += str(rs[1])+' 切片<br>'
@@ -305,7 +314,7 @@ class setBollingerBand_USD_JPY:
         y = np.array(xClose)
         rs = np.polyfit(x, y, 1)
         slope = Decimal(rs[0]).quantize(
-            Decimal('0.01'), rounding=ROUND_HALF_UP)
+            Decimal('0.01'), rounding=ROUND_UP)
         slopeDir2 = np.sign(slope)
 
         text += str(aaaa) + ' : 0のかず<br>'
