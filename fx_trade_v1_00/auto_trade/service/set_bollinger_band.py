@@ -224,14 +224,15 @@ class setBollingerBand_USD_JPY:
             x = np.arange(0, len(xClose))
             y = np.array(xClose)
             rs = np.polyfit(x, y, 1)
-            slope_cv = Decimal(rs[0]).quantize(
+            dcml = str(rs[0])
+            slope_cv = Decimal(dcml).quantize(
                 Decimal('0.01'), rounding=ROUND_UP)
             slopeDir = np.sign(slope_cv)
 
 # -----------------------------------------------------------------------
-            slope_01 = Decimal(rs[0]).quantize(
+            slope_01 = Decimal(dcml).quantize(
                 Decimal('0.1'), rounding=ROUND_UP)
-            slope_001 = Decimal(rs[0]).quantize(
+            slope_001 = Decimal(dcml).quantize(
                 Decimal('0.01'), rounding=ROUND_UP)
 
             slopeDir_01 = np.sign(slope_01)
