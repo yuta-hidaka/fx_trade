@@ -128,9 +128,9 @@ class BuySellCal():
             if not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
                 text += '確度が小さいのでlimit小さく<br>'
                        # 確度が小さいのでlimit小さく
-                long_limit = (nowCndl_close - (nowCndl_close * Decimal(0.05))
+                long_limit = (nowCndl_close - (nowCndl_close * Decimal(0.00015))
                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                short_limit = (nowCndl_close + (nowCndl_close * Decimal(0.05))
+                short_limit = (nowCndl_close + (nowCndl_close * Decimal(0.00015))
                                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             text += 'longの入り値　' + str(long_in) + '<br>'
