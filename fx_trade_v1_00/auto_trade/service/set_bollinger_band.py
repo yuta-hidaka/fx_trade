@@ -239,7 +239,6 @@ class setBollingerBand_USD_JPY:
             slopeDir_001 = np.sign(slope_001)
 # -----------------------------------------------------------------------
 
-
             s001 = Decimal('0.01039999999999003').quantize(
                 Decimal('0.01'), rounding=ROUND_DOWN)
             text += ' test 0.01039999999999003を丸めた<br>'
@@ -414,6 +413,7 @@ class setBollingerBand_USD_JPY:
 
         # if nowClose
         # 持ち合い相場時の決済基準を判断
+        text += 'is_trend ' + str(is_trend) + '<br>'
         text += 'nowHigh ' + str(nowHigh) + '<br>'
         text += 'JNowHigh ' + str(JNowHigh) + '<br>'
         text += 'nowLow ' + str(nowLow) + '<br>'
