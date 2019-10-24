@@ -245,8 +245,7 @@ class BuySellCal():
                         self.order.ShortOrderCreate()
                         nowInS = True
 
-
-            if trend_id == 3 and not is_peak:
+            if trend_id == 3 and not is_peak and not nowInL and not nowInS:
                 # if preTrend_id == 1 or preTrend_id == 2 or preTrend_id == 4:
                 #         text += '前回までトレンドで今が持ち合い相場でいったん決済。<br>'
                 #         self.order.allOrderClose()
@@ -315,7 +314,7 @@ class BuySellCal():
                             
 
     # --------------------------------------------------------------------------
-            if trend_id == 1 or trend_id == 2 and not is_peak:
+            if trend_id == 1 or trend_id == 2 and not is_peak and not nowInL and not nowInS:
                 # if is_longInBB:
                 
                 # elif is_shortInBB:
@@ -354,8 +353,7 @@ class BuySellCal():
                 # 購買タイミング----------------------------------------------------------------------------------
                 # longのタイミング all slope is positive and before MA is 6or1 and now 1
 
-
-                if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
+                if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1 and not nowInL and not nowInS:
 
                     if  not nowInL:
                         # print("long in by ma")
@@ -457,7 +455,7 @@ class BuySellCal():
                 #             text += "short in　but position is too many<br>"
 
             # 持ち合い相場でエクスパンションしてなかったら
-            elif trend_id == 3 and not is_expansion:
+            elif trend_id == 3 and not is_expansion and not nowInL and not nowInS:
                 if is_shortClose and not nowInS:
                     text += 'sigma1 によるshortClose<br>'
                     self.order.oderCloseAllShort()
