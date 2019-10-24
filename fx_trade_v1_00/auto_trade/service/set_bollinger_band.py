@@ -30,7 +30,7 @@ class setBollingerBand_USD_JPY:
         text = ''
 
         try:
-            text = str(rs['recorded_at_utc'])
+            text = str(rs['recorded_at_utc'])+'<br>'
 
             pass
         except :
