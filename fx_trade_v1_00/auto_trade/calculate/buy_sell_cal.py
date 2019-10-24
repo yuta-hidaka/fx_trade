@@ -209,18 +209,18 @@ class BuySellCal():
             elif trend_id == 3:
                 # print('BB---持ち合い相場')
                 text += 'BB---持ち合い相場<br>'
-                text += 'is_bottomTouch<br>'
-                text += str(is_bottomTouch) + '<br>'
-                text += 'is_topTouch<br>'
-                text += str(is_topTouch) + '<br>'
-                text += 'not is_expansion<br> '
-                text += str(not is_expansion) + '<br>'
-                text += 'is_expansion<br> '
-                text += str(is_expansion) + '<br>'
-                text += 'is_expansionByStd<br> '
-                text += str(is_expansionByStd) + '<br>'
-                text += 'is_expansionByNum<br> '
-                text += str(is_expansionByNum) + '<br>'
+                # text += 'is_bottomTouch<br>'
+                # text += str(is_bottomTouch) + '<br>'
+                # text += 'is_topTouch<br>'
+                # text += str(is_topTouch) + '<br>'
+                # text += 'not is_expansion<br> '
+                # text += str(not is_expansion) + '<br>'
+                # text += 'is_expansion<br> '
+                # text += str(is_expansion) + '<br>'
+                # text += 'is_expansionByStd<br> '
+                # text += str(is_expansionByStd) + '<br>'
+                # text += 'is_expansionByNum<br> '
+                # text += str(is_expansionByNum) + '<br>'
 
             self.order.priceLong = str(long_in)
             self.order.stopLossLong = str(long_limit)
