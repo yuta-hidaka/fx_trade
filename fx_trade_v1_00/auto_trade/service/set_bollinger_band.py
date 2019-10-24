@@ -586,14 +586,15 @@ class setBollingerBand_USD_JPY:
 
         # 取得した最新のMA
         # nowMA = M50[idx]
+        text = ''
 
         listMA = []
         # listMAflt = []
         for M in mas:
             listMA.append(Decimal(M['mid']['c']))
+            text += 'days ' + str(M['time']) + '<br>'
         # listMAflt.append(float(M['mid']['c']))
 
-        text = ''
         SMA = np.mean(listMA)
         # 標準偏差の計算
         SD = np.std(listMA)
