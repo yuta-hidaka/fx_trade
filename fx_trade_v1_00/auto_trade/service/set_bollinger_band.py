@@ -436,15 +436,15 @@ class setBollingerBand_USD_JPY:
         text += 'nowClose ' + str(nowClose) + '<br>'
         text += 'bfClose ' + str(bfClose) + '<br>'
         text += 'SMA ' + str(sma) + '<br>'
-        text += 'sma2SigmaPlus ' + str(sma2SigmaPlus) + '<br>'
-        text += 'sma2SigmaMinus ' + str(sma2SigmaMinus) + '<br>'
         text += 'sma1SigmaPlus ' + str(sma1SigmaPlus) + '<br>'
+        text += 'sma2SigmaPlus ' + str(sma2SigmaPlus) + '<br>'
         text += 'sma1SigmaMinus ' + str(sma1SigmaMinus) + '<br>'
+        text += 'sma2SigmaMinus ' + str(sma2SigmaMinus) + '<br>'
         text += 'SMA2 ' + str(sma_2) + '<br>'
-        text += 'sma2SigmaPlus_2 ' + str(sma2SigmaPlus_2) + '<br>'
-        text += 'sma2SigmaMinus_2 ' + str(sma2SigmaMinus_2) + '<br>'
         text += 'sma1SigmaPlus_2 ' + str(sma1SigmaPlus_2) + '<br>'
+        text += 'sma2SigmaPlus_2 ' + str(sma2SigmaPlus_2) + '<br>'
         text += 'sma1SigmaMinus_2 ' + str(sma1SigmaMinus_2) + '<br>'
+        text += 'sma2SigmaMinus_2 ' + str(sma2SigmaMinus_2) + '<br>'
         # peak  判定
         if sma3SigmaPlusExP >= nowClose and sma3SigmaPlusBeforExP <= bfClose:
             # if sma3SigmaPlusExP <= nowClose or sma3SigmaPlusExP <= nowClose:
@@ -591,7 +591,8 @@ class setBollingerBand_USD_JPY:
         # listMAflt = []
         for M in mas:
             listMA.append(Decimal(M['mid']['c']))
-            # listMAflt.append(float(M['mid']['c']))
+            text += 'days ' + str(M['time']) + '<br>'
+        # listMAflt.append(float(M['mid']['c']))
 
         text = ''
         SMA = np.mean(listMA)
@@ -602,7 +603,8 @@ class setBollingerBand_USD_JPY:
         SD1 = SD * Decimal('1')
         SD2 = SD * Decimal('2')
         SD3 = SD * Decimal('3')
-        text += 'SMA ' + str(SMA)+ '<br>'
+        text += 'SMA_days ' + str(SMA_days) + '<br>'
+        text += 'SMA ' + str(SMA) + '<br>'
         text += 'SD1 ' + str(SMA + SD1) + '<br>'
         text += 'SD2 ' + str(SMA + SD2) + '<br>'
         text += 'SD3 ' + str(SMA + SD3) + '<br>'
