@@ -570,10 +570,8 @@ class setBollingerBand_USD_JPY:
 
         # mas = gMA.get_5M_num(self.setting.bb_count)['candles']
         mas = gMA.get_1M_num(num = self.setting.bb_count)['candles']
-        text = ''
-        text = str(self.setting.bb_count)
-
-        # M50 = M50.reverse()
+    
+            # M50 = M50.reverse()
         SMA_days = len(mas)
         idx = SMA_days - 1
 
@@ -593,7 +591,6 @@ class setBollingerBand_USD_JPY:
         # listMAflt = []
         for M in mas:
             listMA.append(Decimal(M['mid']['c']))
-            text += 'days ' + str(M['time']) + '<br>'
         # listMAflt.append(float(M['mid']['c']))
 
         SMA = np.mean(listMA)
@@ -604,11 +601,7 @@ class setBollingerBand_USD_JPY:
         SD1 = SD * Decimal('1')
         SD2 = SD * Decimal('2')
         SD3 = SD * Decimal('3')
-        text += 'SMA_days ' + str(SMA_days) + '<br>'
-        text += 'SMA ' + str(SMA) + '<br>'
-        text += 'SD1 ' + str(SMA + SD1) + '<br>'
-        text += 'SD2 ' + str(SMA + SD2) + '<br>'
-        text += 'SD3 ' + str(SMA + SD3) + '<br>'
+
 
         # mas2 = gMA.get_5M_num(self.setting.bb_count_2)['candles']
         mas2 = gMA.get_1M_num(self.setting.bb_count_2)['candles']
@@ -627,11 +620,6 @@ class setBollingerBand_USD_JPY:
         SD2_2 = SD_2 * Decimal('2')
         SD3_2 = SD_2 * Decimal('3')
 
-        text += 'SMA2 ' + str(SMA2) + '<br>'
-        text += 'SD1_2 ' + str(SMA2 + SD1_2) + '<br>'
-        text += 'SD2_2 ' + str(SMA2 + SD2_2) + '<br>'
-        text += 'SD3_2 ' + str(SMA2 + SD3_2) + '<br>'
-
         bbBefor = bollingerBand.objects.latest('created_at')
 
         # 平均から本日分の終値の標準偏差を計算する。
@@ -647,9 +635,6 @@ class setBollingerBand_USD_JPY:
             abs_sigma_2_2=SD2_2,
             abs_sigma_3_2=SD3_2,
             cv=cv
-        )
-        batchLog.objects.create(
-            text=text
         )
 
         resultBBCondi = self.setBBCondition(
