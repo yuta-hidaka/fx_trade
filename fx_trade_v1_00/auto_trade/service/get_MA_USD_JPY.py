@@ -97,11 +97,11 @@ class getMA_USD_JPY():
 
     def get_1M_num(self, num):
         parm = {
-            "to": self.localTime_m1_to,
-            "from": self.localTime_m1_from,
+            # "to": self.localTime_m1_to,
+            # "from": self.localTime_m1_from,
             "instruments": "USD_JPY",
             "alignmentTimezone": "Japan",
-            "count": num,
+            "count": num + 1,
             "granularity": 'M1'
         }
 
