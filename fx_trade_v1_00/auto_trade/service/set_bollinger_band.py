@@ -33,9 +33,8 @@ class setBollingerBand_USD_JPY:
             text = str(rs['recorded_at_utc'])+'<br>'
 
             pass
-        except :
+        except:
             text = 'errrr'
-
 
             pass
 
@@ -170,6 +169,7 @@ class setBollingerBand_USD_JPY:
 
         sma2SigmaMinusBefor = (
             bSma - bSig2).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
         # 購買基準用
         sma2SigmaPlus_2 = (
             sma_2 + sig2_2).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
@@ -593,6 +593,7 @@ class setBollingerBand_USD_JPY:
             listMA.append(Decimal(M['mid']['c']))
             # listMAflt.append(float(M['mid']['c']))
 
+        text = ''
         SMA = np.mean(listMA)
         # 標準偏差の計算
         SD = np.std(listMA)
@@ -601,6 +602,10 @@ class setBollingerBand_USD_JPY:
         SD1 = SD * Decimal('1')
         SD2 = SD * Decimal('2')
         SD3 = SD * Decimal('3')
+        text = 'SMA ' + str(SMA)
+        text = 'SD1 ' + str(SMA + SD1)
+        text = 'SD2 ' + str(SMA + SD2)
+        text = 'SD3 ' + str(SMA + SD3)
 
         # mas2 = gMA.get_5M_num(self.setting.bb_count_2)['candles']
         mas2 = gMA.get_1M_num(self.setting.bb_count_2)['candles']
@@ -619,6 +624,11 @@ class setBollingerBand_USD_JPY:
         SD2_2 = SD_2 * Decimal('2')
         SD3_2 = SD_2 * Decimal('3')
 
+        text = 'SMA ' + str(SMA2)
+        text = 'SD1 ' + str(SMA2 + SD1_2)
+        text = 'SD2 ' + str(SMA2 + SD2_2)
+        text = 'SD3 ' + str(SMA2 + SD3_2)
+
         bbBefor = bollingerBand.objects.latest('created_at')
 
         # 平均から本日分の終値の標準偏差を計算する。
@@ -634,6 +644,9 @@ class setBollingerBand_USD_JPY:
             abs_sigma_2_2=SD2_2,
             abs_sigma_3_2=SD3_2,
             cv=cv
+        )
+        batchLog.objects.create(
+            text=text
         )
 
         resultBBCondi = self.setBBCondition(
