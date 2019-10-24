@@ -27,9 +27,14 @@ class getMA_USD_JPY():
             datetime.timedelta(minutes=5)
         ).isoformat()
 
-        self.localTime_m1 = (
+        self.localTime_m1_to = (
             datetime.datetime.now(timezone('UTC')) -
-            datetime.timedelta(minutes=25)
+            datetime.timedelta(minutes=27)
+        ).isoformat()
+
+        self.localTime_m1_from = (
+            datetime.datetime.now(timezone('UTC')) -
+            datetime.timedelta(minutes=1)
         ).isoformat()
 
         self.dayAgo = (
@@ -92,7 +97,8 @@ class getMA_USD_JPY():
 
     def get_1M_num(self, num):
         parm = {
-            "to": self.localTime_m1,
+            "to": self.localTime_m1_to,
+            "from": self.localTime_m1_from,
             "instruments": "USD_JPY",
             "alignmentTimezone": "Japan",
             "count": num,
