@@ -34,7 +34,7 @@ class BuySellCal():
         # # print(json.dumps(pos),  indent=2)
         setting = tradeSettings.objects.filter(id=1).first()
         getNowRate = getMA_USD_JPY()
-        limit = self.setting.bb_cv_count.limit
+        limit = self.setting.limit
 
         cbb = model_to_dict(condNow.condition_of_bb)
         cbbPrev = model_to_dict(condiPrev.condition_of_bb)
