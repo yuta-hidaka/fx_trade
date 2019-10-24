@@ -591,7 +591,6 @@ class setBollingerBand_USD_JPY:
         # listMAflt = []
         for M in mas:
             listMA.append(Decimal(M['mid']['c']))
-            text += 'days ' + str(M['time']) + '<br>'
         # listMAflt.append(float(M['mid']['c']))
 
         text = ''
