@@ -569,7 +569,7 @@ class setBollingerBand_USD_JPY:
         # M50 = gMA.get_5M_50()['candles']
 
         # mas = gMA.get_5M_num(self.setting.bb_count)['candles']
-        mas = gMA.get_1M_num(self.setting.bb_count)['candles']
+        mas = gMA.get_1M_num(num = self.setting.bb_count)['candles']
         text = ''
         text = str(self.setting.bb_count)
 
