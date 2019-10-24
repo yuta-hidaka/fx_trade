@@ -35,9 +35,10 @@ class setCandle_USD_JPY:
         # デバッグ用(休日でデータが拾えない時用)
         result = None
         # result = M5_USD_JPY.objects.first()
-        rs = gMA.get_1M_num(1)['candles']
+        rs = gMA.get_1M_num(1)
         if rs:
-        
+
+            rs = rs['candles'][0]
             rs['recorded_at_utc'] = rs.pop('time')
             rs['close'] = rs['mid']['c']
             rs['open'] = rs['mid']['o']

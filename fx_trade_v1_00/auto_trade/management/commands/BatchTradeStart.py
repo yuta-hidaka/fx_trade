@@ -40,9 +40,9 @@ class Command(BaseCommand):
         # バッチの実行状況を保存する。
         qSetBatch = batchRecord.objects.filter(id=1).first()
         # 5分足の保存
-        result, created = setCandle.setM5()
+        # result, created = setCandle.setM5()
         # 1分足の保存
-        # result, created = setCandle.setM1()
+        result, created = setCandle.setM1()
 
         bb = setBollingerBand_USD_JPY()
         setMA = setMA_USD_JPY()
