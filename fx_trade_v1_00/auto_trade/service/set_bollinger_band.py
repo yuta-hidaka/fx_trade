@@ -360,28 +360,28 @@ class setBollingerBand_USD_JPY:
             # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
             # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose:
             # if sma2SigmaPlusEx <= nowClose and sma2SigmaPlusEx <= JNowClose:
-            if sma2SigmaPlusEx <= nowClose:
+            if sma2SigmaPlusEx <= nowClose and sma2SigmaPlusEx_2 <= nowClose:
                 is_expansion = True
                 is_expansionByStd = True
                 is_topTouch = True
                 text += '上にエクスパンション<br>'
-            elif sma2SigmaPlusEx_2 <= nowClose:
-                is_expansion = True
-                is_expansionByStd = True
-                is_topTouch = True
-                text += '上にエクスパンション②<br>'
+            # elif sma2SigmaPlusEx_2 <= nowClose:
+            #     is_expansion = True
+            #     is_expansionByStd = True
+            #     is_topTouch = True
+            #     text += '上にエクスパンション②<br>'
             # elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose and sma2SigmaMinus >= prevClose:
             # if sma2SigmaMinusEx >= nowClose and sma2SigmaMinusEx >= JNowClose:
-            if sma2SigmaMinusEx >= nowClose:
+            if sma2SigmaMinusEx >= nowClose and sma2SigmaMinusEx_2 >= nowClose:
                 is_expansion = True
                 is_expansionByStd = True
                 is_bottomTouch = True
                 text += '下にエクスパンション<br>'
-            elif sma2SigmaMinusEx_2 >= nowClose:
-                is_expansion = True
-                is_expansionByStd = True
-                is_bottomTouch = True
-                text += '下にエクスパンション②<br>'
+            # elif sma2SigmaMinusEx_2 >= nowClose:
+            #     is_expansion = True
+            #     is_expansionByStd = True
+            #     is_bottomTouch = True
+            #     text += '下にエクスパンション②<br>'
             # else:
             #     is_expansion = False
 
