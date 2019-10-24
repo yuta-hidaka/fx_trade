@@ -602,10 +602,10 @@ class setBollingerBand_USD_JPY:
         SD1 = SD * Decimal('1')
         SD2 = SD * Decimal('2')
         SD3 = SD * Decimal('3')
-        text = 'SMA ' + str(SMA)
-        text = 'SD1 ' + str(SMA + SD1)
-        text = 'SD2 ' + str(SMA + SD2)
-        text = 'SD3 ' + str(SMA + SD3)
+        text += 'SMA ' + str(SMA)+ '<br>'
+        text += 'SD1 ' + str(SMA + SD1) + '<br>'
+        text += 'SD2 ' + str(SMA + SD2) + '<br>'
+        text += 'SD3 ' + str(SMA + SD3) + '<br>'
 
         # mas2 = gMA.get_5M_num(self.setting.bb_count_2)['candles']
         mas2 = gMA.get_1M_num(self.setting.bb_count_2)['candles']
@@ -624,10 +624,10 @@ class setBollingerBand_USD_JPY:
         SD2_2 = SD_2 * Decimal('2')
         SD3_2 = SD_2 * Decimal('3')
 
-        text = 'SMA2 ' + str(SMA2)
-        text = 'SD1_2 ' + str(SMA2 + SD1_2)
-        text = 'SD2_2 ' + str(SMA2 + SD2_2)
-        text = 'SD3_2 ' + str(SMA2 + SD3_2)
+        text += 'SMA2 ' + str(SMA2) + '<br>'
+        text += 'SD1_2 ' + str(SMA2 + SD1_2) + '<br>'
+        text += 'SD2_2 ' + str(SMA2 + SD2_2) + '<br>'
+        text += 'SD3_2 ' + str(SMA2 + SD3_2) + '<br>'
 
         bbBefor = bollingerBand.objects.latest('created_at')
 
