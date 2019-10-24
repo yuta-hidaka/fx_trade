@@ -9,6 +9,8 @@ class tradeSettings(models.Model):
     on_unit_trade = models.BooleanField(null=True, default=False)
     on_real_trade = models.BooleanField(null=True, default=False)
     units = models.IntegerField(default=100)
+    limit = models.DecimalField(
+        max_digits=9, decimal_places=8, default=0.0002)
     revelage = models.IntegerField(default=1)
     bb_count = models.IntegerField(default=15)
     bb_count_2 = models.IntegerField(default=100)

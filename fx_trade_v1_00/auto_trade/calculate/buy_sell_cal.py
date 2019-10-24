@@ -19,6 +19,7 @@ class BuySellCal():
     def __init__(self):
         self.fx = FxInfo()
         self.order = orderFx()
+        self.setting = tradeSettings.objects.filter(id=1).first()
 
     def BuySellCheck(self, condNow, condiPrev):
         text = ''
@@ -33,6 +34,7 @@ class BuySellCal():
         # # print(json.dumps(pos),  indent=2)
         setting = tradeSettings.objects.filter(id=1).first()
         getNowRate = getMA_USD_JPY()
+        limit = self.setting.bb_cv_count.limit
 
         cbb = model_to_dict(condNow.condition_of_bb)
         cbbPrev = model_to_dict(condiPrev.condition_of_bb)
@@ -99,10 +101,10 @@ class BuySellCal():
             # short_limit = (bb['sma'] + bb['abs_sigma_3']
             #                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            long_limit = (nowCndl_close - (nowCndl_close * Decimal(0.0002))
+            long_limit = (nowCndl_close - (nowCndl_close * limit)
                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            short_limit = (nowCndl_close + (nowCndl_close * Decimal(0.0002))
+            short_limit = (nowCndl_close + (nowCndl_close * limit)
                                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             # lDeff = np.abs(long_in - long_limit)
