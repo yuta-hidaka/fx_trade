@@ -456,11 +456,11 @@ class BuySellCal():
 
             # 持ち合い相場でエクスパンションしてなかったら
             elif trend_id == 3 and not is_expansion and not nowInL and not nowInS:
-                if is_shortClose and not nowInS:
+                if is_shortClose:
                     text += 'sigma1 によるshortClose<br>'
                     self.order.oderCloseAllShort()
 
-                elif is_longClose and not nowInL:
+                elif is_longClose:
                     text += 'sigma1 によるlongClose<br>'
                     self.order.oderCloseAllLong()
                 text += '持ち合い相場<br>'

@@ -29,6 +29,16 @@ class setBollingerBand_USD_JPY:
         cv = rs['cv'].quantize(Decimal('0.00001'), rounding=ROUND_HALF_UP)
         text = ''
 
+        try:
+            text = str(rs['recorded_at_utc'])
+
+            pass
+        except :
+            text = 'errrr'
+
+
+            pass
+
         # sig_adj_settingsから取得
         sig1 = (rs['abs_sigma_1'] * self.setting.sig1_adj)
         sig2 = (rs['abs_sigma_2'] * self.setting.sig2_adj)
@@ -388,7 +398,7 @@ class setBollingerBand_USD_JPY:
         if not is_expansion:
             trendRatio = 90
             if np.absolute(ans) >= trendRatio:
-            # if np.absolute(ans) >= trendRatio or np.absolute(ans_2) >= trendRatio:
+                # if np.absolute(ans) >= trendRatio or np.absolute(ans_2) >= trendRatio:
                 is_trend = True
             else:
                 is_trend = False
@@ -414,7 +424,6 @@ class setBollingerBand_USD_JPY:
                 # もみ合い相場
                 text += '持ち合いトレンドcondition条件判定内<br>'
                 trandCondi = 3
-
 
         # if nowClose
         # 持ち合い相場時の決済基準を判断
@@ -495,33 +504,33 @@ class setBollingerBand_USD_JPY:
             # 持ち合い相場時の購買基準を判断
             if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh:
                 # if sma2SigmaPlus <= nowClose or sma2SigmaPlus <= nowClose:
-                is_longClose = True
+                # is_longClose = True
                 is_shortIn = True
                 is_topTouch = True
-                text += 'sigma2＋α 上に高値のみ触りました<br>'
+                text += 'sigma2＋α 上に高値のみ触りました high not close<br>'
             elif sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow:
                 # elif sma2SigmaMinus >= nowClose or sma2SigmaMinus >= nowClose:
-                is_shortClose = True
+                # is_shortClose = True
                 # is_shortIn = False
                 is_longIn = True
                 is_bottomTouch = True
-                text += 'sigma2＋α 下に底値のみ触りました<br>'
+                text += 'sigma2＋α 下に底値のみ触りましたlow not close<br>'
             else:
                 text += 'sigma2＋α どちらにも触れてません<br>'
                 # 持ち合い相場時の購買基準を判断
                 if sma2SigmaPlus_2 <= nowHigh or sma2SigmaPlus_2 <= JNowHigh:
                     # if sma2SigmaPlus <= nowClose or sma2SigmaPlus <= nowClose:
-                    is_longClose = True
+                    # is_longClose = True
                     is_shortIn = True
                     is_topTouch = True
-                    text += 'sigma2＋α 上に高値のみ触りました②<br>'
+                    text += 'sigma2＋α 上に高値のみ触りました②high not close<br>'
                 elif sma2SigmaMinus_2 >= nowLow or sma2SigmaMinus_2 >= JNowLow:
                     # elif sma2SigmaMinus >= nowClose or sma2SigmaMinus >= nowClose:
-                    is_shortClose = True
+                    # is_shortClose = True
                     # is_shortIn = False
                     is_longIn = True
                     is_bottomTouch = True
-                    text += 'sigma2＋α 下に底値のみ触りました②<br>'
+                    text += 'sigma2＋α 下に底値のみ触りました②low not close<br>'
                 else:
                     text += 'sigma2＋α どちらにも触れてません②<br>'
 
@@ -589,9 +598,9 @@ class setBollingerBand_USD_JPY:
         SD = np.std(listMA)
         # 変動係数の算出
         cv = SD / SMA
-        SD1 = SD * Decimal(1)
-        SD2 = SD * Decimal(2)
-        SD3 = SD * Decimal(3)
+        SD1 = SD * Decimal('1')
+        SD2 = SD * Decimal('2')
+        SD3 = SD * Decimal('3')
 
         # mas2 = gMA.get_5M_num(self.setting.bb_count_2)['candles']
         mas2 = gMA.get_1M_num(self.setting.bb_count_2)['candles']
@@ -601,15 +610,14 @@ class setBollingerBand_USD_JPY:
         for M in mas2:
             listMA2.append(Decimal(M['mid']['c']))
             # listMAflt.append(float(M['mid']['c']))
-
         SMA2 = np.mean(listMA2)
         # 標準偏差の計算
         SD_2 = np.std(listMA2)
         # 変動係数の算出
         cv2 = SD_2 / SMA2
-        SD1_2 = SD_2 * Decimal(1)
-        SD2_2 = SD_2 * Decimal(2)
-        SD3_2 = SD_2 * Decimal(3)
+        SD1_2 = SD_2 * Decimal('1')
+        SD2_2 = SD_2 * Decimal('2')
+        SD3_2 = SD_2 * Decimal('3')
 
         bbBefor = bollingerBand.objects.latest('created_at')
 
