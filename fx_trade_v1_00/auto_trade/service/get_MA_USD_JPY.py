@@ -101,7 +101,7 @@ class getMA_USD_JPY():
             # "from": self.localTime_m1_from,
             "instruments": "USD_JPY",
             "alignmentTimezone": "Japan",
-            "count": num + 1,
+            "count": num,
             "granularity": 'M1'
         }
 
