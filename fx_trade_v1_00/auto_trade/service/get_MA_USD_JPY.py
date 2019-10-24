@@ -91,6 +91,10 @@ class getMA_USD_JPY():
         return self.get_MA(parm)
 
     def get_1M_num(self,  cnt):
+        self.localTime_m1 = (
+            datetime.datetime.now(timezone('UTC')) -
+            datetime.timedelta(minutes=cnt)
+        ).isoformat()
         parm = {
             "from": self.localTime_m1,
             "instruments": "USD_JPY",
