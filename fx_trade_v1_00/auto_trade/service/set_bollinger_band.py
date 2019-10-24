@@ -327,18 +327,11 @@ class setBollingerBand_USD_JPY:
             Decimal('0.01'), rounding=ROUND_HALF_UP)
         slopeDir2 = np.sign(slope)
 
-        text += str(aaaa) + ' : 0のかず<br>'
-        text += str(aaaa2) + ' : SMAより小さい<br>'
-        text += str(aaaa3) + ' : SMAより大きい<br>'
-        text += str(aaaa_2) + ' : 0のかず②<br>'
-        text += str(aaaa2_2) + ' : SMAより小さい②<br>'
-        text += str(aaaa3_2) + ' : SMAより大きい②<br>'
-
         # SMAより上にあるか下にあるのが多いかを100分率で表示
         ans = (data / length)*100
         ans_2 = (data_2 / length)*100
 
-        if np.sign(ans) == 1 or np.sign(ans_2) == 1:
+        if np.sign(ans) == 1:
             is_plus = True
         else:
             is_plus = False
@@ -350,11 +343,10 @@ class setBollingerBand_USD_JPY:
         text += str(aaaa) + ' : 0のかず<br>'
         text += str(aaaa2) + ' : SMAより小さい<br>'
         text += str(aaaa3) + ' : SMAより大きい<br>'
-
         text += '----------------------------------------------<br>'
-        text += str(aaaa_2) + ' : 0のかず<br>'
-        text += str(aaaa2_2) + ' : SMAより小さい<br>'
-        text += str(aaaa3_2) + ' : SMAより大きい<br>'
+        text += str(aaaa_2) + ' : 0のかず②<br>'
+        text += str(aaaa2_2) + ' : SMAより小さい②<br>'
+        text += str(aaaa3_2) + ' : SMAより大きい②<br>'
         # if slopeDir == 0 and not is_trend:
         # text += '傾き0でトレンドじゃない=スクイーズの可能性<br>'
         # 小数第二以上でプラスであればエクスパンション
