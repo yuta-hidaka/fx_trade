@@ -624,10 +624,10 @@ class setBollingerBand_USD_JPY:
         SD2_2 = SD_2 * Decimal('2')
         SD3_2 = SD_2 * Decimal('3')
 
-        text = 'SMA ' + str(SMA2)
-        text = 'SD1 ' + str(SMA2 + SD1_2)
-        text = 'SD2 ' + str(SMA2 + SD2_2)
-        text = 'SD3 ' + str(SMA2 + SD3_2)
+        text = 'SMA2 ' + str(SMA2)
+        text = 'SD1_2 ' + str(SMA2 + SD1_2)
+        text = 'SD2_2 ' + str(SMA2 + SD2_2)
+        text = 'SD3_2 ' + str(SMA2 + SD3_2)
 
         bbBefor = bollingerBand.objects.latest('created_at')
 
