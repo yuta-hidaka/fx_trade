@@ -34,7 +34,7 @@ class getMA_USD_JPY():
 
         self.localTime_m1_from = (
             datetime.datetime.now(timezone('UTC')) -
-            datetime.timedelta(minutes=27)
+            datetime.timedelta(minutes=50)
         ).isoformat()
 
         self.dayAgo = (
