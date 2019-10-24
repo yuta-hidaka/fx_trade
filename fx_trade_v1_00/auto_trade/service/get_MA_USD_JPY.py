@@ -166,11 +166,13 @@ class getMA_USD_JPY():
         parm = {
             "instruments": "USD_JPY",
             "alignmentTimezone": "Japan",
-            "count": num,
+            "count": num + 1,
             "granularity": 'M5'
         }
-
-        return self.get_MA(parm)
+        res = self.get_MA(parm)
+        length = len(res['candles']) - 1
+        res['candles'].pop(length)
+        return res
 
     def get_5M_25(self):
         parm = {
