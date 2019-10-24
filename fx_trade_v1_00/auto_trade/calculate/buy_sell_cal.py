@@ -87,13 +87,13 @@ class BuySellCal():
             # print('----------------------------------------------------購買条件中------------------------------------------------')
             # 取引条件作成-------------------------------------
             long_in = (
-                nowCndl_close + nowCndl_close*Decimal(0.0002)
+                nowCndl_close + nowCndl_close*Decimal(0.000)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             # long_limit = (bb['sma'] - bb['abs_sigma_3']
             #               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
             short_in = (
-                nowCndl_close + nowCndl_close*Decimal(-0.0002)
+                nowCndl_close + nowCndl_close*Decimal(-0.000)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             # short_limit = (bb['sma'] + bb['abs_sigma_3']
