@@ -139,10 +139,10 @@ class orderFx:
         else:
             self.isSlock = True
 
-        text = 'self.tlog.long_count ' + str(self.tlog.long_count)
-        text += 'self.orderLongNum ' + str(self.orderLongNum)
-        text += 'self.tlog.short_count ' + str(self.tlog.short_count)
-        text += 'self.orderShortNum ' + str(self.orderShortNum)
+        text = '<br>self.tlog.long_count ' + str(self.tlog.long_count)
+        text += '<br>self.orderLongNum ' + str(self.orderLongNum)
+        text += '<br>self.tlog.short_count ' + str(self.tlog.short_count)
+        text += '<br>self.orderShortNum ' + str(self.orderShortNum)
         batchLog.objects.create(text=text)
 
         self.tlog.short_count = self.orderShortNum
