@@ -129,21 +129,22 @@ class orderFx:
             self.orderShortNum = 0
 
         # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
+        text = ''
         if self.tlog.long_count == self.orderLongNum:
             self.isLlock = False
-            text = '<br>ロングおなじ'
+            text += '<br>ロングおなじ'
         else:
-            text = '<br>ロングちがう'
+            text += '<br>ロングちがう'
             self.isLlock = True
 
         if self.tlog.short_count == self.orderShortNum:
-            text = '<br>ショートおなじ'
+            text += '<br>ショートおなじ'
             self.isSlock = False
         else:
-            text = '<br>ショートちがう'
+            text += '<br>ショートちがう  '
             self.isSlock = True
 
-        text = '<br>self.tlog.long_count ' + str(self.tlog.long_count)
+        text += '<br>self.tlog.long_count ' + str(self.tlog.long_count)
         text += '<br>self.orderLongNum ' + str(self.orderLongNum)
         text += '<br>self.tlog.short_count ' + str(self.tlog.short_count)
         text += '<br>self.orderShortNum ' + str(self.orderShortNum)
