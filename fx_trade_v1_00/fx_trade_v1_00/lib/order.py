@@ -156,9 +156,6 @@ class orderFx:
     def ShortOrderCreate(self):
         self.orderNum()
         if not self.isSlock:
-            self.tlog.short_count += 1
-            self.tlog.save()
-
             self.oderCloseAllLong()
             text = 'ShortOrderCreate<br>'
             # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
@@ -181,6 +178,8 @@ class orderFx:
                 r = orders.OrderCreate(self.fi.accountID, data=self.data)
                 res = api.request(r)
                 text += json.dumps(res, indent=2)
+                self.tlog.short_count += 1
+                self.tlog.save()
         else:
             text = 'short　前回購入しているのに、損切りされているので購買中止<br>'
 
@@ -189,8 +188,6 @@ class orderFx:
     def LongOrderCreate(self):
         self.orderNum()
         if not self.isLlock:
-            self.tlog.long_count += 1
-            self.tlog.save()
 
             self.oderCloseAllShort()
             text = 'LongOrderCreate<br>'
@@ -214,6 +211,8 @@ class orderFx:
                 r = orders.OrderCreate(self.fi.accountID, data=self.data)
                 res = api.request(r)
                 text += json.dumps(res, indent=2)
+                self.tlog.long_count += 1
+                self.tlog.save()
             # print(self.data)
             # print(json.dumps(res, indent=2))
             # print('order create----------------------------------------------')
