@@ -52,8 +52,6 @@ class orderFx:
 
         self.fi = FxInfo()
         self.tlog = tradeLog.objects.filter(id=1).first()
-        self.sCnt = self.tlog.short_count
-        self.lCnt = self.tlog.long_count
         self.isSlock = False
         self.isLlock = False
         # -----------------------------------------------
@@ -128,19 +126,16 @@ class orderFx:
         except:
             self.orderShortNum = 0
 
-        if self.sCnt == self.orderLongNum:
+        # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
+        if self.tlog.short_count == self.orderLongNum:
             self.isLlock = False
-            # print('Long OK')
         else:
             self.isLlock = True
-            # print('Long NG')
 
-        if self.lCnt == self.orderShortNum:
+        if self.tlog.long_count == self.orderShortNum:
             self.isSlock = False
-            # print('Short OK')
         else:
             self.isSlock = True
-            # print('Long NG')
 
         self.tlog.short_count = self.orderLongNum
         self.tlog.long_count = self.orderShortNum
