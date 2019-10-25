@@ -450,13 +450,15 @@ class setBollingerBand_USD_JPY:
         text += 'sma1SigmaMinus_2 ' + str(sma1SigmaMinus_2) + '<br>'
         text += 'sma2SigmaMinus_2 ' + str(sma2SigmaMinus_2) + '<br>'
         # peak  判定
-        if sma3SigmaPlusExP >= nowClose and sma3SigmaPlusBeforExP <= bfClose:
+        if sma3SigmaPlusBeforExP >= nowClose:
+            # if sma3SigmaPlusExP >= nowClose and sma3SigmaPlusBeforExP <= bfClose:
             # if sma3SigmaPlusExP <= nowClose or sma3SigmaPlusExP <= nowClose:
             # if sma2SigmaMinusEx <= nowClose and sma2SigmaMinusEx <= JNowClose:
             text += 'sigma3＋α closeが上に触りました<br>'
             is_topTouch = True
             is_peak = True
-        elif sma3SigmaMinusExP >= nowClose and sma3SigmaMinusExP >= bfClose:
+        elif sma3SigmaMinusExP >= nowClose:
+            # elif sma3SigmaMinusExP >= nowClose and sma3SigmaMinusExP >= bfClose:
             text += 'sigma3＋α closeが下に触りました<br>'
             is_bottomTouch = True
             is_peak = True
