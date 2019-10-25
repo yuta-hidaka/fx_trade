@@ -49,11 +49,8 @@ api.request(r)
 class orderFx:
 
     def __init__(self):
+
         self.fi = FxInfo()
-        self.short_count = 0
-        self.long_count = 0
-        self.is_short_lock = False
-        self.is_long_lock = False
 
         # -----------------------------------------------
         # タイムゾーンの生成
@@ -95,7 +92,29 @@ class orderFx:
             }
         }
 
+        # # 口座のすべてのポジションをリストとして取得
+        # r = positions.PositionList(accountID=self.fi.accountID)
+        # api = self.fi.api
+        # res = api.request(r)
+        # pos = res['positions'][0]
+        # # オーダーステータスを取得する。
+        # try:
+        #     self.orderLongNum = len(pos['long']['tradeIDs'])
+        # except:
+        #     self.orderLongNum = 0
+        # try:
+        #     self.orderShortNum = len(pos['short']['tradeIDs'])
+        # except:
+        #     self.orderShortNum = 0
+
+    def orderNum(self):
         # 口座のすべてのポジションをリストとして取得
+        self.tlog = tradeLog.objects.filter(id=1).first()
+        self.sCnt = tlog.short_count
+        self.lCnt = tlog.long_count
+        self.isSlock = False
+        self.isLlock = False
+
         r = positions.PositionList(accountID=self.fi.accountID)
         api = self.fi.api
         res = api.request(r)
@@ -110,90 +129,101 @@ class orderFx:
         except:
             self.orderShortNum = 0
 
-    def orderNum(self):
-                # 口座のすべてのポジションをリストとして取得
-        r = positions.PositionList(accountID=self.fi.accountID)
-        api = self.fi.api
-        res = api.request(r)
-        pos = res['positions'][0]
-        # オーダーステータスを取得する。
-        try:
-            self.orderLongNum = len(pos['long']['tradeIDs'])
-        except:
-            self.orderLongNum = 0
-        try:
-            self.orderShortNum = len(pos['short']['tradeIDs'])
-        except:
-            self.orderShortNum = 0
+        if self.sCnt == self.orderLongNum:
+            self.isLlock = False
+            print('Long OK')
+        else:
+            self.isLlock = True
+            print('Long NG')
+
+        if self.lCnt == self.orderShortNum:
+            self.isSlock = False
+            print('Short OK')
+        else:
+            self.isSlock = True
+            print('Long NG')
+
+        tlog.short_count = self.orderLongNum
+        tlog.long_count = self.orderShortNum
+        tlog.save()
+
+        self.text = 'OKkkkkjkkkkk<br>'
 
     # すべてのポジションを決済します。
 
     def allOrderClose(self):
-        text = 'allOrderClose'
-        self.orderNum()
-        if self.orderLongNum != 0:
-            self.oderCloseAllLong()
-        if self.orderShortNum != 0:
-            self.oderCloseAllShort()
+        if not self.isSlock and not self.isLlock:
+            self.orderNum()
+            text = 'allOrderClose'
+            if self.orderLongNum != 0:
+                self.oderCloseAllLong()
+            if self.orderShortNum != 0:
+                self.oderCloseAllShort()
 
         batchLog.objects.create(text=text)
 
     def ShortOrderCreate(self):
         self.orderNum()
+        if not self.isSlock:
+            self.oderCloseAllLong()
+            text = 'ShortOrderCreate<br>'
+            # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
+            api = self.fi.api
+            # stopPrice = 100.00
+            stoporder = StopLossDetails(
+                price=self.stopLossShort,
+                # timeInForce="GTD",
+                # gtdTime=self.now_utc
+            )
 
-        self.oderCloseAllLong()
-        text = 'ShortOrderCreate<br>'
-        # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
-        api = self.fi.api
-        # stopPrice = 100.00
-        stoporder = StopLossDetails(
-            price=self.stopLossShort,
-            # timeInForce="GTD",
-            # gtdTime=self.now_utc
-        )
+            self.data['order']['price'] = self.priceShort
+            self.data['order']['instrument'] = self.instrument
+            self.data['order']['units'] = self.unitsShort
+            self.data['order']['stopLossOnFill'] = stoporder.data
+            # print(self.data)
+            # r = trades.TradeClose(accountID=accountID, tradeID=49, data=data)
+            # API経由で指値注文を実行
+            if self.orderShortNum == 0:
+                r = orders.OrderCreate(self.fi.accountID, data=self.data)
+                res = api.request(r)
+                text += json.dumps(res, indent=2)
+        else:
+            text = 'short　前回購入しているのに、損切りされているので購買中止<br>'
 
-        self.data['order']['price'] = self.priceShort
-        self.data['order']['instrument'] = self.instrument
-        self.data['order']['units'] = self.unitsShort
-        self.data['order']['stopLossOnFill'] = stoporder.data
-        # print(self.data)
-        # r = trades.TradeClose(accountID=accountID, tradeID=49, data=data)
-        # API経由で指値注文を実行
-        if self.orderShortNum == 0:
-            r = orders.OrderCreate(self.fi.accountID, data=self.data)
-            res = api.request(r)
-            text += json.dumps(res, indent=2)
         batchLog.objects.create(text=text)
 
     def LongOrderCreate(self):
         self.orderNum()
+        if not self.isLlock:
+            self.oderCloseAllShort()
+            text = 'LongOrderCreate<br>'
+            # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
+            api = self.fi.api
+            # stopPrice = 100.00
+            stoporder = StopLossDetails(
+                price=self.stopLossLong,
+                # timeInForce="GTD",
+                # gtdTime=self.now_utc
+            )
 
-        self.oderCloseAllShort()
-        text = 'LongOrderCreate<br>'
-        # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
-        api = self.fi.api
-        # stopPrice = 100.00
-        stoporder = StopLossDetails(
-            price=self.stopLossLong,
-            # timeInForce="GTD",
-            # gtdTime=self.now_utc
-        )
+            self.data['order']['price'] = self.priceLong
+            self.data['order']['instrument'] = self.instrument
+            self.data['order']['units'] = self.unitsLong
+            self.data['order']['stopLossOnFill'] = stoporder.data
+            # print(self.data)
+            # r = trades.TradeClose(accountID=accountID, tradeID=49, data=data)
+            # API経由で指値注文を実行
+            if self.orderLongNum == 0:
+                r = orders.OrderCreate(self.fi.accountID, data=self.data)
+                res = api.request(r)
+                text += json.dumps(res, indent=2)
+            # print(self.data)
+            # print(json.dumps(res, indent=2))
+            print('order create----------------------------------------------')
+        else:
+            text = 'long 前回購入しているのに、損切りされているので購買中止<br>'
 
-        self.data['order']['price'] = self.priceLong
-        self.data['order']['instrument'] = self.instrument
-        self.data['order']['units'] = self.unitsLong
-        self.data['order']['stopLossOnFill'] = stoporder.data
-        # print(self.data)
-        # r = trades.TradeClose(accountID=accountID, tradeID=49, data=data)
-        # API経由で指値注文を実行
-        if self.orderLongNum == 0:
-            r = orders.OrderCreate(self.fi.accountID, data=self.data)
-            res = api.request(r)
-            text += json.dumps(res, indent=2)
         batchLog.objects.create(text=text)
-        # print(self.data)
-        # print(json.dumps(res, indent=2))
-        print('order create----------------------------------------------')
 
     def oderCloseAllLong(self):
         self.orderNum()
@@ -221,7 +251,6 @@ class orderFx:
             pass
 
     def oderCloseAllShort(self):
-
         self.orderNum()
 
         text = 'oderCloseAllShort<br>'
