@@ -29,15 +29,6 @@ class setBollingerBand_USD_JPY:
         cv = rs['cv'].quantize(Decimal('0.00001'), rounding=ROUND_HALF_UP)
         text = ''
 
-        try:
-            text = str(rs['recorded_at_utc'])+'<br>'
-
-            pass
-        except:
-            text = 'errrr'
-
-            pass
-
         # sig_adj_settingsから取得
         sig1 = (rs['abs_sigma_1'] * self.setting.sig1_adj)
         sig2 = (rs['abs_sigma_2'] * self.setting.sig2_adj)
@@ -574,7 +565,6 @@ class setBollingerBand_USD_JPY:
     def setBB(self, nowMA, condiPrev):
         gMA = getMA_USD_JPY()
         # is_squeeze = False
-        text = ''
         created = False
         result = None
         # if gMA.get_5M_1()['candles']:
@@ -606,7 +596,6 @@ class setBollingerBand_USD_JPY:
             listMA.append(Decimal(M['mid']['c']))
         # listMAflt.append(float(M['mid']['c']))
 
-        text = str(len(mas))
         SMA = np.mean(listMA)
         # 標準偏差の計算
         SD = np.std(listMA)
@@ -648,10 +637,6 @@ class setBollingerBand_USD_JPY:
             abs_sigma_2_2=SD2_2,
             abs_sigma_3_2=SD3_2,
             cv=cv
-        )
-
-        batchLog.objects.create(
-            text=text
         )
 
         resultBBCondi = self.setBBCondition(
