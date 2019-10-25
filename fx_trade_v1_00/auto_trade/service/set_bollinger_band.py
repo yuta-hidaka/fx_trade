@@ -537,6 +537,8 @@ class setBollingerBand_USD_JPY:
                     text += 'sigma2＋α 下に底値のみ触りました②low not close<br>'
                 else:
                     text += 'sigma2＋α どちらにも触れてません②<br>'
+        else:
+            text += 'not is_trend and not is_expansionに該当しました<br>'
 
         create = conditionOfBB.objects.create(
             is_peak=is_peak,
