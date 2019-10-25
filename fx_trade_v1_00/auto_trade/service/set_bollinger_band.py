@@ -443,6 +443,7 @@ class setBollingerBand_USD_JPY:
         text += 'sma1SigmaPlus ' + str(sma1SigmaPlus) + '<br>'
         text += 'sma2SigmaPlus ' + str(sma2SigmaPlus) + '<br>'
         text += 'sma3SigmaPlusBeforExP ' + str(sma3SigmaPlusBeforExP) + '<br>'
+
         text += 'sma1SigmaMinus ' + str(sma1SigmaMinus) + '<br>'
         text += 'sma2SigmaMinus ' + str(sma2SigmaMinus) + '<br>'
         text += 'sma3SigmaMinusExP ' + str(sma3SigmaMinusExP) + '<br>'
@@ -452,7 +453,7 @@ class setBollingerBand_USD_JPY:
         text += 'sma1SigmaMinus_2 ' + str(sma1SigmaMinus_2) + '<br>'
         text += 'sma2SigmaMinus_2 ' + str(sma2SigmaMinus_2) + '<br>'
         # peak  判定
-        if sma3SigmaPlusBeforExP >= nowClose:
+        if sma3SigmaPlusBeforExP <= nowClose:
             # if sma3SigmaPlusExP >= nowClose and sma3SigmaPlusBeforExP <= bfClose:
             # if sma3SigmaPlusExP <= nowClose or sma3SigmaPlusExP <= nowClose:
             # if sma2SigmaMinusEx <= nowClose and sma2SigmaMinusEx <= JNowClose:
