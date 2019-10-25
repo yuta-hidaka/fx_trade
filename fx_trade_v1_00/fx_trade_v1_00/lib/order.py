@@ -111,6 +111,7 @@ class orderFx:
 
     def orderNum(self):
         # 口座のすべてのポジションをリストとして取得
+
         r = positions.PositionList(accountID=self.fi.accountID)
         api = self.fi.api
         res = api.request(r)
@@ -178,17 +179,14 @@ class orderFx:
                 r = orders.OrderCreate(self.fi.accountID, data=self.data)
                 res = api.request(r)
                 text += json.dumps(res, indent=2)
-                self.tlog.short_count += 1
-                self.tlog.save()
         else:
             text = 'short　前回購入しているのに、損切りされているので購買中止<br>'
-
+        self.orderNum()
         batchLog.objects.create(text=text)
 
     def LongOrderCreate(self):
         self.orderNum()
         if not self.isLlock:
-
             self.oderCloseAllShort()
             text = 'LongOrderCreate<br>'
             # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
@@ -211,14 +209,12 @@ class orderFx:
                 r = orders.OrderCreate(self.fi.accountID, data=self.data)
                 res = api.request(r)
                 text += json.dumps(res, indent=2)
-                self.tlog.long_count += 1
-                self.tlog.save()
             # print(self.data)
             # print(json.dumps(res, indent=2))
             # print('order create----------------------------------------------')
         else:
             text = 'long 前回購入しているのに、損切りされているので購買中止<br>'
-
+        self.orderNum()
         batchLog.objects.create(text=text)
 
     def oderCloseAllLong(self):
@@ -242,11 +238,10 @@ class orderFx:
         try:
             if self.orderLongNum != 0:
                 api.request(r)
-                self.tlog.long_count = 0
-                self.tlog.save()
         except:
             print('long決済するデータがありませんでした。')
             pass
+        self.orderNum()
 
     def oderCloseAllShort(self):
         self.orderNum()
@@ -271,11 +266,10 @@ class orderFx:
         try:
             if self.orderShortNum != 0:
                 api.request(r)
-                self.tlog.short_count = 0
-                self.tlog.save()
         except:
             # print('short決済するデータがありませんでした。')
             pass
+        self.orderNum()
 
     def oderCloseById(self, id):
         self.orderNum()
