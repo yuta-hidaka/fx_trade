@@ -54,18 +54,6 @@ class orderFx:
         self.tlog = tradeLog.objects.filter(id=1).first()
         self.isSlock = False
         self.isLlock = False
-
-        # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
-        if self.tlog.long_count == self.orderLongNum:
-            self.isLlock = False
-        else:
-            self.isLlock = True
-
-        if self.tlog.short_count == self.orderShortNum:
-            self.isSlock = False
-        else:
-            self.isSlock = True
-
         # -----------------------------------------------
         # タイムゾーンの生成
         JST = datetime.timezone(datetime.timedelta(hours=+9), 'JST')
@@ -140,6 +128,20 @@ class orderFx:
         except:
             self.orderShortNum = 0
 
+        # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
+        if self.tlog.long_count == self.orderLongNum:
+            self.isLlock = False
+            text = '<br>ロングおなじ'
+        else:
+            text = '<br>ロングちがう'
+            self.isLlock = True
+
+        if self.tlog.short_count == self.orderShortNum:
+            text = '<br>ショートおなじ'
+            self.isSlock = False
+        else:
+            text = '<br>ショートちがう'
+            self.isSlock = True
 
         text = '<br>self.tlog.long_count ' + str(self.tlog.long_count)
         text += '<br>self.orderLongNum ' + str(self.orderLongNum)
