@@ -16,7 +16,7 @@ from fx_trade_v1_00.lib import test
 import time
 import datetime
 from pytz import timezone
-from ..models import autoTradeOnOff
+from ..models import autoTradeOnOff, batchLog
 
 
 class getMA_USD_JPY():
@@ -104,9 +104,17 @@ class getMA_USD_JPY():
             "count": num + 1,
             "granularity": 'M1'
         }
+
         res = self.get_MA(parm)
+        text = 'データのリクエストの数 + 1'+str(num + 1)
+        text = '返ってきたデータ数'+str(res['candles'])
+        batchLog.objects.create(
+            text=text
+        )
+
         length = len(res['candles']) - 1
         res['candles'].pop(length)
+
         return res
 
     def get_5M_1(self):
