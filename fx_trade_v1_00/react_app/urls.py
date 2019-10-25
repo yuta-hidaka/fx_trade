@@ -15,17 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import TemplateView
-from django.contrib import admin
-
-admin.site.site_header = 'FX自動取引管理画面'
-admin.site.index_title = 'メニュー'
-
+# from . import views
+from .views import top
+# from .rest import getRate
 
 urlpatterns = [
-    path('auto_trade/', include('auto_trade.urls')),
-    path('summary/', include('react_app.urls')),
-    # path('auto_trade/rest', include('auto_trade.rest.urls')),
-    path('', include('auto_trade.urls')),
-    path('admin/', admin.site.urls),
+    path('', top.index, name='index'),
 ]

@@ -22,7 +22,6 @@ class tradeSettings(models.Model):
         max_digits=5, decimal_places=2, default=1.00)
     sig3_adj = models.DecimalField(
         max_digits=5, decimal_places=2, default=1.00)
-
     sig1_adj_exit = models.DecimalField(
         max_digits=5, decimal_places=2, default=1.50)
     sig2_adj_exit = models.DecimalField(
@@ -45,13 +44,20 @@ class assets(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
+class tradeLog(models.Model):
+    short_count = models.IntegerField(default=15)
+    long_count = models.IntegerField(default=15)
+    is_short_lock = models.BooleanField(default=False)
+    is_long_lock = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class batchLog(models.Model):
     text = models.CharField(max_length=3000)
     created_at = models.DateTimeField(auto_now_add=True)
 
 # 5分足
-
-
 class M5_USD_JPY(models.Model):
     open = models.DecimalField(max_digits=8, decimal_places=4, default=0.0000)
     high = models.DecimalField(max_digits=8, decimal_places=4, default=0.0000)

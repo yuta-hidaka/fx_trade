@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ['133.167.102.92', 'localhost', 'auto-trade.web-tool.tokyo']
 
 INSTALLED_APPS = [
     'auto_trade.apps.AutoTradeConfig',
+    'react_app.apps.ReactAppConfig',
     'auto_trade.rest.apps.RestConfig',
     'django.contrib.admin',
     'django.contrib.auth',
