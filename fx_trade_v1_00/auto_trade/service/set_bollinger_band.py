@@ -430,6 +430,7 @@ class setBollingerBand_USD_JPY:
 
         # if nowClose
         # 持ち合い相場時の決済基準を判断
+        text += 'is_expansion ' + str(is_expansion) + '<br>'
         text += 'is_trend ' + str(is_trend) + '<br>'
         text += 'nowHigh ' + str(nowHigh) + '<br>'
         text += 'JNowHigh ' + str(JNowHigh) + '<br>'
