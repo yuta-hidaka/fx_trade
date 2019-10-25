@@ -484,7 +484,7 @@ class setBollingerBand_USD_JPY:
             else:
                 text += 'sigma3＋α どちらにも触れてません②<br>'
 
-        if not is_trend:
+        if not is_trend and not is_expansion:
             # 売却判定
             # if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
             if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose:
