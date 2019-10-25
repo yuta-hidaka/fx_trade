@@ -137,8 +137,8 @@ class orderFx:
         else:
             self.isSlock = True
 
-        self.tlog.short_count = self.orderLongNum
-        self.tlog.long_count = self.orderShortNum
+        self.tlog.short_count = self.orderShortNum
+        self.tlog.long_count = self.orderLongNum
         self.tlog.save()
 
     # すべてのポジションを決済します。
