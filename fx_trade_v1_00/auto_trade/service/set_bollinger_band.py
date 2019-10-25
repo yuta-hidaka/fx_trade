@@ -574,6 +574,7 @@ class setBollingerBand_USD_JPY:
     def setBB(self, nowMA, condiPrev):
         gMA = getMA_USD_JPY()
         # is_squeeze = False
+        text = ''
         created = False
         result = None
         # if gMA.get_5M_1()['candles']:
@@ -581,9 +582,9 @@ class setBollingerBand_USD_JPY:
         # M50 = gMA.get_5M_50()['candles']
 
         # mas = gMA.get_5M_num(self.setting.bb_count)['candles']
-        mas = gMA.get_1M_num(num = self.setting.bb_count)['candles']
-    
-            # M50 = M50.reverse()
+        mas = gMA.get_1M_num(num=self.setting.bb_count)['candles']
+
+        # M50 = M50.reverse()
         SMA_days = len(mas)
         idx = SMA_days - 1
 
@@ -605,6 +606,7 @@ class setBollingerBand_USD_JPY:
             listMA.append(Decimal(M['mid']['c']))
         # listMAflt.append(float(M['mid']['c']))
 
+        text = str(len(mas))
         SMA = np.mean(listMA)
         # 標準偏差の計算
         SD = np.std(listMA)
@@ -613,7 +615,6 @@ class setBollingerBand_USD_JPY:
         SD1 = SD * Decimal('1')
         SD2 = SD * Decimal('2')
         SD3 = SD * Decimal('3')
-
 
         # mas2 = gMA.get_5M_num(self.setting.bb_count_2)['candles']
         mas2 = gMA.get_1M_num(self.setting.bb_count_2)['candles']
@@ -647,6 +648,10 @@ class setBollingerBand_USD_JPY:
             abs_sigma_2_2=SD2_2,
             abs_sigma_3_2=SD3_2,
             cv=cv
+        )
+
+        batchLog.objects.create(
+            text=text
         )
 
         resultBBCondi = self.setBBCondition(
