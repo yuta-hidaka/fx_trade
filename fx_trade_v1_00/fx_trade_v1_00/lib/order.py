@@ -131,17 +131,17 @@ class orderFx:
 
         if self.sCnt == self.orderLongNum:
             self.isLlock = False
-            print('Long OK')
+            # print('Long OK')
         else:
             self.isLlock = True
-            print('Long NG')
+            # print('Long NG')
 
         if self.lCnt == self.orderShortNum:
             self.isSlock = False
-            print('Short OK')
+            # print('Short OK')
         else:
             self.isSlock = True
-            print('Long NG')
+            # print('Long NG')
 
         tlog.short_count = self.orderLongNum
         tlog.long_count = self.orderShortNum
@@ -219,7 +219,7 @@ class orderFx:
                 text += json.dumps(res, indent=2)
             # print(self.data)
             # print(json.dumps(res, indent=2))
-            print('order create----------------------------------------------')
+            # print('order create----------------------------------------------')
         else:
             text = 'long 前回購入しているのに、損切りされているので購買中止<br>'
 
@@ -274,7 +274,7 @@ class orderFx:
             if self.orderShortNum != 0:
                 api.request(r)
         except:
-            print('short決済するデータがありませんでした。')
+            # print('short決済するデータがありませんでした。')
             pass
 
     def oderCloseById(self, id):
