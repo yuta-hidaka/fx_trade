@@ -4,7 +4,7 @@ from .models import (
     autoTradeOnOff, batchRecord, M5_USD_JPY,
     MA_USD_JPY, SlopeM5_USD_JPY, conditionOfMA_M5, conditionOfSlope_M5,
     listConditionOfMA, listConditionOfSlope, condition, sellBuyAlert, orderStatus, bollingerBand,
-    conditionOfBB, listConditionOfBBTrande, batchLog, tradeSettings,assets
+    conditionOfBB, listConditionOfBBTrande, batchLog, tradeSettings,assets,tradeLog
 )
 
 
@@ -13,6 +13,7 @@ class DateTime(admin.ModelAdmin):
 
 
 admin.site.register(tradeSettings)
+admin.site.register(tradeLog)
 admin.site.register(assets)
 admin.site.register(batchLog)
 admin.site.register(conditionOfBB, DateTime)

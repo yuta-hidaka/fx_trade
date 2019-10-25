@@ -19,7 +19,7 @@ from .access_token import FxInfo
 import oandapyV20.endpoints.instruments as instruments
 
 import datetime
-from auto_trade.models import batchLog
+from auto_trade.models import batchLog,  tradeLog
 from oandapyV20 import API
 
 """
@@ -50,6 +50,10 @@ class orderFx:
 
     def __init__(self):
         self.fi = FxInfo()
+        self.short_count = 0
+        self.long_count = 0
+        self.is_short_lock = False
+        self.is_long_lock = False
 
         # -----------------------------------------------
         # タイムゾーンの生成
