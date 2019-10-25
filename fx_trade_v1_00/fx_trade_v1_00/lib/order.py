@@ -111,7 +111,6 @@ class orderFx:
 
     def orderNum(self):
         # 口座のすべてのポジションをリストとして取得
-
         r = positions.PositionList(accountID=self.fi.accountID)
         api = self.fi.api
         res = api.request(r)
@@ -141,8 +140,6 @@ class orderFx:
         self.tlog.long_count = self.orderShortNum
         self.tlog.save()
 
-        self.text = 'OKkkkkjkkkkk<br>'
-
     # すべてのポジションを決済します。
 
     def allOrderClose(self):
@@ -159,6 +156,9 @@ class orderFx:
     def ShortOrderCreate(self):
         self.orderNum()
         if not self.isSlock:
+            self.tlog.short_count += 1
+            self.tlog.save()
+
             self.oderCloseAllLong()
             text = 'ShortOrderCreate<br>'
             # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
@@ -189,6 +189,9 @@ class orderFx:
     def LongOrderCreate(self):
         self.orderNum()
         if not self.isLlock:
+            self.tlog.long_count += 1
+            self.tlog.save()
+
             self.oderCloseAllShort()
             text = 'LongOrderCreate<br>'
             # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
@@ -240,6 +243,8 @@ class orderFx:
         try:
             if self.orderLongNum != 0:
                 api.request(r)
+                self.tlog.long_count = 0
+                self.tlog.save()
         except:
             print('long決済するデータがありませんでした。')
             pass
@@ -267,6 +272,8 @@ class orderFx:
         try:
             if self.orderShortNum != 0:
                 api.request(r)
+                self.tlog.short_count = 0
+                self.tlog.save()
         except:
             # print('short決済するデータがありませんでした。')
             pass
