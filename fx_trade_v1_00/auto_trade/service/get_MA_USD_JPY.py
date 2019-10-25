@@ -107,7 +107,7 @@ class getMA_USD_JPY():
 
         res = self.get_MA(parm)
         text = 'データのリクエストの数 + 1'+str(num + 1) + '<br>'
-        text = '返ってきたデータ数'+str(len(res['candles']))
+        text += '返ってきたデータ数'+str(len(res['candles']))
         batchLog.objects.create(
             text=text
         )
