@@ -51,7 +51,11 @@ class orderFx:
     def __init__(self):
 
         self.fi = FxInfo()
-
+        self.tlog = tradeLog.objects.filter(id=1).first()
+        self.sCnt = tlog.short_count
+        self.lCnt = tlog.long_count
+        self.isSlock = False
+        self.isLlock = False
         # -----------------------------------------------
         # タイムゾーンの生成
         JST = datetime.timezone(datetime.timedelta(hours=+9), 'JST')
@@ -109,11 +113,6 @@ class orderFx:
 
     def orderNum(self):
         # 口座のすべてのポジションをリストとして取得
-        self.tlog = tradeLog.objects.filter(id=1).first()
-        self.sCnt = tlog.short_count
-        self.lCnt = tlog.long_count
-        self.isSlock = False
-        self.isLlock = False
 
         r = positions.PositionList(accountID=self.fi.accountID)
         api = self.fi.api
@@ -143,9 +142,9 @@ class orderFx:
             self.isSlock = True
             # print('Long NG')
 
-        tlog.short_count = self.orderLongNum
-        tlog.long_count = self.orderShortNum
-        tlog.save()
+        self.tlog.short_count = self.orderLongNum
+        self.tlog.long_count = self.orderShortNum
+        self.tlog.save()
 
         self.text = 'OKkkkkjkkkkk<br>'
 
