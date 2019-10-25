@@ -45,8 +45,8 @@ class assets(models.Model):
 
 
 class tradeLog(models.Model):
-    short_count = models.IntegerField(default=15)
-    long_count = models.IntegerField(default=15)
+    short_count = models.IntegerField(default=0)
+    long_count = models.IntegerField(default=0)
     is_short_lock = models.BooleanField(default=False)
     is_long_lock = models.BooleanField(default=False)
     updated_at = models.DateTimeField(auto_now=True)
