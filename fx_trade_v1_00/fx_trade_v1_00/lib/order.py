@@ -52,8 +52,8 @@ class orderFx:
 
         self.fi = FxInfo()
         self.tlog = tradeLog.objects.filter(id=1).first()
-        self.sCnt = tlog.short_count
-        self.lCnt = tlog.long_count
+        self.sCnt = self.tlog.short_count
+        self.lCnt = self.tlog.long_count
         self.isSlock = False
         self.isLlock = False
         # -----------------------------------------------
