@@ -113,7 +113,7 @@ class orderFx:
 
     def getOrderNum(self):
         # 口座のすべてのポジションをリストとして取得
-
+        self.tlog = tradeLog.objects.filter(id=1).first()
         r = positions.PositionList(accountID=self.fi.accountID)
         api = self.fi.api
         res = api.request(r)
