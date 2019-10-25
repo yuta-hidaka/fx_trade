@@ -109,7 +109,9 @@ class orderFx:
         # except:
         #     self.orderShortNum = 0
 
-    def orderNum(self):
+    # def getPosition(self):
+
+    def getOrderNum(self):
         # 口座のすべてのポジションをリストとして取得
 
         r = positions.PositionList(accountID=self.fi.accountID)
@@ -127,12 +129,12 @@ class orderFx:
             self.orderShortNum = 0
 
         # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
-        if self.tlog.short_count == self.orderLongNum:
+        if self.tlog.long_count == self.orderLongNum:
             self.isLlock = False
         else:
             self.isLlock = True
 
-        if self.tlog.long_count == self.orderShortNum:
+        if self.tlog.short_count == self.orderShortNum:
             self.isSlock = False
         else:
             self.isSlock = True
@@ -145,7 +147,7 @@ class orderFx:
 
     def allOrderClose(self):
         if not self.isSlock and not self.isLlock:
-            self.orderNum()
+            self.getOrderNum()
             text = 'allOrderClose'
             if self.orderLongNum != 0:
                 self.oderCloseAllLong()
@@ -155,7 +157,7 @@ class orderFx:
         batchLog.objects.create(text=text)
 
     def ShortOrderCreate(self):
-        self.orderNum()
+        self.getOrderNum()
         if not self.isSlock:
             self.oderCloseAllLong()
             text = 'ShortOrderCreate<br>'
@@ -181,11 +183,11 @@ class orderFx:
                 text += json.dumps(res, indent=2)
         else:
             text = 'short　前回購入しているのに、損切りされているので購買中止<br>'
-        self.orderNum()
+        self.getOrderNum()
         batchLog.objects.create(text=text)
 
     def LongOrderCreate(self):
-        self.orderNum()
+        self.getOrderNum()
         if not self.isLlock:
             self.oderCloseAllShort()
             text = 'LongOrderCreate<br>'
@@ -214,11 +216,11 @@ class orderFx:
             # print('order create----------------------------------------------')
         else:
             text = 'long 前回購入しているのに、損切りされているので購買中止<br>'
-        self.orderNum()
+        self.getOrderNum()
         batchLog.objects.create(text=text)
 
     def oderCloseAllLong(self):
-        self.orderNum()
+        self.getOrderNum()
 
         text = 'oderCloseAllLong<br>'
         batchLog.objects.create(text=text)
@@ -241,10 +243,10 @@ class orderFx:
         except:
             print('long決済するデータがありませんでした。')
             pass
-        self.orderNum()
+        self.getOrderNum()
 
     def oderCloseAllShort(self):
-        self.orderNum()
+        self.getOrderNum()
 
         text = 'oderCloseAllShort<br>'
         batchLog.objects.create(text=text)
@@ -269,10 +271,10 @@ class orderFx:
         except:
             # print('short決済するデータがありませんでした。')
             pass
-        self.orderNum()
+        self.getOrderNum()
 
     def oderCloseById(self, id):
-        self.orderNum()
+        self.getOrderNum()
 
         api = self.fi.api
         """
