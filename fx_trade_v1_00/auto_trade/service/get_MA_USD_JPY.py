@@ -106,11 +106,11 @@ class getMA_USD_JPY():
         }
 
         res = self.get_MA(parm)
-        text = 'データのリクエストの数 '+str(num + 1) + '<br>'
-        text += '返ってきたデータ数 '+str(len(res['candles']))
-        batchLog.objects.create(
-            text=text
-        )
+        # text = 'データのリクエストの数 '+str(num + 1) + '<br>'
+        # text += '返ってきたデータ数 '+str(len(res['candles']))
+        # batchLog.objects.create(
+        #     text=text
+        # )
 
         length = len(res['candles']) - 1
         res['candles'].pop(length)
