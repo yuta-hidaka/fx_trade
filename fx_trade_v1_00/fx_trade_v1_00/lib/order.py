@@ -254,7 +254,7 @@ class orderFx:
         except:
             print('long決済するデータがありませんでした。')
             pass
-        self.getOrderNum()
+        # self.getOrderNum()
 
     def oderCloseAllShort(self):
         self.getOrderNum()
@@ -282,7 +282,7 @@ class orderFx:
         except:
             # print('short決済するデータがありませんでした。')
             pass
-        self.getOrderNum()
+        # self.getOrderNum()
 
     def oderCloseById(self, id):
         self.getOrderNum()
