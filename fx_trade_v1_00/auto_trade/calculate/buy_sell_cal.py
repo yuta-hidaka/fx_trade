@@ -270,9 +270,9 @@ class BuySellCal():
                         # 前回エクスパンションしていなかったら初めてのエクスパンションとする,
                 # 偏差によるエクスパンションでなければlong、short両方のポジションを持つ
                 elif not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
-                    text += 'エクスパンションbyNum<br>'
-                    text += 'エクスパンションbyNumすべてのポジション解除<br>'
-                    self.order.allOrderClose()
+                    text += 'エクスパンションbyNum or Std<br>'
+                    # text += 'エクスパンションbyNum or Stdすべてのポジション解除<br>'
+                    # self.order.allOrderClose()
              
                     if is_topTouch:
                         text += 'エクスパンションorだましで上タッチのLongIn<br>'

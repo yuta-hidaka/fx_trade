@@ -343,12 +343,12 @@ class setBollingerBand_USD_JPY:
         # 小数第二以上でプラスであればエクスパンション
         # if slopeDir != 0:
         if diff != Decimal(0):
-            # is_expansion = True
-            # is_expansionByNum = True
+            is_expansion = True
+            is_expansionByNum = True
             text += '価格差のエクスパンション 休止中<br>'
         elif diff_2 != Decimal(0):
-            # is_expansion = True
-            # is_expansionByNum = True
+            is_expansion = True
+            is_expansionByNum = True
             text += '価格差のエクスパンション②　休止中<br>'
         # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
         # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose:
@@ -364,10 +364,10 @@ class setBollingerBand_USD_JPY:
             is_topTouch = True
             text += '上にエクスパンション(2回【終値】が超えた)<br>'
         elif sma2SigmaPlusBeforEx <= bfHigh and sma2SigmaPlusEx <= nowHigh:
-            is_expansion = True
-            is_expansionByStd = True
-            is_topTouch = True
-            text += '上にエクスパンション(2回【高値】が超えた)<br>'
+            # is_expansion = True
+            # is_expansionByStd = True
+            # is_topTouch = True
+            text += '上にエクスパンション(2回【高値】が超えた) 休止中<br>'
         # elif sma2SigmaPlusEx_2 <= nowClose:
         #     is_expansion = True
         #     is_expansionByStd = True
