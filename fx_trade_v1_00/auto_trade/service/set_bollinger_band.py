@@ -357,12 +357,17 @@ class setBollingerBand_USD_JPY:
             is_expansion = True
             is_expansionByStd = True
             is_topTouch = True
-            text += '上にエクスパンション<br>'
+            text += '上にエクスパンション 二つの足より<br>'
         elif sma2SigmaPlusBeforEx <= bfClose and sma2SigmaPlusEx <= nowClose:
             is_expansion = True
             is_expansionByStd = True
             is_topTouch = True
             text += '上にエクスパンション(2回【終値】が超えた)<br>'
+        elif sma3SigmaPlusBeforExP <= nowClose and sma3SigmaPlusExP <= nowClose:
+                is_expansion = True
+                is_expansionByStd = True
+                is_topTouch = True
+            text += '下にエクスパンション(前回or今回σ3が上に超えた)<br>'
         elif sma2SigmaPlusBeforEx <= bfHigh and sma2SigmaPlusEx <= nowHigh:
             # is_expansion = True
             # is_expansionByStd = True
@@ -385,11 +390,16 @@ class setBollingerBand_USD_JPY:
             is_expansionByStd = True
             is_bottomTouch = True
             text += '下にエクスパンション(2回【終値】が超えた)<br>'
-        elif sma2SigmaMinusBeforEx >= bfLow and sma2SigmaMinusEx >= nowLow:
+        elif sma3SigmaMinusBeforExP >= nowClose or sma3SigmaMinusExP >= nowClose:
             is_expansion = True
             is_expansionByStd = True
             is_bottomTouch = True
-            text += '下にエクスパンション(2回【底値】が超えた)<br>'
+            text += '下にエクスパンション(前回or今回σ3が下に超えた)<br>'
+        elif sma2SigmaMinusBeforEx >= bfLow and sma2SigmaMinusEx >= nowLow:
+            # is_expansion = True
+            # is_expansionByStd = True
+            # is_bottomTouch = True
+            text += '下にエクスパンション(2回【底値】が超えた) 休止中<br>'
         # elif sma2SigmaMinusEx_2 >= nowClose:
         #     is_expansion = True
         #     is_expansionByStd = True
@@ -484,12 +494,12 @@ class setBollingerBand_USD_JPY:
         if not is_trend and not is_expansion:
             # 売却判定
             if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
-            # if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose:
+                # if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose:
                 # if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose and slopeDir2 == -1:
                 text += 'sigma1＋α 上に触りました<br>'
                 is_longClose = True
             elif sma1SigmaMinus >= nowLow or sma1SigmaMinus >= JNowLow:
-            # elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose:
+                # elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose:
                 # elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose and slopeDir2 == 1:
                 text += 'sigma1＋α 下に触りました<br>'
                 is_shortClose = True
