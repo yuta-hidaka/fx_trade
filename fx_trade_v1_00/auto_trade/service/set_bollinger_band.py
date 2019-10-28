@@ -483,13 +483,13 @@ class setBollingerBand_USD_JPY:
 
         if not is_trend and not is_expansion:
             # 売却判定
-            # if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
-            if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose:
+            if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
+            # if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose:
                 # if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose and slopeDir2 == -1:
                 text += 'sigma1＋α 上に触りました<br>'
                 is_longClose = True
-            # elif sma1SigmaMinus >= nowLow or sma1SigmaMinus >= JNowLow:
-            elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose:
+            elif sma1SigmaMinus >= nowLow or sma1SigmaMinus >= JNowLow:
+            # elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose:
                 # elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose and slopeDir2 == 1:
                 text += 'sigma1＋α 下に触りました<br>'
                 is_shortClose = True
