@@ -194,7 +194,7 @@ class orderFx:
                 text += json.dumps(res, indent=2)
         else:
             text = 'short　前回購入しているのに、損切りされているので購買中止<br>'
-        self.getOrderNum()
+        # self.getOrderNum()
         batchLog.objects.create(text=text)
 
     def LongOrderCreate(self):
@@ -227,7 +227,7 @@ class orderFx:
             # print('order create----------------------------------------------')
         else:
             text = 'long 前回購入しているのに、損切りされているので購買中止<br>'
-        self.getOrderNum()
+        # self.getOrderNum()
         batchLog.objects.create(text=text)
 
     def oderCloseAllLong(self):
