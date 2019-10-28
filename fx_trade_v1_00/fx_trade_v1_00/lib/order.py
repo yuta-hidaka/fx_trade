@@ -110,6 +110,44 @@ class orderFx:
         #     self.orderShortNum = 0
 
     # def getPosition(self):
+    def lossCutCheck(self):
+        # 口座のすべてのポジションをリストとして取得
+        self.tlog = tradeLog.objects.filter(id=1).first()
+        r = positions.PositionList(accountID=self.fi.accountID)
+        api = self.fi.api
+        res = api.request(r)
+        pos = res['positions'][0]
+        olNum = 0
+        osNum = 0
+        # オーダーステータスを取得する。
+        try:
+            olNum = len(pos['long']['tradeIDs'])
+        except:
+            olNum = 0
+        try:
+            osNum = len(pos['short']['tradeIDs'])
+        except:
+            osNum = 0
+
+        # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
+        text = ''
+        if self.tlog.long_count == olNum:
+            self.isLlock = False
+            text += '<br>ロングおなじ'
+        else:
+            text += '<br>ロングちがう'
+            self.isLlock = True
+
+        if self.tlog.short_count == osNum:
+            text += '<br>ショートおなじ'
+            self.isSlock = False
+        else:
+            text += '<br>ショートちがう  '
+            self.isSlock = True
+
+        self.tlog.short_count = self.orderShortNum
+        self.tlog.long_count = self.orderLongNum
+        self.tlog.save()
 
     def getOrderNum(self):
         # 口座のすべてのポジションをリストとして取得
@@ -129,30 +167,30 @@ class orderFx:
             self.orderShortNum = 0
 
         # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
-        text = ''
-        if self.tlog.long_count == self.orderLongNum:
-            self.isLlock = False
-            text += '<br>ロングおなじ'
-        else:
-            text += '<br>ロングちがう'
-            self.isLlock = True
+        # text = ''
+        # if self.tlog.long_count == self.orderLongNum:
+        #     self.isLlock = False
+        #     text += '<br>ロングおなじ'
+        # else:
+        #     text += '<br>ロングちがう'
+        #     self.isLlock = True
 
-        if self.tlog.short_count == self.orderShortNum:
-            text += '<br>ショートおなじ'
-            self.isSlock = False
-        else:
-            text += '<br>ショートちがう  '
-            self.isSlock = True
+        # if self.tlog.short_count == self.orderShortNum:
+        #     text += '<br>ショートおなじ'
+        #     self.isSlock = False
+        # else:
+        #     text += '<br>ショートちがう  '
+        #     self.isSlock = True
 
-        text += '<br>self.tlog.long_count ' + str(self.tlog.long_count)
-        text += '<br>self.orderLongNum ' + str(self.orderLongNum)
-        text += '<br>self.tlog.short_count ' + str(self.tlog.short_count)
-        text += '<br>self.orderShortNum ' + str(self.orderShortNum)
-        batchLog.objects.create(text=text)
+        # text += '<br>self.tlog.long_count ' + str(self.tlog.long_count)
+        # text += '<br>self.orderLongNum ' + str(self.orderLongNum)
+        # text += '<br>self.tlog.short_count ' + str(self.tlog.short_count)
+        # text += '<br>self.orderShortNum ' + str(self.orderShortNum)
+        # batchLog.objects.create(text=text)
 
-        self.tlog.short_count = self.orderShortNum
-        self.tlog.long_count = self.orderLongNum
-        self.tlog.save()
+        # self.tlog.short_count = self.orderShortNum
+        # self.tlog.long_count = self.orderLongNum
+        # self.tlog.save()
 
     # すべてのポジションを決済します。
 
@@ -169,6 +207,7 @@ class orderFx:
 
     def ShortOrderCreate(self):
         self.getOrderNum()
+        self.lossCutCheck()
         if not self.isSlock:
             self.oderCloseAllLong()
             text = 'ShortOrderCreate<br>'
@@ -199,6 +238,7 @@ class orderFx:
 
     def LongOrderCreate(self):
         self.getOrderNum()
+        self.lossCutCheck()
         if not self.isLlock:
             self.oderCloseAllShort()
             text = 'LongOrderCreate<br>'
@@ -254,7 +294,8 @@ class orderFx:
         except:
             print('long決済するデータがありませんでした。')
             pass
-        # self.getOrderNum()
+        self.tlog.long_count = 0
+        self.tlog.save()
 
     def oderCloseAllShort(self):
         self.getOrderNum()
@@ -282,7 +323,8 @@ class orderFx:
         except:
             # print('short決済するデータがありませんでした。')
             pass
-        # self.getOrderNum()
+        self.tlog.short_count = 0
+        self.tlog.save()
 
     def oderCloseById(self, id):
         self.getOrderNum()
