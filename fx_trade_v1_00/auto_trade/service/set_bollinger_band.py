@@ -364,9 +364,9 @@ class setBollingerBand_USD_JPY:
             is_topTouch = True
             text += '上にエクスパンション(2回【終値】が超えた)<br>'
         elif sma3SigmaPlusBeforExP <= nowClose and sma3SigmaPlusExP <= nowClose:
-                is_expansion = True
-                is_expansionByStd = True
-                is_topTouch = True
+            is_expansion = True
+            is_expansionByStd = True
+            is_topTouch = True
             text += '下にエクスパンション(前回or今回σ3が上に超えた)<br>'
         elif sma2SigmaPlusBeforEx <= bfHigh and sma2SigmaPlusEx <= nowHigh:
             # is_expansion = True
