@@ -294,7 +294,7 @@ class setBollingerBand_USD_JPY:
 
                 pass
             except:
-                text +=  'errorororo<br>'
+                text += 'errorororo<br>'
 
                 pass
 
@@ -471,34 +471,42 @@ class setBollingerBand_USD_JPY:
         text += 'sma2SigmaPlus_2 ' + str(sma2SigmaPlus_2) + '<br>'
         text += 'sma1SigmaMinus_2 ' + str(sma1SigmaMinus_2) + '<br>'
         text += 'sma2SigmaMinus_2 ' + str(sma2SigmaMinus_2) + '<br>'
-        # peak  判定
+        # peak  and expansion判定
         if sma3SigmaPlusBeforExP <= nowClose:
-            # if sma3SigmaPlusExP >= nowClose and sma3SigmaPlusBeforExP <= bfClose:
+            text += 'sigma3＋α closeが上に触りました-エクスパンション用-<br>'
+            is_expansion = True
+            is_expansionByStd = True
+            is_topTouch = True
+        elif sma3SigmaPlusExP >= nowClose and sma3SigmaPlusBeforExP <= bfClose:
             # if sma3SigmaPlusExP <= nowClose or sma3SigmaPlusExP <= nowClose:
             # if sma2SigmaMinusEx <= nowClose and sma2SigmaMinusEx <= JNowClose:
-            text += 'sigma3＋α closeが上に触りました<br>'
+            text += 'sigma3＋α closeが上に触りました-トレンド終了用-<br>'
             is_topTouch = True
             is_peak = True
         elif sma3SigmaMinusExP >= nowClose:
-            # elif sma3SigmaMinusExP >= nowClose and sma3SigmaMinusExP >= bfClose:
-            text += 'sigma3＋α closeが下に触りました<br>'
+            text += 'sigma3＋α closeが下に触りました-エクスパンション用-<br>'
+            is_expansion = True
+            is_expansionByStd = True
+            is_bottomTouch = True
+        elif sma3SigmaMinusExP >= nowClose and sma3SigmaMinusExP >= bfClose:
+            text += 'sigma3＋α closeが下に触りました-トレンド終了用-<br>'
             is_bottomTouch = True
             is_peak = True
         else:
             text += 'sigma3＋α どちらにも触れてません<br>'
 
-            if sma3SigmaPlusExP_2 >= nowClose and sma3SigmaPlusBeforExP_2 <= bfClose:
-                    # if sma3SigmaPlusExP <= nowClose or sma3SigmaPlusExP <= nowClose:
-                    # if sma2SigmaMinusEx <= nowClose and sma2SigmaMinusEx <= JNowClose:
-                text += 'sigma3＋α closeが上に触りました②<br>'
-                is_topTouch = True
-                is_peak = True
-            elif sma3SigmaMinusExP_2 >= nowClose and sma3SigmaMinusExP_2 >= bfClose:
-                text += 'sigma3＋α closeが下に触りました②<br>'
-                is_bottomTouch = True
-                is_peak = True
-            else:
-                text += 'sigma3＋α どちらにも触れてません②<br>'
+            # if sma3SigmaPlusExP_2 >= nowClose and sma3SigmaPlusBeforExP_2 <= bfClose:
+            #         # if sma3SigmaPlusExP <= nowClose or sma3SigmaPlusExP <= nowClose:
+            #         # if sma2SigmaMinusEx <= nowClose and sma2SigmaMinusEx <= JNowClose:
+            #     text += 'sigma3＋α closeが上に触りました②<br>'
+            #     is_topTouch = True
+            #     is_peak = True
+            # elif sma3SigmaMinusExP_2 >= nowClose and sma3SigmaMinusExP_2 >= bfClose:
+            #     text += 'sigma3＋α closeが下に触りました②<br>'
+            #     is_bottomTouch = True
+            #     is_peak = True
+            # else:
+            #     text += 'sigma3＋α どちらにも触れてません②<br>'
 
         if not is_trend and not is_expansion:
             # 売却判定
@@ -665,9 +673,7 @@ class setBollingerBand_USD_JPY:
             abs_sigma_3_2=SD3_2,
             cv=cv
         )
-
         resultBBCondi = self.setBBCondition(
             MHalf, nowMA, result, bbBefor, condiPrev
         )
-
         return resultBBCondi
