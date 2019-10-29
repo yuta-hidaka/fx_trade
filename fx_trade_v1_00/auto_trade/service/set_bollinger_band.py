@@ -291,11 +291,13 @@ class setBollingerBand_USD_JPY:
             xClose.append(float(c.ma.m5.close))
             try:
                 text += str(c.ma.m5.recorded_at_utc) + '% 時間<br>'
-
+                text += str(cond[len(cond) -
+                                 1].ma.m5.recorded_at_utc) + '% 時間<br>'
+                text += str(cond[len(cond) -
+                                 2].ma.m5.recorded_at_utc) + '% 時間<br>'
                 pass
             except:
                 text += 'errorororo<br>'
-
                 pass
 
             if (c.ma.m5.close - c.condition_of_bb.bb.sma) == 0:
