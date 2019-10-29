@@ -368,10 +368,10 @@ class setBollingerBand_USD_JPY:
             # is_topTouch = True
             text += '上にエクスパンション 二つの足より未使用<br>'
         elif sma2SigmaPlusBeforEx <= bfClose and sma2SigmaPlusEx <= nowClose:
-            # is_expansion = True
-            # is_expansionByStd = True
-            # is_topTouch = True
-            text += '上にエクスパンション(2回【終値】が超えた)未使用<br>'
+            is_expansion = True
+            is_expansionByStd = True
+            is_topTouch = True
+            text += '上にエクスパンション(2回【終値】が超えた)<br>'
         elif sma3SigmaPlusBeforExP <= nowClose and sma3SigmaPlusExP <= nowClose:
             is_expansion = True
             is_expansionByStd = True
@@ -395,10 +395,10 @@ class setBollingerBand_USD_JPY:
             # is_bottomTouch = True
             text += '下にエクスパンション　二つの足より未使用<br>'
         elif sma2SigmaMinusBeforEx >= bfClose and sma2SigmaMinusEx >= nowClose:
-            # is_expansion = True
-            # is_expansionByStd = True
-            # is_bottomTouch = True
-            text += '下にエクスパンション(2回【終値】が超えた)未使用<br>'
+            is_expansion = True
+            is_expansionByStd = True
+            is_bottomTouch = True
+            text += '下にエクスパンション(2回【終値】が超えた)<br>'
         elif sma3SigmaMinusBeforExP >= nowClose or sma3SigmaMinusExP >= nowClose:
             is_expansion = True
             is_expansionByStd = True
