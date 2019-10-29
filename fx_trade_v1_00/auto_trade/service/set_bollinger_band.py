@@ -310,9 +310,10 @@ class setBollingerBand_USD_JPY:
             loopSig2Min = loopSma - c.condition_of_bb.bb.abs_sigma_2
             loopSig3Min = loopSma - c.condition_of_bb.bb.abs_sigma_3
 
-            if loopSig2Pls <= loopHigh:
+            # if loopSig2Pls <= loopHigh:
+            if loopSig2Pls <= loopClose:
                 pstTopTouch = True
-            elif loopSig2Pls >= loopLow:
+            elif loopSig2Pls >= loopClose:
                 pstBttmTouch = True
 
         for c in cond:
@@ -566,14 +567,14 @@ class setBollingerBand_USD_JPY:
                     text += 'sigma1＋α どちらにも触れてません②<br>'
 
             # 持ち合い相場時の購買基準を判断
-            if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh and pstBttmTouch:
-                # if sma2SigmaPlusBefor <= nowClose or sma2SigmaPlus <= nowClose:
+            # if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh and pstBttmTouch:
+            if sma2SigmaPlusBefor <= nowClose or sma2SigmaPlus <= nowClose:
                     # is_longClose = True
                 is_shortIn = True
                 is_topTouch = True
                 text += 'sigma2＋α 上に高値のみ触りました high not close<br>'
-            elif sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow and pstTopTouch:
-                # elif sma2SigmaMinusBefor >= nowClose or sma2SigmaMinus >= nowClose:
+            # elif sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow and pstTopTouch:
+            elif sma2SigmaMinusBefor >= nowClose or sma2SigmaMinus >= nowClose:
                 # is_shortClose = True
                 # is_shortIn = False
                 is_longIn = True
