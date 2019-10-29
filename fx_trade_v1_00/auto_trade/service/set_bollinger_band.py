@@ -21,7 +21,10 @@ class setBollingerBand_USD_JPY:
         rs = model_to_dict(result)
         bbb = model_to_dict(bbBefor)
         cond = condition.objects.all().order_by(
-            '-created_at')[:self.setting.bb_slope_dir_count]
+            '-created_at')[:self.setting.bb_slope_dir_count]        
+        
+        condDouble = condition.objects.all().order_by(
+            '-created_at')[:(self.setting.bb_slope_dir_count* 2) ]
 
         cond_2 = condition.objects.all().order_by(
             '-created_at')[:self.setting.bb_slope_dir_count]
@@ -90,7 +93,7 @@ class setBollingerBand_USD_JPY:
         pstTopTouch = False
         pstBttmTouch = False
 
-        trandCondi = 3
+        trandCondi = 4
         listBB = listConditionOfBBTrande
 
         sma = rs['sma']
@@ -293,7 +296,7 @@ class setBollingerBand_USD_JPY:
         fstCondClose = cond[len(cond)-1].ma.m5.close
         sndCondClose = cond[len(cond)-2].ma.m5.close
 
-        for c in cond:
+        for c in condDouble:
             loopSma = c.condition_of_bb.bb.sma
             loopClose = c.ma.m5.close
             loopHigh = c.ma.m5.high
@@ -312,6 +315,7 @@ class setBollingerBand_USD_JPY:
             elif loopSig2Pls >= loopLow:
                 pstBttmTouch = True
 
+        for c in cond:
             xClose.append(float(c.ma.m5.close))
             # try:
             #     text += str(c.ma.m5.recorded_at_utc) + '% 時間<br>'
