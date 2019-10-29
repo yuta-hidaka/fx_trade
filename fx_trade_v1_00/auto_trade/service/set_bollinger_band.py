@@ -240,17 +240,17 @@ class setBollingerBand_USD_JPY:
             slopeDir_001 = np.sign(slope_001)
 # -----------------------------------------------------------------------
 
-            s001 = Decimal('0.01039999999999003').quantize(
-                Decimal('0.01'), rounding=ROUND_HALF_UP)
-            text += ' test 0.01039999999999003を丸めた<br>'
-            text += str(s001)+' 傾き<br>'
+            # s001 = Decimal('0.01039999999999003').quantize(
+            #     Decimal('0.01'), rounding=ROUND_HALF_UP)
+            # text += ' test 0.01039999999999003を丸めた<br>'
+            # text += str(s001)+' 傾き<br>'
 
-            text += str(rs[0])+' 傾き<br>'
-            text += str(rs[1])+' 切片<br>'
-            text += str(slope_001)+' slopeDir 0.01で丸めたバージョン<br>'
-            text += str(slopeDir_001)+' slopeDir 0.01で丸めたバージョン<br>'
-            text += str(slope_01)+' slopeDir 0.1で丸めたバージョン<br>'
-            text += str(slopeDir_01)+' slopeDir 0.1で丸めたバージョン<br>'
+            # text += str(rs[0])+' 傾き<br>'
+            # text += str(rs[1])+' 切片<br>'
+            # text += str(slope_001)+' slopeDir 0.01で丸めたバージョン<br>'
+            # text += str(slopeDir_001)+' slopeDir 0.01で丸めたバージョン<br>'
+            # text += str(slope_01)+' slopeDir 0.1で丸めたバージョン<br>'
+            # text += str(slopeDir_01)+' slopeDir 0.1で丸めたバージョン<br>'
             pass
         except Exception as e:
             text += str(e)+' error<br>'
@@ -287,19 +287,18 @@ class setBollingerBand_USD_JPY:
             aaaa3_2 += 1
 
         xClose = []
-        text += str(cond[len(cond) -
-            1].ma.m5.recorded_at_utc) + '% 時間<br>'
-        text += str(cond[len(cond) -
-            2].ma.m5.recorded_at_utc) + '% 時間<br>'
+        fstCondClose = cond[len(cond)-1].ma.m5.close
+        sndCondClose = cond[len(cond)-2].ma.m5.close
+
         for c in cond:
             xClose.append(float(c.ma.m5.close))
-            try:
-                text += str(c.ma.m5.recorded_at_utc) + '% 時間<br>'
+            # try:
+            #     text += str(c.ma.m5.recorded_at_utc) + '% 時間<br>'
 
-                pass
-            except:
-                text += 'errorororo<br>'
-                pass
+            #     pass
+            # except:
+            #     text += 'errorororo<br>'
+            #     pass
 
             if (c.ma.m5.close - c.condition_of_bb.bb.sma) == 0:
                 data += 0
@@ -425,6 +424,7 @@ class setBollingerBand_USD_JPY:
             if np.absolute(ans) >= trendRatio:
                 # if np.absolute(ans) >= trendRatio or np.absolute(ans_2) >= trendRatio:
                 is_trend = True
+            # elif np.absolute(ans) >= 70 and fstCondClose:
             else:
                 is_trend = False
 
@@ -541,14 +541,14 @@ class setBollingerBand_USD_JPY:
                     text += 'sigma1＋α どちらにも触れてません②<br>'
 
             # 持ち合い相場時の購買基準を判断
-            # if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh:
-            if sma2SigmaPlusBefor <= nowClose or sma2SigmaPlus <= nowClose:
+            if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh:
+            # if sma2SigmaPlusBefor <= nowClose or sma2SigmaPlus <= nowClose:
                     # is_longClose = True
                 is_shortIn = True
                 is_topTouch = True
                 text += 'sigma2＋α 上に高値のみ触りました high not close<br>'
-            # elif sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow:
-            elif sma2SigmaMinusBefor >= nowClose or sma2SigmaMinus >= nowClose:
+            elif sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow:
+            # elif sma2SigmaMinusBefor >= nowClose or sma2SigmaMinus >= nowClose:
                 # is_shortClose = True
                 # is_shortIn = False
                 is_longIn = True
