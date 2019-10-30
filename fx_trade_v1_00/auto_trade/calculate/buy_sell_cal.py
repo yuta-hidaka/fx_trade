@@ -86,6 +86,49 @@ class BuySellCal():
         # 市場が閉じていたら計算等は行わない
         if not len(nowCndl['candles']) == 0:
 
+
+            # self.order.orderCreate()
+            # print('----------------------------------------------------購買条件中------------------------------------------------')
+            # 取引条件作成-------------------------------------
+            long_in = (
+                nowCndl_close + nowCndl_close*Decimal(0.0001)
+            ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+            # long_limit = (bb['sma'] - bb['abs_sigma_3']
+            #               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            short_in = (
+                nowCndl_close + nowCndl_close*Decimal(-0.0001)
+            ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+            # short_limit = (bb['sma'] + bb['abs_sigma_3']
+            #                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+            long_limit = (nowCndl_close - (nowCndl_close * limit)
+                              ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+            short_limit = (nowCndl_close + (nowCndl_close * limit)
+                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+            # lDeff = np.abs(long_in - long_limit)
+            # if lDeff < 0.1:
+            #     long_limit = (nowCndl_close - Decimal(0.115)
+            #                   ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            #     text += 'longのlimitが小さいので修正<br>'
+            # elif lDeff > 0.115:
+            #     long_limit = (nowCndl_close - Decimal(0.115)
+            #                   ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            #     text += 'longのlimitが大きいので修正<br>'
+
+            # sDeff = np.abs(short_in - short_limit)
+            # if sDeff < 0.1:
+            #     short_limit = (nowCndl_close + Decimal(0.115)
+            #                    ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            #     text += 'shortのlimitが小さいので修正<br>'
+            # elif sDeff > 0.115:
+            #     short_limit = (nowCndl_close + Decimal(0.115)
+            #                    ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            #     text += 'shortのlimitが大きいので修正<br>'
+
                         # 購買タイミング----------------------------------------------------------------------------------
             # longのタイミング all slope is positive and before MA is 6or1 and now 1
 
@@ -131,7 +174,7 @@ class BuySellCal():
                     # print("long in by ma")
                     text += "long in by ma<br>"
                     # self.order.LongOrderCreate()
-                    # nowInL = True
+                    nowInL = True
                 else:
                     # print("long in　but position is too many")
                     text += "long in　but position is too many<br>"
@@ -142,7 +185,7 @@ class BuySellCal():
                     # print("short in by ma")
                     text += "short in by ma<br>"
                     self.order.ShortOrderCreate()
-                    # nowInS = True
+                    nowInS = True
                 else:
                     # print("short in　but position is too many")
                     text += "short in　but position is too many<br>"
@@ -153,47 +196,14 @@ class BuySellCal():
 
                 # --------------------------------------------------------------------------------------------------------------------
 
-            # self.order.orderCreate()
-            # print('----------------------------------------------------購買条件中------------------------------------------------')
-            # 取引条件作成-------------------------------------
-            long_in = (
-                nowCndl_close + nowCndl_close*Decimal(0.0001)
-            ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            # long_limit = (bb['sma'] - bb['abs_sigma_3']
-            #               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            short_in = (
-                nowCndl_close + nowCndl_close*Decimal(-0.0001)
-            ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            # short_limit = (bb['sma'] + bb['abs_sigma_3']
-            #                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            long_limit = (nowCndl_close - (nowCndl_close * limit)
-                              ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            short_limit = (nowCndl_close + (nowCndl_close * limit)
-                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            # lDeff = np.abs(long_in - long_limit)
-            # if lDeff < 0.1:
-            #     long_limit = (nowCndl_close - Decimal(0.115)
-            #                   ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            #     text += 'longのlimitが小さいので修正<br>'
-            # elif lDeff > 0.115:
-            #     long_limit = (nowCndl_close - Decimal(0.115)
-            #                   ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            #     text += 'longのlimitが大きいので修正<br>'
 
-            # sDeff = np.abs(short_in - short_limit)
-            # if sDeff < 0.1:
-            #     short_limit = (nowCndl_close + Decimal(0.115)
-            #                    ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            #     text += 'shortのlimitが小さいので修正<br>'
-            # elif sDeff > 0.115:
-            #     short_limit = (nowCndl_close + Decimal(0.115)
-            #                    ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            #     text += 'shortのlimitが大きいので修正<br>'
+
+
 
             if not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
                 text += '確度が小さいのでlimit小さく<br>'
