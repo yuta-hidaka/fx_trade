@@ -250,7 +250,6 @@ class orderFx:
 
     def ShortOrderCreate(self):
         self.getOrderNum()
-        self.lossCutCheck()
         self.posittionTimeCheck()
         if not self.isSlock:
             self.oderCloseAllLong()
@@ -290,7 +289,6 @@ class orderFx:
 
     def LongOrderCreate(self):
         self.getOrderNum()
-        self.lossCutCheck()
         self.posittionTimeCheck()
         if not self.isLlock:
             self.oderCloseAllShort()
