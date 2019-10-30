@@ -517,7 +517,7 @@ class setBollingerBand_USD_JPY:
             is_expansion = True
             is_expansionByStd = True
             is_bottomTouch = True
-        elif sma3SigmaMinusExP >= nowClose and sma3SigmaMinusExP >= bfClose:
+        elif sma3SigmaMinusExP <= nowClose and sma3SigmaMinusExP >= bfClose:
             text += 'sigma3＋α closeが下に触りました-トレンド終了用-<br>'
             is_bottomTouch = True
             is_peak = True
