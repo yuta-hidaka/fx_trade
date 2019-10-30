@@ -49,6 +49,7 @@ api.request(r)
 class orderFx:
 
     def __init__(self):
+        self.now = datetime.datetime.utcnow()
 
         self.fi = FxInfo()
         self.tlog = tradeLog.objects.filter(id=1).first()
@@ -110,9 +111,31 @@ class orderFx:
         #     self.orderShortNum = 0
 
     # def getPosition(self):
+    def posittionTimeCheck(self):
+        now = datetime.datetime.utcnow()
+        adjTime = datetime.timedelta(minutes=10)
+        shortInTime = self.tlog.long_in_time + adjTime
+        longInTime = self.tlog.short_in_time + adjTime
+
+        if not self.isLlock
+           if longInTime > now:
+                self.isLlock = False
+                text += '<br>long 5分経った'
+            else:
+                text += '<br>long 5分経ってない'
+                self.isLlock = True
+
+        if not self.isSlock
+            if shortInTime > now:
+                text += '<br>short 5分経った'
+                self.isSlock = False
+            else:
+                text += '<br>short 5分経ってない  '
+                self.isSlock = True
+
     def lossCutCheck(self):
         # 口座のすべてのポジションをリストとして取得
-        self.tlog = tradeLog.objects.filter(id=1).first()
+        # self.tlog = tradeLog.objects.filter(id=1).first()
         r = positions.PositionList(accountID=self.fi.accountID)
         api = self.fi.api
         res = api.request(r)
@@ -208,6 +231,7 @@ class orderFx:
     def ShortOrderCreate(self):
         self.getOrderNum()
         self.lossCutCheck()
+        self.posittionTimeCheck()
         if not self.isSlock:
             self.oderCloseAllLong()
             text = 'ShortOrderCreate<br>'
@@ -231,6 +255,14 @@ class orderFx:
                 r = orders.OrderCreate(self.fi.accountID, data=self.data)
                 res = api.request(r)
                 text += json.dumps(res, indent=2)
+                try:
+                    self.tlog.long_in_time = self.now
+                    self.tlog.save()
+                    pass
+                except:
+                    text = '購買エラー<br>'
+                    pass
+
         else:
             text = 'short　前回購入しているのに、損切りされているので購買中止<br>'
         # self.getOrderNum()
@@ -239,6 +271,7 @@ class orderFx:
     def LongOrderCreate(self):
         self.getOrderNum()
         self.lossCutCheck()
+        self.posittionTimeCheck()
         if not self.isLlock:
             self.oderCloseAllShort()
             text = 'LongOrderCreate<br>'
@@ -262,6 +295,13 @@ class orderFx:
                 r = orders.OrderCreate(self.fi.accountID, data=self.data)
                 res = api.request(r)
                 text += json.dumps(res, indent=2)
+                try:
+                    self.tlog.long_in_time = self.now
+                    self.tlog.save()
+                    pass
+                except:
+                    text = '購買エラー<br>'
+                    pass
             # print(self.data)
             # print(json.dumps(res, indent=2))
             # print('order create----------------------------------------------')
