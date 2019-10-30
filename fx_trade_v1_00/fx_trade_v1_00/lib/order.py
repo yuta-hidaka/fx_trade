@@ -120,10 +120,12 @@ class orderFx:
         l_over = False
         s_over = False
         if self.tlog.long_in_time is None:
-            self.tlog.long_in_time = now
+            self.tlog.long_in_time = now - adjTime
+            self.tlog.long_in_time = now - adjTime
 
         if self.tlog.short_in_time is None:
-            self.tlog.short_in_time = now
+            self.tlog.short_in_time = now - adjTime
+            self.tlog.short_in_time = now - adjTime
 
         shortInTime = self.tlog.long_in_time + adjTime
         longInTime = self.tlog.short_in_time + adjTime
