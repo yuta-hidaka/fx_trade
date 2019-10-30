@@ -125,8 +125,8 @@ class orderFx:
         if self.tlog.short_in_time is None:
             self.tlog.short_in_time = now - adjTime
 
-        shortInTime = self.tlog.long_in_time + adjTime
-        longInTime = self.tlog.short_in_time + adjTime
+        shortInTime = self.tlog.short_in_time + adjTime
+        longInTime = self.tlog.long_in_time + adjTime
         text += '<br>now '+str(now)
         text += '<br>long in '+str(longInTime)
         text += '<br>shot in '+str(shortInTime)
