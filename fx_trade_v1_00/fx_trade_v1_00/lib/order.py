@@ -148,7 +148,7 @@ class orderFx:
                 text += '<br>short 5分経ってない  '
                 self.isSlock = True
         batchLog.objects.create(text=text)
-        lossCutCheck(self, l_over, s_over)
+        self.lossCutCheck(self, l_over, s_over)
 
     def lossCutCheck(self, l, s):
         # 口座のすべてのポジションをリストとして取得
