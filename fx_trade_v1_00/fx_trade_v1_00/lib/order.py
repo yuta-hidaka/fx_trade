@@ -117,21 +117,21 @@ class orderFx:
         shortInTime = self.tlog.long_in_time + adjTime
         longInTime = self.tlog.short_in_time + adjTime
 
-        if not self.isLlock:
-           if longInTime > now:
-                self.isLlock = False
-                text += '<br>long 5分経った'
-            else:
-                text += '<br>long 5分経ってない'
-                self.isLlock = True
+        # if not self.isLlock:
+        #    if longInTime > now:
+        #         self.isLlock = False
+        #         text += '<br>long 5分経った'
+        #     else:
+        #         text += '<br>long 5分経ってない'
+        #         self.isLlock = True
 
-        if not self.isSlock:
-            if shortInTime > now:
-                text += '<br>short 5分経った'
-                self.isSlock = False
-            else:
-                text += '<br>short 5分経ってない  '
-                self.isSlock = True
+        # if not self.isSlock:
+        #     if shortInTime > now:
+        #         text += '<br>short 5分経った'
+        #         self.isSlock = False
+        #     else:
+        #         text += '<br>short 5分経ってない  '
+        #         self.isSlock = True
 
     def lossCutCheck(self):
         # 口座のすべてのポジションをリストとして取得
