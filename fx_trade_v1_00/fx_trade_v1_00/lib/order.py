@@ -124,8 +124,8 @@ class orderFx:
         if self.tlog.short_in_time is None:
             self.tlog.short_in_time = now
 
-        shortInTime = self.tlog.long_in_time.replace(tzinfo=utc) + adjTime
-        longInTime = self.tlog.short_in_time.replace(tzinfo=utc) + adjTime
+        shortInTime = self.tlog.long_in_time + adjTime
+        longInTime = self.tlog.short_in_time + adjTime
         if not self.isLlock:
             if longInTime > now:
                 self.isLlock = False
