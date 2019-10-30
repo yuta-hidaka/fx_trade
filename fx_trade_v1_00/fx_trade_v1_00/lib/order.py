@@ -49,7 +49,7 @@ api.request(r)
 class orderFx:
 
     def __init__(self):
-        self.now = datetime.datetime.utcnow()
+        self.now = timezone.now()
 
         # now = timezone.utc()
 
@@ -114,7 +114,7 @@ class orderFx:
 
     # def getPosition(self):
     def posittionTimeCheck(self):
-        now = datetime.datetime.utcnow()
+        now = timezone.now()
         adjTime = datetime.timedelta(minutes=10)
         text = ''
 
