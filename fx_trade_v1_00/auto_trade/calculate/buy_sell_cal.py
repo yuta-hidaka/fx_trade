@@ -89,6 +89,43 @@ class BuySellCal():
                         # 購買タイミング----------------------------------------------------------------------------------
             # longのタイミング all slope is positive and before MA is 6or1 and now 1
 
+            # BBから計算したトレンド持ち合い相場だったら下のshortINを使用する。そうでなければMAを使用する。
+            trend_id = model_to_dict(
+                condNow.condition_of_bb.bb_trande
+            )['id']
+
+            preTrend_id = model_to_dict(
+                condiPrev.condition_of_bb.bb_trande
+            )['id']
+            try:
+                # print(condNow.condition_of_bb.bb_trande)
+
+                maPrev = model_to_dict(
+                    condiPrev.condition_of_ma_M5
+                )['ma_comp6_24_72']
+
+                maNow = model_to_dict(
+                    condNow.condition_of_ma_M5
+                )['ma_comp6_24_72']
+
+                slopePrev = model_to_dict(
+                    condiPrev.condition_of_slope_M5
+                )['slope_comp6_24_72']
+
+                slopeNow = model_to_dict(
+                    condNow.condition_of_slope_M5
+                )['slope_comp6_24_72']
+
+                pass
+            except Exception as e:
+                text += str(e)+' error　error<br>'
+                maPrev = 1
+                maNow = 1
+                slopePrev = 1
+                slopeNow = 1
+                # print("何かエラー起きてます。")
+                trend_id = 0
+                pass
             if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1 and not nowInL and not nowInS:
                 if not nowInL:
                     # print("long in by ma")
@@ -180,44 +217,6 @@ class BuySellCal():
 
             # 購買判断材料-持ち合い形成時--------------------------------------
 
-            # BBから計算したトレンド持ち合い相場だったら下のshortINを使用する。そうでなければMAを使用する。
-            trend_id = model_to_dict(
-                condNow.condition_of_bb.bb_trande
-            )['id']
-
-            preTrend_id = model_to_dict(
-                condiPrev.condition_of_bb.bb_trande
-            )['id']
-            try:
-                # print(condNow.condition_of_bb.bb_trande)
-
-
-                maPrev = model_to_dict(
-                    condiPrev.condition_of_ma_M5
-                )['ma_comp6_24_72']
-
-                maNow = model_to_dict(
-                    condNow.condition_of_ma_M5
-                )['ma_comp6_24_72']
-
-                slopePrev = model_to_dict(
-                    condiPrev.condition_of_slope_M5
-                )['slope_comp6_24_72']
-                
-                slopeNow = model_to_dict(
-                    condNow.condition_of_slope_M5
-                )['slope_comp6_24_72']
-
-                pass
-            except Exception as e:
-                text += str(e)+' error　error<br>'
-                maPrev = 1
-                maNow = 1
-                slopePrev = 1
-                slopeNow = 1
-                # print("何かエラー起きてます。")
-                trend_id = 0
-                pass
 
             # 購買判断材料-トレンド形成時--------------------------------------
 
