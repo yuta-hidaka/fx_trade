@@ -114,6 +114,12 @@ class orderFx:
     def posittionTimeCheck(self):
         now = datetime.datetime.utcnow()
         adjTime = datetime.timedelta(minutes=10)
+        if self.tlog.long_in_time is None:
+            self.tlog.long_in_time = now
+
+        if self.tlog.short_in_time is None:
+            self.tlog.short_in_time = now
+
         shortInTime = self.tlog.long_in_time + adjTime
         longInTime = self.tlog.short_in_time + adjTime
         if not self.isLlock:
