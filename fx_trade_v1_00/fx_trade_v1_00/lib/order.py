@@ -114,6 +114,8 @@ class orderFx:
     def posittionTimeCheck(self):
         now = datetime.datetime.utcnow()
         adjTime = datetime.timedelta(minutes=10)
+        text = ''
+
         if self.tlog.long_in_time is None:
             self.tlog.long_in_time = now
 
@@ -136,6 +138,7 @@ class orderFx:
             else:
                 text += '<br>short 5分経ってない  '
                 self.isSlock = True
+        batchLog.objects.create(text=text)
 
     def lossCutCheck(self):
         # 口座のすべてのポジションをリストとして取得
@@ -175,6 +178,7 @@ class orderFx:
         self.tlog.short_count = self.orderShortNum
         self.tlog.long_count = self.orderLongNum
         self.tlog.save()
+        batchLog.objects.create(text=text)
 
     def getOrderNum(self):
         # 口座のすべてのポジションをリストとして取得
