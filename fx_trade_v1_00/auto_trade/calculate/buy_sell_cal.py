@@ -85,6 +85,37 @@ class BuySellCal():
 
         # 市場が閉じていたら計算等は行わない
         if not len(nowCndl['candles']) == 0:
+
+                        # 購買タイミング----------------------------------------------------------------------------------
+            # longのタイミング all slope is positive and before MA is 6or1 and now 1
+
+            if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1 and not nowInL and not nowInS:
+                if not nowInL:
+                    # print("long in by ma")
+                    text += "long in by ma<br>"
+                    # self.order.LongOrderCreate()
+                    # nowInL = True
+                else:
+                    # print("long in　but position is too many")
+                    text += "long in　but position is too many<br>"
+                    # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
+            elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
+                if not nowInS:
+                    # self.order.oderCloseAllLong()
+                    # print("short in by ma")
+                    text += "short in by ma<br>"
+                    self.order.ShortOrderCreate()
+                    # nowInS = True
+                else:
+                    # print("short in　but position is too many")
+                    text += "short in　but position is too many<br>"
+                    # long closeのタイミング if MA is 2 it have to close
+            else:
+                # print('購買----様子見中')
+                text += '購買----様子見中<br>'
+
+                # --------------------------------------------------------------------------------------------------------------------
+
             # self.order.orderCreate()
             # print('----------------------------------------------------購買条件中------------------------------------------------')
             # 取引条件作成-------------------------------------
@@ -234,7 +265,7 @@ class BuySellCal():
             # 前回までトレンドで今が持ち合い相場であればいったん決済する。
 
             # --------------------------------------------------------------------------
-            # self.order.LongOrderCreate()
+            self.order.LongOrderCreate()
 
             if is_peak:
                     text += 'sigma3 エクスパンションの底値。ポジションを入れ替える <br>'
@@ -353,39 +384,6 @@ class BuySellCal():
                 # else:
                 #     # print('決済----様子見中')
                 #     text += '上下降トレンドの決済様子見中<br>'
-                # 購買タイミング----------------------------------------------------------------------------------
-                # longのタイミング all slope is positive and before MA is 6or1 and now 1
-
-                if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1 and not nowInL and not nowInS:
-
-                    if  not nowInL:
-                        # print("long in by ma")
-                        text += "long in by ma<br>"
-                        # self.order.LongOrderCreate()
-                        # nowInL = True
-
-                    else:
-                        # print("long in　but position is too many")
-                        text += "long in　but position is too many<br>"
-                        # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
-                elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                    if not nowInS:
-                        # self.order.oderCloseAllLong()
-                        # print("short in by ma")
-                        text += "short in by ma<br>"
-                        self.order.ShortOrderCreate()
-                        # nowInS = True
-
-                    else:
-                        # print("short in　but position is too many")
-                        text += "short in　but position is too many<br>"
-
-                        # long closeのタイミング if MA is 2 it have to close
-                else:
-                    # print('購買----様子見中')
-                    text += '購買----様子見中<br>'
-
-                    # --------------------------------------------------------------------------------------------------------------------
 
                 maPrev = model_to_dict(
                     condiPrev.condition_of_ma_M5
