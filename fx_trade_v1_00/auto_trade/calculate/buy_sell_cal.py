@@ -264,7 +264,7 @@ class BuySellCal():
             # 前回までトレンドで今が持ち合い相場であればいったん決済する。
 
             # --------------------------------------------------------------------------
-            self.order.LongOrderCreate()
+            # self.order.LongOrderCreate()
 
             if is_peak:
                     text += 'sigma3 エクスパンションの底値。ポジションを入れ替える <br>'
