@@ -135,17 +135,17 @@ class orderFx:
             if longInTime < now:
                 self.isLlock = False
                 l_over = True
-                text += '<br>long 5分経った'
+                text += '<br>long 10分経った'
             else:
-                text += '<br>long 5分経ってない'
+                text += '<br>long 10分経ってない'
                 self.isLlock = True
         if not self.isSlock:
             if shortInTime < now:
-                text += '<br>short 5分経った'
+                text += '<br>short 10分経った'
                 self.isSlock = False
                 s_over = True
             else:
-                text += '<br>short 5分経ってない  '
+                text += '<br>short 10分経ってない  '
                 self.isSlock = True
         batchLog.objects.create(text=text)
         self.lossCutCheck(self, l_over, s_over)
