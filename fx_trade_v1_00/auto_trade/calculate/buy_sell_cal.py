@@ -140,68 +140,6 @@ class BuySellCal():
             preTrend_id = model_to_dict(
                 condiPrev.condition_of_bb.bb_trande
             )['id']
-            try:
-                # print(condNow.condition_of_bb.bb_trande)
-
-                maPrev = model_to_dict(
-                    condiPrev.condition_of_ma_M5
-                )['ma_comp6_24_72']
-
-                maNow = model_to_dict(
-                    condNow.condition_of_ma_M5
-                )['ma_comp6_24_72']
-
-                slopePrev = model_to_dict(
-                    condiPrev.condition_of_slope_M5
-                )['slope_comp6_24_72']
-
-                slopeNow = model_to_dict(
-                    condNow.condition_of_slope_M5
-                )['slope_comp6_24_72']
-
-                pass
-            except Exception as e:
-                text += str(e)+' error　error<br>'
-                maPrev = 1
-                maNow = 1
-                slopePrev = 1
-                slopeNow = 1
-                # print("何かエラー起きてます。")
-                trend_id = 0
-                pass
-            if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1 and not nowInL and not nowInS:
-                if not nowInL:
-                    # print("long in by ma")
-                    text += "long in by ma<br>"
-                    # self.order.LongOrderCreate()
-                    nowInL = True
-                else:
-                    # print("long in　but position is too many")
-                    text += "long in　but position is too many<br>"
-                    # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
-            elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                if not nowInS:
-                    # self.order.oderCloseAllLong()
-                    # print("short in by ma")
-                    text += "short in by ma<br>"
-                    self.order.ShortOrderCreate()
-                    nowInS = True
-                else:
-                    # print("short in　but position is too many")
-                    text += "short in　but position is too many<br>"
-                    # long closeのタイミング if MA is 2 it have to close
-            else:
-                # print('購買----様子見中')
-                text += '購買----様子見中<br>'
-
-                # --------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
 
 
 
@@ -272,6 +210,70 @@ class BuySellCal():
             self.order.stopLossShort = str(short_limit)
             self.order.unitsShort = str(units*-1)
             # 前回までトレンドで今が持ち合い相場であればいったん決済する。
+            try:
+                # print(condNow.condition_of_bb.bb_trande)
+
+                maPrev = model_to_dict(
+                    condiPrev.condition_of_ma_M5
+                )['ma_comp6_24_72']
+
+                maNow = model_to_dict(
+                    condNow.condition_of_ma_M5
+                )['ma_comp6_24_72']
+
+                slopePrev = model_to_dict(
+                    condiPrev.condition_of_slope_M5
+                )['slope_comp6_24_72']
+
+                slopeNow = model_to_dict(
+                    condNow.condition_of_slope_M5
+                )['slope_comp6_24_72']
+
+                pass
+            except Exception as e:
+                text += str(e)+' error　error<br>'
+                maPrev = 1
+                maNow = 1
+                slopePrev = 1
+                slopeNow = 1
+                # print("何かエラー起きてます。")
+                trend_id = 0
+                pass
+            if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1 and not nowInL and not nowInS:
+                if not nowInL:
+                    # print("long in by ma")
+                    text += "long in by ma<br>"
+                    # self.order.LongOrderCreate()
+                    nowInL = True
+                else:
+                    # print("long in　but position is too many")
+                    text += "long in　but position is too many<br>"
+                    # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
+            elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
+                if not nowInS:
+                    # self.order.oderCloseAllLong()
+                    # print("short in by ma")
+                    text += "short in by ma<br>"
+                    self.order.ShortOrderCreate()
+                    nowInS = True
+                else:
+                    # print("short in　but position is too many")
+                    text += "short in　but position is too many<br>"
+                    # long closeのタイミング if MA is 2 it have to close
+            else:
+                # print('購買----様子見中')
+                text += '購買----様子見中<br>'
+
+                # --------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
 
             # --------------------------------------------------------------------------
             # self.order.LongOrderCreate()
