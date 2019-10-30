@@ -126,6 +126,10 @@ class orderFx:
 
         shortInTime = self.tlog.long_in_time + adjTime
         longInTime = self.tlog.short_in_time + adjTime
+        text += '<br>now '+str(now)
+        text += '<br>shot in '+str(shortInTime)
+        text += '<br>long in '+str(longInTime)
+
         if not self.isLlock:
             if longInTime > now:
                 self.isLlock = False
