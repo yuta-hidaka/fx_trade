@@ -501,7 +501,7 @@ class setBollingerBand_USD_JPY:
         text += 'sma1SigmaMinus_2 ' + str(sma1SigmaMinus_2) + '<br>'
         text += 'sma2SigmaMinus_2 ' + str(sma2SigmaMinus_2) + '<br>'
         # peak  and expansion判定
-        if sma3SigmaPlusBeforExP <= nowClose:
+        if sma3SigmaPlusBeforExP < nowClose and sma3SigmaPlusBeforExP < bfClose:
             text += 'sigma3＋α closeが上に触りました-エクスパンション用-<br>'
             is_expansion = True
             is_expansionByStd = True
@@ -512,7 +512,7 @@ class setBollingerBand_USD_JPY:
             text += 'sigma3＋α closeが上に触りました-トレンド終了用-<br>'
             is_topTouch = True
             is_peak = True
-        elif sma3SigmaMinusExP >= nowClose:
+        elif sma3SigmaMinusExP > nowClose and sma3SigmaMinusExP > bfClose:
             text += 'sigma3＋α closeが下に触りました-エクスパンション用-<br>'
             is_expansion = True
             is_expansionByStd = True
