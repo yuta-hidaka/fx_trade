@@ -116,9 +116,8 @@ class orderFx:
         adjTime = datetime.timedelta(minutes=10)
         shortInTime = self.tlog.long_in_time + adjTime
         longInTime = self.tlog.short_in_time + adjTime
-
         if not self.isLlock:
-           if longInTime > now:
+            if longInTime > now:
                 self.isLlock = False
                 text += '<br>long 5分経った'
             else:
