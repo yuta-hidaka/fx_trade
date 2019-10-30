@@ -17,7 +17,7 @@ from auto_trade.models import batchLog
 from .access_token import FxInfo
 
 import oandapyV20.endpoints.instruments as instruments
-
+from django.utils import timezone
 import datetime
 from auto_trade.models import batchLog,  tradeLog
 from oandapyV20 import API
@@ -50,6 +50,8 @@ class orderFx:
 
     def __init__(self):
         self.now = datetime.datetime.utcnow()
+
+        # now = timezone.utc()
 
         self.fi = FxInfo()
         self.tlog = tradeLog.objects.filter(id=1).first()
@@ -122,8 +124,8 @@ class orderFx:
         if self.tlog.short_in_time is None:
             self.tlog.short_in_time = now
 
-        shortInTime = self.tlog.long_in_time + adjTime
-        longInTime = self.tlog.short_in_time + adjTime
+        shortInTime = self.tlog.long_in_time.replace(tzinfo=utc) + adjTime
+        longInTime = self.tlog.short_in_time.replace(tzinfo=utc) + adjTime
         if not self.isLlock:
             if longInTime > now:
                 self.isLlock = False
