@@ -131,22 +131,21 @@ class orderFx:
         text += '<br>long in '+str(longInTime)
         text += '<br>shot in '+str(shortInTime)
 
-        if not self.isLlock:
-            if longInTime < now:
-                self.isLlock = False
-                l_over = True
-                text += '<br>long 10分経った'
-            else:
-                text += '<br>long 10分経ってない'
-                self.isLlock = True
-        if not self.isSlock:
-            if shortInTime < now:
-                text += '<br>short 10分経った'
-                self.isSlock = False
-                s_over = True
-            else:
-                text += '<br>short 10分経ってない  '
-                self.isSlock = True
+        if longInTime < now:
+            self.isLlock = False
+            l_over = True
+            text += '<br>long 10分経った'
+        else:
+            text += '<br>long 10分経ってない'
+            self.isLlock = False
+
+        if shortInTime < now:
+            text += '<br>short 10分経った'
+            self.isSlock = False
+            s_over = True
+        else:
+            text += '<br>short 10分経ってない  '
+            self.isSlock = False
         batchLog.objects.create(text=text)
         self.lossCutCheck(l_over, s_over)
 
@@ -275,7 +274,7 @@ class orderFx:
                 res = api.request(r)
                 text += json.dumps(res, indent=2)
                 try:
-                    self.tlog.short_in_time = self.now
+                    self.tlog.shortd_in_time = self.now
                     self.tlog.save()
                     pass
                 except:
