@@ -117,7 +117,8 @@ class orderFx:
         now = timezone.now()
         adjTime = datetime.timedelta(minutes=10)
         text = ''
-
+        l_over = False
+        s_over = False
         if self.tlog.long_in_time is None:
             self.tlog.long_in_time = now
 
@@ -133,6 +134,7 @@ class orderFx:
         if not self.isLlock:
             if longInTime > now:
                 self.isLlock = False
+                l_over = True
                 text += '<br>long 5分経った'
             else:
                 text += '<br>long 5分経ってない'
@@ -141,12 +143,14 @@ class orderFx:
             if shortInTime > now:
                 text += '<br>short 5分経った'
                 self.isSlock = False
+                s_over = True
             else:
                 text += '<br>short 5分経ってない  '
                 self.isSlock = True
         batchLog.objects.create(text=text)
+        lossCutCheck(self, l_over, s_over)
 
-    def lossCutCheck(self):
+    def lossCutCheck(self, l, s):
         # 口座のすべてのポジションをリストとして取得
         # self.tlog = tradeLog.objects.filter(id=1).first()
         r = positions.PositionList(accountID=self.fi.accountID)
@@ -167,19 +171,21 @@ class orderFx:
 
         # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
         text = ''
-        if self.tlog.long_count == olNum:
-            self.isLlock = False
-            text += '<br>ロングおなじ'
-        else:
-            text += '<br>ロングちがう'
-            self.isLlock = True
+        if not l:
+            if self.tlog.long_count == olNum:
+                self.isLlock = False
+                text += '<br>ロングおなじ'
+            else:
+                text += '<br>ロングちがう'
+                self.isLlock = True
 
-        if self.tlog.short_count == osNum:
-            text += '<br>ショートおなじ'
-            self.isSlock = False
-        else:
-            text += '<br>ショートちがう  '
-            self.isSlock = True
+        if not s:
+            if self.tlog.short_count == osNum:
+                text += '<br>ショートおなじ'
+                self.isSlock = False
+            else:
+                text += '<br>ショートちがう  '
+                self.isSlock = True
 
         self.tlog.short_count = self.orderShortNum
         self.tlog.long_count = self.orderLongNum
