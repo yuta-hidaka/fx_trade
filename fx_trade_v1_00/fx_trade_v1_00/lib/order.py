@@ -275,7 +275,7 @@ class orderFx:
                 res = api.request(r)
                 text += json.dumps(res, indent=2)
                 try:
-                    self.tlog.long_in_time = self.now
+                    self.tlog.short_in_time = self.now
                     self.tlog.save()
                     pass
                 except:
