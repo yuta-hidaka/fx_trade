@@ -124,7 +124,7 @@ class orderFx:
             else:
                 text += '<br>long 5分経ってない'
                 self.isLlock = True
-                
+
         if not self.isSlock:
             if shortInTime > now:
                 text += '<br>short 5分経った'
