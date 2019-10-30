@@ -49,6 +49,8 @@ class tradeLog(models.Model):
     long_count = models.IntegerField(default=0)
     is_short_lock = models.BooleanField(default=False)
     is_long_lock = models.BooleanField(default=False)
+    short_in_time = models.DateTimeField(null=True)
+    long_in_time = models.DateTimeField(null=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -58,6 +60,8 @@ class batchLog(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 # 5分足
+
+
 class M5_USD_JPY(models.Model):
     open = models.DecimalField(max_digits=8, decimal_places=4, default=0.0000)
     high = models.DecimalField(max_digits=8, decimal_places=4, default=0.0000)
