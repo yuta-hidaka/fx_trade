@@ -250,9 +250,10 @@ class orderFx:
     def ShortOrderCreate(self):
         self.getOrderNum()
         self.posittionTimeCheck()
+        text = ''
         if not self.isSlock:
             self.oderCloseAllLong()
-            text = 'ShortOrderCreate<br>'
+            text += 'ShortOrderCreate<br>'
             # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
             api = self.fi.api
             # stopPrice = 100.00
@@ -278,11 +279,11 @@ class orderFx:
                     self.tlog.save()
                     pass
                 except:
-                    text = '購買エラー<br>'
+                    text += '購買エラー<br>'
                     pass
 
         else:
-            text = 'short　前回購入しているのに、損切りされているので購買中止<br>'
+            text += 'short　前回購入しているのに、損切りされているので購買中止<br>'
         # self.getOrderNum()
         batchLog.objects.create(text=text)
 
