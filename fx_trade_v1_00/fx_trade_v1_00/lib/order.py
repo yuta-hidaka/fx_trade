@@ -116,7 +116,7 @@ class orderFx:
     def posittionTimeCheck(self):
         now = timezone.now()
         adjTime = datetime.timedelta(minutes=10)
-        text = ''
+        text = 'positionCheck'
         l_over = False
         s_over = False
         if self.tlog.long_in_time is None:
