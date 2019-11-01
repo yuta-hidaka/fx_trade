@@ -80,7 +80,8 @@ class setBollingerBand_USD_JPY:
         # is_squeeze=False
         is_plus = True
         is_peak = False
-        is_trend = True
+        is_trend = False
+        is_range = False
         is_shortIn = True
         is_longIn = False
         is_topTouch = False
@@ -451,8 +452,9 @@ class setBollingerBand_USD_JPY:
                 # if np.absolute(ans) >= trendRatio or np.absolute(ans_2) >= trendRatio:
                 is_trend = True
             # elif np.absolute(ans) >= 70 and fstCondClose:
-            else:
+            elif np.absolute(ans) <= trendRatio and np.absolute(ans_2) <= trendRatio:
                 is_trend = False
+                is_range = True
 
             if is_trend:
                 if is_plus and slopeDir == 1:
@@ -472,9 +474,15 @@ class setBollingerBand_USD_JPY:
                     text += 'トレンドだけど傾きが真逆 一旦静観else<br>'
                     trandCondi = 4
             else:
+                if is_range:
+                    trandCondi = 3
+                    text += '持ち合い相場<br>'
+                else :
+                    trandCondi = 4
+                    text += '下位or上位が持ち合いじゃない<br>'
+
                 # もみ合い相場
-                text += '持ち合いトレンドcondition条件判定内<br>'
-                trandCondi = 3
+                
 
         # if nowClose
         # 持ち合い相場時の決済基準を判断
