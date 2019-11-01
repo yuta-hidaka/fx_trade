@@ -243,7 +243,7 @@ class BuySellCal():
                 if not nowInL:
                     # print("long in by ma")
                     text += "long in by ma<br>"
-                    # self.order.LongOrderCreate()
+                    self.order.LongOrderCreate()
                     nowInL = True
                 else:
                     # print("long in　but position is too many")
