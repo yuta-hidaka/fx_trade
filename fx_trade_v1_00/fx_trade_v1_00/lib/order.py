@@ -146,6 +146,7 @@ class orderFx:
         else:
             text += '<br>short 10分経ってない  '
             self.isSlock = True
+
         batchLog.objects.create(text=text)
         self.lossCutCheck(l_over, s_over)
 
@@ -170,7 +171,7 @@ class orderFx:
 
         # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
         text = 'loss cut check'
-        if not l:
+        if not l and not self.isLlock:
             if self.tlog.long_count == olNum:
                 self.isLlock = False
                 text += '<br>ロングおなじ'
@@ -178,7 +179,7 @@ class orderFx:
                 text += '<br>ロングちがう'
                 self.isLlock = True
 
-        if not s:
+        if not s and not self.isSlock:
             if self.tlog.short_count == osNum:
                 text += '<br>ショートおなじ'
                 self.isSlock = False
@@ -248,10 +249,11 @@ class orderFx:
         batchLog.objects.create(text=text)
 
     def ShortOrderCreate(self):
-        self.getOrderNum()
         self.posittionTimeCheck()
         text = ''
+        text = 'self.isSlock ' + str(self.isSlock) + '<br>'
         if not self.isSlock:
+            self.getOrderNum()
             self.oderCloseAllLong()
             text += 'ShortOrderCreate<br>'
             # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
@@ -287,9 +289,10 @@ class orderFx:
         batchLog.objects.create(text=text)
 
     def LongOrderCreate(self):
-        self.getOrderNum()
         self.posittionTimeCheck()
+        text = 'self.isLlock ' + str(self.isLlock) + '<br>'
         if not self.isLlock:
+            self.getOrderNum()
             self.oderCloseAllShort()
             text = 'LongOrderCreate<br>'
             # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
@@ -323,7 +326,7 @@ class orderFx:
             # print(json.dumps(res, indent=2))
             # print('order create----------------------------------------------')
         else:
-            text = 'long 前回購入しているのに、損切りされているので購買中止<br>'
+            text += 'long 前回購入しているのに、損切りされているので購買中止<br>'
         # self.getOrderNum()
         batchLog.objects.create(text=text)
 
