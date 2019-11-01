@@ -169,7 +169,7 @@ class orderFx:
             osNum = 0
 
         # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
-        text = ''
+        text = 'loss cut check'
         if not l:
             if self.tlog.long_count == olNum:
                 self.isLlock = False
@@ -281,7 +281,6 @@ class orderFx:
                 except:
                     text += '購買エラー<br>'
                     pass
-
         else:
             text += 'short　前回購入しているのに、損切りされているので購買中止<br>'
         # self.getOrderNum()
