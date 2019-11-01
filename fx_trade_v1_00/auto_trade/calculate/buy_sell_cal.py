@@ -97,7 +97,7 @@ class BuySellCal():
             # long_limit = (bb['sma'] - bb['abs_sigma_3']
             #               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
             short_in = (
-                nowCndl_close + nowCndl_close*Decimal(-0.00015)
+                nowCndl_close - nowCndl_close*Decimal(0.00015)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             # short_limit = (bb['sma'] + bb['abs_sigma_3']
@@ -146,9 +146,9 @@ class BuySellCal():
             if not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
                 text += '確度が小さいのでlimit小さく<br>'
                        # 確度が小さいのでlimit小さく
-                long_limit = (nowCndl_close - (nowCndl_close * Decimal(0.00025))
+                long_limit = (nowCndl_close - ((nowCndl_close * limit/2))
                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                short_limit = (nowCndl_close + (nowCndl_close * Decimal(0.00025))
+                short_limit = (nowCndl_close + ((nowCndl_close * limit/2))
                                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             text += 'longの入り値　' + str(long_in) + '<br>'
@@ -243,6 +243,10 @@ class BuySellCal():
                 if not nowInL:
                     # print("long in by ma")
                     text += "long in by ma<br>"
+                    long_limit = (
+                        nowCndl_close - (nowCndl_close * (limit*3))
+                                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                    self.order.stopLossLong = str(long_limit)
                     self.order.LongOrderCreate()
                     nowInL = True
                 else:
@@ -254,6 +258,10 @@ class BuySellCal():
                     # self.order.oderCloseAllLong()
                     # print("short in by ma")
                     text += "short in by ma<br>"
+                    short_limit = (
+                        nowCndl_close + (nowCndl_close * (limit*3))
+                                   ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                    self.order.stopLossShort = str(short_limit)
                     self.order.ShortOrderCreate()
                     nowInS = True
                 else:
