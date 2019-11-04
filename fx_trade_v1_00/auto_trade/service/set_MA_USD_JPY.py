@@ -33,7 +33,7 @@ class setMA_USD_JPY:
             key = 'm5_ma' + str(ma)
             data = Decimal(
                 ld[key])-(pd[key]
-                ).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+                          ).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
             vals.append(data)
 
         create = SlopeM5_USD_JPY.objects.create(
@@ -74,12 +74,12 @@ class setMA_USD_JPY:
         try:
             leatestData = MA_USD_JPY.objects.latest('created_at')
             # print(FXdata)
-
         except ObjectDoesNotExist:
             is_first = True
             print('MAの過去データがありません。')
             pass
 
+        # MA数の平均値を出力
         for ma in ListMa:
             data = list(M5_USD_JPY.objects.order_by(
                 '-recorded_at_utc')[:ma].aggregate(Avg('close')).values())

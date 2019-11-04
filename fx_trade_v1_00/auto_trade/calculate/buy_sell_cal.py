@@ -244,7 +244,7 @@ class BuySellCal():
                     # print("long in by ma")
                     text += "long in by ma<br>"
                     long_limit = (
-                        nowCndl_close - (nowCndl_close * (limit*3))
+                        nowCndl_close - (nowCndl_close * (limit))
                                 ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                     self.order.stopLossLong = str(long_limit)
                     self.order.LongOrderCreate()
@@ -259,7 +259,7 @@ class BuySellCal():
                     # print("short in by ma")
                     text += "short in by ma<br>"
                     short_limit = (
-                        nowCndl_close + (nowCndl_close * (limit*3))
+                        nowCndl_close + (nowCndl_close * (limit))
                                    ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                     self.order.stopLossShort = str(short_limit)
                     self.order.ShortOrderCreate()
