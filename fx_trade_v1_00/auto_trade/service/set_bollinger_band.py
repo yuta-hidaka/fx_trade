@@ -21,10 +21,10 @@ class setBollingerBand_USD_JPY:
         rs = model_to_dict(result)
         bbb = model_to_dict(bbBefor)
         cond = condition.objects.all().order_by(
-            '-created_at')[:self.setting.bb_slope_dir_count]        
-        
+            '-created_at')[:self.setting.bb_slope_dir_count]
+
         condDouble = condition.objects.all().order_by(
-            '-created_at')[:(self.setting.bb_slope_dir_count* 2) ]
+            '-created_at')[:(self.setting.bb_slope_dir_count * 2)]
 
         cond_2 = condition.objects.all().order_by(
             '-created_at')[:self.setting.bb_slope_dir_count]
@@ -477,12 +477,11 @@ class setBollingerBand_USD_JPY:
                 if is_range:
                     trandCondi = 3
                     text += '持ち合い相場<br>'
-                else :
+                else:
                     trandCondi = 4
                     text += '下位or上位が持ち合いじゃない<br>'
 
                 # もみ合い相場
-                
 
         # if nowClose
         # 持ち合い相場時の決済基準を判断

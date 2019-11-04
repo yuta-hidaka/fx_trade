@@ -248,7 +248,7 @@ class BuySellCal():
                         long_limit = (
                             nowCndl_close - (nowCndl_close * (limit))
                                     ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                        self.order.stopLossLong = str(long_limit * 2)
+                        self.order.stopLossLong = str(long_limit)
                         self.order.LongOrderCreate()
                         nowInL = True
                     else:
@@ -263,7 +263,7 @@ class BuySellCal():
                         short_limit = (
                             nowCndl_close + (nowCndl_close * (limit))
                                     ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                        self.order.stopLossShort = str(short_limit * 2)
+                        self.order.stopLossShort = str(short_limit)
                         self.order.ShortOrderCreate()
                         nowInS = True
                     else:

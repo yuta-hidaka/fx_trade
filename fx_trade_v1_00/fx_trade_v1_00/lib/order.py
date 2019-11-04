@@ -251,6 +251,7 @@ class orderFx:
     def ShortOrderCreate(self):
         self.posittionTimeCheck()
         text = ''
+        flg = False
         text = 'self.isSlock ' + str(self.isSlock) + '<br>'
         if not self.isSlock:
             self.getOrderNum()
@@ -279,17 +280,21 @@ class orderFx:
                 try:
                     self.tlog.short_in_time = self.now
                     self.tlog.save()
+                    flg = True
                     pass
                 except:
                     text += '購買エラー<br>'
                     pass
         else:
             text += 'short　前回購入しているのに、損切りされているので購買中止<br>'
+        return flg
+
         # self.getOrderNum()
         batchLog.objects.create(text=text)
 
     def LongOrderCreate(self):
         self.posittionTimeCheck()
+        flg = False
         text = 'self.isLlock ' + str(self.isLlock) + '<br>'
         if not self.isLlock:
             self.getOrderNum()
@@ -312,12 +317,14 @@ class orderFx:
             # r = trades.TradeClose(accountID=accountID, tradeID=49, data=data)
             # API経由で指値注文を実行
             if self.orderLongNum == 0:
+
                 r = orders.OrderCreate(self.fi.accountID, data=self.data)
                 res = api.request(r)
                 text += json.dumps(res, indent=2)
                 try:
                     self.tlog.long_in_time = self.now
                     self.tlog.save()
+                    flg = True
                     pass
                 except:
                     text = '購買エラー<br>'
@@ -329,6 +336,7 @@ class orderFx:
             text += 'long 前回購入しているのに、損切りされているので購買中止<br>'
         # self.getOrderNum()
         batchLog.objects.create(text=text)
+        return flg
 
     def oderCloseAllLong(self):
         self.getOrderNum()
