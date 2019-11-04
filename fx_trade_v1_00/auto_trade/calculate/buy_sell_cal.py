@@ -62,6 +62,9 @@ class BuySellCal():
         is_topTouchPrev = cbbPrev['is_topTouch']
         is_bottomTouchPrev = cbbPrev['is_bottomTouch']
 
+        long_in_by_ma = False
+        short_in_by_ma = False
+
         # 購入するユニット数
         # units = 7500
         try:
@@ -249,6 +252,7 @@ class BuySellCal():
                             nowCndl_close - (nowCndl_close * (limit))
                                     ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                         self.order.stopLossLong = str(long_limit)
+                        # long_in_by_ma = True
                         nowInL = self.order.LongOrderCreate()
                     else:
                         # print("long in　but position is too many")
@@ -263,6 +267,7 @@ class BuySellCal():
                             nowCndl_close + (nowCndl_close * (limit))
                                     ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                         self.order.stopLossShort = str(short_limit)
+                        # short_in_by_ma = True
                         nowInS = self.order.ShortOrderCreate()
                     else:
                         # print("short in　but position is too many")
@@ -359,7 +364,7 @@ class BuySellCal():
                             
 
     # --------------------------------------------------------------------------
-            if trend_id == 1 or trend_id == 2 and not is_peak and not nowInL and not nowInS:
+            if trend_id == 1 or trend_id == 2 or trend_id == 4 and not is_peak and not nowInL and not nowInS:
                 # if is_longInBB:
                 
                 # elif is_shortInBB:
