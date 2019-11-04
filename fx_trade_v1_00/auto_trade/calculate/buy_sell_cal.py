@@ -84,10 +84,8 @@ class BuySellCal():
         M5_1_closeNow = model_to_dict(condNow.ma.m5)['close']
         M5_1_closePrev = model_to_dict(condiPrev.ma.m5)['close']
 
-        # 市場が閉じていたら計算等は行わない
+        # 市場が閉じていたら計算等は行わない,変化率が乏しい時もトレードしない
         if not len(nowCndl['candles']) == 0:
-
-
             # self.order.orderCreate()
             # print('----------------------------------------------------購買条件中------------------------------------------------')
             # 取引条件作成-------------------------------------
@@ -240,39 +238,43 @@ class BuySellCal():
                 # print("何かエラー起きてます。")
                 trend_id = 0
                 pass
-            if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1 and not nowInL and not nowInS:
-                if not nowInL:
-                    # print("long in by ma")
-                    text += "long in by ma<br>"
-                    long_limit = (
-                        nowCndl_close - (nowCndl_close * (limit))
-                                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                    self.order.stopLossLong = str(long_limit)
-                    self.order.LongOrderCreate()
-                    nowInL = True
-                else:
-                    # print("long in　but position is too many")
-                    text += "long in　but position is too many<br>"
-                    # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
-            elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                if not nowInS:
-                    # self.order.oderCloseAllLong()
-                    # print("short in by ma")
-                    text += "short in by ma<br>"
-                    short_limit = (
-                        nowCndl_close + (nowCndl_close * (limit))
-                                   ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                    self.order.stopLossShort = str(short_limit)
-                    self.order.ShortOrderCreate()
-                    nowInS = True
-                else:
-                    # print("short in　but position is too many")
-                    text += "short in　but position is too many<br>"
-                    # long closeのタイミング if MA is 2 it have to close
-            else:
-                # print('購買----様子見中')
-                text += '購買----様子見中<br>'
 
+            # 変化率が乏しい時はMAで勝負しない(変化率：単位ミクロン)
+            if cv > 40:
+                if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1 and not nowInL and not nowInS:
+                    if not nowInL:
+                        # print("long in by ma")
+                        text += "long in by ma<br>"
+                        long_limit = (
+                            nowCndl_close - (nowCndl_close * (limit))
+                                    ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                        self.order.stopLossLong = str(long_limit)
+                        self.order.LongOrderCreate()
+                        nowInL = True
+                    else:
+                        # print("long in　but position is too many")
+                        text += "long in　but position is too many<br>"
+                        # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
+                elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
+                    if not nowInS:
+                        # self.order.oderCloseAllLong()
+                        # print("short in by ma")
+                        text += "short in by ma<br>"
+                        short_limit = (
+                            nowCndl_close + (nowCndl_close * (limit))
+                                    ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                        self.order.stopLossShort = str(short_limit)
+                        self.order.ShortOrderCreate()
+                        nowInS = True
+                    else:
+                        # print("short in　but position is too many")
+                        text += "short in　but position is too many<br>"
+                        # long closeのタイミング if MA is 2 it have to close
+                else:
+                    # print('購買----様子見中')
+                    text += '購買----様子見中 MAでの購買判定<br>'
+            else:
+                    text += '変化率に乏しいのでMAで勝負しません<br>'
                 # --------------------------------------------------------------------------------------------------------------------
 
 
