@@ -97,20 +97,20 @@ class orderFx:
             }
         }
 
-        # # 口座のすべてのポジションをリストとして取得
-        # r = positions.PositionList(accountID=self.fi.accountID)
-        # api = self.fi.api
-        # res = api.request(r)
-        # pos = res['positions'][0]
-        # # オーダーステータスを取得する。
-        # try:
-        #     self.orderLongNum = len(pos['long']['tradeIDs'])
-        # except:
-        #     self.orderLongNum = 0
-        # try:
-        #     self.orderShortNum = len(pos['short']['tradeIDs'])
-        # except:
-        #     self.orderShortNum = 0
+        # 口座のすべてのポジションをリストとして取得
+        r = positions.PositionList(accountID=self.fi.accountID)
+        api = self.fi.api
+        res = api.request(r)
+        pos = res['positions'][0]
+        # オーダーステータスを取得する。
+        try:
+            self.orderLongNum = len(pos['long']['tradeIDs'])
+        except:
+            self.orderLongNum = 0
+        try:
+            self.orderShortNum = len(pos['short']['tradeIDs'])
+        except:
+            self.orderShortNum = 0
 
     # def getPosition(self):
     def posittionTimeCheck(self):

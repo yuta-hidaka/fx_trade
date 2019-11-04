@@ -21,4 +21,5 @@ from .views import top
 
 urlpatterns = [
     path('', top.index, name='index'),
+    path('test', top.test, name='test'),
 ]
