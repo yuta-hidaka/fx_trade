@@ -271,8 +271,6 @@ class bollingerBand(models.Model):
         max_digits=8, decimal_places=4, default=0.0000, null=True)
     abs_sigma_3_2 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000, null=True)
-    cv = models.DecimalField(
-        max_digits=8, decimal_places=8, default=0.0000, null=True)
     recorded_at_utc = models.DateTimeField(default=timezone.now)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
