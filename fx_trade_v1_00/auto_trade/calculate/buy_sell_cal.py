@@ -47,13 +47,8 @@ class BuySellCal():
         is_expansion = cbb['is_expansion']
         is_topTouch = cbb['is_topTouch']
         is_bottomTouch = cbb['is_bottomTouch']
-        try:
-            cv = bb['cv']
-            text += 'cv  '+ str(cv) + '<br>'
-            pass
-        except:
-            pass
-
+        cv = bb['cv'] * Decimal('1000000')
+        text += 'cv  '+ str(cv) + '<br>'
         is_peak = cbb['is_peak']
         is_shortClose = cbb['is_shortClose']
         is_longClose = cbb['is_longClose']
