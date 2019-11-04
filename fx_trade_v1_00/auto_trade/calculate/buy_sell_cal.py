@@ -277,15 +277,6 @@ class BuySellCal():
                     text += '変化率に乏しいのでMAで勝負しません<br>'
                 # --------------------------------------------------------------------------------------------------------------------
 
-
-
-
-
-
-
-
-
-
             # --------------------------------------------------------------------------
             # self.order.LongOrderCreate()
 
@@ -376,18 +367,18 @@ class BuySellCal():
                 # elif is_shortInBB:
 
                 # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
-                # if maNow == 2 and trend_id != 1 :
-                #     # print("long out by ma")
-                #     text = "long out by ma<br>"
-                #     if not nowInL:
-                #         self.order.oderCloseAllLong()
+                if maNow == 2 and trend_id != 1 :
+                    # print("long out by ma")
+                    text = "long out by ma<br>"
+                    if not nowInL:
+                        self.order.oderCloseAllLong()
 
-                #     # short　closeのタイミング if MA is 5 it have to close
-                # elif maNow == 5 and trend_id != 2 :
-                #     # print("short out by ma")
-                #     text += "short out by ma<br>"
-                #     if not nowInS:
-                #         self.order.oderCloseAllShort()
+                    # short　closeのタイミング if MA is 5 it have to close
+                elif maNow == 5 and trend_id != 2 :
+                    # print("short out by ma")
+                    text += "short out by ma<br>"
+                    if not nowInS:
+                        self.order.oderCloseAllShort()
 
                 #     # long　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
                 # elif M5_1_closePrev > nowCndl_close > M5_1_closeNow and trend_id != 1 :
@@ -407,21 +398,6 @@ class BuySellCal():
                 #     # print('決済----様子見中')
                 #     text += '上下降トレンドの決済様子見中<br>'
 
-                maPrev = model_to_dict(
-                    condiPrev.condition_of_ma_M5
-                )['ma_comp1_6_24']
-
-                maNow = model_to_dict(
-                    condNow.condition_of_ma_M5
-                )['ma_comp1_6_24']
-
-                slopePrev = model_to_dict(
-                    condiPrev.condition_of_slope_M5
-                )['slope_comp1_6_24']
-
-                slopeNow = model_to_dict(
-                    condNow.condition_of_slope_M5
-                )['slope_comp1_6_24']
                 # 購買タイミング
                 # longのタイミング all slope is positive and before MA is 6or1 and now 1
                 # if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
