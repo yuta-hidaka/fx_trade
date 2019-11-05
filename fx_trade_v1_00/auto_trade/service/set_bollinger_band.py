@@ -446,42 +446,42 @@ class setBollingerBand_USD_JPY:
         # else:
         #     is_expansion = False
 
-        if not is_expansion:
-            trendRatio = 90
-            if np.absolute(ans) >= trendRatio:
-                # if np.absolute(ans) >= trendRatio or np.absolute(ans_2) >= trendRatio:
-                is_trend = True
-            # elif np.absolute(ans) >= 70 and fstCondClose:
-            elif np.absolute(ans) <= trendRatio and np.absolute(ans_2) <= trendRatio:
-                is_trend = False
-                is_range = True
+        # if not is_expansion:
+        trendRatio = 90
+        if np.absolute(ans) >= trendRatio:
+            # if np.absolute(ans) >= trendRatio or np.absolute(ans_2) >= trendRatio:
+            is_trend = True
+        # elif np.absolute(ans) >= 70 and fstCondClose:
+        elif np.absolute(ans) <= trendRatio and np.absolute(ans_2) <= trendRatio:
+            is_trend = False
+            is_range = True
 
-            if is_trend:
-                if is_plus and slopeDir == 1:
-                    text += '＋トレンド<br>'
-                    # プラスのトレンド
-                    trandCondi = 1
-                    is_longIn = True
-                elif not is_plus and slopeDir == -1:
-                    text += '-トレンド<br>'
-                    # マイナスのトレンド
-                    trandCondi = 2
-                    is_shortIn = True
-                elif slopeDir == 0:
-                    text += 'トレンドだけど傾きが真逆 一旦静観<br>'
-                    trandCondi = 4
-                else:
-                    text += 'トレンドだけど傾きが真逆 一旦静観else<br>'
-                    trandCondi = 4
+        if is_trend:
+            if is_plus and slopeDir == 1:
+                text += '＋トレンド<br>'
+                # プラスのトレンド
+                trandCondi = 1
+                is_longIn = True
+            elif not is_plus and slopeDir == -1:
+                text += '-トレンド<br>'
+                # マイナスのトレンド
+                trandCondi = 2
+                is_shortIn = True
+            elif slopeDir == 0:
+                text += 'トレンドだけど傾きが真逆 一旦静観<br>'
+                trandCondi = 4
             else:
-                if is_range:
-                    trandCondi = 3
-                    text += '持ち合い相場<br>'
-                else:
-                    trandCondi = 4
-                    text += '下位or上位が持ち合いじゃない<br>'
+                text += 'トレンドだけど傾きが真逆 一旦静観else<br>'
+                trandCondi = 4
+        else:
+            if is_range:
+                trandCondi = 3
+                text += '持ち合い相場<br>'
+            else:
+                trandCondi = 4
+                text += '下位or上位が持ち合いじゃない<br>'
 
-                # もみ合い相場
+            # もみ合い相場
 
         # if nowClose
         # 持ち合い相場時の決済基準を判断
