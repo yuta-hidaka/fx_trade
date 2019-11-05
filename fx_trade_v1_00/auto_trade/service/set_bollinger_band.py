@@ -330,10 +330,10 @@ class setBollingerBand_USD_JPY:
             if (c.ma.m5.close - c.condition_of_bb.bb.sma) == 0:
                 data += 0
                 aaaa += 1
-            elif c.ma.m5.close < c.condition_of_bb.bb.sma:
+            elif c.ma.m5.close <= c.condition_of_bb.bb.sma:
                 data -= 1
                 aaaa2 += 1
-            elif c.ma.m5.close > c.condition_of_bb.bb.sma:
+            elif c.ma.m5.close >= c.condition_of_bb.bb.sma:
                 data += 1
                 aaaa3 += 1
 
@@ -341,10 +341,10 @@ class setBollingerBand_USD_JPY:
             if nowMA.close - c.condition_of_bb.bb.sma_2 == 0:
                 data_2 += 0
                 aaaa_2 += 1
-            elif nowMA.close < c.condition_of_bb.bb.sma_2:
+            elif nowMA.close <= c.condition_of_bb.bb.sma_2:
                 data_2 -= 1
                 aaaa2_2 += 1
-            elif nowMA.close > c.condition_of_bb.bb.sma_2:
+            elif nowMA.close >= c.condition_of_bb.bb.sma_2:
                 data_2 += 1
                 aaaa3_2 += 1
 
