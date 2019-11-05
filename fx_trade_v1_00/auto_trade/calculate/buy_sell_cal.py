@@ -247,84 +247,7 @@ class BuySellCal():
             # --------------------------------------------------------------------------
             # self.order.LongOrderCreate()
 
-            if is_peak:
-                    text += 'sigma3 エクスパンションの底値。ポジションを入れ替える <br>'
-                    if is_bottomTouch:
-                        text += 'sigma3 エクスパンション終了で下タッチなのでlongIn<br>'
-                        self.order.LongOrderCreate()
-                        nowInL = True
 
-                    elif is_topTouch :
-                        text += 'sigma3 エクスパンション終了で上タッチなのでshortIn<br>'
-                        self.order.ShortOrderCreate()
-                        nowInS = True
-
-            if trend_id == 3 and not is_peak and not nowInL and not nowInS:
-                # if preTrend_id == 1 or preTrend_id == 2 or preTrend_id == 4:
-                #         text += '前回までトレンドで今が持ち合い相場でいったん決済。<br>'
-                #         self.order.allOrderClose()
-                # 偏差と数値によるエクスパンションで確度が高めのポジションを持つ
-                if not is_expansionPrev and is_expansion and is_expansionByStd and is_expansionByNum:
-                    text += 'エクスパンション確度が高め<br>'
-                    if is_topTouch :
-                        # print('エクスパンションで上タッチなので買い')
-                        text += 'エクスパンションで上タッチなのでLong by Std<br>'
-                        self.order.LongOrderCreate()
-                        nowInL = True
-                    elif is_bottomTouch :
-                        # print('エクスパンションで下タッチなので売り')
-                        text += 'エクスパンションで下タッチなのでShort by Std<br>'
-                        self.order.ShortOrderCreate()
-                        nowInS = True
-                    else:
-                        text += 'エクスパンションbyStd_購買条件未該当<br>'
-
-                        # 前回エクスパンションしていなかったら初めてのエクスパンションとする,
-                # 偏差によるエクスパンションでなければlong、short両方のポジションを持つ
-                elif not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
-                    text += 'エクスパンションbyNum or Std<br>'
-                    # text += 'エクスパンションbyNum or Stdすべてのポジション解除<br>'
-                    # self.order.allOrderClose()
-             
-                    if is_topTouch:
-                        text += 'エクスパンションorだましで上タッチのLongIn<br>'
-                        self.order.LongOrderCreate()
-                        nowInL = True
-                        text += 'LongIn<br>'
-                        # if  == 0:
-                        #     self.order.ShortOrderCreate()
-                        #     nowInS = True
-                        #     text += 'ShortIn<br>'   
-                        # self.order.oderCloseAllShort()
-                        # self.order.oderCloseAllLong()
-                    elif is_bottomTouch:
-                        text += 'エクスパンションorだましで上タッチなのでshortIn<br>'
-                        # if  == 0:
-                        #     self.order.LongOrderCreate()
-                        #     nowInL = True
-                        #     text += 'LongIn<br>'
-                        self.order.ShortOrderCreate()
-                        nowInS = True
-                        text += 'ShortIn<br>'
-                        # self.order.oderCloseAllShort()
-                        # self.order.oderCloseAllLong()
-                    else:
-                        text += 'エクスパンションorだまし_購買条件未該当<br>'
-                        
-
-
-                    # 前回エクスパンションしていて、いまエクスパンションが収まったら、底の認識でそれぞれ売り払って逆方向にinする
-                # elif is_expansionPrev and not is_expansion and is_expansionByStdPrev:
-                #     text += 'エクスパンションの底値。ポジションを入れ替える <br>'
-                #     if is_bottomTouch or is_bottomTouchPrev:
-                #         text += 'エクスパンション終了で下タッチなのでlongIn<br>'
-                #         self.order.LongOrderCreate()
-                #         nowInL = True
-
-                #     elif is_topTouch or is_topTouchPrev:
-                #         text += 'エクスパンション終了で上タッチなのでshortIn<br>'
-                #         self.order.ShortOrderCreate()
-                #         nowInS = True
                             
 
     # --------------------------------------------------------------------------
@@ -460,7 +383,85 @@ class BuySellCal():
                 #             text += "short in　but position is too many<br>"
 
             # 持ち合い相場でエクスパンションしてなかったら
-            elif trend_id == 3 and not is_expansion and not nowInL and not nowInS:
+            
+            if is_peak:
+                text += 'sigma3 エクスパンションの底値。ポジションを入れ替える <br>'
+                if is_bottomTouch:
+                    text += 'sigma3 エクスパンション終了で下タッチなのでlongIn<br>'
+                    self.order.LongOrderCreate()
+                    nowInL = True
+
+                elif is_topTouch:
+                    text += 'sigma3 エクスパンション終了で上タッチなのでshortIn<br>'
+                    self.order.ShortOrderCreate()
+                    nowInS = True
+
+            if trend_id == 3 and not is_peak and not nowInL and not nowInS:
+                # if preTrend_id == 1 or preTrend_id == 2 or preTrend_id == 4:
+                #         text += '前回までトレンドで今が持ち合い相場でいったん決済。<br>'
+                #         self.order.allOrderClose()
+                # 偏差と数値によるエクスパンションで確度が高めのポジションを持つ
+                if not is_expansionPrev and is_expansion and is_expansionByStd and is_expansionByNum:
+                    text += 'エクスパンション確度が高め<br>'
+                    if is_topTouch:
+                        # print('エクスパンションで上タッチなので買い')
+                        text += 'エクスパンションで上タッチなのでLong by Std<br>'
+                        self.order.LongOrderCreate()
+                        nowInL = True
+                    elif is_bottomTouch:
+                        # print('エクスパンションで下タッチなので売り')
+                        text += 'エクスパンションで下タッチなのでShort by Std<br>'
+                        self.order.ShortOrderCreate()
+                        nowInS = True
+                    else:
+                        text += 'エクスパンションbyStd_購買条件未該当<br>'
+
+                        # 前回エクスパンションしていなかったら初めてのエクスパンションとする,
+                # 偏差によるエクスパンションでなければlong、short両方のポジションを持つ
+                elif not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
+                    text += 'エクスパンションbyNum or Std<br>'
+                    # text += 'エクスパンションbyNum or Stdすべてのポジション解除<br>'
+                    # self.order.allOrderClose()
+
+                    if is_topTouch:
+                        text += 'エクスパンションorだましで上タッチのLongIn<br>'
+                        self.order.LongOrderCreate()
+                        nowInL = True
+                        text += 'LongIn<br>'
+                        # if  == 0:
+                        #     self.order.ShortOrderCreate()
+                        #     nowInS = True
+                        #     text += 'ShortIn<br>'
+                        # self.order.oderCloseAllShort()
+                        # self.order.oderCloseAllLong()
+                    elif is_bottomTouch:
+                        text += 'エクスパンションorだましで上タッチなのでshortIn<br>'
+                        # if  == 0:
+                        #     self.order.LongOrderCreate()
+                        #     nowInL = True
+                        #     text += 'LongIn<br>'
+                        self.order.ShortOrderCreate()
+                        nowInS = True
+                        text += 'ShortIn<br>'
+                        # self.order.oderCloseAllShort()
+                        # self.order.oderCloseAllLong()
+                    else:
+                        text += 'エクスパンションorだまし_購買条件未該当<br>'
+
+                    # 前回エクスパンションしていて、いまエクスパンションが収まったら、底の認識でそれぞれ売り払って逆方向にinする
+                # elif is_expansionPrev and not is_expansion and is_expansionByStdPrev:
+                #     text += 'エクスパンションの底値。ポジションを入れ替える <br>'
+                #     if is_bottomTouch or is_bottomTouchPrev:
+                #         text += 'エクスパンション終了で下タッチなのでlongIn<br>'
+                #         self.order.LongOrderCreate()
+                #         nowInL = True
+
+                #     elif is_topTouch or is_topTouchPrev:
+                #         text += 'エクスパンション終了で上タッチなのでshortIn<br>'
+                #         self.order.ShortOrderCreate()
+                #         nowInS = True
+
+            if trend_id == 3 and not is_expansion and not nowInL and not nowInS:
                 if is_shortClose:
                     text += 'sigma1 によるshortClose<br>'
                     self.order.oderCloseAllShort()
