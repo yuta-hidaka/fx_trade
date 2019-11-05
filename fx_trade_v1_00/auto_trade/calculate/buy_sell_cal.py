@@ -242,42 +242,6 @@ class BuySellCal():
                 trend_id = 0
                 pass
 
-            # 変化率が乏しい時はMAで勝負しない(変化率：単位ミクロン)
-            if cv > 40:
-                if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1 and not nowInL and not nowInS:
-                    if not nowInL:
-                        # print("long in by ma")
-                        text += "long in by ma<br>"
-                        long_limit = (
-                            nowCndl_close - (nowCndl_close * (limit))
-                                    ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                        self.order.stopLossLong = str(long_limit)
-                        # long_in_by_ma = True
-                        nowInL = self.order.LongOrderCreate()
-                    else:
-                        # print("long in　but position is too many")
-                        text += "long in　but position is too many<br>"
-                        # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
-                elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                    if not nowInS:
-                        # self.order.oderCloseAllLong()
-                        # print("short in by ma")
-                        text += "short in by ma<br>"
-                        short_limit = (
-                            nowCndl_close + (nowCndl_close * (limit))
-                                    ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                        self.order.stopLossShort = str(short_limit)
-                        # short_in_by_ma = True
-                        nowInS = self.order.ShortOrderCreate()
-                    else:
-                        # print("short in　but position is too many")
-                        text += "short in　but position is too many<br>"
-                        # long closeのタイミング if MA is 2 it have to close
-                else:
-                    # print('購買----様子見中')
-                    text += '購買----様子見中 MAでの購買判定<br>'
-            else:
-                    text += '変化率に乏しいのでMAで勝負しません<br>'
                 # --------------------------------------------------------------------------------------------------------------------
 
             # --------------------------------------------------------------------------
@@ -365,9 +329,48 @@ class BuySellCal():
 
     # --------------------------------------------------------------------------
             if trend_id == 1 or trend_id == 2 or trend_id == 4 and not is_peak and not nowInL and not nowInS:
+                text += "トレンド相場------------------------------------------------<br>"
+
                 # if is_longInBB:
                 
                 # elif is_shortInBB:
+
+                    # 変化率が乏しい時はMAで勝負しない(変化率：単位ミクロン)
+                if cv > 40:
+                    if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1 and not nowInL and not nowInS:
+                        if not nowInL:
+                            # print("long in by ma")
+                            text += "long in by ma<br>"
+                            long_limit = (
+                                nowCndl_close - (nowCndl_close * (limit))
+                            ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                            self.order.stopLossLong = str(long_limit)
+                            # long_in_by_ma = True
+                            nowInL = self.order.LongOrderCreate()
+                        else:
+                            # print("long in　but position is too many")
+                            text += "long in　but position is too many<br>"
+                            # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
+                    elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
+                        if not nowInS:
+                            # self.order.oderCloseAllLong()
+                            # print("short in by ma")
+                            text += "short in by ma<br>"
+                            short_limit = (
+                                nowCndl_close + (nowCndl_close * (limit))
+                            ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                            self.order.stopLossShort = str(short_limit)
+                            # short_in_by_ma = True
+                            nowInS = self.order.ShortOrderCreate()
+                        else:
+                            # print("short in　but position is too many")
+                            text += "short in　but position is too many<br>"
+                            # long closeのタイミング if MA is 2 it have to close
+                    else:
+                        # print('購買----様子見中')
+                        text += '購買----様子見中 MAでの購買判定<br>'
+                else:
+                        text += '変化率に乏しいのでMAで勝負しません<br>'
 
                 # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
                 if maNow == 2 and trend_id != 1 :
