@@ -372,16 +372,16 @@ class BuySellCal():
                 # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
                 if maNow == 2 and trend_id != 1 :
                     # print("long out by ma")
-                    text = "long out by ma<br>"
-                    if not nowInL:
-                        self.order.oderCloseAllLong()
+                    text = "long out by ma休止中<br>"
+                    # if not nowInL:
+                    #     self.order.oderCloseAllLong()
 
                     # short　closeのタイミング if MA is 5 it have to close
                 elif maNow == 5 and trend_id != 2 :
                     # print("short out by ma")
-                    text += "short out by ma<br>"
-                    if not nowInS:
-                        self.order.oderCloseAllShort()
+                    text += "short out by ma休止中<br>"
+                    # if not nowInS:
+                    #     self.order.oderCloseAllShort()
 
                 #     # long　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
                 # elif M5_1_closePrev > nowCndl_close > M5_1_closeNow and trend_id != 1 :
