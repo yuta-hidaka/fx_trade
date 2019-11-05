@@ -160,6 +160,9 @@ class BuySellCal():
             text += 'shortの損切　' + str(short_limit) + '<br>'
             text += 'shortの差　' + str(short_in - short_limit) + '<br>'
 
+            if self.order.lossCutCheck(False, False):
+                nowInL = True
+                nowInS = True
             # (
             #     # M5_1_close + M5_1_close*Decimal(0.0002)
             #     M5_1_close + M5_1_close*Decimal(0.003)

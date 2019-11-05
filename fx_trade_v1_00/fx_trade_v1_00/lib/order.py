@@ -171,26 +171,32 @@ class orderFx:
 
         # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
         text = 'loss cut check'
-        if not l and not self.isLlock:
-            if self.tlog.long_count == olNum:
-                self.isLlock = False
-                text += '<br>ロングおなじ'
-            else:
-                text += '<br>ロングちがう'
-                self.isLlock = True
 
-        if not s and not self.isSlock:
-            if self.tlog.short_count == osNum:
-                text += '<br>ショートおなじ'
-                self.isSlock = False
-            else:
-                text += '<br>ショートちがう  '
+        if self.tlog.long_count == olNum:
+            self.isLlock = False
+            # text += '<br>ロングおなじ'
+        else:
+            text += '<br>ロング損切されている　ポジション入れ替え'
+            self.ShortOrderCreate()
+            if not l and not self.isLlock:
+                self.isLlock = True
+        
+        if self.tlog.short_count == osNum:
+            # text += '<br>ショートおなじ'
+            self.isSlock = False
+        else:
+            text += '<br>ショート損切りされている ポジション入れ替え'
+            self.ShortOrderCreate()
+            if not s and not self.isSlock:
                 self.isSlock = True
 
         self.tlog.short_count = self.orderShortNum
         self.tlog.long_count = self.orderLongNum
         self.tlog.save()
         batchLog.objects.create(text=text)
+
+        if self.isSlock or self.isLlock :
+            return True
 
     def getOrderNum(self):
         # 口座のすべてのポジションをリストとして取得
