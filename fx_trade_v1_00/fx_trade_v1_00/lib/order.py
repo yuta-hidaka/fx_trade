@@ -335,6 +335,7 @@ class orderFx:
                 text += json.dumps(res, indent=2)
                 try:
                     self.tlog.short_in_time = self.now
+                    self.tlog.short_count = 1
                     self.tlog.save()
                     flg = True
                     pass
@@ -380,6 +381,7 @@ class orderFx:
                 text += json.dumps(res, indent=2)
                 try:
                     self.tlog.long_in_time = self.now
+                    self.tlog.long_count = 1
                     self.tlog.save()
                     flg = True
                     pass
