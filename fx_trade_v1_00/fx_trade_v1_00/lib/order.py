@@ -162,7 +162,7 @@ class orderFx:
         # pos = res['positions'][0]
         # olNum = 0
         # osNum = 0
-        # flg = False
+        flg = False
         # # オーダーステータスを取得する。
         # try:
         #     olNum = len(pos['long']['tradeIDs'])
