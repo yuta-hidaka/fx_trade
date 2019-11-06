@@ -180,13 +180,13 @@ class orderFx:
         text += str(self.tlog.long_count) + '<br>'
         # text = 'loss cut reverse'
 
-        if self.tlog.long_count != olNum:
+        if not self.tlog.long_count == olNum:
             text += '<br>ロング損切されている　ポジション入れ替え'
             # self.isSlock = False
             # self.ignoreShort = True
             flg = self.ShortOrderCreate()
 
-        if self.tlog.short_count != osNum:
+        if not self.tlog.short_count == osNum:
             text += '<br>ショート損切されている　ポジション入れ替え'
             # self.isLlock = False
             # self.ignoreLong = True
