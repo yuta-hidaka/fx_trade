@@ -178,7 +178,7 @@ class orderFx:
         text = str(olNum)
         text = str(self.tlog.short_count)
         text = str(self.tlog.long_count)
-        text = 'loss cut reverse'
+        # text = 'loss cut reverse'
 
         if self.tlog.long_count != olNum:
             text += '<br>ロング損切されている　ポジション入れ替え'
