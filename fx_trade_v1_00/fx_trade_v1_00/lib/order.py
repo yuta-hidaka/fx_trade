@@ -49,6 +49,8 @@ api.request(r)
 class orderFx:
 
     def __init__(self):
+        self.ignoreShort = False
+        self.ignoreLong = False
         self.now = timezone.now()
 
         # now = timezone.utc()
@@ -150,6 +152,44 @@ class orderFx:
         batchLog.objects.create(text=text)
         self.lossCutCheck(l_over, s_over)
 
+    def lossCutRverse(self):
+        # 口座のすべてのポジションをリストとして取得
+        # self.tlog = tradeLog.objects.filter(id=1).first()
+        r = positions.PositionList(accountID=self.fi.accountID)
+        api = self.fi.api
+        res = api.request(r)
+        pos = res['positions'][0]
+        olNum = 0
+        osNum = 0
+        # オーダーステータスを取得する。
+        try:
+            olNum = len(pos['long']['tradeIDs'])
+        except:
+            olNum = 0
+        try:
+            osNum = len(pos['short']['tradeIDs'])
+        except:
+            osNum = 0
+
+        # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
+        text = 'loss cut reverse'
+
+        if self.tlog.long_count != olNum:
+            text += '<br>ロング損切されている　ポジション入れ替え'
+            self.isSlock = False
+            self.ignoreShort = True
+            self.ShortOrderCreate()
+
+        if self.tlog.short_count != osNum:
+            text += '<br>ロング損切されている　ポジション入れ替え'
+            self.isLlock = False
+            self.ignoreLong = True
+            self.LongOrderCreate()
+
+        batchLog.objects.create(text=text)
+
+
+
     def lossCutCheck(self, l, s):
         # 口座のすべてのポジションをリストとして取得
         # self.tlog = tradeLog.objects.filter(id=1).first()
@@ -176,8 +216,7 @@ class orderFx:
             self.isLlock = False
             # text += '<br>ロングおなじ'
         else:
-            text += '<br>ロング損切されている　ポジション入れ替え'
-            # self.LongOrderCreate()
+            text += '<br>ロング損切されている'
             if not l and not self.isLlock:
                 self.isLlock = True
 
@@ -185,8 +224,7 @@ class orderFx:
             # text += '<br>ショートおなじ'
             self.isSlock = False
         else:
-            text += '<br>ショート損切りされている ポジション入れ替え'
-            # self.ShortOrderCreate()
+            text += '<br>ショート損切りされている'
             if not s and not self.isSlock:
                 self.isSlock = True
 
@@ -255,7 +293,8 @@ class orderFx:
         batchLog.objects.create(text=text)
 
     def ShortOrderCreate(self):
-        self.positionTimeCheck()
+        if not self.ignoreShort:
+            self.positionTimeCheck()
         text = ''
         flg = False
         text = 'self.isSlock ' + str(self.isSlock) + '<br>'
@@ -299,7 +338,8 @@ class orderFx:
         batchLog.objects.create(text=text)
 
     def LongOrderCreate(self):
-        self.positionTimeCheck()
+        if not self.ignoreLong:
+            self.positionTimeCheck()
         flg = False
         text = 'self.isLlock ' + str(self.isLlock) + '<br>'
         if not self.isLlock:
