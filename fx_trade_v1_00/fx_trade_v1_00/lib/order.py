@@ -156,7 +156,7 @@ class orderFx:
         # 口座のすべてのポジションをリストとして取得
         # self.tlog = tradeLog.objects.filter(id=1).first()
         # r = positions.PositionList(accountID=self.fi.accountID)
-        self.lossCutCheck(False,False)
+        self.lossCutCheck()
         # api = self.fi.api
         # res = api.request(r)
         # pos = res['positions'][0]
@@ -185,13 +185,13 @@ class orderFx:
             text += '<br>ロング損切されている　ポジション入れ替え'
             # self.isSlock = False
             self.ignoreShort = True
-            flg = self.ShortOrderCreate()
+            flg = self.ShortOrderCreate(True)
 
         if self.isSlock:
             text += '<br>ショート損切されている　ポジション入れ替え'
             # self.isLlock = False
             self.ignoreLong = True
-            flg = self.LongOrderCreate()
+            flg = self.LongOrderCreate(True)
 
         batchLog.objects.create(text=text)
         # self.getOrderNum()
@@ -303,8 +303,8 @@ class orderFx:
 
         batchLog.objects.create(text=text)
 
-    def ShortOrderCreate(self):
-        if not self.ignoreShort:
+    def ShortOrderCreate(self,ignr):
+        if not ignr:
             self.positionTimeCheck()
         text = ''
         flg = False
@@ -348,8 +348,8 @@ class orderFx:
 
         # self.getOrderNum()
 
-    def LongOrderCreate(self):
-        if not self.ignoreLong:
+    def LongOrderCreate(self , ignr):
+        if not ignr:
             self.positionTimeCheck()
         flg = False
         text = 'self.isLlock ' + str(self.isLlock) + '<br>'
