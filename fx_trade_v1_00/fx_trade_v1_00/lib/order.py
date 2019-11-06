@@ -155,23 +155,23 @@ class orderFx:
     def lossCutReverse(self):
         # 口座のすべてのポジションをリストとして取得
         # self.tlog = tradeLog.objects.filter(id=1).first()
-        r = positions.PositionList(accountID=self.fi.accountID)
+        # r = positions.PositionList(accountID=self.fi.accountID)
         self.lossCutCheck(False,False)
-        api = self.fi.api
-        res = api.request(r)
-        pos = res['positions'][0]
-        olNum = 0
-        osNum = 0
-        flg = False
-        # オーダーステータスを取得する。
-        try:
-            olNum = len(pos['long']['tradeIDs'])
-        except:
-            olNum = 0
-        try:
-            osNum = len(pos['short']['tradeIDs'])
-        except:
-            osNum = 0
+        # api = self.fi.api
+        # res = api.request(r)
+        # pos = res['positions'][0]
+        # olNum = 0
+        # osNum = 0
+        # flg = False
+        # # オーダーステータスを取得する。
+        # try:
+        #     olNum = len(pos['long']['tradeIDs'])
+        # except:
+        #     olNum = 0
+        # try:
+        #     osNum = len(pos['short']['tradeIDs'])
+        # except:
+        #     osNum = 0
 
         # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
         text = 'loss cut reverse'
@@ -181,16 +181,16 @@ class orderFx:
         text += str(self.tlog.long_count) + '<br>'
         # text = 'loss cut reverse'
 
-        if not self.tlog.long_count == olNum:
+        if self.isLlock:
             text += '<br>ロング損切されている　ポジション入れ替え'
             # self.isSlock = False
-            # self.ignoreShort = True
+            self.ignoreShort = True
             flg = self.ShortOrderCreate()
 
-        if not self.tlog.short_count == osNum:
+        if self.isSlock:
             text += '<br>ショート損切されている　ポジション入れ替え'
             # self.isLlock = False
-            # self.ignoreLong = True
+            self.ignoreLong = True
             flg = self.LongOrderCreate()
 
         batchLog.objects.create(text=text)
@@ -304,8 +304,8 @@ class orderFx:
         batchLog.objects.create(text=text)
 
     def ShortOrderCreate(self):
-        # if not self.ignoreShort:
-        self.positionTimeCheck()
+        if not self.ignoreShort:
+            self.positionTimeCheck()
         text = ''
         flg = False
         text = 'self.isSlock ' + str(self.isSlock) + '<br>'
@@ -349,8 +349,8 @@ class orderFx:
         # self.getOrderNum()
 
     def LongOrderCreate(self):
-        # if not self.ignoreLong:
-        self.positionTimeCheck()
+        if not self.ignoreLong:
+            self.positionTimeCheck()
         flg = False
         text = 'self.isLlock ' + str(self.isLlock) + '<br>'
         if not self.isLlock:
