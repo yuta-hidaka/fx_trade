@@ -182,7 +182,7 @@ class orderFx:
             flg = self.ShortOrderCreate()
 
         if self.tlog.short_count != osNum:
-            text += '<br>ロング損切されている　ポジション入れ替え'
+            text += '<br>ショート損切されている　ポジション入れ替え'
             self.isLlock = False
             self.ignoreLong = True
             flg = self.LongOrderCreate()

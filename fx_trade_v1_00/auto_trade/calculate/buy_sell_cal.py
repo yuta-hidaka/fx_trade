@@ -249,11 +249,11 @@ class BuySellCal():
                 # --------------------------------------------------------------------------------------------------------------------
 
             # --------------------------------------------------------------------------
-            # if self.order.lossCutReverse():
-            #     text += ' lossCutReverseで購入した。<br>'
-            #     nowInL = True
-            #     nowInS = True
-            #     return False
+            if self.order.lossCutReverse():
+                text += ' lossCutReverseで購入した。<br>'
+                nowInL = True
+                nowInS = True
+                # return False
 
 
                             
