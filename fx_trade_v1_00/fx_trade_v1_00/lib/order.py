@@ -178,13 +178,13 @@ class orderFx:
             text += '<br>ロング損切されている　ポジション入れ替え'
             self.isSlock = False
             self.ignoreShort = True
-            self.ShortOrderCreate()
+            return self.ShortOrderCreate()
 
         if self.tlog.short_count != osNum:
             text += '<br>ロング損切されている　ポジション入れ替え'
             self.isLlock = False
             self.ignoreLong = True
-            self.LongOrderCreate()
+            return self.LongOrderCreate()
 
         batchLog.objects.create(text=text)
 
