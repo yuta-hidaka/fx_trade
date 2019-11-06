@@ -188,7 +188,6 @@ class orderFx:
             flg = self.LongOrderCreate()
 
         batchLog.objects.create(text=text)
-
         self.getOrderNum()
 
         return flg
