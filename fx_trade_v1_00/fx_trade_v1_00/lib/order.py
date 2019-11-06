@@ -113,42 +113,42 @@ class orderFx:
             self.orderShortNum = 0
 
     # def getPosition(self):
-    def posittionTimeCheck(self):
-        now = timezone.now()
-        adjTime = datetime.timedelta(minutes=10)
-        text = 'positionCheck'
-        l_over = False
-        s_over = False
-        if self.tlog.long_in_time is None:
-            self.tlog.long_in_time = now - adjTime
+    # def posittionTimeCheck(self):
+    #     now = timezone.now()
+    #     adjTime = datetime.timedelta(minutes=10)
+    #     text = 'positionCheck'
+    #     l_over = False
+    #     s_over = False
+    #     if self.tlog.long_in_time is None:
+    #         self.tlog.long_in_time = now - adjTime
 
-        if self.tlog.short_in_time is None:
-            self.tlog.short_in_time = now - adjTime
+    #     if self.tlog.short_in_time is None:
+    #         self.tlog.short_in_time = now - adjTime
 
-        shortInTime = self.tlog.short_in_time + adjTime
-        longInTime = self.tlog.long_in_time + adjTime
-        text += '<br>now '+str(now)
-        text += '<br>long in '+str(longInTime)
-        text += '<br>shot in '+str(shortInTime)
+    #     shortInTime = self.tlog.short_in_time + adjTime
+    #     longInTime = self.tlog.long_in_time + adjTime
+    #     text += '<br>now '+str(now)
+    #     text += '<br>long in '+str(longInTime)
+    #     text += '<br>shot in '+str(shortInTime)
 
-        if longInTime < now:
-            self.isLlock = False
-            l_over = True
-            text += '<br>long 10分経った'
-        else:
-            text += '<br>long 10分経ってない'
-            self.isLlock = True
+    #     if longInTime < now:
+    #         self.isLlock = False
+    #         l_over = True
+    #         text += '<br>long 10分経った'
+    #     else:
+    #         text += '<br>long 10分経ってない'
+    #         self.isLlock = True
 
-        if shortInTime < now:
-            text += '<br>short 10分経った'
-            self.isSlock = False
-            s_over = True
-        else:
-            text += '<br>short 10分経ってない  '
-            self.isSlock = True
+    #     if shortInTime < now:
+    #         text += '<br>short 10分経った'
+    #         self.isSlock = False
+    #         s_over = True
+    #     else:
+    #         text += '<br>short 10分経ってない  '
+    #         self.isSlock = True
 
-        batchLog.objects.create(text=text)
-        self.lossCutCheck(l_over, s_over)
+    #     batchLog.objects.create(text=text)
+    #     self.lossCutCheck(l_over, s_over)
 
     def lossCutCheck(self, l, s):
         # 口座のすべてのポジションをリストとして取得
