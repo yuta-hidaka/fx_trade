@@ -156,6 +156,7 @@ class orderFx:
         # 口座のすべてのポジションをリストとして取得
         # self.tlog = tradeLog.objects.filter(id=1).first()
         r = positions.PositionList(accountID=self.fi.accountID)
+        self.lossCutCheck(False,False)
         api = self.fi.api
         res = api.request(r)
         pos = res['positions'][0]
@@ -193,7 +194,7 @@ class orderFx:
             flg = self.LongOrderCreate()
 
         batchLog.objects.create(text=text)
-        self.getOrderNum()
+        # self.getOrderNum()
 
         return flg
 
