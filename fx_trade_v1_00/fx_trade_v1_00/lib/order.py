@@ -174,10 +174,10 @@ class orderFx:
 
         # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
         text = 'loss cut reverse'
-        text = str(osNum)
-        text = str(olNum)
-        text = str(self.tlog.short_count)
-        text = str(self.tlog.long_count)
+        text += str(osNum) + '<br>'
+        text += str(olNum) + '<br>'
+        text += str(self.tlog.short_count) + '<br>'
+        text += str(self.tlog.long_count) + '<br>'
         # text = 'loss cut reverse'
 
         if self.tlog.long_count != olNum:
