@@ -177,7 +177,7 @@ class orderFx:
             # text += '<br>ロングおなじ'
         else:
             text += '<br>ロング損切されている　ポジション入れ替え'
-            self.ShortOrderCreate()
+            # self.LongOrderCreate()
             if not l and not self.isLlock:
                 self.isLlock = True
 
@@ -186,7 +186,7 @@ class orderFx:
             self.isSlock = False
         else:
             text += '<br>ショート損切りされている ポジション入れ替え'
-            self.ShortOrderCreate()
+            # self.ShortOrderCreate()
             if not s and not self.isSlock:
                 self.isSlock = True
 
