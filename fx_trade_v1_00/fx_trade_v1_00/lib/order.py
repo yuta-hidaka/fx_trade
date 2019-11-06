@@ -178,13 +178,13 @@ class orderFx:
         if self.tlog.long_count != olNum:
             text += '<br>ロング損切されている　ポジション入れ替え'
             # self.isSlock = False
-            self.ignoreShort = True
+            # self.ignoreShort = True
             flg = self.ShortOrderCreate()
 
         if self.tlog.short_count != osNum:
             text += '<br>ショート損切されている　ポジション入れ替え'
             # self.isLlock = False
-            self.ignoreLong = True
+            # self.ignoreLong = True
             flg = self.LongOrderCreate()
 
         batchLog.objects.create(text=text)
@@ -297,8 +297,8 @@ class orderFx:
         batchLog.objects.create(text=text)
 
     def ShortOrderCreate(self):
-        if not self.ignoreShort:
-            self.positionTimeCheck()
+        # if not self.ignoreShort:
+        self.positionTimeCheck()
         text = ''
         flg = False
         text = 'self.isSlock ' + str(self.isSlock) + '<br>'
@@ -342,8 +342,8 @@ class orderFx:
         # self.getOrderNum()
 
     def LongOrderCreate(self):
-        if not self.ignoreLong:
-            self.positionTimeCheck()
+        # if not self.ignoreLong:
+        self.positionTimeCheck()
         flg = False
         text = 'self.isLlock ' + str(self.isLlock) + '<br>'
         if not self.isLlock:
