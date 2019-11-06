@@ -249,7 +249,7 @@ class BuySellCal():
                 # --------------------------------------------------------------------------------------------------------------------
 
             # --------------------------------------------------------------------------
-            self.order.ShortOrderCreate()
+            # self.order.ShortOrderCreate()
             if self.order.lossCutReverse():
                 text += ' lossCutReverseで購入した。<br>'
                 nowInL = True
