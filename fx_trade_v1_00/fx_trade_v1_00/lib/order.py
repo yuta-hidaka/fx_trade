@@ -332,10 +332,10 @@ class orderFx:
                     pass
         else:
             text += 'short　前回購入しているのに、損切りされているので購買中止<br>'
+        batchLog.objects.create(text=text)
         return flg
 
         # self.getOrderNum()
-        batchLog.objects.create(text=text)
 
     def LongOrderCreate(self):
         if not self.ignoreLong:
