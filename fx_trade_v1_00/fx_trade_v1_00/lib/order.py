@@ -150,6 +150,8 @@ class orderFx:
         batchLog.objects.create(text=text)
         self.lossCutCheck(l_over, s_over)
 
+
+
     def lossCutCheck(self, l, s):
         # 口座のすべてのポジションをリストとして取得
         # self.tlog = tradeLog.objects.filter(id=1).first()
