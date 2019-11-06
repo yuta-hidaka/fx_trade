@@ -109,8 +109,8 @@ class Command(BaseCommand):
             BBCondi = bb.setBB(nowMA=result, condiPrev=condiPrev)
             condiNow = setMA.setMA(result, BBCondi)
             if not is_closeMarket and checkOn:
-                a = 8
-                # bsCal.BuySellCheck(condiNow, condiPrev)
+                # a = 8
+                bsCal.BuySellCheck(condiNow, condiPrev)
             else:
                 text += '自動取引がOFFです。'
                 order.allOrderClose()
