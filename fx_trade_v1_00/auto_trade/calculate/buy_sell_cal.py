@@ -253,7 +253,7 @@ class BuySellCal():
                 text += ' lossCutReverseで購入した。<br>'
                 nowInL = True
                 nowInS = True
-                # return False
+                return False
 
 
                             
