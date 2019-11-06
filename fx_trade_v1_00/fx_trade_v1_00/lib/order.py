@@ -150,8 +150,6 @@ class orderFx:
         batchLog.objects.create(text=text)
         self.lossCutCheck(l_over, s_over)
 
-
-
     def lossCutCheck(self, l, s):
         # 口座のすべてのポジションをリストとして取得
         # self.tlog = tradeLog.objects.filter(id=1).first()
@@ -182,7 +180,7 @@ class orderFx:
             self.ShortOrderCreate()
             if not l and not self.isLlock:
                 self.isLlock = True
-        
+
         if self.tlog.short_count == osNum:
             # text += '<br>ショートおなじ'
             self.isSlock = False
@@ -197,7 +195,7 @@ class orderFx:
         self.tlog.save()
         batchLog.objects.create(text=text)
 
-        if self.isSlock or self.isLlock :
+        if self.isSlock or self.isLlock:
             return True
 
     def getOrderNum(self):
