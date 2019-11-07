@@ -14,16 +14,14 @@ from auto_trade.service.get_rate_USD_JPY import getFXdata_USD
 class getLogAPI(APIView):
 
     def get(self, request, format=None):
-        print('hi')
+        print('i')
 
     def post(self, request):
-
         res = (
             batchLog.objects.order_by('-created_at').all().values(
                 'id', 'text', 'created_at'
-            )[:1000]
+            )[:3000]
         )
-
         data = {}
         data['result'] = []
 
