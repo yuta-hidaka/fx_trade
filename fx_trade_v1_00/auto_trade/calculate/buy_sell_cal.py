@@ -35,7 +35,7 @@ class BuySellCal():
         setting = tradeSettings.objects.filter(id=1).first()
         getNowRate = getMA_USD_JPY()
         limit = self.setting.limit
-
+        self.order.waitTime = self.setting.wait_time
         cbb = model_to_dict(condNow.condition_of_bb)
         cbbPrev = model_to_dict(condiPrev.condition_of_bb)
 
@@ -250,13 +250,6 @@ class BuySellCal():
 
             # --------------------------------------------------------------------------
             # self.order.ShortOrderCreate(False)
-            if self.order.lossCutReverse():
-                text += ' lossCutReverseで購入した。<br>'
-                nowInL = True
-                nowInS = True
-                return False
-
-
                             
 
     # --------------------------------------------------------------------------
@@ -526,10 +519,18 @@ class BuySellCal():
             # oderSTObj.long_order = 
             # oderSTObj.save()
 
+            if self.order.lossCutReverse():
+                text += ' lossCutReverseで購入した。<br>'
+                nowInL = True
+                nowInS = True
+                return False
+
             batchLog.objects.create(text=text)
 
         else:
             print('お休み中')
+
+
 
             # print('-----------------------------------------------購買条件中-終了----------------------------------------------------')
 

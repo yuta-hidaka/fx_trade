@@ -60,6 +60,7 @@ class orderFx:
         self.tlog = tradeLog.objects.filter(id=1).first()
         self.isSlock = False
         self.isLlock = False
+        self.waitTime = 0
         # -----------------------------------------------
         # タイムゾーンの生成
         JST = datetime.timezone(datetime.timedelta(hours=+9), 'JST')
@@ -118,7 +119,7 @@ class orderFx:
     # def getPosition(self):
     def positionTimeCheck(self):
         now = timezone.now()
-        adjTime = datetime.timedelta(minutes=10)
+        adjTime = datetime.timedelta(minutes=self.waitTime)
         text = 'positionCheck'
         l_over = False
         s_over = False
