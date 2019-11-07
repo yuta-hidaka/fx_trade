@@ -49,8 +49,6 @@ api.request(r)
 class orderFx:
 
     def __init__(self):
-        self.ignoreShort = False
-        self.ignoreLong = False
         self.isLock = False
         self.now = timezone.now()
 
@@ -60,6 +58,8 @@ class orderFx:
         self.tlog = tradeLog.objects.filter(id=1).first()
         self.isSlock = False
         self.isLlock = False
+        self.isSlockByTime = False
+        self.isLlockByTime = False
         self.waitTime = 0
         # -----------------------------------------------
         # タイムゾーンの生成
@@ -136,20 +136,20 @@ class orderFx:
         text += '<br>shot in '+str(shortInTime)
 
         if longInTime < now:
-            self.isLlock = False
+            self.isLlockByTime = False
             l_over = True
             text += '<br>long 10分経った'
         else:
             text += '<br>long 10分経ってない'
-            self.isLlock = True
+            self.isLlockByTime = True
 
         if shortInTime < now:
             text += '<br>short 10分経った'
-            self.isSlock = False
+            self.isSlockByTime = False
             s_over = True
         else:
             text += '<br>short 10分経ってない  '
-            self.isSlock = True
+            self.isSlockByTime = True
 
         batchLog.objects.create(text=text)
         self.lossCutCheck(l_over, s_over)
@@ -187,13 +187,11 @@ class orderFx:
         if self.isLlock:
             text += '<br>ロング損切されている　ポジション入れ替え'
             # self.isSlock = False
-            self.ignoreShort = True
             flg = self.ShortOrderCreate(True)
 
         if self.isSlock:
             text += '<br>ショート損切されている　ポジション入れ替え'
             # self.isLlock = False
-            self.ignoreLong = True
             flg = self.LongOrderCreate(True)
 
         batchLog.objects.create(text=text)
@@ -321,7 +319,7 @@ class orderFx:
         text = ''
         flg = False
         text = 'self.isSlock ' + str(self.isSlock) + '<br>'
-        if not self.isSlock:
+        if not self.isSlock and not not self.isSlockByTime:
             self.getOrderNum()
             self.oderCloseAllLong()
             text += 'ShortOrderCreate<br>'
@@ -366,7 +364,7 @@ class orderFx:
             self.positionTimeCheck()
         flg = False
         text = 'self.isLlock ' + str(self.isLlock) + '<br>'
-        if not self.isLlock:
+        if not self.isLlock and not self.isLlockByTime:
             self.getOrderNum()
             self.oderCloseAllShort()
             text = 'LongOrderCreate<br>'
