@@ -51,6 +51,7 @@ class orderFx:
     def __init__(self):
         self.ignoreShort = False
         self.ignoreLong = False
+        self.isLock = False
         self.now = timezone.now()
 
         # now = timezone.utc()
@@ -156,6 +157,7 @@ class orderFx:
         # 口座のすべてのポジションをリストとして取得
         # self.tlog = tradeLog.objects.filter(id=1).first()
         # r = positions.PositionList(accountID=self.fi.accountID)
+        self.isLock = True
         self.positionTimeCheck()
         # api = self.fi.api
         # res = api.request(r)
@@ -195,7 +197,7 @@ class orderFx:
 
         batchLog.objects.create(text=text)
         # self.getOrderNum()
-
+        self.isLock = False
         return flg
 
 
@@ -229,7 +231,11 @@ class orderFx:
         else:
             text += '<br>ロング損切されている'
             if not l and not self.isLlock:
+                text += '<br> not l and not self.isLlock'
                 self.isLlock = True
+            elif self.isLock:
+                text += '<br> self.isLock'
+                self.isSlock = True
 
         if self.tlog.short_count == osNum:
             # text += '<br>ショートおなじ'
@@ -237,7 +243,12 @@ class orderFx:
         else:
             text += '<br>ショート損切りされている'
             if not s and not self.isSlock:
+                text += '<br> not s and not self.isSlock'
                 self.isSlock = True
+            elif self.isLock:
+                text += '<br> self.isLock'
+                self.isSlock = True
+
 
         self.tlog.short_count = self.orderShortNum
         self.tlog.long_count = self.orderLongNum
