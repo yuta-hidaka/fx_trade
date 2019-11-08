@@ -121,6 +121,8 @@ class orderFx:
         now = timezone.now()
         adjTime = datetime.timedelta(minutes=self.waitTime)
         text = 'position time Check'
+        s_over = False
+        l_over = False
 
         if self.tlog.long_in_time is None:
             self.tlog.long_in_time = now - adjTime
