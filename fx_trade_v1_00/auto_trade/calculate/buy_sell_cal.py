@@ -48,6 +48,7 @@ class BuySellCal():
         is_topTouch = cbb['is_topTouch']
         is_bottomTouch = cbb['is_bottomTouch']
         cv = bb['cv'] * Decimal(1000000)
+        cvForLimit = bb['cv']
         text += 'cv  '+ str(cv) + '<br>'
         is_peak = cbb['is_peak']
         is_shortClose = cbb['is_shortClose']
@@ -105,10 +106,10 @@ class BuySellCal():
             # short_limit = (bb['sma'] + bb['abs_sigma_3']
             #                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            long_limit = (nowCndl_close - (nowCndl_close * limit)
+            long_limit = (nowCndl_close - (nowCndl_close * cvForLimit)
                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            short_limit = (nowCndl_close + (nowCndl_close * limit)
+            short_limit = (nowCndl_close + (nowCndl_close * cvForLimit)
                                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             # lDeff = np.abs(long_in - long_limit)
