@@ -251,14 +251,13 @@ class BuySellCal():
             # --------------------------------------------------------------------------
             # self.order.ShortOrderCreate()
                             
-
+            if self.order.lossCutReverse():
+                text += "lossCutReverseで購入<br>"
+                return
     # --------------------------------------------------------------------------
             if trend_id == 1 or trend_id == 2 or trend_id == 4 and not is_peak and not nowInL and not nowInS:
                 text += "トレンド相場------------------------------------------------<br>"
-                if self.order.lossCutReverse():
-                    text += "lossCutReverseで購入<br>"
 
-                    return
                 # if is_longInBB:
                 
                 # elif is_shortInBB:

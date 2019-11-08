@@ -149,10 +149,15 @@ class orderFx:
         else:
             text += '<br>short 10分経ってない  '
             self.isSlockByTime = True
+        
+        
 
         batchLog.objects.create(text=text)
 
+        return s_over, l_over
+
     def lossCutReverse(self):
+        so,lo = self.positionTimeCheck()
         # 口座のすべてのポジションをリストとして取得
         self.tlog = tradeLog.objects.filter(id=1).first()
         r = positions.PositionList(accountID=self.fi.accountID)
@@ -175,12 +180,12 @@ class orderFx:
 
         # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
         text = 'loss cut reverse'
-        if self.tlog.long_count != olNum:
+        if self.tlog.long_count != olNum and not lo:
             text += '<br>ロング損切されている　position　入れ替え'
             self.ShortOrderCreate()
             flg = True
 
-        if self.tlog.short_count != osNum:
+        if self.tlog.short_count != osNum and not so:
             text += '<br>ショート損切りされている position 入れ替え'
             self.LongOrderCreate()
             flg = True
