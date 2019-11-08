@@ -358,6 +358,7 @@ class orderFx:
     def LongOrderCreate(self):
         self.positionTimeCheck()
         flg = False
+        text = ''
         if not self.isLlockByTime:
             self.getOrderNum()
             self.oderCloseAllShort()
