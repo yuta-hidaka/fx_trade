@@ -120,9 +120,8 @@ class orderFx:
     def positionTimeCheck(self):
         now = timezone.now()
         adjTime = datetime.timedelta(minutes=self.waitTime)
-        text = 'positionCheck'
-        l_over = False
-        s_over = False
+        text = 'position time Check'
+
         if self.tlog.long_in_time is None:
             self.tlog.long_in_time = now - adjTime
 
@@ -152,51 +151,44 @@ class orderFx:
             self.isSlockByTime = True
 
         batchLog.objects.create(text=text)
-        self.lossCutCheck(l_over, s_over)
 
     def lossCutReverse(self):
         # 口座のすべてのポジションをリストとして取得
-        # self.tlog = tradeLog.objects.filter(id=1).first()
-        # r = positions.PositionList(accountID=self.fi.accountID)
+        self.tlog = tradeLog.objects.filter(id=1).first()
+        r = positions.PositionList(accountID=self.fi.accountID)
         self.isLock = True
-        self.positionTimeCheck()
-        # api = self.fi.api
-        # res = api.request(r)
-        # pos = res['positions'][0]
-        # olNum = 0
-        # osNum = 0
+        api = self.fi.api
+        res = api.request(r)
+        pos = res['positions'][0]
+        olNum = 0
+        osNum = 0
         flg = False
-        # # オーダーステータスを取得する。
-        # try:
-        #     olNum = len(pos['long']['tradeIDs'])
-        # except:
-        #     olNum = 0
-        # try:
-        #     osNum = len(pos['short']['tradeIDs'])
-        # except:
-        #     osNum = 0
+        # オーダーステータスを取得する。
+        try:
+            olNum = len(pos['long']['tradeIDs'])
+        except:
+            olNum = 0
+        try:
+            osNum = len(pos['short']['tradeIDs'])
+        except:
+            osNum = 0
 
         # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
         text = 'loss cut reverse'
-        # text += str(osNum) + '<br>'
-        # text += str(olNum) + '<br>'
-        text += str(self.tlog.short_count) + '<br>'
-        text += str(self.tlog.long_count) + '<br>'
-        # text = 'loss cut reverse'
+        if self.tlog.long_count != olNum:
+            text += '<br>ロング損切されている　position　入れ替え'
+            self.ShortOrderCreate()
+            flg = True
 
-        if self.isLlock:
-            text += '<br>ロング損切されている　ポジション入れ替え'
-            # self.isSlock = False
-            flg = self.ShortOrderCreate(True)
+        if self.tlog.short_count != osNum:
+            text += '<br>ショート損切りされている position 入れ替え'
+            self.LongOrderCreate()
+            flg = True
 
-        if self.isSlock:
-            text += '<br>ショート損切されている　ポジション入れ替え'
-            # self.isLlock = False
-            flg = self.LongOrderCreate(True)
-
+        self.tlog.short_count = self.orderShortNum
+        self.tlog.long_count = self.orderLongNum
+        self.tlog.save()
         batchLog.objects.create(text=text)
-        # self.getOrderNum()
-        self.isLock = False
         return flg
 
 
@@ -313,13 +305,11 @@ class orderFx:
 
         batchLog.objects.create(text=text)
 
-    def ShortOrderCreate(self,ignr):
-        if not ignr:
-            self.positionTimeCheck()
+    def ShortOrderCreate(self):
+        self.positionTimeCheck()
         text = ''
         flg = False
-        text = 'self.isSlock ' + str(self.isSlock) + '<br>'
-        if not self.isSlock and not not self.isSlockByTime:
+        if not self.isSlockByTime:
             self.getOrderNum()
             self.oderCloseAllLong()
             text += 'ShortOrderCreate<br>'
@@ -353,18 +343,17 @@ class orderFx:
                     text += '購買エラー<br>'
                     pass
         else:
-            text += 'short　前回購入しているのに、損切りされているので購買中止<br>'
+            text += '10分経過してない　short<br>'
+
         batchLog.objects.create(text=text)
         return flg
 
         # self.getOrderNum()
 
-    def LongOrderCreate(self , ignr):
-        if not ignr:
-            self.positionTimeCheck()
+    def LongOrderCreate(self):
+        self.positionTimeCheck()
         flg = False
-        text = 'self.isLlock ' + str(self.isLlock) + '<br>'
-        if not self.isLlock and not self.isLlockByTime:
+        if not self.isLlockByTime:
             self.getOrderNum()
             self.oderCloseAllShort()
             text = 'LongOrderCreate<br>'
@@ -402,7 +391,7 @@ class orderFx:
             # print(json.dumps(res, indent=2))
             # print('order create----------------------------------------------')
         else:
-            text += 'long 前回購入しているのに、損切りされているので購買中止<br>'
+            text += '10分経過してない　long<br>'
         # self.getOrderNum()
         batchLog.objects.create(text=text)
         return flg
