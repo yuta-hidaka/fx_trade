@@ -61,7 +61,7 @@ class BuySellCal():
         is_expansionByNumPrev = cbbPrev['is_expansionByNum']
         is_topTouchPrev = cbbPrev['is_topTouch']
         is_bottomTouchPrev = cbbPrev['is_bottomTouch']
-        if self.use_specific_limit:
+        if self.setting.use_specific_limit:
             limit = self.setting.limit
         else:
             limit = bb['cv']
