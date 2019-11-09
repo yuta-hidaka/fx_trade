@@ -28,6 +28,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['133.167.102.92', 'localhost', 'auto-trade.web-tool.tokyo']
 # Application definition
 
+
 INSTALLED_APPS = [
     'auto_trade.apps.AutoTradeConfig',
     'react_app.apps.ReactAppConfig',
