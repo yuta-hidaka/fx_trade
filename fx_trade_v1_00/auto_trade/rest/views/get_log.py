@@ -17,6 +17,9 @@ class getLogAPI(APIView):
         print('i')
 
     def post(self, request):
+        startDate = None
+        endDate = None
+        count = None
         res = (
             batchLog.objects.order_by('-created_at').all().values(
                 'id', 'text', 'created_at'

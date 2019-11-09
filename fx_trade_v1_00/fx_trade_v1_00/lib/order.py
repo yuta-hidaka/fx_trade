@@ -139,17 +139,17 @@ class orderFx:
         if longInTime < now:
             self.isLlockByTime = False
             l_over = True
-            text += '<br>long 10分経った'
+            text += '<br>long '+str(self.waitTime)+'分経った'
         else:
-            text += '<br>long 10分経ってない'
+            text += '<br>long '+str(self.waitTime)+'分経ってない'
             self.isLlockByTime = True
 
         if shortInTime < now:
-            text += '<br>short 10分経った'
+            text += '<br>short '+str(self.waitTime)+'分経った'
             self.isSlockByTime = False
             s_over = True
         else:
-            text += '<br>short 10分経ってない  '
+            text += '<br>short '+str(self.waitTime)+'分経ってない  '
             self.isSlockByTime = True
         
         

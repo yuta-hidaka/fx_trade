@@ -15,11 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-# from . import views
+from . import views
 from .views import top
 # from .rest import getRate
 
 urlpatterns = [
     path('', top.index, name='index'),
-    path('test', top.test, name='test'),
 ]
