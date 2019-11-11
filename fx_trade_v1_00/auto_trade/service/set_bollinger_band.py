@@ -317,22 +317,22 @@ class setBollingerBand_USD_JPY:
             elif loopSig2Pls >= loopClose:
                 pstBttmTouch = True
 
-        batchLog.objects.create(
-            text=text
-        )
-        text = ''
+        # batchLog.objects.create(
+        #     text=text
+        # )
+        # text = ''
 
         for c in cond:
             xClose.append(float(c.ma.m5.close))
             try:
-                text += str(c.ma.m5.recorded_at_utc) + '% 時間<br>'
-                text += str(c.condition_of_bb.bb.sma) + ' c.condition_of_bb.bb.sma<br>'
-                text += str(c.condition_of_bb.bb.sma_2) + 'c.condition_of_bb.bb.sma_2<br>'
-                text += str(c.ma.m5.close) + ' c.ma.m5.close<br>'
-                batchLog.objects.create(
-                    text=text
-                )
-                text = ''
+                # text += str(c.ma.m5.recorded_at_utc) + '% 時間<br>'
+                # text += str(c.condition_of_bb.bb.sma) + ' c.condition_of_bb.bb.sma<br>'
+                # text += str(c.condition_of_bb.bb.sma_2) + 'c.condition_of_bb.bb.sma_2<br>'
+                # text += str(c.ma.m5.close) + ' c.ma.m5.close<br>'
+                # batchLog.objects.create(
+                #     text=text
+                # )
+                # text = ''
                 pass
             except:
                 text += 'errorororo<br>'
@@ -366,10 +366,6 @@ class setBollingerBand_USD_JPY:
         slope = Decimal(rs[0]).quantize(
             Decimal('0.01'), rounding=ROUND_HALF_UP)
         slopeDir2 = np.sign(slope)
-
-        batchLog.objects.create(
-            text=text
-        )
 
         # SMAより上にあるか下にあるのが多いかを100分率で表示
         ans = (data / length)*100
