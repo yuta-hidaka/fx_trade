@@ -602,13 +602,13 @@ class setBollingerBand_USD_JPY:
                 text += 'sigma2＋α どちらにも触れてません<br>'
                 # 持ち合い相場時の購買基準を判断
                 if sma2SigmaPlus_2 <= nowClose or sma2SigmaPlusBefor_2 <= nowClose:
-                # if sma2SigmaPlus <= nowClose or sma2SigmaPlus <= nowClose and pstBttmTouch:
+                    # if sma2SigmaPlus <= nowClose or sma2SigmaPlus <= nowClose and pstBttmTouch:
                     # is_longClose = True
                     is_shortIn = True
                     is_topTouch = True
                     text += 'sigma2＋α 上に高値のみ触りました②<br>'
                 elif sma2SigmaMinus_2 >= nowClose or sma2SigmaMinusBefor_2 >= nowClose:
-                # elif sma2SigmaMinus >= nowClose or sma2SigmaMinus >= nowClose and pstTopTouch:
+                    # elif sma2SigmaMinus >= nowClose or sma2SigmaMinus >= nowClose and pstTopTouch:
                     # is_shortClose = True
                     # is_shortIn = False
                     is_longIn = True
@@ -676,8 +676,9 @@ class setBollingerBand_USD_JPY:
         # listMAflt = []
         for M in mas:
             listMA.append(Decimal(M['mid']['c']))
-        # listMAflt.append(float(M['mid']['c']))
 
+        # listMAflt.append(float(M['mid']['c']))
+        text = ''
         SMA = np.mean(listMA)
         # 標準偏差の計算
         SD = np.std(listMA)
@@ -705,6 +706,8 @@ class setBollingerBand_USD_JPY:
         SD3_2 = SD_2 * Decimal('3')
 
         bbBefor = bollingerBand.objects.latest('created_at')
+        text += 'SMA<br>'+str(SMA)+'<br>'
+        text += 'SMA2<br>'+str(SMA2)+'<br>'
 
         # 平均から本日分の終値の標準偏差を計算する。
         result, created = bollingerBand.objects.filter(
@@ -722,5 +725,9 @@ class setBollingerBand_USD_JPY:
         )
         resultBBCondi = self.setBBCondition(
             MHalf, nowMA, result, bbBefor, condiPrev
+        )
+
+        batchLog.objects.create(
+            text=text
         )
         return resultBBCondi
