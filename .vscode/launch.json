@@ -3,10 +3,25 @@
     // 既存の属性の説明をホバーして表示します。
     // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
+    "compounds": [
+        {
+            "name": "FX Trade Debug",
+            "configurations": [
+                "Python: Django",
+                "Launch Chrome"
+            ]
+        }
+    ],
     "configurations": [
-        
-        
-        
+        {
+            "type": "chrome",
+            "request": "attach",
+            "name": "run react app",
+            "port": 3000,
+            "webRoot": "${workspaceFolder}",
+            "preLaunchTask": "run reactapp summary",
+            "postDebugTask": ""
+        },
         {
             "name": "Python: Django",
             "type": "python",
@@ -16,6 +31,7 @@
                 "runserver",
                 "--noreload"
             ],
+            "preLaunchTask": "build reactapp summary",
             "django": true,
         },
         {
@@ -26,13 +42,4 @@
             "webRoot": "${workspaceFolder}"
         }
     ],
-    "compounds": [
-        {
-            "name": "FX Trade Debug",
-            "configurations": [
-                "Python: Django",
-                "Launch Chrome"
-            ]
-        }
-    ]
 }
