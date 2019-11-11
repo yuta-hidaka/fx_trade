@@ -16,7 +16,7 @@ class setBollingerBand_USD_JPY:
     # bb_cv_count = models.IntegerField(default=5)
     # bb_slope_dir_count = models.IntegerField(default=5)
 
-    def setBBCondition(self, MHalf, nowMA, result, bbBefor, condiPrev):
+    def setBBCondition(self,  nowMA, result, bbBefor, condiPrev):
         JustNowMA = getMA_USD_JPY().get_now()
         rs = model_to_dict(result)
         bbb = model_to_dict(bbBefor)
@@ -325,14 +325,16 @@ class setBollingerBand_USD_JPY:
         for c in cond:
             xClose.append(float(c.ma.m5.close))
             try:
-                # text += str(c.ma.m5.recorded_at_utc) + '% 時間<br>'
-                # text += str(c.condition_of_bb.bb.sma) + ' c.condition_of_bb.bb.sma<br>'
-                # text += str(c.condition_of_bb.bb.sma_2) + 'c.condition_of_bb.bb.sma_2<br>'
-                # text += str(c.ma.m5.close) + ' c.ma.m5.close<br>'
-                # batchLog.objects.create(
-                #     text=text
-                # )
-                # text = ''
+                text += str(c.ma.m5.recorded_at_utc) + '% 時間<br>'
+                text += str(c.condition_of_bb.bb.sma) + \
+                    ' c.condition_of_bb.bb.sma<br>'
+                text += str(c.condition_of_bb.bb.sma_2) + \
+                    'c.condition_of_bb.bb.sma_2<br>'
+                text += str(c.ma.m5.close) + ' c.ma.m5.close<br>'
+                batchLog.objects.create(
+                    text=text
+                )
+                text = ''
                 pass
             except:
                 text += 'errorororo<br>'
@@ -358,6 +360,7 @@ class setBollingerBand_USD_JPY:
             elif nowMA.close >= c.condition_of_bb.bb.sma_2:
                 data_2 += 1
                 aaaa3_2 += 1
+        text = ''
 
         xClose.reverse()
         x = np.arange(0, len(xClose))
@@ -655,6 +658,7 @@ class setBollingerBand_USD_JPY:
 
         # mas = gMA.get_5M_num(self.setting.bb_count)['candles']
         mas = gMA.get_1M_num(num=self.setting.bb_count)['candles']
+        text = str(len(mas))
 
         # M50 = M50.reverse()
         SMA_days = len(mas)
@@ -666,9 +670,6 @@ class setBollingerBand_USD_JPY:
         if SMA_days % 2 != 0:
             stIdx += -1
 
-        # 取得したMAの半分量→直近のトレンドを把握する。
-        MHalf = mas[stIdx:idx]
-
         # 取得した最新のMA
         # nowMA = M50[idx]
 
@@ -678,7 +679,6 @@ class setBollingerBand_USD_JPY:
             listMA.append(Decimal(M['mid']['c']))
 
         # listMAflt.append(float(M['mid']['c']))
-        text = ''
         SMA = np.mean(listMA)
         # 標準偏差の計算
         SD = np.std(listMA)
@@ -724,7 +724,7 @@ class setBollingerBand_USD_JPY:
             cv=cv
         )
         resultBBCondi = self.setBBCondition(
-            MHalf, nowMA, result, bbBefor, condiPrev
+            nowMA, result, bbBefor, condiPrev
         )
 
         batchLog.objects.create(
