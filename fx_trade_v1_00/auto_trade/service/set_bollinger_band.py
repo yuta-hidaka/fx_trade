@@ -317,6 +317,11 @@ class setBollingerBand_USD_JPY:
             elif loopSig2Pls >= loopClose:
                 pstBttmTouch = True
 
+        batchLog.objects.create(
+            text=text
+        )
+        text = ''
+
         for c in cond:
             xClose.append(float(c.ma.m5.close))
             try:
@@ -324,7 +329,10 @@ class setBollingerBand_USD_JPY:
                 text += str(c.condition_of_bb.bb.sma) + ' c.condition_of_bb.bb.sma<br>'
                 text += str(c.condition_of_bb.bb.sma_2) + 'c.condition_of_bb.bb.sma_2<br>'
                 text += str(c.ma.m5.close) + ' c.ma.m5.close<br>'
-
+                batchLog.objects.create(
+                    text=text
+                )
+                text = ''
                 pass
             except:
                 text += 'errorororo<br>'
@@ -363,7 +371,6 @@ class setBollingerBand_USD_JPY:
             text=text
         )
 
-        text = ''
         # SMAより上にあるか下にあるのが多いかを100分率で表示
         ans = (data / length)*100
         ans_2 = (data_2 / length)*100
