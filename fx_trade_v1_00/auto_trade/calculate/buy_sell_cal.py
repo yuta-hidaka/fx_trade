@@ -254,7 +254,7 @@ class BuySellCal():
 
             # --------------------------------------------------------------------------
             # self.order.ShortOrderCreate()
-            if trend_id != 3:
+            if trend_id == 3 or trend_id == 3 :
                 if self.order.lossCutReverse():
                     text += "lossCutReverseで購入<br>"
                     return
