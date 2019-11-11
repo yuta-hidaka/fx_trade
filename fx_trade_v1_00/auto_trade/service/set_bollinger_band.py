@@ -324,43 +324,44 @@ class setBollingerBand_USD_JPY:
 
         for c in cond:
             xClose.append(float(c.ma.m5.close))
-            try:
-                text += str(c.ma.m5.recorded_at_utc) + '% 時間<br>'
-                text += str(c.condition_of_bb.bb.sma) + \
-                    ' c.condition_of_bb.bb.sma<br>'
-                text += str(c.condition_of_bb.bb.sma_2) + \
-                    'c.condition_of_bb.bb.sma_2<br>'
-                text += str(c.ma.m5.close) + ' c.ma.m5.close<br>'
-                batchLog.objects.create(
-                    text=text
-                )
-                text = ''
-                pass
-            except:
-                text += 'errorororo<br>'
-                pass
+            # try:
+            #     text += str(c.ma.m5.recorded_at_utc) + '% 時間<br>'
+            #     text += str(c.condition_of_bb.bb.sma) + ' c.condition_of_bb.bb.sma<br>'
+            #     text += str(c.condition_of_bb.bb.sma_2) + 'c.condition_of_bb.bb.sma_2<br>'
+            #     text += str(c.ma.m5.close) + ' c.ma.m5.close<br>'
+            #     batchLog.objects.create(
+            #         text=text
+            #     )
+            #     text = ''
+            #     pass
+            # except:
+            #     text += 'errorororo<br>'
+                # pass
+            tmpSma = c.condition_of_bb.bb.sma
+            tmpSma2 = c.condition_of_bb.bb.sma_2
+            tmpclose = c.ma.m5.close
 
-            if (c.ma.m5.close - c.condition_of_bb.bb.sma) == 0:
+            if (tmpclose - tmpSma) == 0:
                 data += 0
                 aaaa += 1
-            elif c.ma.m5.close <= c.condition_of_bb.bb.sma:
+            elif tmpclose <= tmpSma:
                 data -= 1
                 aaaa2 += 1
-            elif c.ma.m5.close >= c.condition_of_bb.bb.sma:
+            elif tmpclose >= tmpSma:
                 data += 1
                 aaaa3 += 1
 
             # ２つ目
-            if nowMA.close - c.condition_of_bb.bb.sma_2 == 0:
+            if tmpclose - tmpSma2 == 0:
                 data_2 += 0
                 aaaa_2 += 1
-            elif nowMA.close <= c.condition_of_bb.bb.sma_2:
+            elif tmpclose <= tmpSma2:
                 data_2 -= 1
                 aaaa2_2 += 1
-            elif nowMA.close >= c.condition_of_bb.bb.sma_2:
+            elif tmpclose >= tmpSma2:
                 data_2 += 1
                 aaaa3_2 += 1
-        text = ''
+            text = ''
 
         xClose.reverse()
         x = np.arange(0, len(xClose))
