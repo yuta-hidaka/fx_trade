@@ -61,6 +61,7 @@ class orderFx:
         self.isSlockByTime = False
         self.isLlockByTime = False
         self.waitTime = 0
+        self.trend_id = 0
         # -----------------------------------------------
         # タイムゾーンの生成
         JST = datetime.timezone(datetime.timedelta(hours=+9), 'JST')
@@ -119,7 +120,12 @@ class orderFx:
     # def getPosition(self):
     def positionTimeCheck(self):
         now = timezone.now()
-        adjTime = datetime.timedelta(minutes=self.waitTime)
+        waitTime = self.waitTime
+        # 持ち合い相場であれば待機時間短縮
+        if self.trend_id == 3:
+            waitTime = int(waitTime / 2)
+
+        adjTime = datetime.timedelta(minutes=waitTime)
         text = 'position time Check'
         s_over = False
         l_over = False
