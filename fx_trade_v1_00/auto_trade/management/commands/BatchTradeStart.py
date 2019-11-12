@@ -116,8 +116,9 @@ class Command(BaseCommand):
                 order.allOrderClose()
 
             ast = order.fi.getAsset()
-            ast = Decimal(ast['account']['balance'])
-            assets.objects.create(assets=ast)
+            astBlance = Decimal(ast['account']['balance'])
+            text += ast
+            assets.objects.create(assets=astBlance)
 
         if text != '':
             batchLog.objects.create(text=text)
