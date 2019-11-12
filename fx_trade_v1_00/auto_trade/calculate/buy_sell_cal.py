@@ -147,7 +147,7 @@ class BuySellCal():
                 condiPrev.condition_of_bb.bb_trande
             )['id']
 
-
+            self.order.trend_id = trend_id
 
             if not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
                 text += '確度が小さいのでlimit小さく<br>'
