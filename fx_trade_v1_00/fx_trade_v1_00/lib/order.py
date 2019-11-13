@@ -62,21 +62,9 @@ class orderFx:
         self.isLlockByTime = False
         self.waitTime = 0
         self.trend_id = 0
-        # -----------------------------------------------
-        # タイムゾーンの生成
-        JST = datetime.timezone(datetime.timedelta(hours=+9), 'JST')
-
-        # GOOD, タイムゾーンを指定している．早い
-        jst = datetime.datetime.now(JST) + datetime.timedelta(minutes=1)
-        self.jst = jst.isoformat()+'Z'
-        # -----------------------------------------------
-
-        self.now_utc = datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
-        self.now_utc = self.now_utc.isoformat()+'Z'
 
         # """為替ペア"""
         self.instrument = "USD_JPY"
-
         # """購買件数マイナスでshort、プラスでlong"""
         self.unitsShort = "-1000"
         # """指値注文"""
@@ -431,6 +419,13 @@ class orderFx:
         try:
             if self.orderLongNum != 0:
                 api.request(r)
+                now = timezone.now()
+
+                # 正常に売却したので次回の購買は30分経過していなくても購買できるようにする。
+                adjTime = datetime.timedelta(minutes=(self.waitTime + 10))
+                self.tlog.long_in_time = now - adjTime
+                self.tlog.save()
+
         except:
             print('long決済するデータがありませんでした。')
             pass
@@ -460,6 +455,12 @@ class orderFx:
         try:
             if self.orderShortNum != 0:
                 api.request(r)
+
+                # 正常に売却したので次回の購買は30分経過していなくても購買できるようにする。
+                adjTime = datetime.timedelta(minutes=(self.waitTime + 10))
+                self.tlog.short_in_time = now - adjTime
+                self.tlog.save()
+
         except:
             # print('short決済するデータがありませんでした。')
             pass
