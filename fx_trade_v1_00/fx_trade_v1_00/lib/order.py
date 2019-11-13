@@ -419,15 +419,14 @@ class orderFx:
                 now = timezone.now()
 
                 # 正常に売却したので次回の購買は30分経過していなくても購買できるようにする。
-                adjTime = datetime.timedelta(minutes=(self.waitTime + 10))
+                adjTime = datetime.timedelta(minutes=(self.waitTime + 100))
                 self.tlog.long_in_time = now - adjTime
+                self.tlog.long_count = 0
                 self.tlog.save()
 
         except:
             print('long決済するデータがありませんでした。')
             pass
-        self.tlog.long_count = 0
-        self.tlog.save()
 
     def oderCloseAllShort(self):
         self.getOrderNum()
@@ -453,15 +452,14 @@ class orderFx:
                 api.request(r)
 
                 # 正常に売却したので次回の購買は30分経過していなくても購買できるようにする。
-                adjTime = datetime.timedelta(minutes=(self.waitTime + 10))
+                adjTime = datetime.timedelta(minutes=(self.waitTime + 100))
                 self.tlog.short_in_time = now - adjTime
+                self.tlog.short_count = 0
                 self.tlog.save()
 
         except:
             # print('short決済するデータがありませんでした。')
             pass
-        self.tlog.short_count = 0
-        self.tlog.save()
 
     def oderCloseById(self, id):
         self.getOrderNum()
