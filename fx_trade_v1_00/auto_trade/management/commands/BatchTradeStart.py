@@ -117,7 +117,7 @@ class Command(BaseCommand):
 
             ast = order.fi.getAsset()
             astBlance = Decimal(ast['account']['balance'])
-            text += str(ast)
+            # text += str(ast)
             assets.objects.create(assets=astBlance)
 
         if text != '':
