@@ -282,11 +282,6 @@ class BuySellCal():
                     if not nowInL and not trend_id == 4:
                         # print("long in by ma")
                         text += "long in by ma<br>"
-                        long_limit = (
-                            nowCndl_close - (nowCndl_close * (limit))
-                        ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                        self.order.stopLossLong = str(long_limit)
-                        # long_in_by_ma = True
                         nowInL = self.order.LongOrderCreate()
                     else:
                         # print("long in　but position is too many")
@@ -297,11 +292,6 @@ class BuySellCal():
                         # self.order.oderCloseAllLong()
                         # print("short in by ma")
                         text += "short in by ma<br>"
-                        short_limit = (
-                            nowCndl_close + (nowCndl_close * (limit))
-                        ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                        self.order.stopLossShort = str(short_limit)
-                        # short_in_by_ma = True
                         nowInS = self.order.ShortOrderCreate()
                     else:
                         # print("short in　but position is too many")
