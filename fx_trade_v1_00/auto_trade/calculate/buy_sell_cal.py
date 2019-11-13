@@ -157,12 +157,12 @@ class BuySellCal():
                 short_limit = (nowCndl_close + ((nowCndl_close * limit/2))
                                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            text += 'longの入り値　' + str(long_in) + '<br>'
-            text += 'longの損切　' + str(long_limit) + '<br>'
-            text += 'longの差　' + str(long_in - long_limit) + '<br>'
-            text += 'shortの入り値　' + str(short_in) + '<br>'
-            text += 'shortの損切　' + str(short_limit) + '<br>'
-            text += 'shortの差　' + str(short_in - short_limit) + '<br>'
+            # text += 'longの入り値　' + str(long_in) + '<br>'
+            # text += 'longの損切　' + str(long_limit) + '<br>'
+            # text += 'longの差　' + str(long_in - long_limit) + '<br>'
+            # text += 'shortの入り値　' + str(short_in) + '<br>'
+            # text += 'shortの損切　' + str(short_limit) + '<br>'
+            # text += 'shortの差　' + str(short_in - short_limit) + '<br>'
             text += 'トレンドID　' + str(trend_id) + '<br>'
 
 
@@ -260,7 +260,7 @@ class BuySellCal():
 
             # --------------------------------------------------------------------------
             # self.order.ShortOrderCreate()
-            if trend_id == 3 or trend_id == 4 :
+            if not trend_id == 1 or not trend_id == 2:
                 if self.order.lossCutReverse():
                     text += "lossCutReverseで購入<br>"
                     return
