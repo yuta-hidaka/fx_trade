@@ -500,28 +500,28 @@ class setBollingerBand_USD_JPY:
 
         # if nowClose
         # 持ち合い相場時の決済基準を判断
-        text += 'is_expansion ' + str(is_expansion) + '<br>'
-        text += 'is_trend ' + str(is_trend) + '<br>'
-        text += 'nowHigh ' + str(nowHigh) + '<br>'
-        text += 'JNowHigh ' + str(JNowHigh) + '<br>'
-        text += 'nowLow ' + str(nowLow) + '<br>'
-        text += 'JNowLow ' + str(JNowLow) + '<br>'
-        text += 'JNowClose ' + str(JNowClose) + '<br>'
-        text += 'nowClose ' + str(nowClose) + '<br>'
-        text += 'bfClose ' + str(bfClose) + '<br>'
-        text += 'SMA ' + str(sma) + '<br>'
-        text += 'sma1SigmaPlus ' + str(sma1SigmaPlus) + '<br>'
-        text += 'sma2SigmaPlus ' + str(sma2SigmaPlus) + '<br>'
-        text += 'sma3SigmaPlusBeforExP ' + str(sma3SigmaPlusBeforExP) + '<br>'
+        # text += 'is_expansion ' + str(is_expansion) + '<br>'
+        # text += 'is_trend ' + str(is_trend) + '<br>'
+        # text += 'nowHigh ' + str(nowHigh) + '<br>'
+        # text += 'JNowHigh ' + str(JNowHigh) + '<br>'
+        # text += 'nowLow ' + str(nowLow) + '<br>'
+        # text += 'JNowLow ' + str(JNowLow) + '<br>'
+        # text += 'JNowClose ' + str(JNowClose) + '<br>'
+        # text += 'nowClose ' + str(nowClose) + '<br>'
+        # text += 'bfClose ' + str(bfClose) + '<br>'
+        # text += 'SMA ' + str(sma) + '<br>'
+        # text += 'sma1SigmaPlus ' + str(sma1SigmaPlus) + '<br>'
+        # text += 'sma2SigmaPlus ' + str(sma2SigmaPlus) + '<br>'
+        # text += 'sma3SigmaPlusBeforExP ' + str(sma3SigmaPlusBeforExP) + '<br>'
 
-        text += 'sma1SigmaMinus ' + str(sma1SigmaMinus) + '<br>'
-        text += 'sma2SigmaMinus ' + str(sma2SigmaMinus) + '<br>'
-        text += 'sma3SigmaMinusExP ' + str(sma3SigmaMinusExP) + '<br>'
-        text += 'SMA2 ' + str(sma_2) + '<br>'
-        text += 'sma1SigmaPlus_2 ' + str(sma1SigmaPlus_2) + '<br>'
-        text += 'sma2SigmaPlus_2 ' + str(sma2SigmaPlus_2) + '<br>'
-        text += 'sma1SigmaMinus_2 ' + str(sma1SigmaMinus_2) + '<br>'
-        text += 'sma2SigmaMinus_2 ' + str(sma2SigmaMinus_2) + '<br>'
+        # text += 'sma1SigmaMinus ' + str(sma1SigmaMinus) + '<br>'
+        # text += 'sma2SigmaMinus ' + str(sma2SigmaMinus) + '<br>'
+        # text += 'sma3SigmaMinusExP ' + str(sma3SigmaMinusExP) + '<br>'
+        # text += 'SMA2 ' + str(sma_2) + '<br>'
+        # text += 'sma1SigmaPlus_2 ' + str(sma1SigmaPlus_2) + '<br>'
+        # text += 'sma2SigmaPlus_2 ' + str(sma2SigmaPlus_2) + '<br>'
+        # text += 'sma1SigmaMinus_2 ' + str(sma1SigmaMinus_2) + '<br>'
+        # text += 'sma2SigmaMinus_2 ' + str(sma2SigmaMinus_2) + '<br>'
         # peak  and expansion判定
         if sma3SigmaPlusBeforExP < nowClose and sma3SigmaPlusBeforExP < bfClose:
             text += 'sigma3＋α closeが上に触りました-エクスパンション用-<br>'
@@ -659,7 +659,7 @@ class setBollingerBand_USD_JPY:
 
         # mas = gMA.get_5M_num(self.setting.bb_count)['candles']
         mas = gMA.get_1M_num(num=self.setting.bb_count)['candles']
-        text = str(len(mas))
+        # text = str(len(mas))
 
         # M50 = M50.reverse()
         SMA_days = len(mas)
@@ -707,8 +707,8 @@ class setBollingerBand_USD_JPY:
         SD3_2 = SD_2 * Decimal('3')
 
         bbBefor = bollingerBand.objects.latest('created_at')
-        text += 'SMA<br>'+str(SMA)+'<br>'
-        text += 'SMA2<br>'+str(SMA2)+'<br>'
+        # text += 'SMA<br>'+str(SMA)+'<br>'
+        # text += 'SMA2<br>'+str(SMA2)+'<br>'
 
         # 平均から本日分の終値の標準偏差を計算する。
         result, created = bollingerBand.objects.filter(
@@ -728,7 +728,7 @@ class setBollingerBand_USD_JPY:
             nowMA, result, bbBefor, condiPrev
         )
 
-        batchLog.objects.create(
-            text=text
-        )
+        # batchLog.objects.create(
+        #     text=text
+        # )
         return resultBBCondi

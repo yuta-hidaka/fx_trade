@@ -163,6 +163,7 @@ class BuySellCal():
             text += 'shortの入り値　' + str(short_in) + '<br>'
             text += 'shortの損切　' + str(short_limit) + '<br>'
             text += 'shortの差　' + str(short_in - short_limit) + '<br>'
+            text += 'トレンドID　' + str(trend_id) + '<br>'
 
 
             # if self.order.lossCutCheck(False, False):
@@ -198,7 +199,12 @@ class BuySellCal():
                 text += 'BB---下降相場<br>'
             elif trend_id == 3:
                 # print('BB---持ち合い相場')
-                text += 'BB---持ち合い相場<br>'
+                text += 'BB---持ち合い相場<br>'            
+            elif trend_id == 4:
+                # print('BB---持ち合い相場')
+                text += 'BB---トレンドだけど傾きが逆<br>'
+
+
                 # text += 'is_bottomTouch<br>'
                 # text += str(is_bottomTouch) + '<br>'
                 # text += 'is_topTouch<br>'
@@ -259,7 +265,7 @@ class BuySellCal():
                     text += "lossCutReverseで購入<br>"
                     return
             else:
-                text += "持ち合い相場なのでlossCutReverseでの購入を行わない<br>"
+                text += "トレンドなのでlossCutReverseでの購入を行わない<br>"
 
 
     # --------------------------------------------------------------------------
