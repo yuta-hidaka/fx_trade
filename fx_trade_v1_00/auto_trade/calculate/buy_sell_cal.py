@@ -279,7 +279,7 @@ class BuySellCal():
 
            
                 if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1 and not nowInL and not nowInS:
-                    if not nowInL:
+                    if not nowInL and not trend_id == 4:
                         # print("long in by ma")
                         text += "long in by ma<br>"
                         long_limit = (
@@ -293,7 +293,7 @@ class BuySellCal():
                         text += "long in　but position is too many<br>"
                         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
                 elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                    if not nowInS:
+                    if not nowInS and not trend_id == 4:
                         # self.order.oderCloseAllLong()
                         # print("short in by ma")
                         text += "short in by ma<br>"
