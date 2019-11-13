@@ -109,9 +109,6 @@ class orderFx:
     def positionTimeCheck(self):
         now = timezone.now()
         waitTime = self.waitTime
-        # 持ち合い相場であれば待機時間短縮
-        if self.trend_id == 3:
-            waitTime = int(waitTime / 2)
 
         adjTime = datetime.timedelta(minutes=waitTime)
         text = 'position time Check'
