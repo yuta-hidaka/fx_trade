@@ -341,7 +341,7 @@ class orderFx:
                     text += '購買エラー<br>'
                     pass
         else:
-            text += '10分経過してない　short<br>'
+            text += str(self.waitTime)+ '分経過してない　short<br>'
 
         batchLog.objects.create(text=text)
         return flg
@@ -390,7 +390,7 @@ class orderFx:
             # print(json.dumps(res, indent=2))
             # print('order create----------------------------------------------')
         else:
-            text += '10分経過してない　long<br>'
+            text += str(self.waitTime) + '分経過してない　long<br>'
         # self.getOrderNum()
         batchLog.objects.create(text=text)
         return flg
@@ -438,7 +438,6 @@ class orderFx:
         """
         shortをすべて決済する。
         """
-
         data = {
             "shortUnits": "ALL"
         }
