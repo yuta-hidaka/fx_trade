@@ -410,16 +410,16 @@ class setBollingerBand_USD_JPY:
             # is_expansionByStd = True
             # is_topTouch = True
             self.text += '上にエクスパンション 二つの足より未使用<br>'
-        elif sma2SigmaPlusBeforEx <= bfClose and sma2SigmaPlusEx <= nowClose:
-            is_expansion = True
-            is_expansionByStd = True
-            is_topTouch = True
-            self.text += '上にエクスパンション(2回【終値】が超えた)<br>'
-        elif sma3SigmaPlusBeforExP <= nowClose and sma3SigmaPlusExP <= nowClose:
-            is_expansion = True
-            is_expansionByStd = True
-            is_topTouch = True
-            self.text += '上にエクスパンション(前回or今回σ3が上に超えた)<br>'
+        # elif sma2SigmaPlusBeforEx <= bfClose and sma2SigmaPlusEx <= nowClose:
+        #     is_expansion = True
+        #     is_expansionByStd = True
+        #     is_topTouch = True
+        #     self.text += '上にエクスパンション(2回【終値】が超えた)<br>'
+        # elif sma3SigmaPlusBeforExP <= nowClose and sma3SigmaPlusExP <= nowClose:
+        #     is_expansion = True
+        #     is_expansionByStd = True
+        #     is_topTouch = True
+        #     self.text += '上にエクスパンション(前回or今回σ3が上に超えた)<br>'
         elif sma2SigmaPlusBeforEx <= bfHigh and sma2SigmaPlusEx <= nowHigh:
             # is_expansion = True
             # is_expansionByStd = True
@@ -437,16 +437,16 @@ class setBollingerBand_USD_JPY:
             # is_expansionByStd = True
             # is_bottomTouch = True
             self.text += '下にエクスパンション　二つの足より未使用<br>'
-        elif sma2SigmaMinusBeforEx >= bfClose and sma2SigmaMinusEx >= nowClose:
-            is_expansion = True
-            is_expansionByStd = True
-            is_bottomTouch = True
-            self.text += '下にエクスパンション(2回【終値】が超えた)<br>'
-        elif sma3SigmaMinusBeforExP >= nowClose or sma3SigmaMinusExP >= nowClose:
-            is_expansion = True
-            is_expansionByStd = True
-            is_bottomTouch = True
-            self.text += '下にエクスパンション(前回or今回σ3が下に超えた)<br>'
+        # elif sma2SigmaMinusBeforEx >= bfClose and sma2SigmaMinusEx >= nowClose:
+        #     is_expansion = True
+        #     is_expansionByStd = True
+        #     is_bottomTouch = True
+        #     self.text += '下にエクスパンション(2回【終値】が超えた)<br>'
+        # elif sma3SigmaMinusBeforExP >= nowClose or sma3SigmaMinusExP >= nowClose:
+        #     is_expansion = True
+        #     is_expansionByStd = True
+        #     is_bottomTouch = True
+        #     self.text += '下にエクスパンション(前回or今回σ3が下に超えた)<br>'
         elif sma2SigmaMinusBeforEx >= bfLow and sma2SigmaMinusEx >= nowLow:
             # is_expansion = True
             # is_expansionByStd = True
@@ -522,28 +522,28 @@ class setBollingerBand_USD_JPY:
         # self.text += 'sma1SigmaMinus_2 ' + str(sma1SigmaMinus_2) + '<br>'
         # self.text += 'sma2SigmaMinus_2 ' + str(sma2SigmaMinus_2) + '<br>'
         # peak  and expansion判定
-        if sma3SigmaPlusBeforExP < nowClose and sma3SigmaPlusBeforExP < bfClose:
-            self.text += 'sigma3＋α closeが上に触りました-エクスパンション用-<br>'
-            is_expansion = True
-            is_expansionByStd = True
-            is_topTouch = True
-        elif sma3SigmaPlusExP >= nowClose and sma3SigmaPlusBeforExP <= bfClose:
-            # if sma3SigmaPlusExP <= nowClose or sma3SigmaPlusExP <= nowClose:
-            # if sma2SigmaMinusEx <= nowClose and sma2SigmaMinusEx <= JNowClose:
-            self.text += 'sigma3＋α closeが上に触りました-トレンド終了用-<br>'
-            is_topTouch = True
-            is_peak = True
-        elif sma3SigmaMinusExP > nowClose and sma3SigmaMinusExP > bfClose:
-            self.text += 'sigma3＋α closeが下に触りました-エクスパンション用-<br>'
-            is_expansion = True
-            is_expansionByStd = True
-            is_bottomTouch = True
-        elif sma3SigmaMinusExP <= nowClose and sma3SigmaMinusExP >= bfClose:
-            self.text += 'sigma3＋α closeが下に触りました-トレンド終了用-<br>'
-            is_bottomTouch = True
-            is_peak = True
-        else:
-            self.text += 'sigma3＋α どちらにも触れてません<br>'
+        # if sma3SigmaPlusBeforExP < nowClose and sma3SigmaPlusBeforExP < bfClose:
+        #     self.text += 'sigma3＋α closeが上に触りました-エクスパンション用-<br>'
+        #     is_expansion = True
+        #     is_expansionByStd = True
+        #     is_topTouch = True
+        # elif sma3SigmaPlusExP >= nowClose and sma3SigmaPlusBeforExP <= bfClose:
+        #     # if sma3SigmaPlusExP <= nowClose or sma3SigmaPlusExP <= nowClose:
+        #     # if sma2SigmaMinusEx <= nowClose and sma2SigmaMinusEx <= JNowClose:
+        #     self.text += 'sigma3＋α closeが上に触りました-トレンド終了用-<br>'
+        #     is_topTouch = True
+        #     is_peak = True
+        # elif sma3SigmaMinusExP > nowClose and sma3SigmaMinusExP > bfClose:
+        #     self.text += 'sigma3＋α closeが下に触りました-エクスパンション用-<br>'
+        #     is_expansion = True
+        #     is_expansionByStd = True
+        #     is_bottomTouch = True
+        # elif sma3SigmaMinusExP <= nowClose and sma3SigmaMinusExP >= bfClose:
+        #     self.text += 'sigma3＋α closeが下に触りました-トレンド終了用-<br>'
+        #     is_bottomTouch = True
+        #     is_peak = True
+        # else:
+        #     self.text += 'sigma3＋α どちらにも触れてません<br>'
 
             # if sma3SigmaPlusExP_2 >= nowClose and sma3SigmaPlusBeforExP_2 <= bfClose:
             #         # if sma3SigmaPlusExP <= nowClose or sma3SigmaPlusExP <= nowClose:
