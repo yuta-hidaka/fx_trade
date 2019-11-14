@@ -394,14 +394,14 @@ class setBollingerBand_USD_JPY:
         # self.text += '傾き0でトレンドじゃない=スクイーズの可能性<br>'
         # 小数第二以上でプラスであればエクスパンション
         # if slopeDir != 0:
-        if diff != Decimal(0):
-            is_expansion = True
-            is_expansionByNum = True
-            self.text += '価格差のエクスパンション 休止中<br>'
-        elif diff_2 != Decimal(0):
-            is_expansion = True
-            is_expansionByNum = True
-            self.text += '価格差のエクスパンション②　休止中<br>'
+        # if diff != Decimal(0):
+        #     is_expansion = True
+        #     is_expansionByNum = True
+        #     self.text += '価格差のエクスパンション 休止中<br>'
+        # elif diff_2 != Decimal(0):
+        #     is_expansion = True
+        #     is_expansionByNum = True
+        #     self.text += '価格差のエクスパンション②　休止中<br>'
         # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
         # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose:
         # if sma2SigmaPlusEx <= nowClose and sma2SigmaPlusEx <= JNowClose:
