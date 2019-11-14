@@ -324,19 +324,19 @@ class setBollingerBand_USD_JPY:
 
         for c in cond:
             xClose.append(float(c.ma.m5.close))
-            try:
-                text += str(c.ma.m5.recorded_at_utc) + '% 時間<br>'
-                text += str(c.condition_of_bb.bb.sma) + ' c.condition_of_bb.bb.sma<br>'
-                text += str(c.condition_of_bb.bb.sma_2) + 'c.condition_of_bb.bb.sma_2<br>'
-                text += str(c.ma.m5.close) + ' c.ma.m5.close<br>'
-                batchLog.objects.create(
-                    text=text
-                )
-                text = ''
-                pass
-            except:
-                text += 'errorororo<br>'
-                pass
+            # try:
+            #     text += str(c.ma.m5.recorded_at_utc) + '% 時間<br>'
+            #     text += str(c.condition_of_bb.bb.sma) + ' c.condition_of_bb.bb.sma<br>'
+            #     text += str(c.condition_of_bb.bb.sma_2) + 'c.condition_of_bb.bb.sma_2<br>'
+            #     text += str(c.ma.m5.close) + ' c.ma.m5.close<br>'
+            #     batchLog.objects.create(
+            #         text=text
+            #     )
+            #     text = ''
+            #     pass
+            # except:
+            #     text += 'errorororo<br>'
+                # pass
             tmpSma = c.condition_of_bb.bb.sma
             tmpSma2 = c.condition_of_bb.bb.sma_2
             tmpclose = c.ma.m5.close
