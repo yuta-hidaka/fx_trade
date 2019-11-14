@@ -454,6 +454,8 @@ class orderFx:
 
         # 正常に売却したので次回の購買は30分経過していなくても購買できるようにする。
         adjTime = datetime.timedelta(minutes=(self.waitTime + 100))
+        now = timezone.now()
+
         self.tlog.short_in_time = now - adjTime
         self.text += str(self.tlog.short_in_time) + '決済後：self.tlog.short_in_time<br>'
         self.tlog.short_count = 0
