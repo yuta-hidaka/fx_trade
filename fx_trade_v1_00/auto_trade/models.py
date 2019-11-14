@@ -58,7 +58,7 @@ class tradeLog(models.Model):
 
 
 class batchLog(models.Model):
-    text = models.CharField(max_length=3000)
+    text = models.TextField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
 # 5分足
