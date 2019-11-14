@@ -245,6 +245,29 @@ class BuySellCal():
                 # --------------------------------------------------------------------------------------------------------------------
             text += 'トレンドID　' + str(trend_id) + '<br>'
 
+            if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1 and not nowInL and not nowInS:
+                if not nowInL and not trend_id == 4:
+                    # print("long in by ma")
+                    text += "long in by ma<br>"
+                    nowInL = self.order.LongOrderCreate()
+                else:
+                    # print("long in　but position is too many")
+                    text += "long in　but position is too many<br>"
+                    # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
+            elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
+                if not nowInS and not trend_id == 4:
+                    # self.order.oderCloseAllLong()
+                    # print("short in by ma")
+                    text += "short in by ma<br>"
+                    nowInS = self.order.ShortOrderCreate()
+                else:
+                    # print("short in　but position is too many")
+                    text += "short in　but position is too many<br>"
+                    # long closeのタイミング if MA is 2 it have to close
+            else:
+                # print('購買----様子見中')
+                text += '購買----様子見中 MAでの購買判定<br>'
+
 
     # --------------------------------------------------------------------------
             if trend_id == 1 or trend_id == 2 or trend_id == 4 and not is_peak and not nowInL and not nowInS:
@@ -254,28 +277,28 @@ class BuySellCal():
 
                 # elif is_shortInBB:
 
-                if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1 and not nowInL and not nowInS:
-                    if not nowInL and not trend_id == 4:
-                        # print("long in by ma")
-                        text += "long in by ma<br>"
-                        nowInL = self.order.LongOrderCreate()
-                    else:
-                        # print("long in　but position is too many")
-                        text += "long in　but position is too many<br>"
-                        # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
-                elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                    if not nowInS and not trend_id == 4:
-                        # self.order.oderCloseAllLong()
-                        # print("short in by ma")
-                        text += "short in by ma<br>"
-                        nowInS = self.order.ShortOrderCreate()
-                    else:
-                        # print("short in　but position is too many")
-                        text += "short in　but position is too many<br>"
-                        # long closeのタイミング if MA is 2 it have to close
-                else:
-                    # print('購買----様子見中')
-                    text += '購買----様子見中 MAでの購買判定<br>'
+                # if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1 and not nowInL and not nowInS:
+                #     if not nowInL and not trend_id == 4:
+                #         # print("long in by ma")
+                #         text += "long in by ma<br>"
+                #         nowInL = self.order.LongOrderCreate()
+                #     else:
+                #         # print("long in　but position is too many")
+                #         text += "long in　but position is too many<br>"
+                #         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
+                # elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
+                #     if not nowInS and not trend_id == 4:
+                #         # self.order.oderCloseAllLong()
+                #         # print("short in by ma")
+                #         text += "short in by ma<br>"
+                #         nowInS = self.order.ShortOrderCreate()
+                #     else:
+                #         # print("short in　but position is too many")
+                #         text += "short in　but position is too many<br>"
+                #         # long closeのタイミング if MA is 2 it have to close
+                # else:
+                #     # print('購買----様子見中')
+                #     text += '購買----様子見中 MAでの購買判定<br>'
 
                 # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
                 if maNow == 2 and trend_id != 1:
