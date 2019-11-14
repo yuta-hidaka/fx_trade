@@ -177,18 +177,6 @@ class BuySellCal():
 
             # 購買判断材料-トレンド形成時--------------------------------------
 
-            # print('maNow')
-            # print(maNow)
-            # print('')
-            # print()
-            # print('M5_1_close')
-            # print(M5_1_close)
-            # print('M5_1_closeNow')
-            # print(M5_1_closeNow)
-            # print('is_expansion')
-            # print(is_expansion)
-            text += 'トレンドID　' + str(trend_id) + '<br>'
-
             # 上昇or下降トレンド相場だったら
             if trend_id == 1:
                 # print('BB---上昇相場')
@@ -261,7 +249,7 @@ class BuySellCal():
             # self.order.ShortOrderCreate()
             checkRange = [3, 5]
             if trend_id in checkRange:
-                text += "持ち合い<br>"
+                text += "持ち合い lossCutReverseの処理を試行<br>"
                 if self.order.lossCutReverse():
                     text += "lossCutReverseで購入<br>"
                     return
