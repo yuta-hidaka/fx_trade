@@ -186,6 +186,7 @@ class BuySellCal():
             # print(M5_1_closeNow)
             # print('is_expansion')
             # print(is_expansion)
+            text += 'トレンドID　' + str(trend_id) + '<br>'
 
             # 上昇or下降トレンド相場だったら
             if trend_id == 1:
