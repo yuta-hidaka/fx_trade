@@ -51,6 +51,7 @@ class orderFx:
     def __init__(self):
         self.isLock = False
         self.now = timezone.now()
+        self.text = ''
 
         # now = timezone.utc()
 
@@ -111,7 +112,7 @@ class orderFx:
         waitTime = self.waitTime
 
         adjTime = datetime.timedelta(minutes=waitTime)
-        text = 'position time Check'
+        self.text += 'position time Check'
         s_over = False
         l_over = False
 
@@ -123,29 +124,29 @@ class orderFx:
 
         shortInTime = self.tlog.short_in_time + adjTime
         longInTime = self.tlog.long_in_time + adjTime
-        text += '<br>now '+str(now)
-        text += '<br>long in '+str(longInTime)
-        text += '<br>shot in '+str(shortInTime)
+        self.text += '<br>now '+str(now)
+        self.text += '<br>long in '+str(longInTime)
+        self.text += '<br>shot in '+str(shortInTime)
 
         if longInTime < now:
             self.isLlockByTime = False
             l_over = True
-            text += '<br>long '+str(self.waitTime)+'分経った'
+            self.text += '<br>long '+str(self.waitTime)+'分経った'
         else:
-            text += '<br>long '+str(self.waitTime)+'分経ってない'
+            self.text += '<br>long '+str(self.waitTime)+'分経ってない'
             self.isLlockByTime = True
 
         if shortInTime < now:
-            text += '<br>short '+str(self.waitTime)+'分経った'
+            self.text += '<br>short '+str(self.waitTime)+'分経った'
             self.isSlockByTime = False
             s_over = True
         else:
-            text += '<br>short '+str(self.waitTime)+'分経ってない  '
+            self.text += '<br>short '+str(self.waitTime)+'分経ってない  '
             self.isSlockByTime = True
         
         
 
-        batchLog.objects.create(text=text)
+        # batchLog.objects.create(self.text=text)
 
         return s_over, l_over
 
@@ -172,21 +173,21 @@ class orderFx:
             osNum = 0
 
         # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
-        text = 'loss cut reverse'
+        self.text += 'loss cut reverse'
         if self.tlog.long_count != olNum and not lo:
-            text += '<br>ロング損切されている　position　入れ替え'
+            self.text += '<br>ロング損切されている　position　入れ替え'
             self.ShortOrderCreate()
             flg = True
 
         if self.tlog.short_count != osNum and not so:
-            text += '<br>ショート損切りされている position 入れ替え'
+            self.text += '<br>ショート損切りされている position 入れ替え'
             self.LongOrderCreate()
             flg = True
 
         self.tlog.short_count = self.orderShortNum
         self.tlog.long_count = self.orderLongNum
         self.tlog.save()
-        batchLog.objects.create(text=text)
+        # batchLog.objects.create(text=text)
         return flg
 
 
@@ -212,37 +213,37 @@ class orderFx:
             osNum = 0
 
         # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
-        text = 'loss cut check'
+        self.text += 'loss cut check'
 
         if self.tlog.long_count == olNum:
             self.isLlock = False
-            # text += '<br>ロングおなじ'
+            # self.text += '<br>ロングおなじ'
         else:
-            text += '<br>ロング損切されている'
+            self.text += '<br>ロング損切されている'
             if not l and not self.isLlock:
-                text += '<br> not l and not self.isLlock'
+                self.text += '<br> not l and not self.isLlock'
                 self.isLlock = True
             elif self.isLock:
-                text += '<br> self.isLock'
+                self.text += '<br> self.isLock'
                 self.isSlock = True
 
         if self.tlog.short_count == osNum:
-            # text += '<br>ショートおなじ'
+            # self.text += '<br>ショートおなじ'
             self.isSlock = False
         else:
-            text += '<br>ショート損切りされている'
+            self.text += '<br>ショート損切りされている'
             if not s and not self.isSlock:
-                text += '<br> not s and not self.isSlock'
+                self.text += '<br> not s and not self.isSlock'
                 self.isSlock = True
             elif self.isLock:
-                text += '<br> self.isLock'
+                self.text += '<br> self.isLock'
                 self.isSlock = True
 
 
         self.tlog.short_count = self.orderShortNum
         self.tlog.long_count = self.orderLongNum
         self.tlog.save()
-        batchLog.objects.create(text=text)
+        # batchLog.objects.create(text=text)
 
         if self.isSlock or self.isLlock:
             return True
@@ -265,26 +266,26 @@ class orderFx:
             self.orderShortNum = 0
 
         # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
-        # text = ''
+        # self.text += ''
         # if self.tlog.long_count == self.orderLongNum:
         #     self.isLlock = False
-        #     text += '<br>ロングおなじ'
+        #     self.text += '<br>ロングおなじ'
         # else:
-        #     text += '<br>ロングちがう'
+        #     self.text += '<br>ロングちがう'
         #     self.isLlock = True
 
         # if self.tlog.short_count == self.orderShortNum:
-        #     text += '<br>ショートおなじ'
+        #     self.text += '<br>ショートおなじ'
         #     self.isSlock = False
         # else:
-        #     text += '<br>ショートちがう  '
+        #     self.text += '<br>ショートちがう  '
         #     self.isSlock = True
 
-        # text += '<br>self.tlog.long_count ' + str(self.tlog.long_count)
-        # text += '<br>self.orderLongNum ' + str(self.orderLongNum)
-        # text += '<br>self.tlog.short_count ' + str(self.tlog.short_count)
-        # text += '<br>self.orderShortNum ' + str(self.orderShortNum)
-        # batchLog.objects.create(text=text)
+        # self.text += '<br>self.tlog.long_count ' + str(self.tlog.long_count)
+        # self.text += '<br>self.orderLongNum ' + str(self.orderLongNum)
+        # self.text += '<br>self.tlog.short_count ' + str(self.tlog.short_count)
+        # self.text += '<br>self.orderShortNum ' + str(self.orderShortNum)
+        # batchLog.objects.create(self.text=self.text)
 
         # self.tlog.short_count = self.orderShortNum
         # self.tlog.long_count = self.orderLongNum
@@ -295,22 +296,21 @@ class orderFx:
     def allOrderClose(self):
         if not self.isSlock and not self.isLlock:
             self.getOrderNum()
-            text = 'allOrderClose'
+            self.text += 'allOrderClose'
             if self.orderLongNum != 0:
                 self.oderCloseAllLong()
             if self.orderShortNum != 0:
                 self.oderCloseAllShort()
 
-        batchLog.objects.create(text=text)
+        # batchLog.objects.create(text=text)
 
     def ShortOrderCreate(self):
         self.positionTimeCheck()
-        text = ''
         flg = False
         if not self.isSlockByTime:
             self.getOrderNum()
             self.oderCloseAllLong()
-            text += 'ShortOrderCreate<br>'
+            self.text += 'ShortOrderCreate<br>'
             # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
             api = self.fi.api
             # stopPrice = 100.00
@@ -330,7 +330,7 @@ class orderFx:
             if self.orderShortNum == 0:
                 r = orders.OrderCreate(self.fi.accountID, data=self.data)
                 res = api.request(r)
-                text += json.dumps(res, indent=2)
+                self.text += json.dumps(res, indent=2)
                 try:
                     self.tlog.short_in_time = self.now
                     self.tlog.short_count = 1
@@ -338,12 +338,12 @@ class orderFx:
                     flg = True
                     pass
                 except:
-                    text += '購買エラー<br>'
+                    self.text += '購買エラー<br>'
                     pass
         else:
-            text += str(self.waitTime)+ '分経過してない　short<br>'
+            self.text += str(self.waitTime)+ '分経過してない　short<br>'
 
-        batchLog.objects.create(text=text)
+        # batchLog.objects.create(text=text)
         return flg
 
         # self.getOrderNum()
@@ -351,11 +351,10 @@ class orderFx:
     def LongOrderCreate(self):
         self.positionTimeCheck()
         flg = False
-        text = ''
         if not self.isLlockByTime:
             self.getOrderNum()
             self.oderCloseAllShort()
-            text = 'LongOrderCreate<br>'
+            self.text += 'LongOrderCreate<br>'
             # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
             api = self.fi.api
             # stopPrice = 100.00
@@ -376,7 +375,7 @@ class orderFx:
 
                 r = orders.OrderCreate(self.fi.accountID, data=self.data)
                 res = api.request(r)
-                text += json.dumps(res, indent=2)
+                self.text += json.dumps(res, indent=2)
                 try:
                     self.tlog.long_in_time = self.now
                     self.tlog.long_count = 1
@@ -384,22 +383,22 @@ class orderFx:
                     flg = True
                     pass
                 except:
-                    text = '購買エラー<br>'
+                    self.text += '購買エラー<br>'
                     pass
             # print(self.data)
             # print(json.dumps(res, indent=2))
             # print('order create----------------------------------------------')
         else:
-            text += str(self.waitTime) + '分経過してない　long<br>'
+            self.text += str(self.waitTime) + '分経過してない　long<br>'
         # self.getOrderNum()
-        batchLog.objects.create(text=text)
+        # batchLog.objects.create(text=text)
         return flg
 
     def oderCloseAllLong(self):
         self.getOrderNum()
 
-        text = 'oderCloseAllLong<br>'
-        batchLog.objects.create(text=text)
+        self.text += 'oderCloseAllLong<br>'
+        # batchLog.objects.create(text=text)
         api = self.fi.api
         """
         longをすべて決済する。
@@ -421,6 +420,8 @@ class orderFx:
                 # 正常に売却したので次回の購買は30分経過していなくても購買できるようにする。
                 adjTime = datetime.timedelta(minutes=(self.waitTime + 100))
                 self.tlog.long_in_time = now - adjTime
+                self.text += str(self.tlog.long_in_time) + '決済後：self.tlog.long_in_time<br>'
+
                 self.tlog.long_count = 0
                 self.tlog.save()
 
@@ -431,8 +432,8 @@ class orderFx:
     def oderCloseAllShort(self):
         self.getOrderNum()
 
-        text = 'oderCloseAllShort<br>'
-        batchLog.objects.create(text=text)
+        self.text += 'oderCloseAllShort<br>'
+        # batchLog.objects.create(text=text)
         api = self.fi.api
         """
         shortをすべて決済する。
@@ -454,6 +455,8 @@ class orderFx:
                 # 正常に売却したので次回の購買は30分経過していなくても購買できるようにする。
                 adjTime = datetime.timedelta(minutes=(self.waitTime + 100))
                 self.tlog.short_in_time = now - adjTime
+                self.text += str(self.tlog.short_in_time) + '決済後：self.tlog.short_in_time<br>'
+
                 self.tlog.short_count = 0
                 self.tlog.save()
 

@@ -517,6 +517,8 @@ class BuySellCal():
             # oderSTObj.long_order =
             # oderSTObj.save()
 
+            text = text +'<br>-------------------------------ここからorderの内容----------------------------------' +self.order.text
+
             batchLog.objects.create(text=text)
 
         else:
