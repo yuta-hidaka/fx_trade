@@ -394,22 +394,22 @@ class setBollingerBand_USD_JPY:
         # self.text += '傾き0でトレンドじゃない=スクイーズの可能性<br>'
         # 小数第二以上でプラスであればエクスパンション
         # if slopeDir != 0:
-        # if diff != Decimal(0):
-        #     is_expansion = True
-        #     is_expansionByNum = True
-        #     self.text += '価格差のエクスパンション 休止中<br>'
-        # elif diff_2 != Decimal(0):
-        #     is_expansion = True
-        #     is_expansionByNum = True
-        #     self.text += '価格差のエクスパンション②　休止中<br>'
+        if diff != Decimal(0):
+            is_expansion = True
+            is_expansionByNum = True
+            self.text += '価格差のエクスパンション 休止中<br>'
+        elif diff_2 != Decimal(0):
+            is_expansion = True
+            is_expansionByNum = True
+            self.text += '価格差のエクスパンション②　休止中<br>'
         # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose and sma2SigmaPlus <= prevClose:
         # elif sma2SigmaPlus <= nowClose and sma2SigmaPlus <= JNowClose:
         # if sma2SigmaPlusEx <= nowClose and sma2SigmaPlusEx <= JNowClose:
-        if sma2SigmaPlusEx <= nowClose and sma2SigmaPlusEx_2 <= nowClose:
-            # is_expansion = True
-            # is_expansionByStd = True
-            # is_topTouch = True
-            self.text += '上にエクスパンション 二つの足より未使用<br>'
+        # if sma2SigmaPlusEx <= nowClose and sma2SigmaPlusEx_2 <= nowClose:
+        #     # is_expansion = True
+        #     # is_expansionByStd = True
+        #     # is_topTouch = True
+        #     self.text += '上にエクスパンション 二つの足より未使用<br>'
         # elif sma2SigmaPlusBeforEx <= bfClose and sma2SigmaPlusEx <= nowClose:
         #     is_expansion = True
         #     is_expansionByStd = True
@@ -420,11 +420,11 @@ class setBollingerBand_USD_JPY:
         #     is_expansionByStd = True
         #     is_topTouch = True
         #     self.text += '上にエクスパンション(前回or今回σ3が上に超えた)<br>'
-        elif sma2SigmaPlusBeforEx <= bfHigh and sma2SigmaPlusEx <= nowHigh:
-            # is_expansion = True
-            # is_expansionByStd = True
-            # is_topTouch = True
-            self.text += '上にエクスパンション(2回【高値】が超えた) 休止中<br>'
+        # elif sma2SigmaPlusBeforEx <= bfHigh and sma2SigmaPlusEx <= nowHigh:
+        #     # is_expansion = True
+        #     # is_expansionByStd = True
+        #     # is_topTouch = True
+        #     self.text += '上にエクスパンション(2回【高値】が超えた) 休止中<br>'
         # elif sma2SigmaPlusEx_2 <= nowClose:
         #     is_expansion = True
         #     is_expansionByStd = True
@@ -432,11 +432,11 @@ class setBollingerBand_USD_JPY:
         #     self.text += '上にエクスパンション②<br>'
         # elif sma2SigmaMinus >= nowClose and sma2SigmaMinus >= JNowClose and sma2SigmaMinus >= prevClose:
         # if sma2SigmaMinusEx >= nowClose and sma2SigmaMinusEx >= JNowClose:
-        if sma2SigmaMinusEx >= nowClose and sma2SigmaMinusEx_2 >= nowClose:
-            # is_expansion = True
-            # is_expansionByStd = True
-            # is_bottomTouch = True
-            self.text += '下にエクスパンション　二つの足より未使用<br>'
+        # if sma2SigmaMinusEx >= nowClose and sma2SigmaMinusEx_2 >= nowClose:
+        #     # is_expansion = True
+        #     # is_expansionByStd = True
+        #     # is_bottomTouch = True
+        #     self.text += '下にエクスパンション　二つの足より未使用<br>'
         # elif sma2SigmaMinusBeforEx >= bfClose and sma2SigmaMinusEx >= nowClose:
         #     is_expansion = True
         #     is_expansionByStd = True
@@ -447,11 +447,11 @@ class setBollingerBand_USD_JPY:
         #     is_expansionByStd = True
         #     is_bottomTouch = True
         #     self.text += '下にエクスパンション(前回or今回σ3が下に超えた)<br>'
-        elif sma2SigmaMinusBeforEx >= bfLow and sma2SigmaMinusEx >= nowLow:
-            # is_expansion = True
-            # is_expansionByStd = True
-            # is_bottomTouch = True
-            self.text += '下にエクスパンション(2回【底値】が超えた) 休止中<br>'
+        # elif sma2SigmaMinusBeforEx >= bfLow and sma2SigmaMinusEx >= nowLow:
+        #     # is_expansion = True
+        #     # is_expansionByStd = True
+        #     # is_bottomTouch = True
+        #     self.text += '下にエクスパンション(2回【底値】が超えた) 休止中<br>'
         # elif sma2SigmaMinusEx_2 >= nowClose:
         #     is_expansion = True
         #     is_expansionByStd = True
@@ -492,7 +492,7 @@ class setBollingerBand_USD_JPY:
                 trandCondi = 3
                 self.text += '持ち合い相場<br>'
             else:
-                trandCondi = 5
+                trandCondi = 4
                 self.text += '下位or上位が持ち合いじゃない<br>'
 
             # もみ合い相場
@@ -560,18 +560,18 @@ class setBollingerBand_USD_JPY:
 
         if not is_trend and not is_expansion:
             # 売却判定
-            # if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
-            #     # if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose:
-            #     # if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose and slopeDir2 == -1:
-            #     self.text += 'sigma1＋α 上に触りました<br>'
-            #     is_longClose = True
-            # elif sma1SigmaMinus >= nowLow or sma1SigmaMinus >= JNowLow:
-            #     # elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose:
-            #     # elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose and slopeDir2 == 1:
-            #     self.text += 'sigma1＋α 下に触りました<br>'
-            #     is_shortClose = True
-            # else:
-            #     self.text += 'sigma1＋α どちらにも触れてません<br>'
+            if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
+                # if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose:
+                # if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose and slopeDir2 == -1:
+                self.text += 'sigma1＋α 上に触りました<br>'
+                is_longClose = True
+            elif sma1SigmaMinus >= nowLow or sma1SigmaMinus >= JNowLow:
+                # elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose:
+                # elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose and slopeDir2 == 1:
+                self.text += 'sigma1＋α 下に触りました<br>'
+                is_shortClose = True
+            else:
+                self.text += 'sigma1＋α どちらにも触れてません<br>'
 
             # 売却判定②
             # if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
@@ -587,24 +587,24 @@ class setBollingerBand_USD_JPY:
             else:
                 self.text += 'sigma1＋α どちらにも触れてません②<br>'
 
-            # # 持ち合い相場時の購買基準を判断
-            # # if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh and pstBttmTouch:
-            # if sma2SigmaPlusBefor <= nowClose or sma2SigmaPlus <= nowClose:
-            #         # is_longClose = True
-            #     is_shortIn = True
-            #     is_topTouch = True
-            #     self.text += 'sigma2＋α 上に高値のみ触りました high not close<br>'
-            # # elif sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow and pstTopTouch:
-            # elif sma2SigmaMinusBefor >= nowClose or sma2SigmaMinus >= nowClose:
-            #     # is_shortClose = True
-            #     # is_shortIn = False
-            #     is_longIn = True
-            #     is_bottomTouch = True
-            #     self.text += 'sigma2＋α 下に底値のみ触りましたlow not close<br>'
-            # else:
-            #     self.text += 'sigma2＋α どちらにも触れてません<br>'
-            #     # 持ち合い相場時の購買基準を判断
-            
+            # 持ち合い相場時の購買基準を判断
+            # if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh and pstBttmTouch:
+            if sma2SigmaPlusBefor <= nowClose or sma2SigmaPlus <= nowClose:
+                    # is_longClose = True
+                is_shortIn = True
+                is_topTouch = True
+                self.text += 'sigma2＋α 上に高値のみ触りました high not close<br>'
+            # elif sma2SigmaMinus >= nowLow or sma2SigmaMinus >= JNowLow and pstTopTouch:
+            elif sma2SigmaMinusBefor >= nowClose or sma2SigmaMinus >= nowClose:
+                # is_shortClose = True
+                # is_shortIn = False
+                is_longIn = True
+                is_bottomTouch = True
+                self.text += 'sigma2＋α 下に底値のみ触りましたlow not close<br>'
+            else:
+                self.text += 'sigma2＋α どちらにも触れてません<br>'
+                # 持ち合い相場時の購買基準を判断
+
             if sma2SigmaPlus_2 <= nowClose or sma2SigmaPlusBefor_2 <= nowClose:
                 # if sma2SigmaPlus <= nowClose or sma2SigmaPlus <= nowClose and pstBttmTouch:
                 # is_longClose = True
