@@ -412,21 +412,25 @@ class orderFx:
             data=data
         )
 
+        # 正常に売却したので次回の購買は30分経過していなくても購買できるようにする。
+        now = timezone.now()
+        adjTime = datetime.timedelta(minutes=(self.waitTime + 100))
+        self.tlog.long_in_time = now - adjTime
+        self.text += str(self.tlog.long_in_time) + '決済後：self.tlog.long_in_time<br>'
+        self.tlog.long_count = 0
+        self.tlog.save()
+
         try:
             if self.orderLongNum != 0:
                 api.request(r)
-                now = timezone.now()
 
-                # 正常に売却したので次回の購買は30分経過していなくても購買できるようにする。
-                adjTime = datetime.timedelta(minutes=(self.waitTime + 100))
-                self.tlog.long_in_time = now - adjTime
-                self.text += str(self.tlog.long_in_time) + '決済後：self.tlog.long_in_time<br>'
 
-                self.tlog.long_count = 0
-                self.tlog.save()
+                self.text += 'short決済してません<br>'
 
         except:
-            print('long決済するデータがありませんでした。')
+            # print('long決済するデータがありませんでした。')
+            self.text += 'short決済してません　エラーでした<br>'
+
             pass
 
     def oderCloseAllShort(self):
@@ -448,19 +452,23 @@ class orderFx:
             data=data
         )
 
+        # 正常に売却したので次回の購買は30分経過していなくても購買できるようにする。
+        adjTime = datetime.timedelta(minutes=(self.waitTime + 100))
+        self.tlog.short_in_time = now - adjTime
+        self.text += str(self.tlog.short_in_time) + '決済後：self.tlog.short_in_time<br>'
+        self.tlog.short_count = 0
+        self.tlog.save()
+
         try:
             if self.orderShortNum != 0:
                 api.request(r)
 
-                # 正常に売却したので次回の購買は30分経過していなくても購買できるようにする。
-                adjTime = datetime.timedelta(minutes=(self.waitTime + 100))
-                self.tlog.short_in_time = now - adjTime
-                self.text += str(self.tlog.short_in_time) + '決済後：self.tlog.short_in_time<br>'
+            else:
+                self.text += 'short決済してません<br>'
 
-                self.tlog.short_count = 0
-                self.tlog.save()
 
         except:
+            self.text += 'short決済してません　エラーでした<br>'
             # print('short決済するデータがありませんでした。')
             pass
 
