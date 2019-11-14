@@ -107,10 +107,14 @@ class Command(BaseCommand):
             condiPrev = condition.objects.latest('created_at')
             # ボリンジャーバンドの設定
             BBCondi = bb.setBB(nowMA=result, condiPrev=condiPrev)
+            headerText = '<br>----------------------------------------------set bb---------------------------------------------<br>'
+            text += (headerText + bb.text + headerText)
             condiNow = setMA.setMA(result, BBCondi)
             if not is_closeMarket and checkOn:
                 # a = 8
                 bsCal.BuySellCheck(condiNow, condiPrev)
+                headerText = '<br>----------------------------------------------by sel cal---------------------------------------------<br>'
+                text += (headerText + bsCal.text + headerText)
             else:
                 text += '自動取引がOFFです。'
                 order.allOrderClose()

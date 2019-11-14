@@ -20,6 +20,7 @@ class BuySellCal():
         self.fx = FxInfo()
         self.order = orderFx()
         self.setting = tradeSettings.objects.filter(id=1).first()
+        self.text = ''
 
     def BuySellCheck(self, condNow, condiPrev):
         text = ''
@@ -258,7 +259,7 @@ class BuySellCal():
 
             # --------------------------------------------------------------------------
             # self.order.ShortOrderCreate()
-            checkRange = [3,4]
+            checkRange = [3, 4]
             if trend_id in checkRange:
                 text += "持ち合い　or　トレンドで傾き逆なのでlossCutReverseでの購入を試行する<br>"
                 if self.order.lossCutReverse():
@@ -518,9 +519,9 @@ class BuySellCal():
             # oderSTObj.long_order =
             # oderSTObj.save()
 
-            text = text + '<br>-------------------------------ここからorderの内容----------------------------------' + self.order.text
+            self.text = text + '<br>-------------------------------ここからorderの内容----------------------------------<br>' + self.order.text
 
-            batchLog.objects.create(text=text)
+            # batchLog.objects.create(text=text)
 
         else:
             print('お休み中')
