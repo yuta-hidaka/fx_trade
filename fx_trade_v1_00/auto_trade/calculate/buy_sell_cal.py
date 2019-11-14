@@ -48,7 +48,7 @@ class BuySellCal():
         is_topTouch = cbb['is_topTouch']
         is_bottomTouch = cbb['is_bottomTouch']
         cv = bb['cv'] * Decimal(1000000)
-        text += 'cv  '+ str(cv) + '<br>'
+        text += 'cv  ' + str(cv) + '<br>'
         is_peak = cbb['is_peak']
         is_shortClose = cbb['is_shortClose']
         is_longClose = cbb['is_longClose']
@@ -110,10 +110,10 @@ class BuySellCal():
             #                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             long_limit = (nowCndl_close - (nowCndl_close * limit)
-                              ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                          ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             short_limit = (nowCndl_close + (nowCndl_close * limit)
-                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                           ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             # lDeff = np.abs(long_in - long_limit)
             # if lDeff < 0.1:
@@ -135,7 +135,7 @@ class BuySellCal():
             #                    ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
             #     text += 'shortのlimitが大きいので修正<br>'
 
-                        # 購買タイミング----------------------------------------------------------------------------------
+            # 購買タイミング----------------------------------------------------------------------------------
             # longのタイミング all slope is positive and before MA is 6or1 and now 1
 
             # BBから計算したトレンド持ち合い相場だったら下のshortINを使用する。そうでなければMAを使用する。
@@ -151,7 +151,7 @@ class BuySellCal():
 
             if not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
                 text += '確度が小さいのでlimit小さく<br>'
-                       # 確度が小さいのでlimit小さく
+                # 確度が小さいのでlimit小さく
                 long_limit = (nowCndl_close - ((nowCndl_close * limit/2))
                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                 short_limit = (nowCndl_close + ((nowCndl_close * limit/2))
@@ -163,8 +163,6 @@ class BuySellCal():
             # text += 'shortの入り値　' + str(short_in) + '<br>'
             # text += 'shortの損切　' + str(short_limit) + '<br>'
             # text += 'shortの差　' + str(short_in - short_limit) + '<br>'
-            text += 'トレンドID　' + str(trend_id) + '<br>'
-
 
             # if self.order.lossCutCheck(False, False):
             #     nowInL = True
@@ -175,7 +173,6 @@ class BuySellCal():
             # ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             # 購買判断材料-持ち合い形成時--------------------------------------
-
 
             # 購買判断材料-トレンド形成時--------------------------------------
 
@@ -199,11 +196,10 @@ class BuySellCal():
                 text += 'BB---下降相場<br>'
             elif trend_id == 3:
                 # print('BB---持ち合い相場')
-                text += 'BB---持ち合い相場<br>'            
+                text += 'BB---持ち合い相場<br>'
             elif trend_id == 4:
                 # print('BB---持ち合い相場')
                 text += 'BB---トレンドだけど傾きが逆<br>'
-
 
                 # text += 'is_bottomTouch<br>'
                 # text += str(is_bottomTouch) + '<br>'
@@ -253,14 +249,15 @@ class BuySellCal():
                 slopePrev = 1
                 slopeNow = 1
                 # print("何かエラー起きてます。")
-                trend_id = 0
+                trend_id = 1
                 pass
 
                 # --------------------------------------------------------------------------------------------------------------------
+            text += 'トレンドID　' + str(trend_id) + '<br>'
 
             # --------------------------------------------------------------------------
             # self.order.ShortOrderCreate()
-            if not trend_id == 1 or not trend_id == 2:
+            if trend_id == 3 or trend_id == 4:
                 text += "持ち合い　or　トレンドで傾き逆なのでlossCutReverseでの購入を試行する<br>"
                 if self.order.lossCutReverse():
                     text += "lossCutReverseで購入<br>"
@@ -268,16 +265,14 @@ class BuySellCal():
             else:
                 text += "トレンドなのでlossCutReverseでの購入を行わない<br>"
 
-
     # --------------------------------------------------------------------------
             if trend_id == 1 or trend_id == 2 or trend_id == 4 and not is_peak and not nowInL and not nowInS:
                 text += "トレンド相場------------------------------------------------<br>"
 
                 # if is_longInBB:
-                
+
                 # elif is_shortInBB:
 
-           
                 if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1 and not nowInL and not nowInS:
                     if not nowInL and not trend_id == 4:
                         # print("long in by ma")
@@ -300,17 +295,16 @@ class BuySellCal():
                 else:
                     # print('購買----様子見中')
                     text += '購買----様子見中 MAでの購買判定<br>'
-               
 
                 # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
-                if maNow == 2 and trend_id != 1 :
+                if maNow == 2 and trend_id != 1:
                     # print("long out by ma")
                     text = "long out by ma休止中<br>"
                     # if not nowInL:
                     #     self.order.oderCloseAllLong()
 
                     # short　closeのタイミング if MA is 5 it have to close
-                elif maNow == 5 and trend_id != 2 :
+                elif maNow == 5 and trend_id != 2:
                     # print("short out by ma")
                     text += "short out by ma休止中<br>"
                     # if not nowInS:
@@ -322,7 +316,6 @@ class BuySellCal():
                 #     text += "long out by candle<br>"
                 #     if not nowInL:
                 #         self.order.oderCloseAllLong()
-                    
 
                 #     # short　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
                 # elif M5_1_closePrev < nowCndl_close < M5_1_closeNow and trend_id != 2 :
@@ -390,7 +383,7 @@ class BuySellCal():
                 #             text += "short in　but position is too many<br>"
 
             # 持ち合い相場でエクスパンションしてなかったら
-            
+
             if is_peak:
                 text += 'sigma3 エクスパンションの底値。ポジションを入れ替える <br>'
                 if is_bottomTouch:
@@ -493,11 +486,11 @@ class BuySellCal():
                 elif is_bottomTouch:
                     # print('持ち合い相場の逆張りlong_in--同時にshort決済も行う。')
                     text += '持ち合い相場の逆張りlong_in--同時にshort決済も行う。<br>'
-                    if   not nowInS:
+                    if not nowInS:
                         # print('short決済 now not')
                         text += 'short決済<br>'
 
-                    if  not nowInL:
+                    if not nowInL:
                         self.order.LongOrderCreate()
                         nowInL = True
                     else:
@@ -515,23 +508,18 @@ class BuySellCal():
             else:
                 text += 'サイン出てない<br>'
 
-
     # --------------------------------------------------------------------------------------------------------------------
 
             # # 最後にオーダー数を更新する。
             # oderSTObj = orderStatus.objects.first()
-            # oderSTObj.short_order = 
-            # oderSTObj.long_order = 
+            # oderSTObj.short_order =
+            # oderSTObj.long_order =
             # oderSTObj.save()
-
-            
 
             batchLog.objects.create(text=text)
 
         else:
             print('お休み中')
-
-
 
             # print('-----------------------------------------------購買条件中-終了----------------------------------------------------')
 
