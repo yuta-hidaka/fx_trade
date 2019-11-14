@@ -245,16 +245,6 @@ class BuySellCal():
                 # --------------------------------------------------------------------------------------------------------------------
             text += 'トレンドID　' + str(trend_id) + '<br>'
 
-            # --------------------------------------------------------------------------
-            # self.order.ShortOrderCreate()
-            checkRange = [3, 5]
-            if trend_id in checkRange:
-                text += "持ち合い lossCutReverseの処理を試行<br>"
-                if self.order.lossCutReverse():
-                    text += "lossCutReverseで購入<br>"
-                    return
-            else:
-                text += "トレンドなのでlossCutReverseでの購入を行わない<br>"
 
     # --------------------------------------------------------------------------
             if trend_id == 1 or trend_id == 2 or trend_id == 4 and not is_peak and not nowInL and not nowInS:
@@ -498,6 +488,18 @@ class BuySellCal():
 
             else:
                 text += 'サイン出てない<br>'
+            
+                # --------------------------------------------------------------------------
+            # self.order.ShortOrderCreate()
+            checkRange = [3, 5]
+            if trend_id in checkRange and not nowInL or not nowInS:
+                text += "持ち合い lossCutReverseの処理を試行<br>"
+                if self.order.lossCutReverse():
+                    text += "lossCutReverseで購入<br>"
+                    return
+            else:
+                text += "トレンドなのでlossCutReverseでの購入を行わない<br>"
+
 
     # --------------------------------------------------------------------------------------------------------------------
 
