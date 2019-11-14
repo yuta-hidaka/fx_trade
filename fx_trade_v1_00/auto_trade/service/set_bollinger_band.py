@@ -492,7 +492,7 @@ class setBollingerBand_USD_JPY:
                 trandCondi = 3
                 self.text += '持ち合い相場<br>'
             else:
-                trandCondi = 4
+                trandCondi = 5
                 self.text += '下位or上位が持ち合いじゃない<br>'
 
             # もみ合い相場
