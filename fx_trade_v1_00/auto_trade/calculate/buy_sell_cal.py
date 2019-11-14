@@ -258,7 +258,7 @@ class BuySellCal():
 
             # --------------------------------------------------------------------------
             # self.order.ShortOrderCreate()
-            if trend_id != 3 or trend_id != 4:
+            if trend_id != 3:
                 text += "持ち合い　or　トレンドで傾き逆なのでlossCutReverseでの購入を試行する<br>"
                 if self.order.lossCutReverse():
                     text += "lossCutReverseで購入<br>"
@@ -517,7 +517,7 @@ class BuySellCal():
             # oderSTObj.long_order =
             # oderSTObj.save()
 
-            text = text +'<br>-------------------------------ここからorderの内容----------------------------------' +self.order.text
+            text = text + '<br>-------------------------------ここからorderの内容----------------------------------' + self.order.text
 
             batchLog.objects.create(text=text)
 
