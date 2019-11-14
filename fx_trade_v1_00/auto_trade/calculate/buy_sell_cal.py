@@ -259,7 +259,7 @@ class BuySellCal():
             # --------------------------------------------------------------------------
             # self.order.ShortOrderCreate()
             checkRange = [3,4]
-            if not trend_id in checkRange:
+            if trend_id in checkRange:
                 text += "持ち合い　or　トレンドで傾き逆なのでlossCutReverseでの購入を試行する<br>"
                 if self.order.lossCutReverse():
                     text += "lossCutReverseで購入<br>"
