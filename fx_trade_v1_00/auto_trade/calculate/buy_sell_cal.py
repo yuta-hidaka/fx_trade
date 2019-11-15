@@ -202,6 +202,16 @@ class BuySellCal():
             self.order.stopLossShort = str(short_limit)
             self.order.unitsShort = str(units*-1)
             # 前回までトレンドで今が持ち合い相場であればいったん決済する。
+
+            # self.order.ShortOrderCreate()
+            checkRange = [3, 5]
+            if trend_id in checkRange:
+                self.text += "持ち合い lossCutReverseの処理を試行<br>"
+                if self.order.lossCutReverse():
+                    self.text += "lossCutReverseで購入<br>"
+            else:
+                self.text += "トレンドなのでlossCutReverseでの購入を行わない<br>"
+
             try:
                 # print(condNow.condition_of_bb.bb_trande)
 
@@ -465,14 +475,14 @@ class BuySellCal():
                 self.text += 'サイン出てない<br>'
 
                 # --------------------------------------------------------------------------
-            # self.order.ShortOrderCreate()
-            checkRange = [3, 5]
-            if trend_id in checkRange:
-                self.text += "持ち合い lossCutReverseの処理を試行<br>"
-                if self.order.lossCutReverse():
-                    self.text += "lossCutReverseで購入<br>"
-            else:
-                self.text += "トレンドなのでlossCutReverseでの購入を行わない<br>"
+            # # self.order.ShortOrderCreate()
+            # checkRange = [3, 5]
+            # if trend_id in checkRange:
+            #     self.text += "持ち合い lossCutReverseの処理を試行<br>"
+            #     if self.order.lossCutReverse():
+            #         self.text += "lossCutReverseで購入<br>"
+            # else:
+            #     self.text += "トレンドなのでlossCutReverseでの購入を行わない<br>"
 
             self.text += '<br>-------------------------------ここからorderの内容----------------------------------<br>' + self.order.text
     # --------------------------------------------------------------------------------------------------------------------
