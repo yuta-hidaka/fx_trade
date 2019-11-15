@@ -50,6 +50,7 @@ class orderFx:
 
     def __init__(self):
         self.isLock = False
+        self.isReverse = False
         self.nowIn = False
         self.now = timezone.now()
         self.text = ''
@@ -174,10 +175,13 @@ class orderFx:
         self.text += 'loss cut reverse'
         if self.tlog.long_count != olNum and not lo:
             self.text += '<br>ロング損切されている　position　入れ替え'
+            self.isReverse = True
             flg = self.ShortOrderCreate()
 
         if self.tlog.short_count != osNum and not so:
             self.text += '<br>ショート損切りされている position 入れ替え'
+            self.isReverse = True
+
             flg = self.LongOrderCreate()
 
         self.tlog.short_count = self.orderShortNum
@@ -397,12 +401,12 @@ class orderFx:
         return flg
 
     def oderCloseAllLong(self):
-
         if self.nowIn:
             return
 
         self.getOrderNum()
         self.text += 'oderCloseAllLong<br>'
+        self.text += str(self.isReverse) + 'self.isReverse<br>'
         # batchLog.objects.create(text=text)
         api = self.fi.api
         """
@@ -417,12 +421,13 @@ class orderFx:
             data=data
         )
 
-        # # 正常に売却したので次回の購買は30分経過していなくても購買できるようにする。
-        # now = timezone.now()
-        # adjTime = datetime.timedelta(minutes=(self.waitTime + 100))
-        # self.tlog.long_in_time = now - adjTime
-        # self.text += str(self.tlog.long_in_time) + \
-        #     '決済後：self.tlog.long_in_time<br>'
+        if not self.isReverse:
+            # 正常に売却したので次回の購買は30分経過していなくても購買できるようにする。
+            now = timezone.now()
+            adjTime = datetime.timedelta(minutes=(self.waitTime + 100))
+            self.tlog.long_in_time = now - adjTime
+            self.text += str(self.tlog.long_in_time) + \
+                '決済後：self.tlog.long_in_time<br>'
         self.tlog.long_count = 0
         self.tlog.save()
 
@@ -437,12 +442,12 @@ class orderFx:
             pass
 
     def oderCloseAllShort(self):
-
         if self.nowIn:
             return
 
         self.getOrderNum()
         self.text += 'oderCloseAllShort<br>'
+        self.text += str(self.isReverse) + 'self.isReverse<br>'
         # batchLog.objects.create(text=text)
         api = self.fi.api
         """
@@ -458,13 +463,13 @@ class orderFx:
             data=data
         )
 
-        # 正常に売却したので次回の購買は30分経過していなくても購買できるようにする。
-        adjTime = datetime.timedelta(minutes=(self.waitTime + 100))
-        now = timezone.now()
-
-        # self.tlog.short_in_time = now - adjTime
-        # self.text += str(self.tlog.short_in_time) + \
-        #     '決済後：self.tlog.short_in_time<br>'
+        if not self.isReverse:
+            # 正常に売却したので次回の購買は30分経過していなくても購買できるようにする。
+            adjTime = datetime.timedelta(minutes=(self.waitTime + 100))
+            now = timezone.now()
+            self.tlog.short_in_time = now - adjTime
+            self.text += str(self.tlog.short_in_time) + \
+                '決済後：self.tlog.short_in_time<br>'
         self.tlog.short_count = 0
         self.tlog.save()
 
