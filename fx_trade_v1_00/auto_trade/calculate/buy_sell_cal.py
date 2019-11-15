@@ -518,10 +518,12 @@ class BuySellCal():
                 text += "持ち合い lossCutReverseの処理を試行<br>"
                 if self.order.lossCutReverse():
                     text += "lossCutReverseで購入<br>"
+                    self.text = text + '<br>-------------------------------ここからorderの内容----------------------------------<br>' + self.order.text
                     return
             else:
                 text += "トレンドなのでlossCutReverseでの購入を行わない<br>"
 
+            self.text = text + '<br>-------------------------------ここからorderの内容----------------------------------<br>' + self.order.text
     # --------------------------------------------------------------------------------------------------------------------
 
             # # 最後にオーダー数を更新する。
@@ -529,8 +531,6 @@ class BuySellCal():
             # oderSTObj.short_order =
             # oderSTObj.long_order =
             # oderSTObj.save()
-
-            self.text = text + '<br>-------------------------------ここからorderの内容----------------------------------<br>' + self.order.text
 
             # batchLog.objects.create(text=text)
 
