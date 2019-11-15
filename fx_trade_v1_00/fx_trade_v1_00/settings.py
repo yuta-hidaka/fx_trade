@@ -25,7 +25,7 @@ SECRET_KEY = '2ok+j8kd*&b(h)6tc(bpvykt4f^qryr(1%a_53y*s3gyha5si3'
 DEBUG = False
 # DEBUG = True
 
-ALLOWED_HOSTS = ['133.167.102.92', 'localhost', 'auto-trade.web-tool.tokyo']
+ALLOWED_HOSTS = ['133.167.102.92', 'auto-trade.web-tool.tokyo']
 # Application definition
 
 
@@ -81,28 +81,16 @@ WSGI_APPLICATION = 'fx_trade_v1_00.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'fx_trade',
-            'USER': 'root',
-            'PASSWORD': '',
-            'HOST': 'localhost',
-            'PORT': '3306',
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'fx_trade',
+        'USER': 'yuta19940322',
+        'PASSWORD': 'souldout322',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'fx_trade',
-            'USER': 'yuta19940322',
-            'PASSWORD': 'souldout322',
-            'HOST': 'localhost',
-            'PORT': '3306',
-        }
-    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
