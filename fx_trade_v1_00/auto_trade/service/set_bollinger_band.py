@@ -573,19 +573,19 @@ class setBollingerBand_USD_JPY:
             else:
                 self.text += 'sigma1＋α どちらにも触れてません<br>'
 
-            # 売却判定②
-            # if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
-            if sma1SigmaPlus_2 <= nowClose or sma1SigmaPlus_2 <= nowClose:
-                # if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose and slopeDir2 == -1:
-                self.text += 'sigma1＋α 上に触りました②<br>'
-                is_longClose = True
-            # elif sma1SigmaMinus >= nowLow or sma1SigmaMinus >= JNowLow:
-            elif sma1SigmaMinus_2 >= nowClose or sma1SigmaMinus_2 >= nowClose:
-                # elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose and slopeDir2 == 1:
-                self.text += 'sigma1＋α 下に触りました②<br>'
-                is_shortClose = True
-            else:
-                self.text += 'sigma1＋α どちらにも触れてません②<br>'
+                # 売却判定②
+                # if sma1SigmaPlus <= nowHigh or sma1SigmaPlus <= JNowHigh:
+                if sma1SigmaPlus_2 <= nowClose or sma1SigmaPlus_2 <= nowClose:
+                    # if sma1SigmaPlus <= nowClose or sma1SigmaPlus <= nowClose and slopeDir2 == -1:
+                    self.text += 'sigma1＋α 上に触りました②<br>'
+                    is_longClose = True
+                # elif sma1SigmaMinus >= nowLow or sma1SigmaMinus >= JNowLow:
+                elif sma1SigmaMinus_2 >= nowClose or sma1SigmaMinus_2 >= nowClose:
+                    # elif sma1SigmaMinus >= nowClose or sma1SigmaMinus >= nowClose and slopeDir2 == 1:
+                    self.text += 'sigma1＋α 下に触りました②<br>'
+                    is_shortClose = True
+                else:
+                    self.text += 'sigma1＋α どちらにも触れてません②<br>'
 
             # 持ち合い相場時の購買基準を判断
             # if sma2SigmaPlus <= nowHigh or sma2SigmaPlus <= JNowHigh and pstBttmTouch:
@@ -604,22 +604,21 @@ class setBollingerBand_USD_JPY:
             else:
                 self.text += 'sigma2＋α どちらにも触れてません<br>'
                 # 持ち合い相場時の購買基準を判断
-
-            if sma2SigmaPlus_2 <= nowClose or sma2SigmaPlusBefor_2 <= nowClose:
-                # if sma2SigmaPlus <= nowClose or sma2SigmaPlus <= nowClose and pstBttmTouch:
-                # is_longClose = True
-                is_shortIn = True
-                is_topTouch = True
-                self.text += 'sigma2＋α 上に高値のみ触りました②<br>'
-            elif sma2SigmaMinus_2 >= nowClose or sma2SigmaMinusBefor_2 >= nowClose:
-                # elif sma2SigmaMinus >= nowClose or sma2SigmaMinus >= nowClose and pstTopTouch:
-                # is_shortClose = True
-                # is_shortIn = False
-                is_longIn = True
-                is_bottomTouch = True
-                self.text += 'sigma2＋α 下に底値のみ触りました②<br>'
-            else:
-                self.text += 'sigma2＋α どちらにも触れてません②<br>'
+                if sma2SigmaPlus_2 <= nowClose or sma2SigmaPlusBefor_2 <= nowClose:
+                    # if sma2SigmaPlus <= nowClose or sma2SigmaPlus <= nowClose and pstBttmTouch:
+                    # is_longClose = True
+                    is_shortIn = True
+                    is_topTouch = True
+                    self.text += 'sigma2＋α 上に高値のみ触りました②<br>'
+                elif sma2SigmaMinus_2 >= nowClose or sma2SigmaMinusBefor_2 >= nowClose:
+                    # elif sma2SigmaMinus >= nowClose or sma2SigmaMinus >= nowClose and pstTopTouch:
+                    # is_shortClose = True
+                    # is_shortIn = False
+                    is_longIn = True
+                    is_bottomTouch = True
+                    self.text += 'sigma2＋α 下に底値のみ触りました②<br>'
+                else:
+                    self.text += 'sigma2＋α どちらにも触れてません②<br>'
         else:
             self.text += 'not is_trend and not is_expansionに該当しませんでした<br>'
 
@@ -640,9 +639,6 @@ class setBollingerBand_USD_JPY:
             slope_01=slopeDir_01
         )
 
-        # batchLog.objects.create(
-        #     text=text
-        # )
 
         return create
 
@@ -653,23 +649,12 @@ class setBollingerBand_USD_JPY:
         # is_squeeze = False
         created = False
         result = None
-        # if gMA.get_5M_1()['candles']:
-        #     dictM5 = gMA.get_5M_1()['candles'][0]
-        # M50 = gMA.get_5M_50()['candles']
-
-        # mas = gMA.get_5M_num(self.setting.bb_count)['candles']
+   
         mas = gMA.get_1M_num(num=self.setting.bb_count)['candles']
         # self.self.text += str(len(mas))
 
-        # M50 = M50.reverse()
         SMA_days = len(mas)
         idx = SMA_days - 1
-
-        # 半分量をトレンド判定に使用する。
-        stIdx = int(idx/2)
-        # 偶数じゃなかったら偶数にする。
-        if SMA_days % 2 != 0:
-            stIdx += -1
 
         # 取得した最新のMA
         # nowMA = M50[idx]
