@@ -146,7 +146,6 @@ class orderFx:
             self.isSlockByTime = True
 
         # batchLog.objects.create(self.text=text)
-
         return s_over, l_over
 
     def lossCutReverse(self):

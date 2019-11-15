@@ -70,7 +70,7 @@ class BuySellCal():
             units = settings.units
             pass
         except:
-            self.text = '予期しないロット数が入っています'
+            self.text += '予期しないロット数が入っています'
             units = 1
             pass
 
@@ -301,7 +301,7 @@ class BuySellCal():
                 # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
                 if maNow == 2 and trend_id != 1:
                     # print("long out by ma")
-                    self.text = "long out by ma休止中<br>"
+                    self.text += "long out by ma休止中<br>"
                     # if not :
                     #     self.order.oderCloseAllLong()
 
