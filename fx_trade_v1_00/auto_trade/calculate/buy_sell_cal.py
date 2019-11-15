@@ -28,7 +28,7 @@ class BuySellCal():
         # トレンド発生中はMAを指標に売買を行うが、もみ合い相場中はボリンジャーバンドを指標に売買を行う。
 
         # # print(json.dumps(pos),  indent=2)
-        setting = self.settings
+        settings = self.settings
         getNowRate = getMA_USD_JPY()
 
         cbb = model_to_dict(condNow.condition_of_bb)
@@ -56,8 +56,8 @@ class BuySellCal():
         is_expansionByNumPrev = cbbPrev['is_expansionByNum']
         is_topTouchPrev = cbbPrev['is_topTouch']
         is_bottomTouchPrev = cbbPrev['is_bottomTouch']
-        if self.setting.use_specific_limit:
-            limit = self.setting.limit
+        if settings.use_specific_limit:
+            limit = settings.limit
         else:
             limit = bb['cv']
 
@@ -67,7 +67,7 @@ class BuySellCal():
         # 購入するユニット数
         # units = 7500
         try:
-            units = setting.units
+            units = settings.units
             pass
         except:
             self.text = '予期しないロット数が入っています'
