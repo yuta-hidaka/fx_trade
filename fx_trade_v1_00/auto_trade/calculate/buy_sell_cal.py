@@ -24,7 +24,6 @@ class BuySellCal():
         self.text = ''
 
     def BuySellCheck(self, condNow, condiPrev):
-        text = ''
 
         # トレンド発生中はMAを指標に売買を行うが、もみ合い相場中はボリンジャーバンドを指標に売買を行う。
 
@@ -44,7 +43,7 @@ class BuySellCal():
         is_topTouch = cbb['is_topTouch']
         is_bottomTouch = cbb['is_bottomTouch']
         cv = bb['cv'] * Decimal(1000000)
-        text += 'cv  ' + str(cv) + '<br>'
+        self.text += 'cv  ' + str(cv) + '<br>'
         is_peak = cbb['is_peak']
         is_shortClose = cbb['is_shortClose']
         is_longClose = cbb['is_longClose']
@@ -71,13 +70,9 @@ class BuySellCal():
             units = setting.units
             pass
         except:
-            text = '予期しないロット数が入っています'
+            self.text = '予期しないロット数が入っています'
             units = 1
             pass
-
-        # 今買ったかを判断
-        nowInL = False
-        nowInS = False
 
         nowCndl = getNowRate.get_now()
         # nowCndl = getNowRate.get_5M_1()
@@ -115,21 +110,21 @@ class BuySellCal():
             # if lDeff < 0.1:
             #     long_limit = (nowCndl_close - Decimal(0.115)
             #                   ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            #     text += 'longのlimitが小さいので修正<br>'
+            #     self.text += 'longのlimitが小さいので修正<br>'
             # elif lDeff > 0.115:
             #     long_limit = (nowCndl_close - Decimal(0.115)
             #                   ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            #     text += 'longのlimitが大きいので修正<br>'
+            #     self.text += 'longのlimitが大きいので修正<br>'
 
             # sDeff = np.abs(short_in - short_limit)
             # if sDeff < 0.1:
             #     short_limit = (nowCndl_close + Decimal(0.115)
             #                    ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            #     text += 'shortのlimitが小さいので修正<br>'
+            #     self.text += 'shortのlimitが小さいので修正<br>'
             # elif sDeff > 0.115:
             #     short_limit = (nowCndl_close + Decimal(0.115)
             #                    ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            #     text += 'shortのlimitが大きいので修正<br>'
+            #     self.text += 'shortのlimitが大きいので修正<br>'
 
             # 購買タイミング----------------------------------------------------------------------------------
             # longのタイミング all slope is positive and before MA is 6or1 and now 1
@@ -146,23 +141,23 @@ class BuySellCal():
             self.order.trend_id = trend_id
 
             if not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
-                text += '確度が小さいのでlimit小さく<br>'
+                self.text += '確度が小さいのでlimit小さく<br>'
                 # 確度が小さいのでlimit小さく
                 long_limit = (nowCndl_close - ((nowCndl_close * limit/2))
                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                 short_limit = (nowCndl_close + ((nowCndl_close * limit/2))
                                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            # text += 'longの入り値　' + str(long_in) + '<br>'
-            # text += 'longの損切　' + str(long_limit) + '<br>'
-            # text += 'longの差　' + str(long_in - long_limit) + '<br>'
-            # text += 'shortの入り値　' + str(short_in) + '<br>'
-            # text += 'shortの損切　' + str(short_limit) + '<br>'
-            # text += 'shortの差　' + str(short_in - short_limit) + '<br>'
+            # self.text += 'longの入り値　' + str(long_in) + '<br>'
+            # self.text += 'longの損切　' + str(long_limit) + '<br>'
+            # self.text += 'longの差　' + str(long_in - long_limit) + '<br>'
+            # self.text += 'shortの入り値　' + str(short_in) + '<br>'
+            # self.text += 'shortの損切　' + str(short_limit) + '<br>'
+            # self.text += 'shortの差　' + str(short_in - short_limit) + '<br>'
 
             # if self.order.lossCutCheck(False, False):
-            #     nowInL = True
-            #     nowInS = True
+            #      = True
+            #      = True
             # (
             #     # M5_1_close + M5_1_close*Decimal(0.0002)
             #     M5_1_close + M5_1_close*Decimal(0.003)
@@ -175,29 +170,29 @@ class BuySellCal():
             # 上昇or下降トレンド相場だったら
             if trend_id == 1:
                 # print('BB---上昇相場')
-                text += 'BB---上昇相場<br>'
+                self.text += 'BB---上昇相場<br>'
             elif trend_id == 2:
                 # print('BB---下降相場')
-                text += 'BB---下降相場<br>'
+                self.text += 'BB---下降相場<br>'
             elif trend_id == 3:
                 # print('BB---持ち合い相場')
-                text += 'BB---持ち合い相場<br>'
+                self.text += 'BB---持ち合い相場<br>'
             elif trend_id == 4:
                 # print('BB---持ち合い相場')
-                text += 'BB---トレンドだけど傾きが逆<br>'
+                self.text += 'BB---トレンドだけど傾きが逆<br>'
 
-                # text += 'is_bottomTouch<br>'
-                # text += str(is_bottomTouch) + '<br>'
-                # text += 'is_topTouch<br>'
-                # text += str(is_topTouch) + '<br>'
-                # text += 'not is_expansion<br> '
-                # text += str(not is_expansion) + '<br>'
-                # text += 'is_expansion<br> '
-                # text += str(is_expansion) + '<br>'
-                # text += 'is_expansionByStd<br> '
-                # text += str(is_expansionByStd) + '<br>'
-                # text += 'is_expansionByNum<br> '
-                # text += str(is_expansionByNum) + '<br>'
+                # self.text += 'is_bottomTouch<br>'
+                # self.text += str(is_bottomTouch) + '<br>'
+                # self.text += 'is_topTouch<br>'
+                # self.text += str(is_topTouch) + '<br>'
+                # self.text += 'not is_expansion<br> '
+                # self.text += str(not is_expansion) + '<br>'
+                # self.text += 'is_expansion<br> '
+                # self.text += str(is_expansion) + '<br>'
+                # self.text += 'is_expansionByStd<br> '
+                # self.text += str(is_expansionByStd) + '<br>'
+                # self.text += 'is_expansionByNum<br> '
+                # self.text += str(is_expansionByNum) + '<br>'
 
             self.order.priceLong = str(long_in)
             self.order.stopLossLong = str(long_limit)
@@ -228,7 +223,7 @@ class BuySellCal():
 
                 pass
             except Exception as e:
-                text += str(e)+' error　error<br>'
+                self.text += str(e)+' error　error<br>'
                 maPrev = 1
                 maNow = 1
                 slopePrev = 1
@@ -238,54 +233,53 @@ class BuySellCal():
                 pass
 
                 # --------------------------------------------------------------------------------------------------------------------
-            text += 'トレンドID　' + str(trend_id) + '<br>'
-
-            if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1 and not nowInL and not nowInS:
-                if not nowInL and not trend_id == 4:
+            self.text += 'トレンドID　' + str(trend_id) + '<br>'
+            if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
+                if trend_id == 4:
                     # print("long in by ma")
-                    text += "long in by ma<br>"
-                    nowInL = self.order.LongOrderCreate()
+                    self.text += "long in by ma<br>"
+                    self.order.LongOrderCreate()
                 else:
                     # print("long in　but position is too many")
-                    text += "long in　but position is too many<br>"
+                    self.text += "long in　but position is too many<br>"
                     # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
             elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                if not nowInS and not trend_id == 4:
+                if trend_id == 4:
                     # self.order.oderCloseAllLong()
                     # print("short in by ma")
-                    text += "short in by ma<br>"
-                    nowInS = self.order.ShortOrderCreate()
+                    self.text += "short in by ma<br>"
+                    self.order.ShortOrderCreate()
                 else:
                     # print("short in　but position is too many")
-                    text += "short in　but position is too many<br>"
+                    self.text += "short in　but position is too many<br>"
                     # long closeのタイミング if MA is 2 it have to close
             else:
                 # print('購買----様子見中')
-                text += '購買----様子見中 MAでの購買判定<br>'
+                self.text += '購買----様子見中 MAでの購買判定<br>'
 
     # --------------------------------------------------------------------------
-            if trend_id == 1 or trend_id == 2 or trend_id == 4 and not is_peak and not nowInL and not nowInS:
-                text += "トレンド相場------------------------------------------------<br>"
+            if trend_id == 1 or trend_id == 2 or trend_id == 4 and not is_peak:
+                self.text += "トレンド相場------------------------------------------------<br>"
 
                 # if is_longInBB:
 
                 # elif is_shortInBB:
 
-                # if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1 and not nowInL and not nowInS:
-                #     if not nowInL and not trend_id == 4:
+                # if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1 and not  and not :
+                #     if not  and not trend_id == 4:
                 #         # print("long in by ma")
                 #         text += "long in by ma<br>"
-                #         nowInL = self.order.LongOrderCreate()
+                #          = self.order.LongOrderCreate()
                 #     else:
                 #         # print("long in　but position is too many")
                 #         text += "long in　but position is too many<br>"
                 #         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
                 # elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                #     if not nowInS and not trend_id == 4:
+                #     if not  and not trend_id == 4:
                 #         # self.order.oderCloseAllLong()
                 #         # print("short in by ma")
                 #         text += "short in by ma<br>"
-                #         nowInS = self.order.ShortOrderCreate()
+                #          = self.order.ShortOrderCreate()
                 #     else:
                 #         # print("short in　but position is too many")
                 #         text += "short in　but position is too many<br>"
@@ -297,33 +291,33 @@ class BuySellCal():
                 # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
                 if maNow == 2 and trend_id != 1:
                     # print("long out by ma")
-                    text = "long out by ma休止中<br>"
-                    # if not nowInL:
+                    self.text = "long out by ma休止中<br>"
+                    # if not :
                     #     self.order.oderCloseAllLong()
 
                     # short　closeのタイミング if MA is 5 it have to close
                 elif maNow == 5 and trend_id != 2:
                     # print("short out by ma")
-                    text += "short out by ma休止中<br>"
-                    # if not nowInS:
+                    self.text += "short out by ma休止中<br>"
+                    # if not :
                     #     self.order.oderCloseAllShort()
 
                 #     # long　closeのタイミング。過去10分間と現状が下がり続けていたら閉じる
                 # elif M5_1_closePrev > nowCndl_close > M5_1_closeNow and trend_id != 1 :
                 #     # print("long out by candle")
-                #     text += "long out by candle<br>"
-                #     if not nowInL:
+                #     self.text += "long out by candle<br>"
+                #     if not :
                 #         self.order.oderCloseAllLong()
 
                 #     # short　closeのタイミング。過去10分間と現状が上がり続けていたら閉じる
                 # elif M5_1_closePrev < nowCndl_close < M5_1_closeNow and trend_id != 2 :
                 #     # print("short out by candle")
-                #     text += "short out by candle<br>"
-                #     if not nowInS:
+                #     self.text += "short out by candle<br>"
+                #     if not :
                 #         self.order.oderCloseAllShort()
                 # else:
                 #     # print('決済----様子見中')
-                #     text += '上下降トレンドの決済様子見中<br>'
+                #     self.text += '上下降トレンドの決済様子見中<br>'
 
                 # 購買タイミング
                 # longのタイミング all slope is positive and before MA is 6or1 and now 1
@@ -332,7 +326,7 @@ class BuySellCal():
                 #         print("long in 以下__1624")
                 #          += 1
                 #         self.order.LongOrderCreate()
-                #         nowInL = True
+                #          = True
 
                 #     else:
                 #         print("long in　but position is too many__1624")
@@ -343,7 +337,7 @@ class BuySellCal():
                 #         print("short in　以下__1624")
                 #          += 1
                 #         self.order.ShortOrderCreate()
-                #         nowInS = True
+                #          = True
 
                 #     else:
                 #         print("short in　but position is too many__1624")
@@ -356,170 +350,133 @@ class BuySellCal():
                 #     # long_limit = (nowCndl_close - (nowCndl_close * Decimal(0.002))
                 #     #               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                 #     # self.order.stopLossLong = str(long_limit)
-                #     if not nowInL:
+                #     if not :
                 #         # print("long in by ma")
-                #         text += "BB算出の上昇トレンド、long,弱気<br>"
+                #         self.text += "BB算出の上昇トレンド、long,弱気<br>"
                 #         self.order.LongOrderCreate()
-                #         nowInL = True
+                #          = True
                 #     else:
                 #         # print("long in　but position is too many")
-                #         text += "long in　but position is too many<br>"
+                #         self.text += "long in　but position is too many<br>"
                 #         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
 
                 # elif trend_id == 2:
                 #     # short_limit = (nowCndl_close + (nowCndl_close * Decimal(0.002))
                 #     #                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                 #     # self.order.stopLossShort = str(short_limit)
-                #     if  not nowInS:
+                #     if  not :
                 #             # self.order.oderCloseAllLong()
                 #             # print("short in by ma")
-                #             text += "BB算出の下降トレンド、short,弱気<br>"
+                #             self.text += "BB算出の下降トレンド、short,弱気<br>"
                 #             self.order.ShortOrderCreate()
-                #             nowInS = True
+                #              = True
                 #     else:
                 #             # print("short in　but position is too many")
-                #             text += "short in　but position is too many<br>"
+                #             self.text += "short in　but position is too many<br>"
 
             # 持ち合い相場でエクスパンションしてなかったら
 
             if is_peak:
-                text += 'sigma3 エクスパンションの底値。ポジションを入れ替える <br>'
+                self.text += 'sigma3 エクスパンションの底値。ポジションを入れ替える <br>'
                 if is_bottomTouch:
-                    text += 'sigma3 エクスパンション終了で下タッチなのでlongIn<br>'
+                    self.text += 'sigma3 エクスパンション終了で下タッチなのでlongIn<br>'
                     self.order.LongOrderCreate()
-                    nowInL = True
 
                 elif is_topTouch:
-                    text += 'sigma3 エクスパンション終了で上タッチなのでshortIn<br>'
+                    self.text += 'sigma3 エクスパンション終了で上タッチなのでshortIn<br>'
                     self.order.ShortOrderCreate()
-                    nowInS = True
 
-            if trend_id == 3 and not is_peak and not nowInL and not nowInS:
+            if trend_id == 3 and not is_peak:
                 # if preTrend_id == 1 or preTrend_id == 2 or preTrend_id == 4:
-                #         text += '前回までトレンドで今が持ち合い相場でいったん決済。<br>'
+                #         self.text += '前回までトレンドで今が持ち合い相場でいったん決済。<br>'
                 #         self.order.allOrderClose()
                 # 偏差と数値によるエクスパンションで確度が高めのポジションを持つ
                 if not is_expansionPrev and is_expansion and is_expansionByStd and is_expansionByNum:
-                    text += 'エクスパンション確度が高め<br>'
+                    self.text += 'エクスパンション確度が高め<br>'
                     if is_topTouch:
                         # print('エクスパンションで上タッチなので買い')
-                        text += 'エクスパンションで上タッチなのでLong by Std<br>'
+                        self.text += 'エクスパンションで上タッチなのでLong by Std<br>'
                         self.order.LongOrderCreate()
-                        nowInL = True
                     elif is_bottomTouch:
                         # print('エクスパンションで下タッチなので売り')
-                        text += 'エクスパンションで下タッチなのでShort by Std<br>'
+                        self.text += 'エクスパンションで下タッチなのでShort by Std<br>'
                         self.order.ShortOrderCreate()
-                        nowInS = True
                     else:
-                        text += 'エクスパンションbyStd_購買条件未該当<br>'
+                        self.text += 'エクスパンションbyStd_購買条件未該当<br>'
 
-                        # 前回エクスパンションしていなかったら初めてのエクスパンションとする,
+                # 前回エクスパンションしていなかったら初めてのエクスパンションとする,
                 # 偏差によるエクスパンションでなければlong、short両方のポジションを持つ
                 elif not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
-                    text += 'エクスパンションbyNum or Std<br>'
-                    # text += 'エクスパンションbyNum or Stdすべてのポジション解除<br>'
-                    # self.order.allOrderClose()
-
+                    self.text += 'エクスパンションbyNum or Std<br>'
                     if is_topTouch:
-                        text += 'エクスパンションorだましで上タッチのLongIn<br>'
+                        self.text += 'エクスパンションorだましで上タッチのLongIn<br>'
                         self.order.LongOrderCreate()
-                        nowInL = True
-                        text += 'LongIn<br>'
-                        # if  == 0:
-                        #     self.order.ShortOrderCreate()
-                        #     nowInS = True
-                        #     text += 'ShortIn<br>'
-                        # self.order.oderCloseAllShort()
-                        # self.order.oderCloseAllLong()
+
                     elif is_bottomTouch:
-                        text += 'エクスパンションorだましで上タッチなのでshortIn<br>'
-                        # if  == 0:
-                        #     self.order.LongOrderCreate()
-                        #     nowInL = True
-                        #     text += 'LongIn<br>'
+                        self.text += 'エクスパンションorだましで上タッチなのでshortIn<br>'
                         self.order.ShortOrderCreate()
-                        nowInS = True
-                        text += 'ShortIn<br>'
-                        # self.order.oderCloseAllShort()
-                        # self.order.oderCloseAllLong()
+                        self.text += 'ShortIn<br>'
+
                     else:
-                        text += 'エクスパンションorだまし_購買条件未該当<br>'
+                        self.text += 'エクスパンションorだまし_購買条件未該当<br>'
 
                     # 前回エクスパンションしていて、いまエクスパンションが収まったら、底の認識でそれぞれ売り払って逆方向にinする
                 # elif is_expansionPrev and not is_expansion and is_expansionByStdPrev:
-                #     text += 'エクスパンションの底値。ポジションを入れ替える <br>'
+                #     self.text += 'エクスパンションの底値。ポジションを入れ替える <br>'
                 #     if is_bottomTouch or is_bottomTouchPrev:
-                #         text += 'エクスパンション終了で下タッチなのでlongIn<br>'
+                #         self.text += 'エクスパンション終了で下タッチなのでlongIn<br>'
                 #         self.order.LongOrderCreate()
-                #         nowInL = True
+                #          = True
 
                 #     elif is_topTouch or is_topTouchPrev:
-                #         text += 'エクスパンション終了で上タッチなのでshortIn<br>'
+                #         self.text += 'エクスパンション終了で上タッチなのでshortIn<br>'
                 #         self.order.ShortOrderCreate()
-                #         nowInS = True
+                #          = True
 
-            if trend_id == 3 and not is_expansion and not nowInL and not nowInS:
+            if trend_id == 3 and not is_expansion:
                 if is_shortClose:
-                    text += 'sigma1 によるshortClose<br>'
+                    self.text += 'sigma1 によるshortClose<br>'
                     self.order.oderCloseAllShort()
 
                 elif is_longClose:
-                    text += 'sigma1 によるlongClose<br>'
+                    self.text += 'sigma1 によるlongClose<br>'
                     self.order.oderCloseAllLong()
-                text += '持ち合い相場<br>'
+                self.text += '持ち合い相場<br>'
 
                 if is_topTouch:
-                    text += '持ち合い相場の逆張りshort_inーー同時にlong決済も行う<br>'
-                    # if  != 0 and not nowInL:
-                    #     text += 'long決済<br>'
-                    #     self.order.oderCloseAllLong()
-                    if not nowInS:
-                        self.order.ShortOrderCreate()
-                        nowInS = True
-                    else:
-                        # print('注文リミット')
-                        text += '注文リミット<br>'
-
+                    self.text += '持ち合い相場の逆張りshort_inーー同時にlong決済も行う<br>'
+                    self.order.ShortOrderCreate()
+                    # print('注文リミット')
                 elif is_bottomTouch:
                     # print('持ち合い相場の逆張りlong_in--同時にshort決済も行う。')
-                    text += '持ち合い相場の逆張りlong_in--同時にshort決済も行う。<br>'
-                    if not nowInS:
-                        # print('short決済 now not')
-                        text += 'short決済<br>'
+                    self.text += '持ち合い相場の逆張りlong_in--同時にshort決済も行う。<br>'
+                    self.order.LongOrderCreate()
 
-                    if not nowInL:
-                        self.order.LongOrderCreate()
-                        nowInL = True
-                    else:
-                        # print('注文リミット')
-                        text += '注文リミット<br>'
                 else:
                     # print('BB持ち合い時の購買サイン出ていない')
-                    text += 'BB持ち合い時の購買サイン出ていない<br>'
+                    self.text += 'BB持ち合い時の購買サイン出ていない<br>'
 
                     # それ以外
             elif trend_id == 4:
                 # print('サイン出てない')
-                text += 'サイン出てない 傾きが0なので様子見中<br>'
+                self.text += 'サイン出てない 傾きが0なので様子見中<br>'
 
             else:
-                text += 'サイン出てない<br>'
+                self.text += 'サイン出てない<br>'
 
                 # --------------------------------------------------------------------------
             # self.order.ShortOrderCreate()
             checkRange = [3, 5]
-            if not nowInL or not nowInS:
-                if trend_id in checkRange:
-                    text += "持ち合い lossCutReverseの処理を試行<br>"
-                    if self.order.lossCutReverse():
-                        text += "lossCutReverseで購入<br>"
-                        self.text = text + '<br>-------------------------------ここからorderの内容----------------------------------<br>' + self.order.text
-                        return
-                else:
-                    text += "トレンドなのでlossCutReverseでの購入を行わない<br>"
+            if trend_id in checkRange:
+                self.text += "持ち合い lossCutReverseの処理を試行<br>"
+                if self.order.lossCutReverse():
+                    self.text += "lossCutReverseで購入<br>"
+                    self.text += '<br>-------------------------------ここからorderの内容----------------------------------<br>' + self.order.text
+                    return
+            else:
+                self.text += "トレンドなのでlossCutReverseでの購入を行わない<br>"
 
-            self.text = text + '<br>-------------------------------ここからorderの内容----------------------------------<br>' + self.order.text
+            self.text += '<br>-------------------------------ここからorderの内容----------------------------------<br>' + self.order.text
     # --------------------------------------------------------------------------------------------------------------------
 
             # # 最後にオーダー数を更新する。

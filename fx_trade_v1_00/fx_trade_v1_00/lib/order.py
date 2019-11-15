@@ -50,6 +50,7 @@ class orderFx:
 
     def __init__(self):
         self.isLock = False
+        self.nowIn = False
         self.now = timezone.now()
         self.text = ''
 
@@ -143,15 +144,13 @@ class orderFx:
         else:
             self.text += '<br>short '+str(self.waitTime)+'分経ってない  '
             self.isSlockByTime = True
-        
-        
 
         # batchLog.objects.create(self.text=text)
 
         return s_over, l_over
 
     def lossCutReverse(self):
-        so,lo = self.positionTimeCheck()
+        so, lo = self.positionTimeCheck()
         # 口座のすべてのポジションをリストとして取得
         self.tlog = tradeLog.objects.filter(id=1).first()
         r = positions.PositionList(accountID=self.fi.accountID)
@@ -189,9 +188,6 @@ class orderFx:
         self.tlog.save()
         # batchLog.objects.create(text=text)
         return flg
-
-
-
 
     def lossCutCheck(self, l, s):
         # 口座のすべてのポジションをリストとして取得
@@ -238,7 +234,6 @@ class orderFx:
             elif self.isLock:
                 self.text += '<br> self.isLock'
                 self.isSlock = True
-
 
         self.tlog.short_count = self.orderShortNum
         self.tlog.long_count = self.orderLongNum
@@ -294,6 +289,8 @@ class orderFx:
     # すべてのポジションを決済します。
 
     def allOrderClose(self):
+        if self.nowIn:
+            return
         if not self.isSlock and not self.isLlock:
             self.getOrderNum()
             self.text += 'allOrderClose'
@@ -305,9 +302,11 @@ class orderFx:
         # batchLog.objects.create(text=text)
 
     def ShortOrderCreate(self):
+        if self.nowIn:
+            return
         self.positionTimeCheck()
         flg = False
-        if not self.isSlockByTime:
+        if not self.isSlockByTime and not self.nowIn:
             self.getOrderNum()
             self.oderCloseAllLong()
             self.text += 'ShortOrderCreate<br>'
@@ -328,20 +327,24 @@ class orderFx:
             # r = trades.TradeClose(accountID=accountID, tradeID=49, data=data)
             # API経由で指値注文を実行
             if self.orderShortNum == 0:
-                r = orders.OrderCreate(self.fi.accountID, data=self.data)
-                res = api.request(r)
-                self.text += json.dumps(res, indent=2)
                 try:
+                    r = orders.OrderCreate(self.fi.accountID, data=self.data)
+                    res = api.request(r)
+                    self.text += json.dumps(res, indent=2)
+                    flg = True
                     self.tlog.short_in_time = self.now
                     self.tlog.short_count = 1
                     self.tlog.save()
-                    flg = True
+                    self.nowIn = True
                     pass
                 except:
                     self.text += '購買エラー<br>'
                     pass
+            else:
+                self.text += 'ShortOrderCreate行っていません<br>'
+
         else:
-            self.text += str(self.waitTime)+ '分経過してない　short<br>'
+            self.text += str(self.waitTime) + '分経過してない　short<br>'
 
         # batchLog.objects.create(text=text)
         return flg
@@ -349,13 +352,14 @@ class orderFx:
         # self.getOrderNum()
 
     def LongOrderCreate(self):
+        if self.nowIn:
+            return
         self.positionTimeCheck()
         flg = False
         if not self.isLlockByTime:
             self.getOrderNum()
             self.oderCloseAllShort()
             self.text += 'LongOrderCreate<br>'
-            # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
             api = self.fi.api
             # stopPrice = 100.00
             stoporder = StopLossDetails(
@@ -373,21 +377,22 @@ class orderFx:
             # API経由で指値注文を実行
             if self.orderLongNum == 0:
 
-                r = orders.OrderCreate(self.fi.accountID, data=self.data)
-                res = api.request(r)
-                self.text += json.dumps(res, indent=2)
                 try:
+                    r = orders.OrderCreate(self.fi.accountID, data=self.data)
+                    res = api.request(r)
+                    self.text += json.dumps(res, indent=2)
                     self.tlog.long_in_time = self.now
                     self.tlog.long_count = 1
                     self.tlog.save()
+                    self.nowIn = True
                     flg = True
                     pass
                 except:
                     self.text += '購買エラー<br>'
                     pass
-            # print(self.data)
-            # print(json.dumps(res, indent=2))
-            # print('order create----------------------------------------------')
+            else:
+                self.text += 'LongOrderCreate行っていません<br>'
+
         else:
             self.text += str(self.waitTime) + '分経過してない　long<br>'
         # self.getOrderNum()
@@ -395,8 +400,11 @@ class orderFx:
         return flg
 
     def oderCloseAllLong(self):
-        self.getOrderNum()
 
+        if self.nowIn:
+            return
+
+        self.getOrderNum()
         self.text += 'oderCloseAllLong<br>'
         # batchLog.objects.create(text=text)
         api = self.fi.api
@@ -416,26 +424,27 @@ class orderFx:
         now = timezone.now()
         adjTime = datetime.timedelta(minutes=(self.waitTime + 100))
         self.tlog.long_in_time = now - adjTime
-        self.text += str(self.tlog.long_in_time) + '決済後：self.tlog.long_in_time<br>'
+        self.text += str(self.tlog.long_in_time) + \
+            '決済後：self.tlog.long_in_time<br>'
         self.tlog.long_count = 0
         self.tlog.save()
 
         try:
             if self.orderLongNum != 0:
                 api.request(r)
-
-
-                self.text += 'short決済してません<br>'
-
+            else:
+                self.text += 'long決済してません<br>'
         except:
             # print('long決済するデータがありませんでした。')
-            self.text += 'short決済してません　エラーでした<br>'
-
+            self.text += 'long決済してません　エラーでした<br>'
             pass
 
     def oderCloseAllShort(self):
-        self.getOrderNum()
 
+        if self.nowIn:
+            return
+
+        self.getOrderNum()
         self.text += 'oderCloseAllShort<br>'
         # batchLog.objects.create(text=text)
         api = self.fi.api
@@ -457,18 +466,16 @@ class orderFx:
         now = timezone.now()
 
         self.tlog.short_in_time = now - adjTime
-        self.text += str(self.tlog.short_in_time) + '決済後：self.tlog.short_in_time<br>'
+        self.text += str(self.tlog.short_in_time) + \
+            '決済後：self.tlog.short_in_time<br>'
         self.tlog.short_count = 0
         self.tlog.save()
 
         try:
             if self.orderShortNum != 0:
                 api.request(r)
-
             else:
                 self.text += 'short決済してません<br>'
-
-
         except:
             self.text += 'short決済してません　エラーでした<br>'
             # print('short決済するデータがありませんでした。')
