@@ -19,7 +19,8 @@ class BuySellCal():
     def __init__(self):
         self.fx = FxInfo()
         self.order = orderFx()
-        self.setting = tradeSettings.objects.filter(id=1).first()
+        self.settings = tradeSettings.objects.filter(id=1).first()
+        self.order.waitTime = self.setting.wait_time
         self.text = ''
 
     def BuySellCheck(self, condNow, condiPrev):
@@ -27,16 +28,10 @@ class BuySellCal():
 
         # トレンド発生中はMAを指標に売買を行うが、もみ合い相場中はボリンジャーバンドを指標に売買を行う。
 
-        # 口座のすべてのポジションをリストとして取得
-        r = positions.PositionList(accountID=self.fx.accountID)
-        api = self.fx.api
-        res = api.request(r)
-        pos = res['positions'][0]
         # # print(json.dumps(pos),  indent=2)
-        setting = tradeSettings.objects.filter(id=1).first()
+        setting = self.settings
         getNowRate = getMA_USD_JPY()
 
-        self.order.waitTime = self.setting.wait_time
         cbb = model_to_dict(condNow.condition_of_bb)
         cbbPrev = model_to_dict(condiPrev.condition_of_bb)
 
