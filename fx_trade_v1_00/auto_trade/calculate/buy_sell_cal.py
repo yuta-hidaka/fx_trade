@@ -268,7 +268,6 @@ class BuySellCal():
                 # print('購買----様子見中')
                 text += '購買----様子見中 MAでの購買判定<br>'
 
-
     # --------------------------------------------------------------------------
             if trend_id == 1 or trend_id == 2 or trend_id == 4 and not is_peak and not nowInL and not nowInS:
                 text += "トレンド相場------------------------------------------------<br>"
@@ -511,18 +510,17 @@ class BuySellCal():
 
             else:
                 text += 'サイン出てない<br>'
-            
+
                 # --------------------------------------------------------------------------
             # self.order.ShortOrderCreate()
             checkRange = [3, 5]
-            if trend_id in checkRange and not nowInL or not nowInS:
+            if trend_id in checkRange:
                 text += "持ち合い lossCutReverseの処理を試行<br>"
                 if self.order.lossCutReverse():
                     text += "lossCutReverseで購入<br>"
                     return
             else:
                 text += "トレンドなのでlossCutReverseでの購入を行わない<br>"
-
 
     # --------------------------------------------------------------------------------------------------------------------
 
