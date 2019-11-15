@@ -20,7 +20,7 @@ class BuySellCal():
         self.fx = FxInfo()
         self.order = orderFx()
         self.settings = tradeSettings.objects.filter(id=1).first()
-        self.order.waitTime = self.setting.wait_time
+        self.order.waitTime = self.settings.wait_time
         self.text = ''
 
     def BuySellCheck(self, condNow, condiPrev):
@@ -471,8 +471,6 @@ class BuySellCal():
                 self.text += "持ち合い lossCutReverseの処理を試行<br>"
                 if self.order.lossCutReverse():
                     self.text += "lossCutReverseで購入<br>"
-                    self.text += '<br>-------------------------------ここからorderの内容----------------------------------<br>' + self.order.text
-                    return
             else:
                 self.text += "トレンドなのでlossCutReverseでの購入を行わない<br>"
 

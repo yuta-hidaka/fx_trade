@@ -175,13 +175,11 @@ class orderFx:
         self.text += 'loss cut reverse'
         if self.tlog.long_count != olNum and not lo:
             self.text += '<br>ロング損切されている　position　入れ替え'
-            self.ShortOrderCreate()
-            flg = True
+            flg = self.ShortOrderCreate()
 
         if self.tlog.short_count != osNum and not so:
             self.text += '<br>ショート損切りされている position 入れ替え'
-            self.LongOrderCreate()
-            flg = True
+            flg = self.LongOrderCreate()
 
         self.tlog.short_count = self.orderShortNum
         self.tlog.long_count = self.orderLongNum
