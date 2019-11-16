@@ -35,6 +35,7 @@ class Command(BaseCommand):
 
         JST = timezone(timedelta(hours=+9), 'JST')
         dt_now = datetime.datetime.now(JST)
+        text = str(dt_now) + '<br>'
         setCandle = setCandle_USD_JPY()
         bsCal = BuySellCal()
         # バッチの実行状況を保存する。
@@ -44,7 +45,7 @@ class Command(BaseCommand):
         # 1分足の保存
         result, created = setCandle.setM1()
 
-        text = setCandle.text
+        text += setCandle.text
 
         bb = setBollingerBand_USD_JPY()
         setMA = setMA_USD_JPY()
