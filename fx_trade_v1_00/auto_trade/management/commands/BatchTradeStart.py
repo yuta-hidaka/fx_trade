@@ -146,7 +146,7 @@ class Command(BaseCommand):
             assets.objects.create(assets=astBlance)
 
         dt_now = datetime.datetime.now(JST)
-        text += '<p style="color:red;">処理終了</p><p>' + str(dt_now) + '</p>'
+        text += '<p style="color:red;">処理終了<br>' + str(dt_now) + '</p>'
 
         if text != '':
             batchLog.objects.create(text=text)
