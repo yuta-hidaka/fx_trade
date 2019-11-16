@@ -32,7 +32,9 @@ class Command(BaseCommand):
 
     # コマンドが実行された際に呼ばれるメソッド
     def handle(self, *args, **options):
-        text = ''
+        text = 'Btrade呼び出されました<br>'
+
+        # text = ''
         JST = timezone(timedelta(hours=+9), 'JST')
         dt_now = datetime.datetime.now(JST)
         setCandle = setCandle_USD_JPY()
