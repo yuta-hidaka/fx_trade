@@ -114,7 +114,7 @@ class orderFx:
         waitTime = self.waitTime
 
         adjTime = datetime.timedelta(minutes=waitTime)
-        self.text += 'position time Check'
+        self.text += '-------------------------position time Check<br>-------------------------'
         s_over = False
         l_over = False
 
@@ -133,17 +133,17 @@ class orderFx:
         if longInTime < now:
             self.isLlockByTime = False
             l_over = True
-            self.text += '<br>long '+str(self.waitTime)+'分経った'
+            self.text += '<br>long '+str(self.waitTime)+'分経った<br>'
         else:
-            self.text += '<br>long '+str(self.waitTime)+'分経ってない'
+            self.text += '<br>long '+str(self.waitTime)+'分経ってない<br>'
             self.isLlockByTime = True
 
         if shortInTime < now:
-            self.text += '<br>short '+str(self.waitTime)+'分経った'
+            self.text += '<br>short '+str(self.waitTime)+'分経った<br>'
             self.isSlockByTime = False
             s_over = True
         else:
-            self.text += '<br>short '+str(self.waitTime)+'分経ってない  '
+            self.text += '<br>short '+str(self.waitTime)+'分経ってない <br>'
             self.isSlockByTime = True
 
         # batchLog.objects.create(self.text=text)
@@ -172,14 +172,14 @@ class orderFx:
             osNum = 0
 
         # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
-        self.text += 'loss cut reverse'
+        self.text += '<br>-------------------------<loss cut reverse<br>-------------------------<'
         if self.tlog.long_count != olNum and not lo:
-            self.text += '<br>ロング損切されている　position　入れ替え'
+            self.text += '<br>-------------------------<ロング損切されている　position　入れ替え-------------------------<<br>'
             self.isReverse = True
             flg = self.ShortOrderCreate()
 
         if self.tlog.short_count != osNum and not so:
-            self.text += '<br>ショート損切りされている position 入れ替え'
+            self.text += '<br>-------------------------<ショート損切りされている position 入れ替え-------------------------<br>'
             self.isReverse = True
 
             flg = self.LongOrderCreate()
@@ -210,13 +210,13 @@ class orderFx:
             osNum = 0
 
         # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
-        self.text += 'loss cut check'
+        self.text += '<br>loss cut check<br>'
 
         if self.tlog.long_count == olNum:
             self.isLlock = False
             # self.text += '<br>ロングおなじ'
         else:
-            self.text += '<br>ロング損切されている'
+            self.text += '<br>-------------------------ロング損切されている----------------------------------<br>'
             if not l and not self.isLlock:
                 self.text += '<br> not l and not self.isLlock'
                 self.isLlock = True
@@ -228,12 +228,12 @@ class orderFx:
             # self.text += '<br>ショートおなじ'
             self.isSlock = False
         else:
-            self.text += '<br>ショート損切りされている'
+            self.text += '<br>-------------------------ショート損切りされている-------------------------<br>'
             if not s and not self.isSlock:
-                self.text += '<br> not s and not self.isSlock'
+                self.text += '<br> not s and not self.isSlock<br>'
                 self.isSlock = True
             elif self.isLock:
-                self.text += '<br> self.isLock'
+                self.text += '<br> self.isLock<br>'
                 self.isSlock = True
 
         self.tlog.short_count = self.orderShortNum
@@ -294,7 +294,7 @@ class orderFx:
             return
         if not self.isSlock and not self.isLlock:
             self.getOrderNum()
-            self.text += 'allOrderClose'
+            self.text += 'allOrderClose<br>'
             if self.orderLongNum != 0:
                 self.oderCloseAllLong()
             if self.orderShortNum != 0:

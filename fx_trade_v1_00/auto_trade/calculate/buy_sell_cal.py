@@ -205,10 +205,13 @@ class BuySellCal():
 
             # self.order.ShortOrderCreate()
             checkRange = [3, 5]
+            # トレンドが持ち合いか
             if trend_id in checkRange:
-                self.text += "持ち合い lossCutReverseの処理を試行<br>"
-                if self.order.lossCutReverse():
-                    self.text += "lossCutReverseで購入<br>"
+                # エクスパンションしているか   
+                if is_expansion:
+                    self.text += "持ち合い lossCutReverseの処理を試行<br>"
+                    if self.order.lossCutReverse():
+                        self.text += "lossCutReverseで購入<br>"
             else:
                 self.text += "トレンドなのでlossCutReverseでの購入を行わない<br>"
 
