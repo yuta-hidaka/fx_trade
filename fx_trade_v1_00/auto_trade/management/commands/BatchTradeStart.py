@@ -35,8 +35,8 @@ class Command(BaseCommand):
 
         JST = timezone(timedelta(hours=+9), 'JST')
         dt_now = datetime.datetime.now(JST)
-        text = 'バッチ起動<br>'
-        text += str(dt_now) + '<br>'
+        text = '<b style="color:red;">バッチ起動<br>' + str(dt_now) + '</b><br>'
+
         setCandle = setCandle_USD_JPY()
         bsCal = BuySellCal()
         # バッチの実行状況を保存する。
@@ -44,7 +44,7 @@ class Command(BaseCommand):
         # 5分足の保存
         # result, created = setCandle.setM5()
         dt_now = datetime.datetime.now(JST)
-        text += '一分足の取得' + str(dt_now) + '<br>'
+        text += '<b style="color:red;">一分足の取得<br>' + str(dt_now) + '<b><br>'
         # 1分足の保存
         result, created = setCandle.setM1()
         bb = setBollingerBand_USD_JPY()
@@ -111,7 +111,8 @@ class Command(BaseCommand):
             condiPrev = condition.objects.latest('created_at')
             # ------------------------------------------------------------------------------------------------------------------
             dt_now = datetime.datetime.now(JST)
-            text += 'ボリンジャーバンド計算' + str(dt_now) + '<br>'
+            text += '<b style="color:red;">ボリンジャーバンド計算' + \
+                str(dt_now) + '</b><br>'
             # ------------------------------------------------------------------------------------------------------------------
             # ボリンジャーバンドの設定
             BBCondi = bb.setBB(nowMA=result, condiPrev=condiPrev)
@@ -120,14 +121,16 @@ class Command(BaseCommand):
 
             # ------------------------------------------------------------------------------------------------------------------
             dt_now = datetime.datetime.now(JST)
-            text += 'condition計算' + str(dt_now) + '<br>'
+            text += '<b style="color:red;">condition計算' + \
+                str(dt_now) + '</b><br>'
             condiNow = setMA.setMA(result, BBCondi)
             # ------------------------------------------------------------------------------------------------------------------
             if not is_closeMarket and checkOn:
                 # a = 8
                 # ------------------------------------------------------------------------------------------------------------------
                 dt_now = datetime.datetime.now(JST)
-                text += 'by sell cal計算' + str(dt_now) + '<br>'
+                text += '<b style="color:red;">by sell cal計算' + \
+                    str(dt_now) + '</b><br>'
                 # ------------------------------------------------------------------------------------------------------------------
                 bsCal.BuySellCheck(condiNow, condiPrev)
                 headerText = '<br>----------------------------------------------by sel cal---------------------------------------------<br>'
@@ -142,7 +145,7 @@ class Command(BaseCommand):
             assets.objects.create(assets=astBlance)
 
         dt_now = datetime.datetime.now(JST)
-        text += '処理終了' + str(dt_now) + '<br>'
+        text += '<b style="color:red;">処理終了' + str(dt_now) + '</b><br>'
 
         if text != '':
             batchLog.objects.create(text=text)
