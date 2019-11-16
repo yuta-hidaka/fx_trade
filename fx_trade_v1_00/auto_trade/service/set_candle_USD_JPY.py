@@ -9,7 +9,7 @@ class setCandle_USD_JPY:
     def __init__(self):
 
         JST = timezone(timedelta(hours=+9), 'JST')
-        dt_now = datetime.datetime.now(JST)
+        dt_now = datetime.now(JST)
         self.text = "setCandle起動されました" + str(dt_now)
 
     def setM5(self):
