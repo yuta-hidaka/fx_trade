@@ -139,7 +139,7 @@ class Command(BaseCommand):
         dt_now = datetime.datetime.now(JST)
         text += '<p style="color:red;">処理終了<br>' + str(dt_now) + '</p>'
 
-        if text != '':
+        if text != '' and created:
             batchLog.objects.create(text=text)
 
         qSetBatch.save()
