@@ -37,29 +37,31 @@ class Command(BaseCommand):
         dt_now = datetime.datetime.now(JST)
         text = '<p style="color:red;">バッチ起動<br>' + str(dt_now) + '</p><br>'
 
+        # ろうそく足データ取得オブジェクト
         setCandle = setCandle_USD_JPY()
+        # 購買計算オブジェクト
         bsCal = BuySellCal()
-        # 5分足の保存
-        # result, created = setCandle.setM5()
-        dt_now = datetime.datetime.now(JST)
-        text += '<p style="color:red;">一分足の取得<br>' + str(dt_now) + '</p><br>'
-        # 1分足の保存
-        result, created = setCandle.setM1()
         # ボリンジャーバンドオブジェクト
         bb = setBollingerBand_USD_JPY()
         # 平均移動線オブジェクト
         setMA = setMA_USD_JPY()
         # オーダーオブジェクト
         order = orderFx()
-
         # バッチの実行状況を保存する。
         qSetBatch = batchRecord.objects.filter(id=1).first()
+
+        dt_now = datetime.datetime.now(JST)
+        text += '<p style="color:red;">一分足の取得<br>' + str(dt_now) + '</p><br>'
+        # 5分足の保存
+        # result, created = setCandle.setM5()
+        # 1分足の保存
+        result, created = setCandle.setM1()
+
         # UTC時間を取得
         UTC = datetime.datetime.utcnow()
         adjTime = 9
         adjNum = 7
         is_closeMarket = False
-
 
         if self.is_dst(UTC):
             adjNum = 6
@@ -69,8 +71,6 @@ class Command(BaseCommand):
         checkOn = model_to_dict(qSetCheck)['auto_trade_is_on']
         # 日本時間取得
         jstMath = UTC + datetime.timedelta(hours=adjTime)
-
-        # 土曜日の6時55分　夏時間で5時55分になってら、ポジションをすべて解除
         wk = jstMath.weekday()
         hr = jstMath.hour
         mi = jstMath.minute
@@ -92,6 +92,7 @@ class Command(BaseCommand):
 # '----------------デバッグ用-------------------------------'
 
         limitMin = [59]
+        # 土曜日の6時59分　夏時間で5時59分になったら、ポジションをすべて解除
         if wk == 5 and hr == (adjNum - 1) and mi in limitMin or wk == 5 and hr == adjNum and mi == 0:
             order.allOrderClose()
             text += '土曜日の終了時刻以降になったので取引中止処理を行います。<br>'
