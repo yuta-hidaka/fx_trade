@@ -47,9 +47,6 @@ class Command(BaseCommand):
         text += '一分足の取得' + str(dt_now) + '<br>'
         # 1分足の保存
         result, created = setCandle.setM1()
-
-        text += setCandle.text
-
         bb = setBollingerBand_USD_JPY()
         setMA = setMA_USD_JPY()
         order = orderFx()
@@ -144,8 +141,8 @@ class Command(BaseCommand):
             # text += str(ast)
             assets.objects.create(assets=astBlance)
 
-            dt_now = datetime.datetime.now(JST)
-            text += '処理終了' + str(dt_now) + '<br>'
+        dt_now = datetime.datetime.now(JST)
+        text += '処理終了' + str(dt_now) + '<br>'
 
         if text != '':
             batchLog.objects.create(text=text)
