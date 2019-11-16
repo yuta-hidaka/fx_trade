@@ -32,9 +32,8 @@ class Command(BaseCommand):
 
     # コマンドが実行された際に呼ばれるメソッド
     def handle(self, *args, **options):
-        text = 'Btrade呼び出されました<br>'
+        # text = 'Btrade呼び出されました<br>'
 
-        # text = ''
         JST = timezone(timedelta(hours=+9), 'JST')
         dt_now = datetime.datetime.now(JST)
         setCandle = setCandle_USD_JPY()
@@ -45,6 +44,8 @@ class Command(BaseCommand):
         # result, created = setCandle.setM5()
         # 1分足の保存
         result, created = setCandle.setM1()
+
+        text = setCandle.text
 
         bb = setBollingerBand_USD_JPY()
         setMA = setMA_USD_JPY()
