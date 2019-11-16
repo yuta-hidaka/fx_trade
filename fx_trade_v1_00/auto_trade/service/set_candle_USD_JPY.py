@@ -2,6 +2,7 @@ from .get_MA_USD_JPY import getMA_USD_JPY
 from ..models import M5_USD_JPY
 from ..rest.serializers.set_candle_serialize import SetCandleSerializer
 from datetime import datetime, timedelta, timezone
+import datetime
 
 
 class setCandle_USD_JPY:
@@ -9,7 +10,8 @@ class setCandle_USD_JPY:
     def __init__(self):
 
         JST = timezone(timedelta(hours=+9), 'JST')
-        dt_now = datetime.now(JST)
+        dt_now = datetime.datetime.now(JST)
+
         self.text = "setCandle起動されました" + str(dt_now)
 
     def setM5(self):

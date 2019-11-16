@@ -1,5 +1,6 @@
 from ...models import batchRecord, autoTradeOnOff, condition, batchLog, assets
 from datetime import datetime, timedelta, timezone
+import datetime
 
 from django.core.management.base import BaseCommand
 from django.forms.models import model_to_dict
@@ -33,7 +34,7 @@ class Command(BaseCommand):
         # text = 'Btrade呼び出されました<br>'
 
         JST = timezone(timedelta(hours=+9), 'JST')
-        dt_now = datetime.now(JST)
+        dt_now = datetime.datetime.now(JST)
         setCandle = setCandle_USD_JPY()
         bsCal = BuySellCal()
         # バッチの実行状況を保存する。
@@ -49,7 +50,7 @@ class Command(BaseCommand):
         setMA = setMA_USD_JPY()
         order = orderFx()
         order = orderFx()
-        UTC = datetime.utcnow()
+        UTC = datetime.datetime.utcnow()
         adjTime = 9
         adjNum = 7
         is_closeMarket = False
