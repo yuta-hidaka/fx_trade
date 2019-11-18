@@ -1,80 +1,63 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
-// class Clock extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = { date: new Date() };
-//   }
-
-//   componentDidMount() {
-//     this.timerID = setInterval(
-//       () => this.tick(),
-//       1000
-//     );
-//   }
-
-//   componentWillUnmount() {
-//     clearInterval(this.timerID);
-//   }
-
-//   tick() {
-//     this.setState({
-//       date: new Date()
-//     });
-//   }
-
-//   render() {
-//     return (
-//       <div>
-//         <h1>ReactApp作成中...</h1>
-//         <h2>現在時刻 {this.state.date.toLocaleTimeString()}.</h2>
-//       </div>
-//     );
-//   }
-// }
-
-// function App() {
-//   return (
-//     <div>
-//       <Clock />
-//     </div>
-//   );
-// }
-function Contacts() {
-  return <div className="Contacts" />;
+class Square extends React.Component {
+  render() {
+    return (
+      <button className="square">
+        {/* TODO */}
+      </button>
+    );
+  }
 }
 
-function Chat() {
-  return <div className="Chat" />;
-}
+class Board extends React.Component {
+  renderSquare(i) {
+    return <Square />;
+  }
 
-function SplitPane(props) {
-  return (
-    <div className="SplitPane">
-      <div className="SplitPane-left">
-        {props.left}
+  render() {
+    const status = 'Next player: X';
+
+    return (
+      <div>
+        <div className="status">{status}</div>
+        <div className="board-row">
+          {this.renderSquare(0)}
+          {this.renderSquare(1)}
+          {this.renderSquare(2)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(3)}
+          {this.renderSquare(4)}
+          {this.renderSquare(5)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(6)}
+          {this.renderSquare(7)}
+          {this.renderSquare(8)}
+        </div>
       </div>
-      <div className="SplitPane-right">
-        {props.right}
+    );
+  }
+}
+
+class Game extends React.Component {
+  render() {
+    return (
+      <div className="game">
+        <div className="game-board">
+          <Board />
+        </div>
+        <div className="game-info">
+          <div>{/* status */}</div>
+          <ol>{/* TODO */}</ol>
+        </div>
       </div>
-    </div>
-  );
-}
-
-function App() {
-  return (
-    <SplitPane
-      left={
-        <Contacts />
-      }
-      right={
-        <Chat />
-      } />
-  );
+    );
+  }
 }
 
 
-
-export default App;
+export default Game;
