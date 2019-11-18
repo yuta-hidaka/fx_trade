@@ -150,6 +150,7 @@ class orderFx:
         return s_over, l_over
 
     def lossCutReverse(self):
+        self.isReverse = True
         checkRange = [3, 5]
         # トレンドが持ち合いかの時だけ購買
         if self.tlog.condition_id in checkRange:
@@ -178,12 +179,10 @@ class orderFx:
             self.text += '<br>-------------------------loss cut reverse-------------------------<'
             if self.tlog.long_count != olNum and not lo:
                 self.text += '<br>ロング損切されている　position　入れ替え<br>'
-                self.isReverse = True
                 flg = self.ShortOrderCreate()
 
             if self.tlog.short_count != osNum and not so:
                 self.text += '<br><ショート損切りされている position 入れ替え<br>'
-                self.isReverse = True
 
                 flg = self.LongOrderCreate()
 
@@ -193,7 +192,7 @@ class orderFx:
             # batchLog.objects.create(text=text)
         else:
             self.text += '<br>購買時のtrend_idが3,5ではなかったのでreverse使いません<br>'
-
+        self.isReverse = False
         return flg
 
     def lossCutCheck(self, l, s):
