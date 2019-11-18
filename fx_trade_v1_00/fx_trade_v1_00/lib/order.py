@@ -310,6 +310,8 @@ class orderFx:
     def ShortOrderCreate(self):
         if self.nowIn:
             return
+        self.nowIn = True
+
         self.positionTimeCheck()
         flg = False
         if not self.isSlockByTime and not self.nowIn:
@@ -342,7 +344,6 @@ class orderFx:
                     # 購買時のトレンドを記憶
                     self.tlog.condition_id = self.trend_id
                     self.tlog.save()
-                    self.nowIn = True
                     pass
                 except:
                     self.text += '購買エラー<br>'
@@ -361,6 +362,8 @@ class orderFx:
     def LongOrderCreate(self):
         if self.nowIn:
             return
+        self.nowIn = True
+
         self.positionTimeCheck()
         flg = False
         if not self.isLlockByTime:
@@ -393,7 +396,6 @@ class orderFx:
                     # 購買時のトレンドを記憶
                     self.tlog.condition_id = self.trend_id
                     self.tlog.save()
-                    self.nowIn = True
                     flg = True
                     pass
                 except:
