@@ -151,6 +151,7 @@ class orderFx:
 
     def lossCutReverse(self):
         self.isReverse = True
+        flg = False
         checkRange = [3, 5]
         # トレンドが持ち合いかの時だけ購買
         if self.tlog.condition_id in checkRange:
@@ -164,7 +165,6 @@ class orderFx:
             pos = res['positions'][0]
             olNum = 0
             osNum = 0
-            flg = False
             # オーダーステータスを取得する。
             try:
                 olNum = len(pos['long']['tradeIDs'])
@@ -316,7 +316,6 @@ class orderFx:
             self.getOrderNum()
             self.oderCloseAllLong()
             self.text += 'ShortOrderCreate<br>'
-            # 今回は1万通貨の買いなので「+10000」としてます。売りの場合は「-10000」と記載です。
             api = self.fi.api
             # stopPrice = 100.00
             stoporder = StopLossDetails(
