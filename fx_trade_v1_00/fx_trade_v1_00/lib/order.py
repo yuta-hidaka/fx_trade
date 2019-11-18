@@ -150,44 +150,50 @@ class orderFx:
         return s_over, l_over
 
     def lossCutReverse(self):
-        so, lo = self.positionTimeCheck()
-        # 口座のすべてのポジションをリストとして取得
-        self.tlog = tradeLog.objects.filter(id=1).first()
-        r = positions.PositionList(accountID=self.fi.accountID)
-        self.isLock = True
-        api = self.fi.api
-        res = api.request(r)
-        pos = res['positions'][0]
-        olNum = 0
-        osNum = 0
-        flg = False
-        # オーダーステータスを取得する。
-        try:
-            olNum = len(pos['long']['tradeIDs'])
-        except:
+        checkRange = [3, 5]
+        # トレンドが持ち合いかの時だけ購買
+        if self.tlog.condition_id in checkRange:
+            so, lo = self.positionTimeCheck()
+            # 口座のすべてのポジションをリストとして取得
+            self.tlog = tradeLog.objects.filter(id=1).first()
+            r = positions.PositionList(accountID=self.fi.accountID)
+            self.isLock = True
+            api = self.fi.api
+            res = api.request(r)
+            pos = res['positions'][0]
             olNum = 0
-        try:
-            osNum = len(pos['short']['tradeIDs'])
-        except:
             osNum = 0
+            flg = False
+            # オーダーステータスを取得する。
+            try:
+                olNum = len(pos['long']['tradeIDs'])
+            except:
+                olNum = 0
+            try:
+                osNum = len(pos['short']['tradeIDs'])
+            except:
+                osNum = 0
 
-        # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
-        self.text += '<br>-------------------------<loss cut reverse<br>-------------------------<'
-        if self.tlog.long_count != olNum and not lo:
-            self.text += '<br>-------------------------<ロング損切されている　position　入れ替え-------------------------<<br>'
-            self.isReverse = True
-            flg = self.ShortOrderCreate()
+            # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
+            self.text += '<br>-------------------------<loss cut reverse<br>-------------------------<'
+            if self.tlog.long_count != olNum and not lo:
+                self.text += '<br>ロング損切されている　position　入れ替え<br>'
+                self.isReverse = True
+                flg = self.ShortOrderCreate()
 
-        if self.tlog.short_count != osNum and not so:
-            self.text += '<br>-------------------------<ショート損切りされている position 入れ替え-------------------------<br>'
-            self.isReverse = True
+            if self.tlog.short_count != osNum and not so:
+                self.text += '<br><ショート損切りされている position 入れ替え<br>'
+                self.isReverse = True
 
-            flg = self.LongOrderCreate()
+                flg = self.LongOrderCreate()
 
-        self.tlog.short_count = self.orderShortNum
-        self.tlog.long_count = self.orderLongNum
-        self.tlog.save()
-        # batchLog.objects.create(text=text)
+            self.tlog.short_count = self.orderShortNum
+            self.tlog.long_count = self.orderLongNum
+            self.tlog.save()
+            # batchLog.objects.create(text=text)
+        else:
+            self.text += '<br>購買時のtrend_idが3,5ではなかったのでreverse使いません<br>'
+
         return flg
 
     def lossCutCheck(self, l, s):
@@ -335,6 +341,8 @@ class orderFx:
                     flg = True
                     self.tlog.short_in_time = self.now
                     self.tlog.short_count = 1
+                    # 購買時のトレンドを記憶
+                    self.tlog.condition_id = self.trend_id
                     self.tlog.save()
                     self.nowIn = True
                     pass
@@ -384,6 +392,8 @@ class orderFx:
                     self.text += json.dumps(res, indent=2)
                     self.tlog.long_in_time = self.now
                     self.tlog.long_count = 1
+                    # 購買時のトレンドを記憶
+                    self.tlog.condition_id = self.trend_id
                     self.tlog.save()
                     self.nowIn = True
                     flg = True
