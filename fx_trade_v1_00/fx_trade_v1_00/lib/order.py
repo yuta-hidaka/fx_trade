@@ -114,7 +114,7 @@ class orderFx:
         waitTime = self.waitTime
 
         adjTime = datetime.timedelta(minutes=waitTime)
-        self.text += '-------------------------position time Check<br>-------------------------'
+        self.text += '-------------------------position time Check-------------------------'
         s_over = False
         l_over = False
 
@@ -175,7 +175,7 @@ class orderFx:
                 osNum = 0
 
             # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
-            self.text += '<br>-------------------------<loss cut reverse<br>-------------------------<'
+            self.text += '<br>-------------------------loss cut reverse-------------------------<'
             if self.tlog.long_count != olNum and not lo:
                 self.text += '<br>ロング損切されている　position　入れ替え<br>'
                 self.isReverse = True

@@ -203,17 +203,11 @@ class BuySellCal():
             self.order.unitsShort = str(units*-1)
             # 前回までトレンドで今が持ち合い相場であればいったん決済する。
 
-            # self.order.ShortOrderCreate()
-            checkRange = [3, 5]
-            # トレンドが持ち合いか
-            if trend_id in checkRange:
+
                 # エクスパンションしているか
                 # if is_expansion:
-                self.text += "持ち合い lossCutReverseの処理を試行<br>"
-                if self.order.lossCutReverse():
-                    self.text += "lossCutReverseで購入<br>"
-            else:
-                self.text += "トレンドなのでlossCutReverseでの購入を行わない<br>"
+            if self.order.lossCutReverse():
+                self.text += "lossCutReverseで購入<br>"
 
             try:
                 # print(condNow.condition_of_bb.bb_trande)
