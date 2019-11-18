@@ -250,6 +250,7 @@ class BuySellCal():
                     # print("long in　but position is too many")
                     self.text += "long in by ma trend idが4なので様子見です<br>"
                     # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
+                    
             elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
                 if trend_id != 4:
                     # self.order.oderCloseAllLong()
@@ -386,12 +387,12 @@ class BuySellCal():
             if is_peak:
                 self.text += 'sigma3 エクスパンションの底値。ポジションを入れ替える <br>'
                 if is_bottomTouch:
-                    self.text += 'sigma3 エクスパンション終了で下タッチなのでlongIn<br>'
-                    self.order.LongOrderCreate()
+                    self.text += 'sigma3 エクスパンション終了で下タッチなのでlongIn　休止中<br>'
+                    # self.order.LongOrderCreate()
 
                 elif is_topTouch:
-                    self.text += 'sigma3 エクスパンション終了で上タッチなのでshortIn<br>'
-                    self.order.ShortOrderCreate()
+                    self.text += 'sigma3 エクスパンション終了で上タッチなのでshortIn　休止中<br>'
+                    # self.order.ShortOrderCreate()
 
             if trend_id == 3 and not is_peak:
                 # if preTrend_id == 1 or preTrend_id == 2 or preTrend_id == 4:
