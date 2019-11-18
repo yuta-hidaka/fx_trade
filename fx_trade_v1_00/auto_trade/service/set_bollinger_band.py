@@ -471,6 +471,9 @@ class setBollingerBand_USD_JPY:
         elif np.absolute(ans) <= trendRatio and np.absolute(ans_2) <= trendRatio:
             is_trend = False
             is_range = True
+        else:
+            self.text += 'trendRatioによる判断トレンドでも、レンジでもない<br>'
+
 
         if is_trend:
             if is_plus and slopeDir == 1:
