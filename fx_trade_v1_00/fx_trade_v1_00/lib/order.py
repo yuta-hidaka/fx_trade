@@ -429,13 +429,13 @@ class orderFx:
             data=data
         )
 
-        if not self.isReverse:
-            # 正常に売却したので次回の購買は半分の時間で購入可能にする。
-            now = timezone.now()
-            adjTime = datetime.timedelta(minutes=(int(self.waitTime / 2)))
-            self.tlog.long_in_time = now - adjTime
-            self.text += str(self.tlog.long_in_time) + \
-                '決済後：self.tlog.long_in_time<br>'
+        # if not self.isReverse:
+        #     # 正常に売却したので次回の購買は半分の時間で購入可能にする。
+        #     now = timezone.now()
+        #     adjTime = datetime.timedelta(minutes=(int(self.waitTime / 2)))
+        #     self.tlog.long_in_time = now - adjTime
+        #     self.text += str(self.tlog.long_in_time) + \
+        #         '決済後：self.tlog.long_in_time<br>'
         self.tlog.long_count = 0
         self.tlog.save()
 
@@ -471,13 +471,13 @@ class orderFx:
             data=data
         )
 
-        if not self.isReverse:
-            # 正常に売却したので次回の購買は半分の時間で購入可能にする。
-            adjTime = datetime.timedelta(minutes=(int(self.waitTime / 2)))
-            now = timezone.now()
-            self.tlog.short_in_time = now - adjTime
-            self.text += str(self.tlog.short_in_time) + \
-                '決済後：self.tlog.short_in_time<br>'
+        # if not self.isReverse:
+        #     # 正常に売却したので次回の購買は半分の時間で購入可能にする。
+        #     adjTime = datetime.timedelta(minutes=(int(self.waitTime / 2)))
+        #     now = timezone.now()
+        #     self.tlog.short_in_time = now - adjTime
+        #     self.text += str(self.tlog.short_in_time) + \
+        #         '決済後：self.tlog.short_in_time<br>'
         self.tlog.short_count = 0
         self.tlog.save()
 
