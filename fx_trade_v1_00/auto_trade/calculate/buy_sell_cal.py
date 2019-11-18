@@ -140,13 +140,13 @@ class BuySellCal():
 
             self.order.trend_id = trend_id
 
-            if not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
-                self.text += '確度が小さいのでlimit小さく<br>'
-                # 確度が小さいのでlimit小さく
-                long_limit = (nowCndl_close - ((nowCndl_close * limit/2))
-                              ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                short_limit = (nowCndl_close + ((nowCndl_close * limit/2))
-                               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            # if not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
+            #     self.text += '確度が小さいのでlimit小さく<br>'
+            #     # 確度が小さいのでlimit小さく
+            #     long_limit = (nowCndl_close - ((nowCndl_close * limit/2))
+            #                   ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            #     short_limit = (nowCndl_close + ((nowCndl_close * limit/2))
+            #                    ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             # self.text += 'longの入り値　' + str(long_in) + '<br>'
             # self.text += 'longの損切　' + str(long_limit) + '<br>'
