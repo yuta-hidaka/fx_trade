@@ -487,7 +487,7 @@ class setBollingerBand_USD_JPY:
                 trandCondi = 2
                 is_shortIn = True
             elif slopeDir == 0:
-                self.text += 'トレンドだけど傾きが真逆 一旦静観<br>'
+                self.text += 'トレンドだけど傾きが0のため 一旦静観<br>'
                 trandCondi = 4
             else:
                 self.text += 'トレンドだけど傾きが真逆 一旦静観else<br>'
