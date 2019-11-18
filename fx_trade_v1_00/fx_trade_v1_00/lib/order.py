@@ -314,7 +314,7 @@ class orderFx:
 
         self.positionTimeCheck()
         flg = False
-        if not self.isSlockByTime and not self.nowIn:
+        if not self.isSlockByTime:
             self.getOrderNum()
             self.oderCloseAllLong()
             self.text += 'ShortOrderCreate<br>'
