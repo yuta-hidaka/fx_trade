@@ -390,7 +390,7 @@ class BuySellCal():
             # 持ち合い相場でエクスパンションしてなかったら
 
             if is_peak:
-                self.text += 'sigma3 エクスパンションの底値。ポジションを入れ替える <br>'
+                self.text += 'sigma3 エクスパンションの底値。ポジションを入れ替える 休止中<br>'
                 if is_bottomTouch:
                     self.text += 'sigma3 エクスパンション終了で下タッチなのでlongIn　休止中<br>'
                     # self.order.LongOrderCreate()
@@ -405,15 +405,15 @@ class BuySellCal():
                 #         self.order.allOrderClose()
                 # 偏差と数値によるエクスパンションで確度が高めのポジションを持つ
                 if not is_expansionPrev and is_expansion and is_expansionByStd and is_expansionByNum:
-                    self.text += 'エクスパンション確度が高め<br>'
+                    self.text += 'エクスパンション確度が高め　休止中<br>'
                     if is_topTouch:
                         # print('エクスパンションで上タッチなので買い')
                         self.text += 'エクスパンションで上タッチなのでLong by Std<br>'
-                        self.order.LongOrderCreate()
+                        # self.order.LongOrderCreate()
                     elif is_bottomTouch:
                         # print('エクスパンションで下タッチなので売り')
                         self.text += 'エクスパンションで下タッチなのでShort by Std<br>'
-                        self.order.ShortOrderCreate()
+                        # self.order.ShortOrderCreate()
                     else:
                         self.text += 'エクスパンションbyStd_購買条件未該当<br>'
 
