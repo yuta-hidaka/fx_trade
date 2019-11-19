@@ -488,7 +488,8 @@ class BuySellCal():
             #     self.text += "トレンドなのでlossCutReverseでの購入を行わない<br>"
             if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
                 if trend_id != 4:
-                    # print("long in by ma")
+                    long_limit = (nowCndl_close - (nowCndl_close * (limit*3))).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                    self.order.stopLossLong = str(long_limit)
                     self.text += "long in by ma<br>"
                     self.isInByMa = True
                     self.order.LongOrderCreate()
@@ -499,8 +500,8 @@ class BuySellCal():
 
             elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
                 if trend_id != 4:
-                    # self.order.oderCloseAllLong()
-                    # print("short in by ma")
+                    short_limit = (nowCndl_close + (nowCndl_close * (limit*3))).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                    self.order.stopLossShort = str(short_limit)
                     self.text += "short in by ma<br>"
                     self.isInByMa = True
                     self.order.ShortOrderCreate()
