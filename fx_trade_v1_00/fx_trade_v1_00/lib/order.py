@@ -116,7 +116,7 @@ class orderFx:
         # maの際は二倍の時間をまつ
         waitTime = self.waitTime * 2
 
-        adjTime = datetime.timedelta(minutes=waitTime)
+        adjTime = datetime.timedelta(minutes=waitTime * 2)
         self.text += '-------------------------inByMaCheck-------------------------'
         if self.isReverse:
             self.text += '-------------------------リバース処理-------------------------'
