@@ -245,6 +245,8 @@ class BuySellCal():
             #     if trend_id != 4:
             #         # print("long in by ma")
             #         self.text += "long in by ma<br>"
+                    # self.isInByMa = True
+
             #         self.order.LongOrderCreate()
             #         self.order.trend_id = 1
             #     else:
@@ -257,6 +259,7 @@ class BuySellCal():
             #         # self.order.oderCloseAllLong()
             #         # print("short in by ma")
             #         self.text += "short in by ma<br>"
+                    # self.isInByMa = True
             #         self.order.ShortOrderCreate()
             #         self.order.trend_id = 2
             #     else:
@@ -487,6 +490,7 @@ class BuySellCal():
                 if trend_id != 4:
                     # print("long in by ma")
                     self.text += "long in by ma<br>"
+                    self.isInByMa = True
                     self.order.LongOrderCreate()
                 else:
                     # print("long in　but position is too many")
@@ -498,6 +502,7 @@ class BuySellCal():
                     # self.order.oderCloseAllLong()
                     # print("short in by ma")
                     self.text += "short in by ma<br>"
+                    self.isInByMa = True
                     self.order.ShortOrderCreate()
                 else:
                     # print("short in　but position is too many")

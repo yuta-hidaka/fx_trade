@@ -54,6 +54,7 @@ class tradeLog(models.Model):
     is_long_lock = models.BooleanField(default=False)
     short_in_time = models.DateTimeField(null=True)
     long_in_time = models.DateTimeField(null=True)
+    ma_in_at = models.DateTimeField(null=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

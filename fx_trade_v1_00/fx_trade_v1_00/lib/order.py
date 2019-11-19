@@ -54,7 +54,8 @@ class orderFx:
         self.nowIn = False
         self.now = timezone.now()
         self.text = ''
-
+#  ma_in_at
+        self.isInByMa = False
         # now = timezone.utc()
 
         self.fi = FxInfo()
@@ -109,6 +110,29 @@ class orderFx:
             self.orderShortNum = 0
 
     # def getPosition(self):
+
+    def inByMaCheck(self):
+        now = timezone.now()
+        # maの際は二倍の時間をまつ
+        waitTime = self.waitTime * 2
+
+        adjTime = datetime.timedelta(minutes=waitTime)
+        self.text += '-------------------------inByMaCheck-------------------------'
+        if self.tlog.ma_in_at is None:
+            self.tlog.ma_in_at = now - adjTime
+
+        inMaAt = self.tlog.ma_in_at + adjTime
+        self.text += '<br>inMaAt '+str(inMaAt)
+
+        if inMaAt < now:
+            self.text += '<br>long ' + \
+                str(self.waitTime)+'分経った inByMaCheck()<br>'
+            return False
+        else:
+            self.text += '<br>long ' + \
+                str(self.waitTime)+'分経ってない inByMaCheck()<br>'
+            return True
+
     def positionTimeCheck(self):
         now = timezone.now()
         waitTime = self.waitTime
@@ -126,6 +150,7 @@ class orderFx:
 
         shortInTime = self.tlog.short_in_time + adjTime
         longInTime = self.tlog.long_in_time + adjTime
+
         self.text += '<br>now '+str(now)
         self.text += '<br>long in '+str(longInTime)
         self.text += '<br>shot in '+str(shortInTime)
@@ -308,8 +333,14 @@ class orderFx:
         # batchLog.objects.create(text=text)
 
     def ShortOrderCreate(self):
+        self.text += 'ShortOrderCreate<br>'
         if self.nowIn:
+            self.text += 'すでに購買済み<br>'
             return
+        if inByMaCheck():
+            self.text += 'MA購入から指定時間たってない<br>'
+            return
+
         self.nowIn = True
 
         self.positionTimeCheck()
@@ -317,7 +348,6 @@ class orderFx:
         if not self.isSlockByTime:
             self.getOrderNum()
             self.oderCloseAllLong()
-            self.text += 'ShortOrderCreate<br>'
             api = self.fi.api
             # stopPrice = 100.00
             stoporder = StopLossDetails(
@@ -339,8 +369,12 @@ class orderFx:
                     res = api.request(r)
                     self.text += json.dumps(res, indent=2)
                     flg = True
+
+                    # maでの購買であれば時間を記録
+                    if self.isInByMa:
+                        self.tlog.ma_in_at = self.now
+
                     self.tlog.short_in_time = self.now
-        
                     self.tlog.short_count = 1
                     # 購買時のトレンドを記憶
                     self.tlog.condition_id = self.trend_id
@@ -361,8 +395,14 @@ class orderFx:
         # self.getOrderNum()
 
     def LongOrderCreate(self):
+        self.text += 'LongOrderCreate<br>'
         if self.nowIn:
+            self.text += 'すでに購買済み<br>'
             return
+        if inByMaCheck():
+            self.text += 'MA購入から指定時間たってない<br>'
+            return
+
         self.nowIn = True
 
         self.positionTimeCheck()
@@ -370,7 +410,6 @@ class orderFx:
         if not self.isLlockByTime:
             self.getOrderNum()
             self.oderCloseAllShort()
-            self.text += 'LongOrderCreate<br>'
             api = self.fi.api
             # stopPrice = 100.00
             stoporder = StopLossDetails(
@@ -392,6 +431,11 @@ class orderFx:
                     r = orders.OrderCreate(self.fi.accountID, data=self.data)
                     res = api.request(r)
                     self.text += json.dumps(res, indent=2)
+
+                    # maでの購買であれば時間を記録
+                    if self.isInByMa:
+                        self.tlog.ma_in_at = self.now
+
                     self.tlog.long_in_time = self.now
                     self.tlog.long_count = 1
                     # 購買時のトレンドを記憶
