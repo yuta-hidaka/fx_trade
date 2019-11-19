@@ -340,6 +340,7 @@ class orderFx:
                     self.text += json.dumps(res, indent=2)
                     flg = True
                     self.tlog.short_in_time = self.now
+        
                     self.tlog.short_count = 1
                     # 購買時のトレンドを記憶
                     self.tlog.condition_id = self.trend_id

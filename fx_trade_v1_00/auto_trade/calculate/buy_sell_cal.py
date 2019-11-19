@@ -241,6 +241,31 @@ class BuySellCal():
 
                 # --------------------------------------------------------------------------------------------------------------------
             self.text += 'トレンドID　' + str(trend_id) + '<br>'
+            # if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
+            #     if trend_id != 4:
+            #         # print("long in by ma")
+            #         self.text += "long in by ma<br>"
+            #         self.order.LongOrderCreate()
+            #         self.order.trend_id = 1
+            #     else:
+            #         # print("long in　but position is too many")
+            #         self.text += "long in by ma trend idが4なので様子見です<br>"
+            #         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
+                    
+            # elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
+            #     if trend_id != 4:
+            #         # self.order.oderCloseAllLong()
+            #         # print("short in by ma")
+            #         self.text += "short in by ma<br>"
+            #         self.order.ShortOrderCreate()
+            #         self.order.trend_id = 2
+            #     else:
+            #         # print("short in　but position is too many")
+            #         self.text += "short in by ma trend idが4なので様子見です<br>"
+            #         # long closeのタイミング if MA is 2 it have to close
+            # else:
+            #     # print('購買----様子見中')
+            #     self.text += '購買----様子見中 MAでの購買判定<br>'
 
     # --------------------------------------------------------------------------
             if trend_id == 1 or trend_id == 2 or trend_id == 4 and not is_peak:
@@ -458,7 +483,6 @@ class BuySellCal():
             #         self.text += "lossCutReverseで購入<br>"
             # else:
             #     self.text += "トレンドなのでlossCutReverseでの購入を行わない<br>"
-
             if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
                 if trend_id != 4:
                     # print("long in by ma")
@@ -482,6 +506,7 @@ class BuySellCal():
             else:
                 # print('購買----様子見中')
                 self.text += '購買----様子見中 MAでの購買判定<br>'
+
 
             self.text += '<br>-------------------------------ここからorderの内容----------------------------------<br>' + self.order.text
     # --------------------------------------------------------------------------------------------------------------------
