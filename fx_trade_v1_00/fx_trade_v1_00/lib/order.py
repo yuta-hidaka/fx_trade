@@ -115,9 +115,13 @@ class orderFx:
         now = timezone.now()
         # maの際は二倍の時間をまつ
         waitTime = self.waitTime * 2
+        trends = [1,2]
+        self.text += '-------------------------inByMaCheck-------------------------'
+        if self.trend_id in trends:
+            self.text += 'trendなので時間制限持たせません'
+            return
 
         adjTime = datetime.timedelta(minutes=waitTime * 2)
-        self.text += '-------------------------inByMaCheck-------------------------'
         if self.isReverse:
             self.text += '-------------------------リバース処理-------------------------'
             return
