@@ -337,7 +337,7 @@ class orderFx:
         if self.nowIn:
             self.text += 'すでに購買済み<br>'
             return
-        if inByMaCheck():
+        if self.inByMaCheck():
             self.text += 'MA購入から指定時間たってない<br>'
             return
 
@@ -399,7 +399,7 @@ class orderFx:
         if self.nowIn:
             self.text += 'すでに購買済み<br>'
             return
-        if inByMaCheck():
+        if self.inByMaCheck():
             self.text += 'MA購入から指定時間たってない<br>'
             return
 
