@@ -458,6 +458,9 @@ class orderFx:
     def oderCloseAllLong(self):
         if self.nowIn:
             return
+        if self.inByMaCheck():
+            self.text += 'MA購入から指定時間たってない<br>'
+            return
 
         self.getOrderNum()
         self.text += 'oderCloseAllLong<br>'
@@ -499,7 +502,9 @@ class orderFx:
     def oderCloseAllShort(self):
         if self.nowIn:
             return
-
+        if self.inByMaCheck():
+            self.text += 'MA購入から指定時間たってない<br>'
+            return
         self.getOrderNum()
         self.text += 'oderCloseAllShort<br>'
         self.text += str(self.isReverse) + 'self.isReverse<br>'
