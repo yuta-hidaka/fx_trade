@@ -348,7 +348,7 @@ class orderFx:
 
         self.positionTimeCheck()
         flg = False
-        if not self.isSlockByTime:
+        if not self.isSlockByTime or self.isInByMa:
             self.getOrderNum()
             self.oderCloseAllLong()
             api = self.fi.api
@@ -410,7 +410,7 @@ class orderFx:
 
         self.positionTimeCheck()
         flg = False
-        if not self.isLlockByTime:
+        if not self.isLlockByTime or self.isInByMa:
             self.getOrderNum()
             self.oderCloseAllShort()
             api = self.fi.api
