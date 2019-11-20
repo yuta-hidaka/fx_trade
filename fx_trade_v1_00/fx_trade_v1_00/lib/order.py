@@ -112,10 +112,9 @@ class orderFx:
     # def getPosition(self):
 
     def inByMaCheck(self):
-        now = timezone.now()
         # maの際は二倍の時間をまつ
         waitTime = self.waitTime * 2
-        trends = [1,2]
+        trends = [1, 2]
         self.text += '-------------------------inByMaCheck-------------------------'
         if self.trend_id in trends:
             self.text += 'trendなので時間制限持たせません'
@@ -372,6 +371,7 @@ class orderFx:
             # API経由で指値注文を実行
             if self.orderShortNum == 0:
                 try:
+                    now = timezone.now()
                     r = orders.OrderCreate(self.fi.accountID, data=self.data)
                     res = api.request(r)
                     self.text += json.dumps(res, indent=2)
@@ -379,9 +379,9 @@ class orderFx:
 
                     # maでの購買であれば時間を記録
                     if self.isInByMa:
-                        self.tlog.ma_in_at = self.now
+                        self.tlog.ma_in_at = now
 
-                    self.tlog.short_in_time = self.now
+                    self.tlog.short_in_time = now
                     self.tlog.short_count = 1
                     # 購買時のトレンドを記憶
                     self.tlog.condition_id = self.trend_id
@@ -411,6 +411,7 @@ class orderFx:
             return
 
         self.nowIn = True
+        now = timezone.now()
 
         self.positionTimeCheck()
         flg = False
@@ -441,9 +442,9 @@ class orderFx:
 
                     # maでの購買であれば時間を記録
                     if self.isInByMa:
-                        self.tlog.ma_in_at = self.now
+                        self.tlog.ma_in_at = now
 
-                    self.tlog.long_in_time = self.now
+                    self.tlog.long_in_time = now
                     self.tlog.long_count = 1
                     # 購買時のトレンドを記憶
                     self.tlog.condition_id = self.trend_id
