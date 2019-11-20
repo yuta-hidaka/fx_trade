@@ -272,7 +272,7 @@ class BuySellCal():
 
             if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
                 if trend_id != 4:
-                    long_limit = (nowCndl_close - (nowCndl_close * (limit*1.1))).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                    long_limit = (nowCndl_close - (nowCndl_close * (limit))).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                     self.order.stopLossLong = str(long_limit)
                     self.text += "long in by ma<br>"
                     self.isInByMa = True
@@ -284,7 +284,7 @@ class BuySellCal():
 
             elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
                 if trend_id != 4:
-                    short_limit = (nowCndl_close + (nowCndl_close * (limit*1.1))).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                    short_limit = (nowCndl_close + (nowCndl_close * (limit))).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                     self.order.stopLossShort = str(short_limit)
                     self.text += "short in by ma<br>"
                     self.isInByMa = True
