@@ -116,20 +116,21 @@ class orderFx:
         now = timezone.now()
         waitTime = self.waitTime * 2
         trends = [1, 2]
-        self.text += '-------------------------inByMaCheck-------------------------'
+        self.text += '-------------------------inByMaCheck-------------------------<br>'
         if self.trend_id in trends:
-            self.text += 'trendなので時間制限持たせません'
-            return
+            self.text += 'trendなので時間制限持たせません<br>'
+            return False
 
         adjTime = datetime.timedelta(minutes=waitTime * 2)
         if self.isReverse:
-            self.text += '-------------------------リバース処理-------------------------'
+            self.text += '-------------------------リバース処理-------------------------<br>'
             return
         if self.tlog.ma_in_at is None:
             self.tlog.ma_in_at = now - adjTime
 
         inMaAt = self.tlog.ma_in_at + adjTime
         self.text += '<br>inMaAt '+str(inMaAt)
+        self.text += '<br>self.tlog.ma_in_at '+str(self.tlog.ma_in_at)
 
         if inMaAt < now:
             self.text += '<br>long ' + \
@@ -145,7 +146,7 @@ class orderFx:
         waitTime = self.waitTime
 
         adjTime = datetime.timedelta(minutes=waitTime)
-        self.text += '-------------------------position time Check-------------------------'
+        self.text += '-------------------------position time Check-------------------------<br>'
         s_over = False
         l_over = False
 
