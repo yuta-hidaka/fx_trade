@@ -113,6 +113,7 @@ class orderFx:
 
     def inByMaCheck(self):
         # maの際は二倍の時間をまつ
+        now = timezone.now()
         waitTime = self.waitTime * 2
         trends = [1, 2]
         self.text += '-------------------------inByMaCheck-------------------------'
@@ -411,7 +412,6 @@ class orderFx:
             return
 
         self.nowIn = True
-        now = timezone.now()
 
         self.positionTimeCheck()
         flg = False
@@ -436,6 +436,7 @@ class orderFx:
             if self.orderLongNum == 0:
 
                 try:
+                    now = timezone.now()
                     r = orders.OrderCreate(self.fi.accountID, data=self.data)
                     res = api.request(r)
                     self.text += json.dumps(res, indent=2)
