@@ -247,17 +247,18 @@ class BuySellCal():
 
                 # --------------------------------------------------------------------------------------------------------------------
             self.text += 'トレンドID　' + str(trend_id) + '<br>'
-
+            maPrev = 6
+            maNow = 1
             now = timezone.now()
             adjTime = datetime.timedelta(minutes=15)
             sTime = now - adjTime
             if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
-
-                # 過去15分の間に4が一つでも存在したら購買しない
                 rs = conditionOfSlope_M5.objects.filter(
                     slope_comp6_24_72=4).filter(
                     created_at__range=(sTime, now)).order_by('-id').count()
                 self.text += str(rs)+'この4がありました※※※※※※※※※※※※※※※※<br>'
+
+                # 過去15分の間に4が一つでも存在したら購買しない
                 if rs == 0:
                     if not settings.use_specific_limit:
                         limit = sig3_2
@@ -269,7 +270,7 @@ class BuySellCal():
                         self.order.stopLossLong = str(long_limit)
                         self.text += 'long in by ma<br>'
                         self.order.trend_id = 1
-                        self.order.LongOrderCreate()
+                        # self.order.LongOrderCreate()
                     else:
                         # print('long in　but position is too many')
                         self.text += 'long in by ma trend idが4なので様子見です<br>'
@@ -277,7 +278,6 @@ class BuySellCal():
                 else:
                     self.text += '<p style="color=red">最近4がありました</p><br>'
 
-                # 過去15分の間に1が一つでも存在したら購買しない
             elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
                 rs = conditionOfSlope_M5.objects.filter(
                     slope_comp6_24_72=1).filter(
@@ -287,6 +287,7 @@ class BuySellCal():
                 if not settings.use_specific_limit:
                     limit = sig3_2
 
+                # 過去15分の間に1が一つでも存在したら購買しない
                 if rs == 0:
                     if trend_id != 4:
                         self.order.isInByMa = True
@@ -295,7 +296,7 @@ class BuySellCal():
                         self.order.stopLossShort = str(short_limit)
                         self.text += 'short in by ma<br>'
                         self.order.trend_id = 2
-                        self.order.ShortOrderCreate()
+                        # self.order.ShortOrderCreate()
                     else:
                         # print('short in　but position is too many')
                         self.text += 'short in by ma trend idが4なので様子見です<br>'
