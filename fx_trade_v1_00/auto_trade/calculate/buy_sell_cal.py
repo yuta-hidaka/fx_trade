@@ -254,7 +254,7 @@ class BuySellCal():
                 sTime = now - adjTime
                 rs = conditionOfSlope_M5.objects.filter(
                     slope_comp6_24_72=4).filter(
-                    created_at__range=(sTime, now)).count()
+                    created_at__range=(sTime, now)).order_by('-id').count()
                 self.text += str(rs)+'この4がありました※※※※※※※※※※※※※※※※<br>'
                 pass
             except Exception as e:
@@ -268,7 +268,7 @@ class BuySellCal():
                 sTime = now - adjTime
                 rs = conditionOfSlope_M5.objects.filter(
                     slope_comp6_24_72=1).filter(
-                    created_at__range=(sTime, now)).count()
+                    created_at__range=(sTime, now)).order_by('-id').count()
                 self.text += str(rs)+'この1がありました※※※※※※※※※※※※※※※※<br>'
                 pass
             except Exception as e:
