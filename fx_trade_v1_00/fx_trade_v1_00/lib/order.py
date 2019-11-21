@@ -343,7 +343,7 @@ class orderFx:
     def ShortOrderCreate(self):
         self.text += 'ShortOrderCreate<br>'
         if self.nowIn:
-            self.text += 'すでに購買済み<br>'
+            self.text += 'short すでに購買済み<br>'
             return
         if self.inByMaCheck():
             self.text += 'MA購入から指定時間たってない<br>'
@@ -381,6 +381,7 @@ class orderFx:
 
                     # maでの購買であれば時間を記録
                     if self.isInByMa:
+                        self.text += 'short maでの購入です<br>'
                         self.tlog.ma_in_at = now
 
                     self.tlog.short_in_time = now
@@ -444,6 +445,7 @@ class orderFx:
 
                     # maでの購買であれば時間を記録
                     if self.isInByMa:
+                        self.text += 'long maでの購入です<br>'
                         self.tlog.ma_in_at = now
 
                     self.tlog.long_in_time = now

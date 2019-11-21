@@ -284,10 +284,10 @@ class BuySellCal():
                     limit = sig3_2
                 
                 if trend_id != 4:
+                    self.isInByMa = True
                     long_limit = (nowCndl_close - (nowCndl_close * (limit))).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                     self.order.stopLossLong = str(long_limit)
                     self.text += "long in by ma<br>"
-                    self.isInByMa = True
                     self.order.LongOrderCreate()
                 else:
                     # print("long in　but position is too many")
@@ -299,10 +299,10 @@ class BuySellCal():
                     limit = sig3_2
 
                 if trend_id != 4:
+                    self.isInByMa = True
                     short_limit = (nowCndl_close + (nowCndl_close * (limit))).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                     self.order.stopLossShort = str(short_limit)
                     self.text += "short in by ma<br>"
-                    self.isInByMa = True
                     self.order.ShortOrderCreate()
                 else:
                     # print("short in　but position is too many")
