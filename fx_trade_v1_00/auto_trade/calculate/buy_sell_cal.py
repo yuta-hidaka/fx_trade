@@ -275,7 +275,7 @@ class BuySellCal():
                         self.text += 'long in by ma trend idが4なので様子見です<br>'
                         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
                 else:
-                    self.text += '<p style="color=red">最近4がありました</p><br>'
+                    self.text += '<p style="color=red;">最近4がありました</p>'
 
             elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
                 rs = conditionOfSlope_M5.objects.filter(
@@ -301,7 +301,7 @@ class BuySellCal():
                         self.text += 'short in by ma trend idが4なので様子見です<br>'
                         # long closeのタイミング if MA is 2 it have to close
                 else:
-                    self.text += '<p style="color=red">最近1がありました</p><br>'
+                    self.text += '<p style="color=red;">最近1がありました</p>'
 
             else:
                 self.text += '購買----様子見中 MAでの購買判定<br>'
