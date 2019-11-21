@@ -489,15 +489,19 @@ class BuySellCal():
                 #          = True
 
             if trend_id == 3:
+                self.text += '持ち合い相場<br>'
+                self.text += 'self.order.tlog.trend_id ' + \
+                    str(self.order.tlog.trend_id)+'<br>'
                 if not is_expansion:
                     if is_shortClose:
-                        self.text += 'sigma1 によるshortClose<br>'
-                        self.order.oderCloseAllShort()
+                        if self.order.tlog.trend_id == 3:
+                            self.text += 'sigma1 によるshortClose<br>'
+                            self.order.oderCloseAllShort()
 
                     elif is_longClose:
-                        self.text += 'sigma1 によるlongClose<br>'
-                        self.order.oderCloseAllLong()
-                    self.text += '持ち合い相場<br>'
+                        if self.order.tlog.trend_id == 3:
+                            self.text += 'sigma1 によるlongClose<br>'
+                            self.order.oderCloseAllLong()
 
                     if is_topTouch:
                         self.text += '持ち合い相場の逆張りshort_inーー同時にlong決済も行う<br>'
