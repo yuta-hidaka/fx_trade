@@ -43,6 +43,13 @@ class BuySellCal():
         is_topTouch = cbb['is_topTouch']
         is_bottomTouch = cbb['is_bottomTouch']
         cv = bb['cv'] * Decimal(1000000)
+        # 上位足のσ2をma購買リミットにする
+        sig3_2 = bb['abs_sigma_3_2']
+
+        # 持ち合い時には下位足の標準偏差のσ2を使用する
+        sig2 = bb['abs_sigma_2']
+
+
         self.text += 'cv  ' + str(cv) + '<br>'
         is_peak = cbb['is_peak']
         is_shortClose = cbb['is_shortClose']
@@ -56,10 +63,12 @@ class BuySellCal():
         is_expansionByNumPrev = cbbPrev['is_expansionByNum']
         is_topTouchPrev = cbbPrev['is_topTouch']
         is_bottomTouchPrev = cbbPrev['is_bottomTouch']
+
+
         if settings.use_specific_limit:
             limit = settings.limit
         else:
-            limit = bb['cv'] * 4
+            limit = sig2
 
         long_in_by_ma = False
         short_in_by_ma = False
@@ -271,6 +280,9 @@ class BuySellCal():
             #     self.text += '購買----様子見中 MAでの購買判定<br>'
 
             if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
+                if not settings.use_specific_limit:
+                    limit = sig3_2
+                
                 if trend_id != 4:
                     long_limit = (nowCndl_close - (nowCndl_close * (limit))).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                     self.order.stopLossLong = str(long_limit)
@@ -283,6 +295,9 @@ class BuySellCal():
                     # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
 
             elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
+                if not settings.use_specific_limit:
+                    limit = sig3_2
+
                 if trend_id != 4:
                     short_limit = (nowCndl_close + (nowCndl_close * (limit))).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                     self.order.stopLossShort = str(short_limit)
