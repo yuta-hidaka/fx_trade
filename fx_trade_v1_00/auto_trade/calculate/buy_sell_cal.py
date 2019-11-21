@@ -45,11 +45,9 @@ class BuySellCal():
         cv = bb['cv'] * Decimal(1000000)
         # 上位足のσ2をma購買リミットにする
         sig3_2 = bb['abs_sigma_3_2']
-
         # 持ち合い時には下位足の標準偏差のσ2を使用する
-        sig2 = bb['abs_sigma_2']
+        sig2_2 = bb['abs_sigma_2_2']
         sma_2 = bb['sma_2']
-        sma = bb['sma']
 
         nowCndl = getNowRate.get_now()
         # nowCndl = getNowRate.get_5M_1()
@@ -80,9 +78,9 @@ class BuySellCal():
             long_limit = (c - (c*limit)).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
             short_limit = (c + (c*limit)).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
         else:
-            limit = sig2
-            long_limit = (sma -  limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            short_limit = (sma + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            limit = sig2_2
+            long_limit = (sma_2 -  limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            short_limit = (sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         long_in_by_ma = False
         short_in_by_ma = False
