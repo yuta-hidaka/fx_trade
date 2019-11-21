@@ -48,6 +48,8 @@ class BuySellCal():
 
         # 持ち合い時には下位足の標準偏差のσ2を使用する
         sig2 = bb['abs_sigma_2']
+        sma_2 = bb['sma_2']
+        sma = bb['sma']
 
 
         self.text += 'cv  ' + str(cv) + '<br>'
@@ -109,11 +111,9 @@ class BuySellCal():
             # short_limit = (bb['sma'] + bb['abs_sigma_3']
             #                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            long_limit = (nowCndl_close - (nowCndl_close * limit)
-                          ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            long_limit = (sma - (sma * limit)).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            short_limit = (nowCndl_close + (nowCndl_close * limit)
-                           ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            short_limit = (sma + (sma * limit)).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             # lDeff = np.abs(long_in - long_limit)
             # if lDeff < 0.1:
@@ -282,7 +282,7 @@ class BuySellCal():
                 
                 if trend_id != 4:
                     self.isInByMa = True
-                    long_limit = (nowCndl_close - (nowCndl_close * (limit))).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                    long_limit = (sma_2 - (sma_2 * (limit))).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                     self.order.stopLossLong = str(long_limit)
                     self.text += "long in by ma<br>"
                     self.order.LongOrderCreate()
@@ -297,7 +297,7 @@ class BuySellCal():
 
                 if trend_id != 4:
                     self.isInByMa = True
-                    short_limit = (nowCndl_close + (nowCndl_close * (limit))).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                    short_limit = (sma_2 + (sma_2 * (limit))).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                     self.order.stopLossShort = str(short_limit)
                     self.text += "short in by ma<br>"
                     self.order.ShortOrderCreate()
@@ -484,7 +484,6 @@ class BuySellCal():
                 #         self.text += 'エクスパンション終了で下タッチなのでlongIn<br>'
                 #         self.order.LongOrderCreate()
                 #          = True
-
                 #     elif is_topTouch or is_topTouchPrev:
                 #         self.text += 'エクスパンション終了で上タッチなのでshortIn<br>'
                 #         self.order.ShortOrderCreate()
