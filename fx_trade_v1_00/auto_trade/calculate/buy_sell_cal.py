@@ -492,16 +492,17 @@ class BuySellCal():
 
             if trend_id == 3:
                 self.text += '持ち合い相場<br>'
-                self.text += 'self.tlog.condition_id ' + \
-                    str(self.tlog.condition_id)+'<br>'
+                tlogCondiId = self.order.tlog.condition_id
+                self.text += 'self.order.tlog.condition_id ' + \
+                    str(tlogCondiId)+'<br>'
                 if not is_expansion:
                     if is_shortClose:
-                        if self.tlog.condition_id == 3:
+                        if tlogCondiId == 3:
                             self.text += 'sigma1 によるshortClose<br>'
                             self.order.oderCloseAllShort()
 
                     elif is_longClose:
-                        if self.tlog.condition_id == 3:
+                        if tlogCondiId == 3:
                             self.text += 'sigma1 によるlongClose<br>'
                             self.order.oderCloseAllLong()
 
