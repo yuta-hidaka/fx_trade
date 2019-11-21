@@ -67,7 +67,7 @@ class setCondition:
         # ma_comp6_24_72
         resultComp4 = comp.comp3MA(vals[1], vals[6], vals[10])
         # ma_comp6_24_72
-        resultComp5 = comp.comp3MA(m5_1, vals[1], vals[6])
+        resultComp5 = comp.comp3MA(vals[0], vals[1], vals[6])
         # ma_comp24_74_288
         resultComp6 = comp.comp3MA(vals[7], vals[14], vals[17])
 

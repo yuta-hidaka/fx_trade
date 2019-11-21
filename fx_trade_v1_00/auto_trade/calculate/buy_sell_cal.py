@@ -213,9 +213,6 @@ class BuySellCal():
             self.order.unitsShort = str(units*-1)
             # 前回までトレンドで今が持ち合い相場であればいったん決済する。
 
-
-
-
             try:
                 # print(condNow.condition_of_bb.bb_trande)
 

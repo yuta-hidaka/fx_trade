@@ -34,33 +34,33 @@ class compaireMA():
         else:
             return 4
 
-    def comp3MA(self, short, middle, long):
-        if short > middle > long:
+    def comp3MA(self, s, m, l):
+        if s >= m >= l:
             # - 短期>中期>長期
             # print('stage1')
             return 1
 
-        elif middle > short > long:
+        elif m >= s >= l:
             # - 中期>短期>長期
             # print('stage2')
             return 2
 
-        elif middle > long > short:
+        elif m >= l >= s:
             # - 中期>長期>短期
             # print('stage3')
             return 3
 
-        elif long > middle > short:
+        elif l >= m >= s:
             # - 長期>中期>短期
             # print('stage1')
             return 4
 
-        elif long > short > middle:
+        elif l >= s >= m:
             # - 長期>短期>中期
             # print('stage1')
             return 5
 
-        elif short > long > middle:
+        elif s >= l >= m:
             # - 短期>長期>中期
             # print('stage6')
             return 6
