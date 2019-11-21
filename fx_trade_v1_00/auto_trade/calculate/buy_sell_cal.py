@@ -247,8 +247,7 @@ class BuySellCal():
 
                 # --------------------------------------------------------------------------------------------------------------------
             self.text += 'トレンドID　' + str(trend_id) + '<br>'
-            maPrev = 3
-            maNow = 4
+
             now = timezone.now()
             adjTime = datetime.timedelta(minutes=15)
             sTime = now - adjTime
