@@ -183,6 +183,7 @@ class orderFx:
         return s_over, l_over
 
     def lossCutReverse(self):
+        self.text += '<br>-------------------------loss cut reverse-------------------------<'
         self.isReverse = True
         flg = False
         checkRange = [3, 5]
@@ -208,15 +209,21 @@ class orderFx:
             except:
                 osNum = 0
 
+            self.text += '<br>olNum'+str(olNum)+'<br>'
+            self.text += '<br>self.tlog.long_count' + \
+                str(self.tlog.long_count)+'<br>'
+
+            self.text += '<br>osNum'+str(osNum)+'<br>'
+            self.text += '<br>self.tlog.short_count' + \
+                str(self.tlog.short_count)+'<br>'
+
             # 記録されている情報と現在のポジションを比較する。差があれば損切りされているので、処理を一回休む。
-            self.text += '<br>-------------------------loss cut reverse-------------------------<'
             if self.tlog.long_count != olNum and not lo:
                 self.text += '<br>ロング損切されている　position　入れ替え<br>'
                 flg = self.ShortOrderCreate()
 
             if self.tlog.short_count != osNum and not so:
                 self.text += '<br><ショート損切りされている position 入れ替え<br>'
-
                 flg = self.LongOrderCreate()
 
             self.tlog.short_count = self.orderShortNum

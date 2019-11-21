@@ -311,8 +311,8 @@ class BuySellCal():
                 self.text += '購買----様子見中 MAでの購買判定<br>'
 
 
-            # if self.order.lossCutReverse():
-            #     self.text += "lossCutReverseで購入<br>"
+            if self.order.lossCutReverse():
+                self.text += "lossCutReverseで購入<br>"
 
 
     # --------------------------------------------------------------------------
