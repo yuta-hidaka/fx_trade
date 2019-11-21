@@ -209,11 +209,11 @@ class orderFx:
             except:
                 osNum = 0
 
-            self.text += '<br>olNum'+str(olNum)+'<br>'
+            self.text += '<br>olNum'+str(olNum)+''
             self.text += '<br>self.tlog.long_count' + \
                 str(self.tlog.long_count)+'<br>'
 
-            self.text += '<br>osNum'+str(osNum)+'<br>'
+            self.text += '<br>osNum'+str(osNum)+''
             self.text += '<br>self.tlog.short_count' + \
                 str(self.tlog.short_count)+'<br>'
 
