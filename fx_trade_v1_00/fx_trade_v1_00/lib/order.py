@@ -123,7 +123,7 @@ class orderFx:
 
         adjTime = datetime.timedelta(minutes=waitTime * 2)
         if self.isReverse:
-            self.text += '-------------------------リバース処理-------------------------<br>'
+            self.text += '----リバース処理なのinmacheck行いません----<br>'
             return
         if self.tlog.ma_in_at is None:
             self.tlog.ma_in_at = now - adjTime

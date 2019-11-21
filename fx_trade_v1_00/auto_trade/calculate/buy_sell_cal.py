@@ -213,10 +213,7 @@ class BuySellCal():
             # 前回までトレンドで今が持ち合い相場であればいったん決済する。
 
 
-                # エクスパンションしているか
-                # if is_expansion:
-            if self.order.lossCutReverse():
-                self.text += "lossCutReverseで購入<br>"
+
 
             try:
                 # print(condNow.condition_of_bb.bb_trande)
@@ -311,6 +308,11 @@ class BuySellCal():
             else:
                 # print('購買----様子見中')
                 self.text += '購買----様子見中 MAでの購買判定<br>'
+
+
+            if self.order.lossCutReverse():
+                self.text += "lossCutReverseで購入<br>"
+
 
     # --------------------------------------------------------------------------
             if trend_id == 1 or trend_id == 2 or trend_id == 4 and not is_peak:
@@ -490,16 +492,16 @@ class BuySellCal():
 
             if trend_id == 3:
                 self.text += '持ち合い相場<br>'
-                self.text += 'self.order.tlog.trend_id ' + \
-                    str(self.order.tlog.trend_id)+'<br>'
+                self.text += 'self.tlog.condition_id ' + \
+                    str(self.tlog.condition_id)+'<br>'
                 if not is_expansion:
                     if is_shortClose:
-                        if self.order.tlog.trend_id == 3:
+                        if self.tlog.condition_id == 3:
                             self.text += 'sigma1 によるshortClose<br>'
                             self.order.oderCloseAllShort()
 
                     elif is_longClose:
-                        if self.order.tlog.trend_id == 3:
+                        if self.tlog.condition_id == 3:
                             self.text += 'sigma1 によるlongClose<br>'
                             self.order.oderCloseAllLong()
 
