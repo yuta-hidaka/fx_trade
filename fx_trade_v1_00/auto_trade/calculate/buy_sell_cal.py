@@ -51,6 +51,13 @@ class BuySellCal():
         sma_2 = bb['sma_2']
         sma = bb['sma']
 
+        nowCndl = getNowRate.get_now()
+        # nowCndl = getNowRate.get_5M_1()
+
+        # 現在の為替情報とその5分10分前の為替の終値を取得する。
+        nowCndl_close = Decimal(nowCndl['candles'][0]['mid']['c'])
+        M5_1_closeNow = model_to_dict(condNow.ma.m5)['close']
+        M5_1_closePrev = model_to_dict(condiPrev.ma.m5)['close']
 
         self.text += 'cv  ' + str(cv) + '<br>'
         is_peak = cbb['is_peak']
@@ -69,8 +76,13 @@ class BuySellCal():
 
         if settings.use_specific_limit:
             limit = settings.limit
+            c = nowCndl_close
+            long_limit = (c - (c*limit)).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            short_limit = (c + (c*limit)).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
         else:
             limit = sig2
+            long_limit = (sma -  limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            short_limit = (sma + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         long_in_by_ma = False
         short_in_by_ma = False
@@ -85,13 +97,6 @@ class BuySellCal():
             units = 1
             pass
 
-        nowCndl = getNowRate.get_now()
-        # nowCndl = getNowRate.get_5M_1()
-
-        # 現在の為替情報とその5分10分前の為替の終値を取得する。
-        nowCndl_close = Decimal(nowCndl['candles'][0]['mid']['c'])
-        M5_1_closeNow = model_to_dict(condNow.ma.m5)['close']
-        M5_1_closePrev = model_to_dict(condiPrev.ma.m5)['close']
 
         # 市場が閉じていたら計算等は行わない,変化率が乏しい時もトレードしない
         if not len(nowCndl['candles']) == 0:
@@ -111,9 +116,7 @@ class BuySellCal():
             # short_limit = (bb['sma'] + bb['abs_sigma_3']
             #                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            long_limit = (sma - (sma * limit)).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            short_limit = (sma + (sma * limit)).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             # lDeff = np.abs(long_in - long_limit)
             # if lDeff < 0.1:
@@ -282,7 +285,7 @@ class BuySellCal():
                 
                 if trend_id != 4:
                     self.isInByMa = True
-                    long_limit = (sma_2 - (sma_2 * (limit))).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                    long_limit = (sma_2 - limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                     self.order.stopLossLong = str(long_limit)
                     self.text += "long in by ma<br>"
                     self.order.LongOrderCreate()
@@ -297,7 +300,7 @@ class BuySellCal():
 
                 if trend_id != 4:
                     self.isInByMa = True
-                    short_limit = (sma_2 + (sma_2 * (limit))).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                    short_limit = (sma_2+ limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                     self.order.stopLossShort = str(short_limit)
                     self.text += "short in by ma<br>"
                     self.order.ShortOrderCreate()
