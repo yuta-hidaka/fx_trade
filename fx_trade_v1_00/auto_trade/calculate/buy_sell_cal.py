@@ -1,4 +1,4 @@
-from ..models import MA_USD_JPY, orderStatus, batchLog, tradeSettings
+from ..models import MA_USD_JPY, orderStatus, batchLog, tradeSettings, conditionOfSlope_M5
 from django.forms.models import model_to_dict
 from ..service.get_MA_USD_JPY import getMA_USD_JPY
 import oandapyV20.endpoints.accounts as accounts
@@ -8,6 +8,9 @@ from fx_trade_v1_00.lib.order import orderFx
 import json
 from decimal import *
 import numpy as np
+
+from django.utils import timezone
+import datetime
 
 # MAを比較する
 # 5分足 5本、20本、75本で比較する。
@@ -27,7 +30,6 @@ class BuySellCal():
 
         # トレンド発生中はMAを指標に売買を行うが、もみ合い相場中はボリンジャーバンドを指標に売買を行う。
 
-        # # print(json.dumps(pos),  indent=2)
         settings = self.settings
         getNowRate = getMA_USD_JPY()
 
@@ -71,16 +73,19 @@ class BuySellCal():
         is_topTouchPrev = cbbPrev['is_topTouch']
         is_bottomTouchPrev = cbbPrev['is_bottomTouch']
 
-
         if settings.use_specific_limit:
             limit = settings.limit
             c = nowCndl_close
-            long_limit = (c - (c*limit)).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            short_limit = (c + (c*limit)).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            long_limit = (c - (c*limit)).quantize(Decimal('0.001'),
+                                                  rounding=ROUND_HALF_UP)
+            short_limit = (
+                c + (c*limit)).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
         else:
             limit = sig2_2
-            long_limit = (sma_2 -  limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            short_limit = (sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            long_limit = (sma_2 - limit).quantize(Decimal('0.001'),
+                                                  rounding=ROUND_HALF_UP)
+            short_limit = (
+                sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         long_in_by_ma = False
         short_in_by_ma = False
@@ -94,7 +99,6 @@ class BuySellCal():
             self.text += '予期しないロット数が入っています'
             units = 1
             pass
-
 
         # 市場が閉じていたら計算等は行わない,変化率が乏しい時もトレードしない
         if not len(nowCndl['candles']) == 0:
@@ -113,8 +117,6 @@ class BuySellCal():
 
             # short_limit = (bb['sma'] + bb['abs_sigma_3']
             #                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-
-
 
             # lDeff = np.abs(long_in - long_limit)
             # if lDeff < 0.1:
@@ -246,13 +248,30 @@ class BuySellCal():
                 # --------------------------------------------------------------------------------------------------------------------
             self.text += 'トレンドID　' + str(trend_id) + '<br>'
 
+            try:
+                now = timezone.now()
+                adjTime = datetime.timedelta(minutes=15)
+                sTime = now - adjTime
+
+                rs = conditionOfSlope_M5.objects.filter(
+                    slope_comp6_24_72=4).filter(
+                    created_at__range=(sTime, now)).count()
+                self.text += str(rs)+'この4がありました<br>'
+                pass
+            except Exception as e:
+                self.text += str(
+                    e)+'<br>※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※<br>'
+                pass
             if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
+
+                # 過去15分の間に4が一つでも存在したら購買しない
                 if not settings.use_specific_limit:
                     limit = sig3_2
-                
+
                 if trend_id != 4:
                     self.order.isInByMa = True
-                    long_limit = (sma_2 - limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                    long_limit = (
+                        sma_2 - limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                     self.order.stopLossLong = str(long_limit)
                     self.text += "long in by ma<br>"
                     self.order.trend_id = 1
@@ -262,13 +281,15 @@ class BuySellCal():
                     self.text += "long in by ma trend idが4なので様子見です<br>"
                     # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
 
+                # 過去15分の間に1が一つでも存在したら購買しない
             elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
                 if not settings.use_specific_limit:
                     limit = sig3_2
 
                 if trend_id != 4:
                     self.order.isInByMa = True
-                    short_limit = (sma_2+ limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                    short_limit = (
+                        sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                     self.order.stopLossShort = str(short_limit)
                     self.text += "short in by ma<br>"
                     self.order.trend_id = 2
@@ -280,10 +301,8 @@ class BuySellCal():
             else:
                 self.text += '購買----様子見中 MAでの購買判定<br>'
 
-
             if self.order.lossCutReverse():
                 self.text += "lossCutReverseで購入<br>"
-
 
     # --------------------------------------------------------------------------
             if trend_id == 1 or trend_id == 2 or trend_id == 4 and not is_peak:
@@ -396,7 +415,7 @@ class BuySellCal():
                 else:
                     self.text += 'エクスパンション中<br>'
             else:
-                 self.text += 'サイン出てない<br>'
+                self.text += 'サイン出てない<br>'
                 # --------------------------------------------------------------------------
             # # self.order.ShortOrderCreate()
             # checkRange = [3, 5]

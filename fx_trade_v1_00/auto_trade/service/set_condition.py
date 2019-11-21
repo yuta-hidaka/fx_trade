@@ -60,15 +60,15 @@ class setCondition:
         m5_1 = Decimal(model_to_dict(create.m5)['close'])
         # ma_comp5_20_75
         resultComp1 = comp.comp3MA(vals[0], vals[5], vals[13])
-        # ma_comp6_24_72
+        # ma_comp5_20_40
         resultComp2 = comp.comp3MA(vals[1], vals[6], vals[12])
         # ma_comp6_24_72
         resultComp3 = comp.comp3MA(vals[0], vals[5], vals[9])
-        # ma_comp6_24_72
+        # ma_comp6_24_50
         resultComp4 = comp.comp3MA(vals[1], vals[6], vals[10])
-        # ma_comp6_24_72
-        resultComp5 = comp.comp3MA(vals[0], vals[1], vals[6])
-        # ma_comp24_74_288
+        # ma_comp1_6_24
+        resultComp5 = comp.comp3MA(m5_1, vals[1], vals[6])
+        # ma_comp24_75_288
         resultComp6 = comp.comp3MA(vals[7], vals[14], vals[17])
 
         # 状態に関連するobject取得
