@@ -383,12 +383,11 @@ class orderFx:
                     now = timezone.now()
                     r = orders.OrderCreate(self.fi.accountID, data=self.data)
                     res = api.request(r)
-                    self.text += json.dumps(res, indent=2)
                     flg = True
 
                     # maでの購買であれば時間を記録
                     if self.isInByMa:
-                        self.text += 'short maでの購入です<br>'
+                        self.text += '<br>short maでの購入です<br>'
                         self.tlog.ma_in_at = now
 
                     self.tlog.short_in_time = now
@@ -396,6 +395,8 @@ class orderFx:
                     # 購買時のトレンドを記憶
                     self.tlog.condition_id = self.trend_id
                     self.tlog.save()
+
+                    self.text += json.dumps(res,  indent='<br>')
                     pass
                 except:
                     self.text += '購買エラー<br>'
@@ -448,11 +449,10 @@ class orderFx:
                     now = timezone.now()
                     r = orders.OrderCreate(self.fi.accountID, data=self.data)
                     res = api.request(r)
-                    self.text += json.dumps(res, indent=2)
 
                     # maでの購買であれば時間を記録
                     if self.isInByMa:
-                        self.text += 'long maでの購入です<br>'
+                        self.text += '<br>long maでの購入です<br>'
                         self.tlog.ma_in_at = now
 
                     self.tlog.long_in_time = now
@@ -461,6 +461,7 @@ class orderFx:
                     self.tlog.condition_id = self.trend_id
                     self.tlog.save()
                     flg = True
+                    self.text += json.dumps(res, indent='<br>')
                     pass
                 except:
                     self.text += '購買エラー<br>'
