@@ -464,12 +464,12 @@ class BuySellCal():
                 elif not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
                     self.text += 'エクスパンションbyNum or Std<br>'
                     if is_topTouch:
-                        self.text += 'エクスパンションorだましで上タッチのLongIn<br>'
-                        self.order.LongOrderCreate()
+                        self.text += 'エクスパンションorだましで上タッチのLongIn　休止中<br>'
+                        # self.order.LongOrderCreate()
 
                     elif is_bottomTouch:
-                        self.text += 'エクスパンションorだましで上タッチなのでshortIn<br>'
-                        self.order.ShortOrderCreate()
+                        self.text += 'エクスパンションorだましで上タッチなのでshortIn　休止中<br>'
+                        # self.order.ShortOrderCreate()
                         self.text += 'ShortIn<br>'
 
                     else:
@@ -488,37 +488,39 @@ class BuySellCal():
                 #         self.order.ShortOrderCreate()
                 #          = True
 
-            if trend_id == 3 and not is_expansion:
-                if is_shortClose:
-                    self.text += 'sigma1 によるshortClose<br>'
-                    self.order.oderCloseAllShort()
+            if trend_id == 3:
+                if not is_expansion:
+                    if is_shortClose:
+                        self.text += 'sigma1 によるshortClose<br>'
+                        self.order.oderCloseAllShort()
 
-                elif is_longClose:
-                    self.text += 'sigma1 によるlongClose<br>'
-                    self.order.oderCloseAllLong()
-                self.text += '持ち合い相場<br>'
+                    elif is_longClose:
+                        self.text += 'sigma1 によるlongClose<br>'
+                        self.order.oderCloseAllLong()
+                    self.text += '持ち合い相場<br>'
 
-                if is_topTouch:
-                    self.text += '持ち合い相場の逆張りshort_inーー同時にlong決済も行う<br>'
-                    self.order.ShortOrderCreate()
-                    # print('注文リミット')
-                elif is_bottomTouch:
-                    # print('持ち合い相場の逆張りlong_in--同時にshort決済も行う。')
-                    self.text += '持ち合い相場の逆張りlong_in--同時にshort決済も行う。<br>'
-                    self.order.LongOrderCreate()
+                    if is_topTouch:
+                        self.text += '持ち合い相場の逆張りshort_inーー同時にlong決済も行う<br>'
+                        self.order.ShortOrderCreate()
+                        # print('注文リミット')
+                    elif is_bottomTouch:
+                        # print('持ち合い相場の逆張りlong_in--同時にshort決済も行う。')
+                        self.text += '持ち合い相場の逆張りlong_in--同時にshort決済も行う。<br>'
+                        self.order.LongOrderCreate()
+
+                    else:
+                        # print('BB持ち合い時の購買サイン出ていない')
+                        self.text += 'BB持ち合い時の購買サイン出ていない<br>'
+
+                        # それ以外
+                elif trend_id == 4:
+                    # print('サイン出てない')
+                    self.text += 'サイン出てない 傾きが0なので様子見中<br>'
 
                 else:
-                    # print('BB持ち合い時の購買サイン出ていない')
-                    self.text += 'BB持ち合い時の購買サイン出ていない<br>'
-
-                    # それ以外
-            elif trend_id == 4:
-                # print('サイン出てない')
-                self.text += 'サイン出てない 傾きが0なので様子見中<br>'
-
+                    self.text += 'エクスパンション中<br>'
             else:
-                self.text += 'サイン出てない<br>'
-
+                 self.text += 'サイン出てない<br>'
                 # --------------------------------------------------------------------------
             # # self.order.ShortOrderCreate()
             # checkRange = [3, 5]
