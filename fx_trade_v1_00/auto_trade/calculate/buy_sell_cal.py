@@ -252,16 +252,30 @@ class BuySellCal():
                 now = timezone.now()
                 adjTime = datetime.timedelta(minutes=15)
                 sTime = now - adjTime
-
                 rs = conditionOfSlope_M5.objects.filter(
                     slope_comp6_24_72=4).filter(
                     created_at__range=(sTime, now)).count()
-                self.text += str(rs)+'この4がありました<br>'
+                self.text += str(rs)+'この4がありました※※※※※※※※※※※※※※※※<br>'
                 pass
             except Exception as e:
                 self.text += str(
                     e)+'<br>※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※<br>'
                 pass
+
+            try:
+                now = timezone.now()
+                adjTime = datetime.timedelta(minutes=15)
+                sTime = now - adjTime
+                rs = conditionOfSlope_M5.objects.filter(
+                    slope_comp6_24_72=1).filter(
+                    created_at__range=(sTime, now)).count()
+                self.text += str(rs)+'この1がありました※※※※※※※※※※※※※※※※<br>'
+                pass
+            except Exception as e:
+                self.text += str(
+                    e)+'<br>※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※<br>'
+                pass
+
             if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
 
                 # 過去15分の間に4が一つでも存在したら購買しない
