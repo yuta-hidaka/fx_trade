@@ -286,6 +286,7 @@ class BuySellCal():
                     long_limit = (sma_2 - limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                     self.order.stopLossLong = str(long_limit)
                     self.text += "long in by ma<br>"
+                    self.order.trend_id = 1
                     self.order.LongOrderCreate()
                 else:
                     # print("long in　but position is too many")
@@ -301,6 +302,7 @@ class BuySellCal():
                     short_limit = (sma_2+ limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                     self.order.stopLossShort = str(short_limit)
                     self.text += "short in by ma<br>"
+                    self.order.trend_id = 2
                     self.order.ShortOrderCreate()
                 else:
                     # print("short in　but position is too many")
