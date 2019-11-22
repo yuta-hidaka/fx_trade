@@ -269,7 +269,7 @@ class BuySellCal():
                         self.order.stopLossLong = str(long_limit)
                         self.text += 'long in by ma<br>'
                         self.order.trend_id = 1
-                        # self.order.LongOrderCreate()
+                        self.order.LongOrderCreate()
                     else:
                         # print('long in　but position is too many')
                         self.text += 'long in by ma trend idが4なので様子見です<br>'
@@ -295,7 +295,7 @@ class BuySellCal():
                         self.order.stopLossShort = str(short_limit)
                         self.text += 'short in by ma<br>'
                         self.order.trend_id = 2
-                        # self.order.ShortOrderCreate()
+                        self.order.ShortOrderCreate()
                     else:
                         # print('short in　but position is too many')
                         self.text += 'short in by ma trend idが4なので様子見です<br>'
