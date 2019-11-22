@@ -49,6 +49,7 @@ class BuySellCal():
         sig3_2 = bb['abs_sigma_3_2']
         # 持ち合い時には下位足の標準偏差のσ2を使用する
         sig2_2 = bb['abs_sigma_2_2']
+        sig1_2 = bb['abs_sigma_1_2']
         sma_2 = bb['sma_2']
 
         nowCndl = getNowRate.get_now()
@@ -81,7 +82,7 @@ class BuySellCal():
             short_limit = (
                 c + (c*limit)).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
         else:
-            limit = sig2_2
+            limit = sig1_2
             long_limit = (sma_2 - limit).quantize(Decimal('0.001'),
                                                   rounding=ROUND_HALF_UP)
             short_limit = (
@@ -115,32 +116,6 @@ class BuySellCal():
                 nowCndl_close - nowCndl_close*Decimal(0.00015)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-            # short_limit = (bb['sma'] + bb['abs_sigma_3']
-            #                ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-
-            # lDeff = np.abs(long_in - long_limit)
-            # if lDeff < 0.1:
-            #     long_limit = (nowCndl_close - Decimal(0.115)
-            #                   ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            #     self.text += 'longのlimitが小さいので修正<br>'
-            # elif lDeff > 0.115:
-            #     long_limit = (nowCndl_close - Decimal(0.115)
-            #                   ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            #     self.text += 'longのlimitが大きいので修正<br>'
-
-            # sDeff = np.abs(short_in - short_limit)
-            # if sDeff < 0.1:
-            #     short_limit = (nowCndl_close + Decimal(0.115)
-            #                    ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            #     self.text += 'shortのlimitが小さいので修正<br>'
-            # elif sDeff > 0.115:
-            #     short_limit = (nowCndl_close + Decimal(0.115)
-            #                    ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            #     self.text += 'shortのlimitが大きいので修正<br>'
-
-            # 購買タイミング----------------------------------------------------------------------------------
-            # longのタイミング all slope is positive and before MA is 6or1 and now 1
-
             # BBから計算したトレンド持ち合い相場だったら下のshortINを使用する。そうでなければMAを使用する。
             trend_id = model_to_dict(
                 condNow.condition_of_bb.bb_trande
@@ -151,29 +126,6 @@ class BuySellCal():
             )['id']
 
             self.order.trend_id = trend_id
-
-            # if not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
-            #     self.text += '確度が小さいのでlimit小さく<br>'
-            #     # 確度が小さいのでlimit小さく
-            #     long_limit = (nowCndl_close - ((nowCndl_close * limit/2))
-            #                   ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            #     short_limit = (nowCndl_close + ((nowCndl_close * limit/2))
-            #                    ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-
-            # self.text += 'longの入り値　' + str(long_in) + '<br>'
-            # self.text += 'longの損切　' + str(long_limit) + '<br>'
-            # self.text += 'longの差　' + str(long_in - long_limit) + '<br>'
-            # self.text += 'shortの入り値　' + str(short_in) + '<br>'
-            # self.text += 'shortの損切　' + str(short_limit) + '<br>'
-            # self.text += 'shortの差　' + str(short_in - short_limit) + '<br>'
-
-            # if self.order.lossCutCheck(False, False):
-            #      = True
-            #      = True
-            # (
-            #     # M5_1_close + M5_1_close*Decimal(0.0002)
-            #     M5_1_close + M5_1_close*Decimal(0.003)
-            # ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             # 購買判断材料-持ち合い形成時--------------------------------------
 
@@ -192,19 +144,6 @@ class BuySellCal():
             elif trend_id == 4:
                 # print('BB---持ち合い相場')
                 self.text += 'BB---トレンドだけど傾きが逆<br>'
-
-                # self.text += 'is_bottomTouch<br>'
-                # self.text += str(is_bottomTouch) + '<br>'
-                # self.text += 'is_topTouch<br>'
-                # self.text += str(is_topTouch) + '<br>'
-                # self.text += 'not is_expansion<br> '
-                # self.text += str(not is_expansion) + '<br>'
-                # self.text += 'is_expansion<br> '
-                # self.text += str(is_expansion) + '<br>'
-                # self.text += 'is_expansionByStd<br> '
-                # self.text += str(is_expansionByStd) + '<br>'
-                # self.text += 'is_expansionByNum<br> '
-                # self.text += str(is_expansionByNum) + '<br>'
 
             self.order.priceLong = str(long_in)
             self.order.stopLossLong = str(long_limit)
