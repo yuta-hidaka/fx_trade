@@ -220,6 +220,7 @@ class BuySellCal():
                 rs = conditionOfSlope_M5.objects.filter(
                     slope_comp6_24_72=1).filter(
                     created_at__range=(sTime, now)).order_by('-id').count()
+                self.text += 'short in by ma<br>'
                 self.text += str(rs)+'この1がありました※※※※※※※※※※※※※※※※<br>'
 
                 if not settings.use_specific_limit:
@@ -228,7 +229,6 @@ class BuySellCal():
                 # 過去15分の間に1が3以上存在したら購買しない
                 if rs < 3:
                     if trend_id != 4:
-                        self.text += 'short in by ma<br>'
                         self.order.isInByMa = True
                         short_limit = (
                             sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
@@ -241,7 +241,6 @@ class BuySellCal():
                         # long closeのタイミング if MA is 2 it have to close
                 else:
                     self.text += '<p style="color=red;">最近1が3つ以上ありました</p>'
-
             else:
                 self.text += '購買----様子見中 MAでの購買判定<br>'
 
