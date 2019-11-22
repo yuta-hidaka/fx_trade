@@ -196,9 +196,10 @@ class BuySellCal():
                     created_at__range=(sTime, now)).order_by('-id').count()
                 self.text += 'long in by ma<br>'
                 self.text += str(rs)+'この4がありました※※※※※※※※※※※※※※※※<br>'
+                self.text += str(rs)+str(trend_id)+'sinma<br>'
 
                 # 過去15分の間に4が3以上存在したら購買しない
-                if rs < 3:
+                if rs == 0 and trend_id == 2:
                     if not settings.use_specific_limit:
                         limit = sig3_2
 
@@ -214,7 +215,7 @@ class BuySellCal():
                         self.text += 'long in by ma trend idが4なので様子見です<br>'
                         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
                 else:
-                    self.text += '<p style="color=red;">最近4が3つ以上ありました</p>'
+                    self.text += '<p style="color=red;">最近4が1つ以上ありました or trendじゃない</p>'
 
             elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
                 rs = conditionOfSlope_M5.objects.filter(
@@ -222,12 +223,13 @@ class BuySellCal():
                     created_at__range=(sTime, now)).order_by('-id').count()
                 self.text += 'short in by ma<br>'
                 self.text += str(rs)+'この1がありました※※※※※※※※※※※※※※※※<br>'
+                self.text += str(rs)+str(trend_id)+'sinma<br>'
 
                 if not settings.use_specific_limit:
                     limit = sig3_2
 
                 # 過去15分の間に1が3以上存在したら購買しない
-                if rs < 3:
+                if rs == 0 and trend_id == 2:
                     if trend_id != 4:
                         self.order.isInByMa = True
                         short_limit = (
@@ -240,7 +242,7 @@ class BuySellCal():
                         self.text += 'short in by ma trend idが4なので様子見です<br>'
                         # long closeのタイミング if MA is 2 it have to close
                 else:
-                    self.text += '<p style="color=red;">最近1が3つ以上ありました</p>'
+                    self.text += '<p style="color=red;">最近1が1つ以上ありましたor trendじゃない</p>'
             else:
                 self.text += '購買----様子見中 MAでの購買判定<br>'
 
