@@ -245,8 +245,8 @@ class BuySellCal():
             else:
                 self.text += '購買----様子見中 MAでの購買判定<br>'
 
-            if self.order.lossCutReverse():
-                self.text += 'lossCutReverseで購入<br>'
+            # if self.order.lossCutReverse():
+            #     self.text += 'lossCutReverseで購入<br>'
 
     # --------------------------------------------------------------------------
             if trend_id == 1 or trend_id == 2 or trend_id == 4 and not is_peak:
