@@ -398,8 +398,9 @@ class orderFx:
 
                     self.text += json.dumps(res,  indent='<br>')
                     pass
-                except:
+                except Exception as e:
                     self.text += '購買エラー<br>'
+                    self.text += str(e)+'<br>'
                     pass
             else:
                 self.text += 'ShortOrderCreate行っていません<br>'
@@ -463,9 +464,9 @@ class orderFx:
                     flg = True
                     self.text += json.dumps(res, indent='<br>')
                     pass
-                except:
+                except Exception as e:
                     self.text += '購買エラー<br>'
-                    pass
+                    self.text += str(e)+'<br>'
             else:
                 self.text += 'LongOrderCreate行っていません<br>'
 
