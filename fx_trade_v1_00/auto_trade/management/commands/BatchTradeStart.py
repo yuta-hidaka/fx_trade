@@ -49,6 +49,11 @@ class Command(BaseCommand):
         order = orderFx()
         # バッチの実行状況を保存する。
         qSetBatch = batchRecord.objects.filter(id=1).first()
+        # 自動取引がOFFかONかを確認する。
+        qSetCheck = autoTradeOnOff.objects.filter(id=1).first()
+        checkOn = model_to_dict(qSetCheck)['auto_trade_is_on']
+
+
 
         dt_now = datetime.datetime.now(JST)
         text += '<p style="color:red;">一分足の取得<br>' + str(dt_now) + '</p><br>'
@@ -66,9 +71,6 @@ class Command(BaseCommand):
         if self.is_dst(UTC):
             adjNum = 6
 
-        # 自動取引がOFFかONかを確認する。
-        qSetCheck = autoTradeOnOff.objects.filter(id=1).first()
-        checkOn = model_to_dict(qSetCheck)['auto_trade_is_on']
         # 日本時間取得
         jstMath = UTC + datetime.timedelta(hours=adjTime)
         wk = jstMath.weekday()
