@@ -73,7 +73,7 @@ class setMA_USD_JPY:
 
         # 現在の最新MA一覧を取得する。
         try:
-            leatestData = MA_USD_JPY.objects.latest('created_at')
+            leatestData = specifcCandle.objects.latest('created_at')
             # print(FXdata)
         except ObjectDoesNotExist:
             is_first = True

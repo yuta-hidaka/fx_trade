@@ -64,11 +64,7 @@ class Command(BaseCommand):
         middleLeg = settings.middle_leg
         # 長期足
         longLeg = settings.long_leg
-        print(gran)
-        print(inst)
-        print(shortLeg)
-        print(middleLeg)
-        print(longLeg)
+
 
         dt_now = datetime.datetime.now(JST)
         text += '<p style="color:red;">一分足の取得<br>' + str(dt_now) + '</p><br>'
