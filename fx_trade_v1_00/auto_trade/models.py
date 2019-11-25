@@ -6,6 +6,18 @@ from django.utils import timezone
 
 
 class tradeSettings(models.Model):
+    # どの通貨ペアを使用するか
+    instruments = models.CharField(max_length=100, default='USD_JPY')
+    # どの足で取引するか
+    granularity = models.CharField(max_length=100, default='M1')
+    # 短期足の設定
+    short_leg = models.IntegerField(default=1)
+    # 中期足の設定
+    middle_leg = models.IntegerField(default=20)
+    # 長期足の設定
+    long_leg = models.IntegerField(default=50)
+
+
     on_unit_trade = models.BooleanField(null=True, default=False)
     on_real_trade = models.BooleanField(null=True, default=False)
     use_specific_limit = models.BooleanField(null=True, default=False)
@@ -66,6 +78,19 @@ class batchLog(models.Model):
 # 5分足
 
 
+class specifcCandle(models.Model):
+    open = models.DecimalField(max_digits=8, decimal_places=4, default=0.0000)
+    high = models.DecimalField(max_digits=8, decimal_places=4, default=0.0000)
+    low = models.DecimalField(max_digits=8, decimal_places=4, default=0.0000)
+    close = models.DecimalField(max_digits=8, decimal_places=4, default=0.0000)
+    recorded_at_utc = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'specifc_candle'
+
+
 class M5_USD_JPY(models.Model):
     open = models.DecimalField(max_digits=8, decimal_places=4, default=0.0000)
     high = models.DecimalField(max_digits=8, decimal_places=4, default=0.0000)
@@ -79,6 +104,54 @@ class M5_USD_JPY(models.Model):
     class Meta:
         db_table = 'M5_USD_JPY'
 
+
+# 平均移動線_可変用
+class MA_Specific(models.Model):
+    m = models.ForeignKey(
+        'specifcCandle', on_delete=models.CASCADE, related_name='m', null=True)
+    ma_short = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
+    ma_middle = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
+    ma_long = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)    
+
+    ema_short = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
+    ema_middle = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
+    ema_long = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000) 
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'MA_specific'
+
+
+# 平均移動線の傾き
+# プラスであれば傾きが大きくなっており、マイナスは縮小
+class SlopeMA_specific(models.Model):
+    ma_previous = models.ForeignKey(
+        'MA_Specific', on_delete=models.CASCADE, related_name='ma_previous', null=True)
+
+    ma_leatest = models.ForeignKey(
+        'MA_Specific', on_delete=models.CASCADE, related_name='ma_leatest', null=True)
+
+    slope_short_specific = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
+    slope_middle_specific = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
+    slope_long_specific = models.DecimalField(
+        max_digits=8, decimal_places=4, default=0.0000)
+
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'slope_MA_specific'
 
 # 平均移動線
 class MA_USD_JPY(models.Model):

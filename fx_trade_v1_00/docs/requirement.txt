@@ -1,0 +1,12 @@
+django == 2.1
+pymysql
+djangorestframework
+django-bootstrap4
+oandapyV20
+requests
+urllib3
+chardet
+certifi
+idna
+numpy
+six

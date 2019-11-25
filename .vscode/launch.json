@@ -4,12 +4,20 @@
     // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "compounds": [{
-        "name": "FX Trade Debug",
-        "configurations": [
-            "Python: Django",
-            "Launch Chrome"
-        ]
-    }],
+            "name": "FX Trade Debug",
+            "configurations": [
+                "Python: Django",
+                "Launch Chrome"
+            ]
+        },
+        {
+            "name": "migarate",
+            "configurations": [
+                "Django make_Migarete",
+                "Django Migarete"
+            ]
+        }
+    ],
     "configurations": [{
             "type": "chrome",
             "request": "attach",
@@ -29,6 +37,31 @@
                 "--settings=local_settings"
             ],
             "preLaunchTask": "build reactapp summary",
+            "django": true,
+
+        },
+        {
+            "name": "Django make_Migarete",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}\\fx_trade_v1_00\\manage.py",
+            "args": [
+                "migrate",
+                "--settings=local_settings"
+            ],
+            "django": true,
+        },
+        {
+            "name": "Django Migarete",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}\\fx_trade_v1_00\\manage.py",
+            "args": [
+                "makemigrations",
+                "--settings=local_settings",
+                "--noreload",
+                "--nothreading"
+            ],
             "django": true,
         },
         {

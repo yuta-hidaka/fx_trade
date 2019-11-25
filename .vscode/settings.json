@@ -1,16 +1,4 @@
 {
-    "python.pythonPath": "C:\\Users\\yuta3\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe",
-    "python.testing.unittestArgs": [
-        "-v",
-        "-s",
-        "./fx_trade_v1_00",
-        "-p",
-        "test*.py"
-    ],
-    "python.testing.pytestEnabled": false,
-    "python.testing.nosetestsEnabled": false,
-    "python.testing.unittestEnabled": false,
-    "git.ignoreLimitWarning": true,
-    "python.testing.promptToConfigure": false,
-    "python.envFile": "${workspaceFolder}/.env",
+    "python.pythonPath": "venv\\Scripts\\python.exe",
+    "git.ignoreLimitWarning": true
 }

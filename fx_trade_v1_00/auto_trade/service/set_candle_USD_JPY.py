@@ -1,18 +1,48 @@
 from .get_MA_USD_JPY import getMA_USD_JPY
 from ..models import M5_USD_JPY
-from ..rest.serializers.set_candle_serialize import SetCandleSerializer
+from ..rest.serializers.set_candle_serialize import SetCandleSerializer, SetSpecificCandleSerializer
 from datetime import datetime, timedelta, timezone
 import datetime
 
 
 class setCandle_USD_JPY:
+    def __init__(self):
+        self.gMA = getMA_USD_JPY()
 
-
-    def setM5(self):
-        gMA = getMA_USD_JPY()
+    def setSpecific(self, gran, num, inst):
+        gMA = self.gMA
         created = False
         # デバッグ用(休日でデータが拾えない時用)
         result = None
+
+        rs = gMA.get_specific(gran, num, inst)['candles']
+        # result = M5_USD_JPY.objects.first()
+        if rs:
+            # def get_specific(self, gran ,num,inst):
+            dictRs = rs[0]
+
+            dictRs['recorded_at_utc'] = dictRs.pop('time')
+            dictRs['close'] = dictRs['mid']['c']
+            dictRs['open'] = dictRs['mid']['o']
+            dictRs['high'] = dictRs['mid']['h']
+            dictRs['low'] = dictRs['mid']['l']
+
+            serial = SetSpecificCandleSerializer(data=dictRs)
+            if serial.is_valid():
+                result, created = serial.create(serial.validated_data)
+                # print('setCandle_USD:is_valid')
+            else:
+                print('setCandle_USD:is_not_valid')
+
+        return result, created
+
+
+    def setM5(self):
+        gMA = self.gMA
+        created = False
+        # デバッグ用(休日でデータが拾えない時用)
+        result = None
+        
         # result = M5_USD_JPY.objects.first()
         if gMA.get_5M_1()['candles']:
             dictM5 = gMA.get_5M_1()['candles'][0]
@@ -33,7 +63,7 @@ class setCandle_USD_JPY:
         return result, created
 
     def setM1(self):
-        gMA = getMA_USD_JPY()
+        gMA = self.gMA
         created = False
         # デバッグ用(休日でデータが拾えない時用)
         result = None

@@ -117,6 +117,23 @@ class getMA_USD_JPY():
 
         return res
 
+    def get_specific(self, gran ,num,inst):
+        parm = {
+            # "to": self.localTime_m1_to,
+            # "from": self.localTime_m1_from,
+            "instruments": str(inst),
+            "alignmentTimezone": "Japan",
+            "count": num + 1,
+            "granularity": str(gran)
+        }
+
+        res = self.get_MA(parm)
+
+        length = len(res['candles']) - 1
+        res['candles'].pop(length)
+
+        return res
+    
     def get_5M_1(self):
         parm = {
             "from": self.localTime,

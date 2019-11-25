@@ -1,0 +1,1 @@
+pip install --user --install-option="--install-purelib=C:\dev\fx_trade_v1.01\venv\Lib\site-packages" -r requirements.txt

@@ -1,4 +1,4 @@
-from ...models import batchRecord, autoTradeOnOff, condition, batchLog, assets
+from ...models import batchRecord, autoTradeOnOff, condition, batchLog, assets, tradeSettings
 from datetime import datetime, timedelta, timezone
 import datetime
 
@@ -52,8 +52,18 @@ class Command(BaseCommand):
         # 自動取引がOFFかONかを確認する。
         qSetCheck = autoTradeOnOff.objects.filter(id=1).first()
         checkOn = model_to_dict(qSetCheck)['auto_trade_is_on']
-
-
+        # 設定情報取得
+        settings = bsCal.settings
+        # 足の種類
+        gran = settings.granularity
+        # 通貨ペア
+        inst = settings.instruments
+        # 短期足
+        gran = settings.short_leg
+        # 中期足
+        gran = settings.middle_leg
+        # 長期足
+        gran = settings.long_leg
 
         dt_now = datetime.datetime.now(JST)
         text += '<p style="color:red;">一分足の取得<br>' + str(dt_now) + '</p><br>'
@@ -61,6 +71,8 @@ class Command(BaseCommand):
         # result, created = setCandle.setM5()
         # 1分足の保存
         result, created = setCandle.setM1()
+        # 任意の足保存
+        result, created = setCandle.setSpecific(gran=gran, num=1, inst=inst)
 
         # UTC時間を取得
         UTC = datetime.datetime.utcnow()
