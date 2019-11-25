@@ -7,8 +7,9 @@ from django.forms.models import model_to_dict
 from ...service.set_candle_USD_JPY import setCandle_USD_JPY
 from ...calculate.buy_sell_cal import BuySellCal
 from ...service.set_MA_USD_JPY import setMA_USD_JPY
+from ...service.set_specific_ma import setSpecificMA
+
 from ...service.set_bollinger_band import setBollingerBand_USD_JPY
-from ...service.set_candle_USD_JPY import setCandle_USD_JPY
 from fx_trade_v1_00.lib.order import orderFx
 from decimal import *
 
@@ -37,14 +38,19 @@ class Command(BaseCommand):
         dt_now = datetime.datetime.now(JST)
         text = '<p style="color:red;">バッチ起動<br>' + str(dt_now) + '</p><br>'
 
-        # ろうそく足データ取得オブジェクト
-        setCandle = setCandle_USD_JPY()
         # 購買計算オブジェクト
         bsCal = BuySellCal()
+        # 設定情報取得
+        settings = bsCal.settings
+        # ろうそく足データ取得オブジェクト
+        setCandle = setCandle_USD_JPY()
         # ボリンジャーバンドオブジェクト
         bb = setBollingerBand_USD_JPY()
         # 平均移動線オブジェクト
         setMA = setMA_USD_JPY()
+        # 任意の変数用のオブジェクト
+        setSpec = setSpecificMA()
+        setSpec.settings = settings
         # オーダーオブジェクト
         order = orderFx()
         # バッチの実行状況を保存する。
@@ -52,8 +58,6 @@ class Command(BaseCommand):
         # 自動取引がOFFかONかを確認する。
         qSetCheck = autoTradeOnOff.objects.filter(id=1).first()
         checkOn = model_to_dict(qSetCheck)['auto_trade_is_on']
-        # 設定情報取得
-        settings = bsCal.settings
         # 足の種類
         gran = settings.granularity
         # 通貨ペア
@@ -65,13 +69,13 @@ class Command(BaseCommand):
         # 長期足
         longLeg = settings.long_leg
 
-
         dt_now = datetime.datetime.now(JST)
         text += '<p style="color:red;">一分足の取得<br>' + str(dt_now) + '</p><br>'
         # 5分足の保存
         # result, created = setCandle.setM5()
         # 任意の足保存
-        result, created = setCandle.setSpecific(gran=gran, num=1, inst=inst)
+        resultSpecific, createdSpecific = setCandle.setSpecific(
+            gran=gran, num=1, inst=inst)
         # 1分足の保存
         result, created = setCandle.setM1()
 
@@ -104,6 +108,8 @@ class Command(BaseCommand):
         # setMA = setMA_USD_JPY()
         # condiNow = setMA.setMA(result, BBCondi)
         # bsCal.BuySellCheck(condiNow, condiPrev)
+        # setSpec.setMA(resultSpecific)
+
 # '----------------デバッグ用-------------------------------'
 
         limitMin = [59]
@@ -114,7 +120,12 @@ class Command(BaseCommand):
             is_closeMarket = True
         # 5分足が作成されたらMAを作成する。
         if created:
-
+            try:
+                setSpec.setMA(resultSpecific)
+                pass
+            except Exception as e:
+                print(e)
+                pass
             condiPrev = condition.objects.latest('created_at')
             # ------------------------------------------------------------------------------------------------------------------
             dt_now = datetime.datetime.now(JST)

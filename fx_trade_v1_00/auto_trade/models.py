@@ -78,7 +78,7 @@ class batchLog(models.Model):
 # 5分足
 
 
-class specifcCandle(models.Model):
+class specificCandle(models.Model):
     open = models.DecimalField(max_digits=8, decimal_places=4, default=0.0000)
     high = models.DecimalField(max_digits=8, decimal_places=4, default=0.0000)
     low = models.DecimalField(max_digits=8, decimal_places=4, default=0.0000)
@@ -88,7 +88,7 @@ class specifcCandle(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'specifc_candle'
+        db_table = 'specific_candle'
 
 
 class M5_USD_JPY(models.Model):
@@ -108,7 +108,7 @@ class M5_USD_JPY(models.Model):
 # 平均移動線_可変用
 class MA_Specific(models.Model):
     m = models.ForeignKey(
-        'specifcCandle', on_delete=models.CASCADE, related_name='m', null=True)
+        'specificCandle', on_delete=models.CASCADE, related_name='m', null=True)
     ma_short = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
     ma_middle = models.DecimalField(

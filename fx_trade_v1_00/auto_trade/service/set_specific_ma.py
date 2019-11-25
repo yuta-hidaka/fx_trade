@@ -1,7 +1,7 @@
 from .get_MA_USD_JPY import getMA_USD_JPY
 from ..models import (
     M5_USD_JPY, MA_USD_JPY, SlopeM5_USD_JPY,
-    conditionOfMA_M5, listConditionOfMA, listConditionOfSlope, condition
+    conditionOfMA_M5, listConditionOfMA, listConditionOfSlope, condition, specificCandle, MA_Specific
 )
 from ..rest.serializers.set_candle_serialize import SetCandleSerializer
 from django.db.models import Avg
@@ -10,22 +10,22 @@ from django.forms.models import model_to_dict
 from ..calculate.compare_ma import compaireMA
 from django.core.exceptions import ObjectDoesNotExist
 from .set_condition import setCondition
+import numpy as np
 
 
-class setMA_USD_JPY:
+class setSpecificMA:
 
     def __init__(self):
         self.sCondition = setCondition()
+        self.settings = None
 
     def setMASlope(self, preveousData, leatestData):
+
         ListMa = [5, 6, 10, 12, 15, 20, 24, 30, 36,
                   40, 50, 70, 72, 75, 140, 144, 150, 288]
         vals = []
         comp = compaireMA()
-        # print(preveousData)
-        # print(leatestData)
-        # print(model_to_dict(preveousData))
-        # print(model_to_dict(leatestData))
+
         ld = model_to_dict(leatestData)
         pd = model_to_dict(preveousData)
 
@@ -63,60 +63,74 @@ class setMA_USD_JPY:
         result = self.sCondition.setSlopeComp(vals, leatestData)
         return result
 
-    def setMA(self, FXdata, BBCondi):
+    def setMA(self, FXdata):
+        settings = self.settings
+        # 計算するデータ
+        # 短期足
+        shortLeg = settings.short_leg
+        # 中期足
+        middleLeg = settings.middle_leg
+        # 長期足
+        longLeg = settings.long_leg
+
         # 変数宣言
         vals = []
-        ListMa = [5, 6, 10, 12, 15, 20, 24, 30, 36,
-                  40, 50, 70, 72, 75, 140, 144, 150, 288]
+        listLeg = [shortLeg, middleLeg, longLeg]
+        maList = []
+        emaList = []
+
         is_first = False
         condiSlope = None
 
         # 現在の最新MA一覧を取得する。
         try:
-            leatestData = specifcCandle.objects.latest('created_at')
+            leatestData = specificCandle.objects.latest('created_at')
             # print(FXdata)
         except ObjectDoesNotExist:
             is_first = True
             print('MAの過去データがありません。')
             pass
 
-        # MA数の平均値を出力
-        for ma in ListMa:
-            data = list(M5_USD_JPY.objects.order_by(
-                '-recorded_at_utc')[:ma].aggregate(Avg('close')).values())
-            vals.append(data[0])
+        maMaxNum = max(listLeg)
+        maMax = list(specificCandle.objects.order_by(
+            '-recorded_at_utc')[:maMaxNum].values())
+        maCloseList = []
 
-        qSet = MA_USD_JPY
+        for m in maMax:
+            maCloseList.append(m['close'])
+
+        # MA数の平均値を出力
+        for ma in listLeg:
+            # if ma-1 == 0:
+            e = maCloseList[:1][0] * 2
+
+            # emaの計算
+            if ma == 1:
+                ema = e/2
+            else:
+                pstE = np.mean(maCloseList[1:ma])
+                ema = (e+Decimal(pstE))/(ma + 1)
+
+            emaList.append(ema)
+
+            # maの計算
+            maList.append(np.mean(maCloseList[:ma]))
+
+        qSet = MA_Specific
         create = qSet.objects.create(
-            m5=FXdata,
-            m5_ma5=vals[0],
-            m5_ma6=vals[1],
-            m5_ma10=vals[2],
-            m5_ma12=vals[3],
-            m5_ma15=vals[4],
-            m5_ma20=vals[5],
-            m5_ma24=vals[6],
-            m5_ma30=vals[7],
-            m5_ma36=vals[8],
-            m5_ma40=vals[9],
-            m5_ma50=vals[10],
-            m5_ma70=vals[11],
-            m5_ma72=vals[12],
-            m5_ma75=vals[13],
-            m5_ma140=vals[14],
-            m5_ma144=vals[15],
-            m5_ma150=vals[16],
-            m5_ma288=vals[17]
+            m=FXdata,
+            ma_short=listLeg[0],
+            ma_middle=listLeg[1],
+            ma_long=listLeg[2],
+            ema_short=emaList[0],
+            ema_middle=emaList[1],
+            ema_long=emaList[2],
         )
 
-        # 最初のデータだと傾きを求められないのでパス
-        if not is_first:
-            # 傾きも求める。
-            condiSlope = self.setMASlope(leatestData, create)
-            # 短中長期の状態を取得
+        return create
 
         # 値比較
-        result = self.sCondition.setMAComp(vals, create)
+        # result = self.sCondition.setMAComp(vals, create)
 
         # 現状を計算した情報を一テーブルに集約
-        return self.sCondition.setConditionList(create, result, condiSlope, BBCondi)
+        # return self.sCondition.setConditionList(create, result, condiSlope, BBCondi)

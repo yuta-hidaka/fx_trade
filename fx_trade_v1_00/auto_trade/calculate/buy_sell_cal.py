@@ -325,7 +325,13 @@ class BuySellCal():
 
             if trend_id == 3:
                 self.text += '持ち合い相場<br>'
-                tlogCondiId = self.order.tlog.condition_id
+                try:
+                    tlogCondiId = self.order.tlog.condition_id
+                    pass
+                except:
+                    tlogCondiId = 0
+                    pass
+
                 self.text += 'self.order.tlog.condition_id ' + \
                     str(tlogCondiId)+'<br>'
                 if not is_expansion:
