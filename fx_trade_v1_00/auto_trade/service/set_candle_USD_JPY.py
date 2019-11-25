@@ -15,7 +15,7 @@ class setCandle_USD_JPY:
         # デバッグ用(休日でデータが拾えない時用)
         result = None
 
-        rs = gMA.get_specific(gran, num, inst)['candles']
+        rs = gMA.get_specific(gran = gran, num = num, inst=inst)['candles']
         # result = M5_USD_JPY.objects.first()
         if rs:
             # def get_specific(self, gran ,num,inst):

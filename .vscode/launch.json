@@ -18,7 +18,9 @@
             ]
         }
     ],
-    "configurations": [{
+    "configurations": [
+
+        {
             "type": "chrome",
             "request": "attach",
             "name": "run react app",
@@ -34,6 +36,7 @@
             "program": "${workspaceFolder}\\fx_trade_v1_00\\manage.py",
             "args": [
                 "runserver",
+                "--noreload",
                 "--settings=local_settings"
             ],
             "preLaunchTask": "build reactapp summary",
@@ -50,6 +53,7 @@
                 "--settings=local_settings"
             ],
             "django": true,
+            "console": "integratedTerminal"
         },
         {
             "name": "Django Migarete",
@@ -59,9 +63,11 @@
             "args": [
                 "makemigrations",
                 "--settings=local_settings",
-                "--noreload",
-                "--nothreading"
+                "--no-debugger",
+                "--no-reload"
             ],
+            "stopOnEntry": true,
+            "console": "internalConsole",
             "django": true,
         },
         {

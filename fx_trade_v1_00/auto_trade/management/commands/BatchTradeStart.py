@@ -59,20 +59,25 @@ class Command(BaseCommand):
         # 通貨ペア
         inst = settings.instruments
         # 短期足
-        gran = settings.short_leg
+        shortLeg = settings.short_leg
         # 中期足
-        gran = settings.middle_leg
+        middleLeg = settings.middle_leg
         # 長期足
-        gran = settings.long_leg
+        longLeg = settings.long_leg
+        print(gran)
+        print(inst)
+        print(shortLeg)
+        print(middleLeg)
+        print(longLeg)
 
         dt_now = datetime.datetime.now(JST)
         text += '<p style="color:red;">一分足の取得<br>' + str(dt_now) + '</p><br>'
         # 5分足の保存
         # result, created = setCandle.setM5()
-        # 1分足の保存
-        result, created = setCandle.setM1()
         # 任意の足保存
         result, created = setCandle.setSpecific(gran=gran, num=1, inst=inst)
+        # 1分足の保存
+        result, created = setCandle.setM1()
 
         # UTC時間を取得
         UTC = datetime.datetime.utcnow()

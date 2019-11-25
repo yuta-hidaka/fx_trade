@@ -117,7 +117,7 @@ class getMA_USD_JPY():
 
         return res
 
-    def get_specific(self, gran ,num,inst):
+    def get_specific(self, gran ,num, inst):
         parm = {
             # "to": self.localTime_m1_to,
             # "from": self.localTime_m1_from,

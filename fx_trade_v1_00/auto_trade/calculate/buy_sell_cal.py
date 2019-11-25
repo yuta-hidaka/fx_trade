@@ -199,7 +199,7 @@ class BuySellCal():
                 self.text += str(rs)+str(trend_id)+'sinma<br>'
 
                 # 過去15分の間に4が3以上存在したら購買しない
-                if rs == 0 and trend_id == 2:
+                if rs == 0 and trend_id == 1:
                     if not settings.use_specific_limit:
                         limit = sig3_2
 
@@ -229,7 +229,7 @@ class BuySellCal():
                     limit = sig3_2
 
                 # 過去15分の間に1が3以上存在したら購買しない
-                if rs == 0 and trend_id == 2 :
+                if rs == 0 and trend_id == 2:
                     if trend_id != 4:
                         self.order.isInByMa = True
                         short_limit = (
