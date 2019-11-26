@@ -125,6 +125,10 @@ class setSpecificMA:
             ema_short=emaList[0],
             ema_middle=emaList[1],
             ema_long=emaList[2],
+
+            macd1=emaList[0]-emaList[1],
+            macd2=emaList[0]-emaList[2],
+            macd3=emaList[1]-emaList[2]
         )
 
         return create
