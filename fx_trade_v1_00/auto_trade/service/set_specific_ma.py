@@ -84,10 +84,11 @@ class setSpecificMA:
 
         # 現在の最新MA一覧を取得する。
         try:
-            leatestData = specificCandle.objects.latest('created_at')
+            leatestData = MA_Specific.objects.latest('created_at')
             # print(FXdata)
-        except ObjectDoesNotExist:
+        except Exception as e:
             is_first = True
+            print(e)
             print('MAの過去データがありません。')
             pass
 
@@ -117,6 +118,11 @@ class setSpecificMA:
             maList.append(np.mean(maCloseList[:ma]))
 
         qSet = MA_Specific
+
+        st = listLeg[0] - leatestData.ma_short
+        md = listLeg[0] - leatestData.ma_middle
+        lg = listLeg[0] - leatestData.ma_long
+
         create = qSet.objects.create(
             m=FXdata,
             ma_short=listLeg[0],
@@ -130,8 +136,6 @@ class setSpecificMA:
             macd2=emaList[0]-emaList[2],
             macd3=emaList[1]-emaList[2]
         )
-
-        
 
         return create
 

@@ -108,7 +108,7 @@ class Command(BaseCommand):
         # setMA = setMA_USD_JPY()
         # condiNow = setMA.setMA(result, BBCondi)
         # bsCal.BuySellCheck(condiNow, condiPrev)
-        # setSpec.setMA(resultSpecific)
+        setSpec.setMA(resultSpecific)
 
 # '----------------デバッグ用-------------------------------'
 

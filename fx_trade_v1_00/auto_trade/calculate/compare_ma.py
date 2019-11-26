@@ -8,6 +8,8 @@ import numpy as np
 
 
 class compaireMA():
+
+
     def comp3MASlope(self, s, m, l):
         '''
         1すべてプラス
