@@ -131,6 +131,8 @@ class setSpecificMA:
             macd3=emaList[1]-emaList[2]
         )
 
+        
+
         return create
 
         # 値比較

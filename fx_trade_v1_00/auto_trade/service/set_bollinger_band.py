@@ -243,6 +243,7 @@ class setBollingerBand_USD_JPY:
                 Decimal('0.01'), rounding=ROUND_HALF_UP)
 
             slopeDir_01 = np.sign(slope_01)
+            
             slopeDir_001 = np.sign(slope_001)
 # -----------------------------------------------------------------------
 

@@ -1,5 +1,5 @@
 from ..models import MA_USD_JPY
-
+import numpy as np
 
 # MAを比較する
 # 5分足 5本、20本、75本で比較する。
@@ -8,22 +8,17 @@ from ..models import MA_USD_JPY
 
 
 class compaireMA():
-    def comp3MASlope(self, short, middle, long):
+    def comp3MASlope(self, s, m, l):
         '''
         1すべてプラス
         2すべてマイナス
         3すべて０
         4それ以外
         '''
-        slopeList = [short, middle, long]
+        slopeList = [s, m, l]
         sumSlope = 0
         for n in slopeList:
-            if n > 0:
-                sumSlope += 1
-            elif n == 0:
-                sumSlope += 0
-            else:
-                sumSlope += -1
+            sumSlope += np.sign(n)
 
         if sumSlope == 3:
             return 1
