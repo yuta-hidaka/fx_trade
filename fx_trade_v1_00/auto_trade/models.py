@@ -108,7 +108,9 @@ class M5_USD_JPY(models.Model):
 # 平均移動線_可変用
 class MA_Specific(models.Model):
     m = models.ForeignKey(
-        'specificCandle', on_delete=models.CASCADE, related_name='m', null=True)
+        'specificCandle', on_delete=models.CASCADE, related_name='m', null=True)    
+    past_m = models.ForeignKey(
+        'specificCandle', on_delete=models.CASCADE, related_name='past_m', null=True)
     ma_short = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
     ma_middle = models.DecimalField(
@@ -122,13 +124,17 @@ class MA_Specific(models.Model):
         max_digits=8, decimal_places=4, default=0.0000)
     ema_long = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000) 
-        
+
     macd1 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
     macd2 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
     macd3 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
+    
+    compMa = models.IntegerField(default=0)
+    compSlope = models.IntegerField(default=0)
+    slopeDir = models.IntegerField(default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

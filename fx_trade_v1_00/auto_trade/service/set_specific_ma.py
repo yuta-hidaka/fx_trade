@@ -64,6 +64,8 @@ class setSpecificMA:
         return result
 
     def setMA(self, FXdata):
+        comp = compaireMA()
+
         settings = self.settings
         # 計算するデータ
         # 短期足
@@ -123,18 +125,27 @@ class setSpecificMA:
         md = listLeg[0] - leatestData.ma_middle
         lg = listLeg[0] - leatestData.ma_long
 
+        compMa = comp.comp3MA(listLeg[0], listLeg[1], listLeg[2])
+        compSlope = comp.comp3MASlope(s=st, m=md, l=lg)
+        slopeDir = 0
+
         create = qSet.objects.create(
             m=FXdata,
-            ma_short=listLeg[0],
-            ma_middle=listLeg[1],
-            ma_long=listLeg[2],
+            ma_short=maCloseList[0],
+            ma_middle=maCloseList[1],
+            ma_long=maCloseList[2],
+
             ema_short=emaList[0],
             ema_middle=emaList[1],
             ema_long=emaList[2],
 
             macd1=emaList[0]-emaList[1],
             macd2=emaList[0]-emaList[2],
-            macd3=emaList[1]-emaList[2]
+            macd3=emaList[1]-emaList[2],
+
+            compMa=compMa,
+            compSlope=compSlope,
+            slopeDir=0
         )
 
         return create
