@@ -121,11 +121,11 @@ class setSpecificMA:
 
         qSet = MA_Specific
 
-        st = listLeg[0] - leatestData.ma_short
-        md = listLeg[0] - leatestData.ma_middle
-        lg = listLeg[0] - leatestData.ma_long
+        st = maList[0] - leatestData.ma_short
+        md = maList[0] - leatestData.ma_middle
+        lg = maList[0] - leatestData.ma_long
 
-        compMa = comp.comp3MA(listLeg[0], listLeg[1], listLeg[2])
+        compMa = comp.comp3MA(maList[0], maList[1], maList[2])
         compSlope = comp.comp3MASlope(s=st, m=md, l=lg)
         slopeDir = 0
 
