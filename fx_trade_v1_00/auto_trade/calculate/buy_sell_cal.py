@@ -271,7 +271,7 @@ class BuySellCal():
                 rs = conditionOfSlope_M5.objects.filter(
                     slope_comp6_24_72=4).filter(
                     created_at__range=(sTime, now)).order_by('-id').count()
-                self.text += 'long in by ma<br>'
+                self.text += 'long in by ma休止中<br>'
                 self.text += str(rs)+'この4がありました※※※※※※※※※※※※※※※※<br>'
                 self.text += str(rs)+str(trend_id)+'sinma<br>'
 
@@ -286,7 +286,7 @@ class BuySellCal():
                             sma_2 - limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                         self.order.stopLossLong = str(long_limit)
                         self.order.trend_id = 1
-                        self.order.LongOrderCreate()
+                        # self.order.LongOrderCreate()
                     else:
                         # print('long in　but position is too many')
                         self.text += 'long in by ma trend idが4なので様子見です<br>'
@@ -298,7 +298,7 @@ class BuySellCal():
                 rs = conditionOfSlope_M5.objects.filter(
                     slope_comp6_24_72=1).filter(
                     created_at__range=(sTime, now)).order_by('-id').count()
-                self.text += 'short in by ma<br>'
+                self.text += 'short in by ma休止中<br>'
                 self.text += str(rs)+'この1がありました※※※※※※※※※※※※※※※※<br>'
                 self.text += str(rs)+str(trend_id)+'sinma<br>'
 
@@ -313,7 +313,7 @@ class BuySellCal():
                             sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
                         self.order.stopLossShort = str(short_limit)
                         self.order.trend_id = 2
-                        self.order.ShortOrderCreate()
+                        # self.order.ShortOrderCreate()
                     else:
                         # print('short in　but position is too many')
                         self.text += 'short in by ma trend idが4なので様子見です<br>'
