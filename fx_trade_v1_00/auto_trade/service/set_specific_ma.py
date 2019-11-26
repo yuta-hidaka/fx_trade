@@ -103,21 +103,21 @@ class setSpecificMA:
             maCloseList.append(m['close'])
 
         # MA数の平均値を出力
-        for ma in listLeg:
-            idx = ma - 1
-            e = maCloseList[idx] * 2
+        for maIndex in listLeg:
+            idx = maIndex - 1
 
             # emaの計算
             if idx == 0:
-                ema = e/2
+                ema = maCloseList[idx]
+                ma = maCloseList[idx]
             else:
+                e = maCloseList[idx] * 2
                 pstE = np.mean(maCloseList[1:idx])
                 ema = (e+Decimal(pstE))/3
+                ma = np.mean(maCloseList[:idx])
 
+            maList.append(ma)
             emaList.append(ema)
-
-            # maの計算
-            maList.append(np.mean(maCloseList[:idx]))
 
         qSet = MA_Specific
 

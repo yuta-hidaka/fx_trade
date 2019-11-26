@@ -108,7 +108,7 @@ class Command(BaseCommand):
         # setMA = setMA_USD_JPY()
         # condiNow = setMA.setMA(result, BBCondi)
         # bsCal.BuySellCheck(condiNow, condiPrev)
-        setSpec.setMA(resultSpecific)
+        # setSpec.setMA(resultSpecific)
 
 # '----------------デバッグ用-------------------------------'
 
@@ -121,7 +121,7 @@ class Command(BaseCommand):
         # 5分足が作成されたらMAを作成する。
         if created:
             try:
-                setSpec.setMA(resultSpecific)
+                specCreate = setSpec.setMA(resultSpecific)
                 pass
             except Exception as e:
                 print(e)
@@ -150,7 +150,7 @@ class Command(BaseCommand):
                 text += '<p style="color:red;">by sell cal計算<br>' + \
                     str(dt_now) + '</p><br>'
                 # ------------------------------------------------------------------------------------------------------------------
-                bsCal.BuySellCheck(condiNow, condiPrev)
+                bsCal.BuySellCheck(condiNow, condiPrev, specCreate)
                 headerText = '<br>----------------------------------------------by sel cal---------------------------------------------<br>'
                 text += (headerText + bsCal.text + headerText)
             else:

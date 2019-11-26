@@ -26,7 +26,7 @@ class BuySellCal():
         self.order.waitTime = self.settings.wait_time
         self.text = ''
 
-    def BuySellCheck(self, condNow, condiPrev):
+    def BuySellCheck(self, condNow, condiPrev,spec):
 
         # トレンド発生中はMAを指標に売買を行うが、もみ合い相場中はボリンジャーバンドを指標に売買を行う。
 
@@ -190,6 +190,11 @@ class BuySellCal():
             now = timezone.now()
             adjTime = datetime.timedelta(minutes=15)
             sTime = now - adjTime
+
+
+
+
+            
             if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
                 rs = conditionOfSlope_M5.objects.filter(
                     slope_comp6_24_72=4).filter(
