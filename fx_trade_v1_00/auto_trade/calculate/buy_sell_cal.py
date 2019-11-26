@@ -26,7 +26,7 @@ class BuySellCal():
         self.order.waitTime = self.settings.wait_time
         self.text = ''
 
-    def BuySellCheck(self, condNow, condiPrev,spec):
+    def BuySellCheck(self, condNow, condiPrev, spec):
 
         # トレンド発生中はMAを指標に売買を行うが、もみ合い相場中はボリンジャーバンドを指標に売買を行う。
 
@@ -73,6 +73,15 @@ class BuySellCal():
         is_expansionByNumPrev = cbbPrev['is_expansionByNum']
         is_topTouchPrev = cbbPrev['is_topTouch']
         is_bottomTouchPrev = cbbPrev['is_bottomTouch']
+
+        # ----------------------------------------------------------------
+        macd1 = spec.macd1
+        macd2 = spec.macd2
+        macd3 = spec.macd3
+
+        specMa = spec.compMa
+        specSlope = spec.compSlope
+        # ----------------------------------------------------------------
 
         if settings.use_specific_limit:
             limit = settings.limit
@@ -191,10 +200,73 @@ class BuySellCal():
             adjTime = datetime.timedelta(minutes=15)
             sTime = now - adjTime
 
+            # ----------------------------------------------------------------------------------------------------------
+            maCheckLong = [1, 6]
+            maCheckShort = [3, 4]
+            self.text += 'specMa ' + str(specMa)+'<br>'
+            self.text += 'specSlope ' + str(specSlope)+'<br>'
+            self.text += 'macd3 ' + str(macd3)+'<br>'
+            if specMa in maCheckLong:
+                if specSlope == 1:
+                    if macd3 >= 0:
+                        # rs = conditionOfSlope_M5.objects.filter(
+                        #     slope_comp6_24_72=4).filter(
+                        #     created_at__range=(sTime, now)).order_by('-id').count()
+                        self.text += 'long in by macd<br>'
+                        # self.text += str(rs)+str(trend_id)+'sinma<br>'
 
+                        # # 過去15分の間に4が3以上存在したら購買しない
+                        # if rs == 0:
+                        #     if not settings.use_specific_limit:
+                        #         limit = sig3_2
 
+                        #     if trend_id != 4:
+                        self.order.isInByMa = True
+                        long_limit = (
+                            sma_2 - limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                        self.order.stopLossLong = str(long_limit)
+                        self.order.trend_id = 1
+                        self.order.LongOrderCreate()
+                        #     else:
+                        #         # print('long in　but position is too many')
+                        #         self.text += 'long in by ma trend idが4なので様子見です<br>'
+                        #         # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
+                        # else:
+                        #     self.text += '<p style="color=red;">最近4が1つ以上ありました or trendじゃない</p>'
 
-            
+            elif specMa in maCheckShort:
+                if specSlope == 2:
+                    if macd3 <= 0:
+                        # rs = conditionOfSlope_M5.objects.filter(
+                        #     slope_comp6_24_72=1).filter(
+                        #     created_at__range=(sTime, now)).order_by('-id').count()
+                        self.text += 'short in by macd<br>'
+                        # self.text += str(rs)+'この1がありました※※※※※※※※※※※※※※※※<br>'
+                        # self.text += str(rs)+str(trend_id)+'sinma<br>'
+
+                        # if not settings.use_specific_limit:
+                        #     limit = sig3_2
+
+                        # 過去15分の間に1が3以上存在したら購買しない
+                        # if rs == 0:
+                        #     if trend_id != 4:
+                        self.order.isInByMa = True
+                        short_limit = (
+                            sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                        self.order.stopLossShort = str(short_limit)
+                        self.order.trend_id = 2
+                        self.order.ShortOrderCreate()
+                    #         else:
+                    #             # print('short in　but position is too many')
+                    #             self.text += 'short in by ma trend idが4なので様子見です<br>'
+                    #             # long closeのタイミング if MA is 2 it have to close
+                    #     else:
+                    #         self.text += '<p style="color=red;">最近1が1つ以上ありましたor trendじゃない</p>'
+                    # else:
+                    #     self.text += '購買----様子見中 MAでの購買判定<br>'
+
+            # -------------------------------------------------------------------------------------------------------
+
             if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
                 rs = conditionOfSlope_M5.objects.filter(
                     slope_comp6_24_72=4).filter(
