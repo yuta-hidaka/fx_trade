@@ -104,20 +104,20 @@ class setSpecificMA:
 
         # MA数の平均値を出力
         for ma in listLeg:
-            # if ma-1 == 0:
-            e = maCloseList[:1][0] * 2
+            idx = ma - 1
+            e = maCloseList[idx] * 2
 
             # emaの計算
-            if ma == 1:
+            if idx == 0:
                 ema = e/2
             else:
-                pstE = np.mean(maCloseList[1:ma])
-                ema = (e+Decimal(pstE))/(ma + 1)
+                pstE = np.mean(maCloseList[1:idx])
+                ema = (e+Decimal(pstE))/3
 
             emaList.append(ema)
 
             # maの計算
-            maList.append(np.mean(maCloseList[:ma]))
+            maList.append(np.mean(maCloseList[:idx]))
 
         qSet = MA_Specific
 
@@ -131,9 +131,9 @@ class setSpecificMA:
 
         create = qSet.objects.create(
             m=FXdata,
-            ma_short=maCloseList[0],
-            ma_middle=maCloseList[1],
-            ma_long=maCloseList[2],
+            ma_short=maList[0],
+            ma_middle=maList[1],
+            ma_long=maList[2],
 
             ema_short=emaList[0],
             ema_middle=emaList[1],
@@ -145,7 +145,7 @@ class setSpecificMA:
 
             compMa=compMa,
             compSlope=compSlope,
-            slopeDir=0
+            slopeDir=slopeDir
         )
 
         return create
