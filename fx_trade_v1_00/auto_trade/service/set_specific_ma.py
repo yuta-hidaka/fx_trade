@@ -18,6 +18,7 @@ class setSpecificMA:
     def __init__(self):
         self.sCondition = setCondition()
         self.settings = None
+        self.text = '@@@@@@@@@@@setSpecificMA@@@@@@@@@@@'
 
     def setMA(self, FXdata):
         comp = compaireMA()
@@ -92,14 +93,14 @@ class setSpecificMA:
 
         # 過去分の設定ファイルと違っていたらMAを過去のEMAとする
         if shortLeg != shortLegPast:
-            print('short変更発生')
+            self.text = 'short変更発生'
             pastShortEma = maList[0]
         if middleLeg != middleLegPast:
             pastMiddleEma = maList[1]
-            print('middle変更発生')
+            self.text = 'middle変更発生'
         if longLeg != longLegPast:
             pastLongEma = maList[2]
-            print('long変更発生')
+            self.text = 'long変更発生'
 
         # emaを計算
         shortEma = (pastShortEma*(shortLeg-1)+(c*2))/(shortLeg+1)
