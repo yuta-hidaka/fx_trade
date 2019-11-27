@@ -125,13 +125,19 @@ class setSpecificMA:
             ma_middle=maList[1],
             ma_long=maList[2],
 
-            ema_short=shortEma,
-            ema_middle=middleEma,
-            ema_long=longtEma,
+            ema_short=Decimal(shortEma).quantize(
+            Decimal('0.0001'), rounding=ROUND_HALF_UP),
+            ema_middle=Decimal(middleEma).quantize(
+            Decimal('0.0001'), rounding=ROUND_HALF_UP),
+            ema_long=Decimal(longtEma).quantize(
+            Decimal('0.0001'), rounding=ROUND_HALF_UP),
 
-            macd1=shortEma-middleEma,
-            macd2=shortEma-longtEma,
-            macd3=middleEma-longtEma,
+            macd1=Decimal(shortEma-middleEma).quantize(
+            Decimal('0.0001'), rounding=ROUND_HALF_UP),
+            macd2=Decimal(shortEma-longtEma).quantize(
+            Decimal('0.0001'), rounding=ROUND_HALF_UP),
+            macd3=Decimal(middleEma-longtEma).quantize(
+            Decimal('0.0001'), rounding=ROUND_HALF_UP),
 
             compMa=compMa,
             compSlope=compSlope
