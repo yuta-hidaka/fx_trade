@@ -10,7 +10,7 @@ from django.forms.models import model_to_dict
 class setBollingerBand_USD_JPY:
 
     def __init__(self):
-        self.setting = tradeSettings.objects.filter(id=1).first()
+        self.settings = tradeSettings.objects.filter(id=1).first()
         self.text = ''
 
     #     bb_count = models.IntegerField(default=50)
@@ -243,7 +243,7 @@ class setBollingerBand_USD_JPY:
                 Decimal('0.01'), rounding=ROUND_HALF_UP)
 
             slopeDir_01 = np.sign(slope_01)
-            
+
             slopeDir_001 = np.sign(slope_001)
 # -----------------------------------------------------------------------
 
@@ -651,13 +651,30 @@ class setBollingerBand_USD_JPY:
         # 5MA*50　SMAを基準に標準偏差を算出していきます。
 
     def setBB(self, nowMA, condiPrev):
+        settings = self.settings
         gMA = getMA_USD_JPY()
         # is_squeeze = False
         created = False
         result = None
-   
-        mas = gMA.get_1M_num(num=self.setting.bb_count)['candles']
-        # self.self.text += str(len(mas))
+
+    #         # どの通貨ペアを使用するか
+    # instruments = models.CharField(max_length=100, default='USD_JPY')
+    # # どの足で取引するか
+    # granularity = models.CharField(max_length=100, default='M1')
+    # # 短期足の設定
+    # short_leg = models.IntegerField(default=1)
+    # # 中期足の設定
+    # middle_leg = models.IntegerField(default=20)
+    # # 長期足の設定
+    # long_leg = models.IntegerField(default=50)
+
+        middle_leg = settings.middle_leg
+        long_leg = settings.middle_leg
+        gran =  settings.granularity
+        inst = settings.instruments
+
+        mas = gMA.get_specific(gran=gran, num=middle_leg, inst=inst)['candles']
+        mas2 = gMA.get_specific(gran=gran, num=long_leg, inst=inst)['candles']
 
         SMA_days = len(mas)
         idx = SMA_days - 1
@@ -679,9 +696,6 @@ class setBollingerBand_USD_JPY:
         SD1 = SD * Decimal('1')
         SD2 = SD * Decimal('2')
         SD3 = SD * Decimal('3')
-
-        # mas2 = gMA.get_5M_num(self.setting.bb_count_2)['candles']
-        mas2 = gMA.get_1M_num(self.setting.bb_count_2)['candles']
 
         listMA2 = []
         # listMAflt = []
