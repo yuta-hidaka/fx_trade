@@ -40,7 +40,6 @@ class setSpecificMA:
         # 前回の長期足
         longLegPast = pastSettings.long_leg
 
-
         sDef = False
         mDef = False
         lDef = False
