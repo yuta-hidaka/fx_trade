@@ -354,6 +354,8 @@ class BuySellCal():
                     self.text += 'sigma3 エクスパンション終了で上タッチなのでshortIn　休止中<br>'
                     # self.order.ShortOrderCreate()
 
+            trend_id = 0
+            # ボリンジャーバンドでの計算中止
             if trend_id == 3 and not is_peak:
                 # if preTrend_id == 1 or preTrend_id == 2 or preTrend_id == 4:
                 #         self.text += '前回までトレンドで今が持ち合い相場でいったん決済。<br>'
