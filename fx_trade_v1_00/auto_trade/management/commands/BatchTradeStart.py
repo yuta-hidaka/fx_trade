@@ -120,12 +120,9 @@ class Command(BaseCommand):
             is_closeMarket = True
         # 5分足が作成されたらMAを作成する。
         if created:
-            try:
-                specCreate = setSpec.setMA(resultSpecific)
-                pass
-            except Exception as e:
-                print(e)
-                pass
+
+            specCreate = setSpec.setMA(resultSpecific)
+
             condiPrev = condition.objects.latest('created_at')
             # ------------------------------------------------------------------------------------------------------------------
             dt_now = datetime.datetime.now(JST)
