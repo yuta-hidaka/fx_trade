@@ -92,28 +92,31 @@ class setSpecificMA:
 
         # 過去分の設定ファイルと違っていたらMAを過去のEMAとする
         if shortLeg != shortLegPast:
+            print('short変更発生')
             pastShortEma = maList[0]
         if middleLeg != middleLegPast:
             pastMiddleEma = maList[1]
+            print('middle変更発生')
         if longLeg != longLegPast:
             pastLongEma = maList[2]
+            print('long変更発生')
 
         # emaを計算
         shortEma = (pastShortEma*(shortLeg-1)+(c*2))/(shortLeg+1)
         middleEma = (pastMiddleEma*(shortLeg-1)+(c*2))/(shortLeg+1)
         longtEma = (pastLongEma*(shortLeg-1)+(c*2))/(shortLeg+1)
 
-        print(maList[0])
-        print(maList[1])
-        print(maList[2])
-        print('take2')
-        print(pastShortEma)
-        print(pastMiddleEma)
-        print(pastLongEma)
-        print('take2')
-        print(shortEma)
-        print(middleEma)
-        print(longtEma)
+        # print(maList[0])
+        # print(maList[1])
+        # print(maList[2])
+        # print('take2')
+        # print(pastShortEma)
+        # print(pastMiddleEma)
+        # print(pastLongEma)
+        # print('take2')
+        # print(shortEma)
+        # print(middleEma)
+        # print(longtEma)
 
         # MAの傾きを計算
         st = maList[0] - leatestData.ma_short
