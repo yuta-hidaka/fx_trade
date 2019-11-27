@@ -122,6 +122,7 @@ class Command(BaseCommand):
         if created:
 
             specCreate = setSpec.setMA(resultSpecific)
+            text += setSpec.text
 
             condiPrev = condition.objects.latest('created_at')
             # ------------------------------------------------------------------------------------------------------------------

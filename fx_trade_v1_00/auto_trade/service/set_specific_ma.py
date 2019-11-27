@@ -18,7 +18,7 @@ class setSpecificMA:
     def __init__(self):
         self.sCondition = setCondition()
         self.settings = None
-        self.text = '@@@@@@@@@@@setSpecificMA@@@@@@@@@@@'
+        self.text = '@@@@@@@@@@@setSpecificMA@@@@@@@@@@@<br>'
 
     def setMA(self, FXdata):
         comp = compaireMA()
