@@ -21,7 +21,7 @@ class tradeSettings(models.Model):
     on_unit_trade = models.BooleanField(null=True, default=False)
     on_real_trade = models.BooleanField(null=True, default=False)
     use_specific_limit = models.BooleanField(null=True, default=False)
-    
+
     units = models.IntegerField(default=100)
     wait_time = models.IntegerField(default=10)
     limit = models.DecimalField(
@@ -134,7 +134,9 @@ class MA_Specific(models.Model):
         max_digits=8, decimal_places=4, default=0.0000)
     
     compMa = models.IntegerField(default=0)
+
     compSlope = models.IntegerField(default=0)
+    
     slopeDir = models.IntegerField(default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
