@@ -103,6 +103,7 @@ class setSpecificMA:
         middleEma = pastMiddleEma*(shortLeg-1)+(c*2)/(shortLeg+1)
         longtEma = pastLongEma*(shortLeg-1)+(c*2)/(shortLeg+1)
 
+        print('take2')
         print(shortEma)
         print(middleEma)
         print(longtEma)
