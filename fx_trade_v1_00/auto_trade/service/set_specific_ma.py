@@ -1,7 +1,7 @@
 from .get_MA_USD_JPY import getMA_USD_JPY
 from ..models import (
     M5_USD_JPY, MA_USD_JPY, SlopeM5_USD_JPY,
-    conditionOfMA_M5, listConditionOfMA, listConditionOfSlope, condition, specificCandle, MA_Specific
+    conditionOfMA_M5, listConditionOfMA, listConditionOfSlope, condition, specificCandle, MA_Specific, tradeSettings
 )
 from ..rest.serializers.set_candle_serialize import SetCandleSerializer
 from django.db.models import Avg
@@ -19,52 +19,10 @@ class setSpecificMA:
         self.sCondition = setCondition()
         self.settings = None
 
-    def setMASlope(self, preveousData, leatestData):
-
-        ListMa = [5, 6, 10, 12, 15, 20, 24, 30, 36,
-                  40, 50, 70, 72, 75, 140, 144, 150, 288]
-        vals = []
-        comp = compaireMA()
-
-        ld = model_to_dict(leatestData)
-        pd = model_to_dict(preveousData)
-
-        for ma in ListMa:
-            key = 'm5_ma' + str(ma)
-            data = Decimal(
-                ld[key])-(pd[key]
-                          ).quantize(Decimal('0.0001'), rounding=ROUND_HALF_UP)
-            # ).quantize(Decimal('0.01'), rounding = ROUND_HALF_UP)
-            vals.append(data)
-
-        create = SlopeM5_USD_JPY.objects.create(
-            ma_previous=preveousData,
-            ma_leatest=leatestData,
-            slope_m5_ma5=vals[0],
-            slope_m5_ma6=vals[1],
-            slope_m5_ma10=vals[2],
-            slope_m5_ma12=vals[3],
-            slope_m5_ma15=vals[4],
-            slope_m5_ma20=vals[5],
-            slope_m5_ma24=vals[6],
-            slope_m5_ma30=vals[7],
-            slope_m5_ma36=vals[8],
-            slope_m5_ma40=vals[9],
-            slope_m5_ma50=vals[10],
-            slope_m5_ma70=vals[11],
-            slope_m5_ma72=vals[12],
-            slope_m5_ma75=vals[13],
-            slope_m5_ma140=vals[14],
-            slope_m5_ma144=vals[15],
-            slope_m5_ma150=vals[16],
-            slope_m5_ma288=vals[17]
-        )
-
-        result = self.sCondition.setSlopeComp(vals, leatestData)
-        return result
-
     def setMA(self, FXdata):
         comp = compaireMA()
+        # 前回の設定を確認
+        pastSettings = tradeSettings.objects.filter(id=2).first()
 
         settings = self.settings
         # 計算するデータ
@@ -75,6 +33,21 @@ class setSpecificMA:
         # 長期足
         longLeg = settings.long_leg
 
+        # 前回の短期足
+        shortLegPast = pastSettings.short_leg
+        # 前回の中期足
+        middleLegPast = pastSettings.middle_leg
+        # 前回の長期足
+        longLegPast = pastSettings.long_leg
+
+
+        sDef = False
+        mDef = False
+        lDef = False
+
+        # 終値
+        c = FXdata.close
+
         # 変数宣言
         vals = []
         listLeg = [shortLeg, middleLeg, longLeg]
@@ -83,16 +56,6 @@ class setSpecificMA:
 
         is_first = False
         condiSlope = None
-
-        # 現在の最新MA一覧を取得する。
-        try:
-            leatestData = MA_Specific.objects.latest('created_at')
-            # print(FXdata)
-        except Exception as e:
-            is_first = True
-            print(e)
-            print('MAの過去データがありません。')
-            pass
 
         maMaxNum = max(listLeg)
         maMax = list(specificCandle.objects.order_by(
@@ -105,27 +68,51 @@ class setSpecificMA:
         # MA数の平均値を出力
         for maIndex in listLeg:
             idx = maIndex - 1
-
             # emaの計算
             if idx == 0:
-                ema = maCloseList[idx]
                 ma = maCloseList[idx]
             else:
-                e = maCloseList[idx] * 2
-                pstE = np.mean(maCloseList[1:idx])
-                ema = (e+Decimal(pstE))/3
                 ma = np.mean(maCloseList[:idx])
-
             maList.append(ma)
-            emaList.append(ema)
 
-        qSet = MA_Specific
+            # 現在の最新MA一覧を取得する。
+        try:
+            leatestData = MA_Specific.objects.latest('created_at')
+            pastShortEma = leatestData.ema_short
+            pastMiddleEma = leatestData.ema_middle
+            pastLongEma = leatestData.ema_long
+            # print(FXdata)
+        except Exception as e:
+            pastShortEma = maList[0]
+            pastMiddleEma = maList[1]
+            pastLongEma = maList[2]
+            is_first = True
+            print(e)
+            print('MAの過去データがありません。')
+            pass
 
+        # 過去分の設定ファイルと違っていたらMAを過去のEMAとする
+        if shortLeg != shortLegPast:
+            pastShortEma = maList[0]
+        if middleLeg != middleLegPast:
+            pastMiddleEma = maList[1]
+        if longLeg != longLegPast:
+            pastLongEma = maList[2]
+
+        # emaを計算
+        shortEma = pastShortEma*(shortLeg-1)+(c*2)/(shortLeg+1)
+        middleEma = pastMiddleEma*(shortLeg-1)+(c*2)/(shortLeg+1)
+        longtEma = pastLongEma*(shortLeg-1)+(c*2)/(shortLeg+1)
+
+        # MAの傾きを計算
         st = maList[0] - leatestData.ma_short
         md = maList[0] - leatestData.ma_middle
         lg = maList[0] - leatestData.ma_long
 
+        qSet = MA_Specific
+        # MA3つの位置を計算
         compMa = comp.comp3MA(maList[0], maList[1], maList[2])
+        # MA3つの傾きを計算
         compSlope = comp.comp3MASlope(s=st, m=md, l=lg)
         slopeDir = 0
 
@@ -135,18 +122,24 @@ class setSpecificMA:
             ma_middle=maList[1],
             ma_long=maList[2],
 
-            ema_short=emaList[0],
-            ema_middle=emaList[1],
-            ema_long=emaList[2],
+            ema_short=shortEma,
+            ema_middle=middleEma,
+            ema_long=longtEma,
 
-            macd1=emaList[0]-emaList[1],
-            macd2=emaList[0]-emaList[2],
-            macd3=emaList[1]-emaList[2],
+            macd1=shortEma-middleEma,
+            macd2=shortEma-longtEma,
+            macd3=middleEma-longtEma,
 
             compMa=compMa,
             compSlope=compSlope,
             slopeDir=slopeDir
         )
+
+        pastSettings.short_leg = settings.short_leg
+        pastSettings.middle_leg = settings.middle_leg
+        pastSettings.long_leg = settings.long_leg
+
+        pastSettings.save()
 
         return create
 

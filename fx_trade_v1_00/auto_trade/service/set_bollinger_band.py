@@ -21,33 +21,34 @@ class setBollingerBand_USD_JPY:
         JustNowMA = getMA_USD_JPY().get_now()
         rs = model_to_dict(result)
         bbb = model_to_dict(bbBefor)
+        settings = self.settings
         cond = condition.objects.all().order_by(
-            '-created_at')[:self.setting.bb_slope_dir_count]
+            '-created_at')[:settings.bb_slope_dir_count]
 
         condDouble = condition.objects.all().order_by(
-            '-created_at')[:(self.setting.bb_slope_dir_count * 2)]
+            '-created_at')[:(settings.bb_slope_dir_count * 2)]
 
         cond_2 = condition.objects.all().order_by(
-            '-created_at')[:self.setting.bb_slope_dir_count]
+            '-created_at')[:settings.bb_slope_dir_count]
 
         cv = rs['cv'].quantize(Decimal('0.00001'), rounding=ROUND_HALF_UP)
 
         # sig_adj_settingsから取得
-        sig1 = (rs['abs_sigma_1'] * self.setting.sig1_adj)
-        sig2 = (rs['abs_sigma_2'] * self.setting.sig2_adj)
-        sig3 = (rs['abs_sigma_3'] * self.setting.sig3_adj)
+        sig1 = (rs['abs_sigma_1'] * settings.sig1_adj)
+        sig2 = (rs['abs_sigma_2'] * settings.sig2_adj)
+        sig3 = (rs['abs_sigma_3'] * settings.sig3_adj)
 
-        sig1_2 = (rs['abs_sigma_1_2'] * self.setting.sig1_adj)
-        sig2_2 = (rs['abs_sigma_2_2'] * self.setting.sig2_adj)
-        sig3_2 = (rs['abs_sigma_3_2'] * self.setting.sig3_adj)
+        sig1_2 = (rs['abs_sigma_1_2'] * settings.sig1_adj)
+        sig2_2 = (rs['abs_sigma_2_2'] * settings.sig2_adj)
+        sig3_2 = (rs['abs_sigma_3_2'] * settings.sig3_adj)
 
-        bSig1 = (bbb['abs_sigma_1'] * self.setting.sig1_adj)
-        bSig2 = (bbb['abs_sigma_2'] * self.setting.sig2_adj)
-        bSig3 = (bbb['abs_sigma_3'] * self.setting.sig3_adj)
+        bSig1 = (bbb['abs_sigma_1'] * settings.sig1_adj)
+        bSig2 = (bbb['abs_sigma_2'] * settings.sig2_adj)
+        bSig3 = (bbb['abs_sigma_3'] * settings.sig3_adj)
 
-        bSig1_2 = (bbb['abs_sigma_1_2'] * self.setting.sig1_adj)
-        bSig2_2 = (bbb['abs_sigma_2_2'] * self.setting.sig2_adj)
-        bSig3_2 = (bbb['abs_sigma_3_2'] * self.setting.sig3_adj)
+        bSig1_2 = (bbb['abs_sigma_1_2'] * settings.sig1_adj)
+        bSig2_2 = (bbb['abs_sigma_2_2'] * settings.sig2_adj)
+        bSig3_2 = (bbb['abs_sigma_3_2'] * settings.sig3_adj)
 
         # エクスパンション判定用
         sig2forEx = (rs['abs_sigma_2'])
@@ -223,7 +224,7 @@ class setBollingerBand_USD_JPY:
         xClose_2 = []
         xClose.append(float(nowMA.close))
 
-        for c in cond[:self.setting.bb_cv_count]:
+        for c in cond[:settings.bb_cv_count]:
             xClose.append(float(c.ma.m5.close))
 
         try:
