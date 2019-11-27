@@ -121,23 +121,26 @@ class setSpecificMA:
 
         create = qSet.objects.create(
             m=FXdata,
-            ma_short=maList[0],
-            ma_middle=maList[1],
-            ma_long=maList[2],
+            ma_short=Decimal(maList[0]).quantize(
+                Decimal('0.0001'), rounding=ROUND_HALF_UP),
+            ma_middle=Decimal(maList[1]).quantize(
+                Decimal('0.0001'), rounding=ROUND_HALF_UP),
+            ma_long=Decimal(maList[2]).quantize(
+                Decimal('0.0001'), rounding=ROUND_HALF_UP),
 
             ema_short=Decimal(shortEma).quantize(
-            Decimal('0.0001'), rounding=ROUND_HALF_UP),
+                Decimal('0.0001'), rounding=ROUND_HALF_UP),
             ema_middle=Decimal(middleEma).quantize(
-            Decimal('0.0001'), rounding=ROUND_HALF_UP),
+                Decimal('0.0001'), rounding=ROUND_HALF_UP),
             ema_long=Decimal(longtEma).quantize(
-            Decimal('0.0001'), rounding=ROUND_HALF_UP),
+                Decimal('0.0001'), rounding=ROUND_HALF_UP),
 
             macd1=Decimal(shortEma-middleEma).quantize(
-            Decimal('0.0001'), rounding=ROUND_HALF_UP),
+                Decimal('0.0001'), rounding=ROUND_HALF_UP),
             macd2=Decimal(shortEma-longtEma).quantize(
-            Decimal('0.0001'), rounding=ROUND_HALF_UP),
+                Decimal('0.0001'), rounding=ROUND_HALF_UP),
             macd3=Decimal(middleEma-longtEma).quantize(
-            Decimal('0.0001'), rounding=ROUND_HALF_UP),
+                Decimal('0.0001'), rounding=ROUND_HALF_UP),
 
             compMa=compMa,
             compSlope=compSlope
