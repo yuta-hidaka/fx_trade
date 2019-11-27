@@ -86,7 +86,7 @@ class setSpecificMA:
             pastMiddleEma = maList[1]
             pastLongEma = maList[2]
             is_first = True
-            print(e)
+            return print(e)
             print('MAの過去データがありません。')
             pass
 
@@ -113,7 +113,6 @@ class setSpecificMA:
         compMa = comp.comp3MA(maList[0], maList[1], maList[2])
         # MA3つの傾きを計算
         compSlope = comp.comp3MASlope(s=st, m=md, l=lg)
-        slopeDir = 0
 
         create = qSet.objects.create(
             m=FXdata,
@@ -130,8 +129,7 @@ class setSpecificMA:
             macd3=middleEma-longtEma,
 
             compMa=compMa,
-            compSlope=compSlope,
-            slopeDir=slopeDir
+            compSlope=compSlope
         )
 
         pastSettings.short_leg = settings.short_leg
