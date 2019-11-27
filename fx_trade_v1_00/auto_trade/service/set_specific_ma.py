@@ -131,7 +131,7 @@ class setSpecificMA:
             macd3=middleEma-longtEma,
 
             compMa=compMa,
-            compSlope=compSlope
+            # compSlope=compSlope
         )
 
         pastSettings.short_leg = settings.short_leg
