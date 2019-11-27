@@ -91,11 +91,11 @@ class setSpecificMA:
             pass
 
         # 過去分の設定ファイルと違っていたらMAを過去のEMAとする
-        if shortLeg == shortLegPast:
+        if shortLeg != shortLegPast:
             pastShortEma = maList[0]
-        if middleLeg == middleLegPast:
+        if middleLeg != middleLegPast:
             pastMiddleEma = maList[1]
-        if longLeg == longLegPast:
+        if longLeg != longLegPast:
             pastLongEma = maList[2]
 
         # emaを計算
@@ -107,7 +107,6 @@ class setSpecificMA:
         print(maList[1])
         print(maList[2])
         print('take2')
-
         print(pastShortEma)
         print(pastMiddleEma)
         print(pastLongEma)
