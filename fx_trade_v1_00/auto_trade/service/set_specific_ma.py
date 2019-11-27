@@ -99,9 +99,12 @@ class setSpecificMA:
             pastLongEma = maList[2]
 
         # emaを計算
-        shortEma = pastShortEma*(shortLeg-1)+(c*2)/(shortLeg+1)
-        middleEma = pastMiddleEma*(shortLeg-1)+(c*2)/(shortLeg+1)
-        longtEma = pastLongEma*(shortLeg-1)+(c*2)/(shortLeg+1)
+        shortEma = Decimal(pastShortEma*(shortLeg-1)+(c*2)/(shortLeg+1)).quantize(
+            Decimal('0.0001'), rounding=ROUND_HALF_UP)
+        middleEma = Decimal(pastMiddleEma*(shortLeg-1)+(c*2)/(shortLeg+1)).quantize(
+            Decimal('0.0001'), rounding=ROUND_HALF_UP)
+        longtEma = Decimal(pastLongEma*(shortLeg-1)+(c*2)/(shortLeg+1)).quantize(
+            Decimal('0.0001'), rounding=ROUND_HALF_UP)
 
         # MAの傾きを計算
         st = maList[0] - leatestData.ma_short
@@ -131,7 +134,7 @@ class setSpecificMA:
             macd3=middleEma-longtEma,
 
             compMa=compMa,
-            # compSlope=compSlope
+            compSlope=compSlope
         )
 
         pastSettings.short_leg = settings.short_leg
