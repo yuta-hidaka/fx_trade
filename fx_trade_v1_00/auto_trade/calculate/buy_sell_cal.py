@@ -1,4 +1,4 @@
-from ..models import MA_USD_JPY, orderStatus, batchLog, tradeSettings, conditionOfSlope_M5, MA_Specific
+from ..models import MA_USD_JPY, orderStatus, batchLog, tradeSettings, conditionOfSlope_M5, MA_Specific, conditionOfMA_M5
 from django.forms.models import model_to_dict
 from ..service.get_MA_USD_JPY import getMA_USD_JPY
 import oandapyV20.endpoints.accounts as accounts
@@ -246,10 +246,10 @@ class BuySellCal():
 
             # -------------------------------------------------------------------------------------------------------
 
-            rs = conditionOfSlope_M5.objects.filter(
-                ma_comp6_24_72=4).filter(
-                created_at__range=(sTime, now)).order_by('-id').count()
             if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
+                rs = conditionOfMA_M5.objects.filter(
+                    ma_comp6_24_72=4).filter(
+                    created_at__range=(sTime, now)).order_by('-id').count()
                 self.text += 'long in by ma休止中<br>'
                 self.text += str(rs)+'この4がありました※※※※※※※※※※※※※※※※<br>'
                 self.text += str(rs)+str(trend_id)+'sinma<br>'
@@ -274,7 +274,7 @@ class BuySellCal():
                     self.text += '<p style="color=red;">最近4が1つ以上ありました or trendじゃない</p>'
 
             elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                rs = conditionOfSlope_M5.objects.filter(
+                rs = conditionOfMA_M5.objects.filter(
                     ma_comp6_24_72=1).filter(
                     created_at__range=(sTime, now)).order_by('-id').count()
                 self.text += 'short in by ma休止中<br>'
