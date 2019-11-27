@@ -114,6 +114,8 @@ class setSpecificMA:
         # MA3つの傾きを計算
         compSlope = comp.comp3MASlope(s=st, m=md, l=lg)
 
+        print(compSlope)
+
         create = qSet.objects.create(
             m=FXdata,
             ma_short=maList[0],
