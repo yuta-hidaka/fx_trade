@@ -91,11 +91,11 @@ class setSpecificMA:
             pass
 
         # 過去分の設定ファイルと違っていたらMAを過去のEMAとする
-        if shortLeg != shortLegPast:
+        if shortLeg == shortLegPast:
             pastShortEma = maList[0]
-        if middleLeg != middleLegPast:
+        if middleLeg == middleLegPast:
             pastMiddleEma = maList[1]
-        if longLeg != longLegPast:
+        if longLeg == longLegPast:
             pastLongEma = maList[2]
 
         # emaを計算
@@ -117,8 +117,6 @@ class setSpecificMA:
         compMa = comp.comp3MA(maList[0], maList[1], maList[2])
         # MA3つの傾きを計算
         compSlope = comp.comp3MASlope(s=st, m=md, l=lg)
-
-        print(compSlope)
 
         create = qSet.objects.create(
             m=FXdata,
