@@ -99,13 +99,18 @@ class setSpecificMA:
             pastLongEma = maList[2]
 
         # emaを計算
-        shortEma = pastShortEma*(shortLeg-1)+(c*2)/(shortLeg+1)
-        middleEma = pastMiddleEma*(shortLeg-1)+(c*2)/(shortLeg+1)
-        longtEma = pastLongEma*(shortLeg-1)+(c*2)/(shortLeg+1)
+        shortEma = (pastShortEma*(shortLeg-1)+(c*2))/(shortLeg+1)
+        middleEma = (pastMiddleEma*(shortLeg-1)+(c*2))/(shortLeg+1)
+        longtEma = (pastLongEma*(shortLeg-1)+(c*2))/(shortLeg+1)
 
         print(maList[0])
         print(maList[1])
         print(maList[2])
+        print('take2')
+
+        print(pastShortEma)
+        print(pastMiddleEma)
+        print(pastLongEma)
         print('take2')
         print(shortEma)
         print(middleEma)
