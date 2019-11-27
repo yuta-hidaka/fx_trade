@@ -99,12 +99,13 @@ class setSpecificMA:
             pastLongEma = maList[2]
 
         # emaを計算
-        shortEma = Decimal(pastShortEma*(shortLeg-1)+(c*2)/(shortLeg+1)).quantize(
-            Decimal('0.0001'), rounding=ROUND_HALF_UP)
-        middleEma = Decimal(pastMiddleEma*(shortLeg-1)+(c*2)/(shortLeg+1)).quantize(
-            Decimal('0.0001'), rounding=ROUND_HALF_UP)
-        longtEma = Decimal(pastLongEma*(shortLeg-1)+(c*2)/(shortLeg+1)).quantize(
-            Decimal('0.0001'), rounding=ROUND_HALF_UP)
+        shortEma = pastShortEma*(shortLeg-1)+(c*2)/(shortLeg+1)
+        middleEma = pastMiddleEma*(shortLeg-1)+(c*2)/(shortLeg+1)
+        longtEma = pastLongEma*(shortLeg-1)+(c*2)/(shortLeg+1)
+
+        print(shortEma)
+        print(middleEma)
+        print(longtEma)
 
         # MAの傾きを計算
         st = maList[0] - leatestData.ma_short
@@ -119,44 +120,29 @@ class setSpecificMA:
 
         print(compSlope)
 
-        try:
-            create = qSet.objects.create(
-                m=FXdata,
-                ma_short=Decimal(maList[0]).quantize(
-                    Decimal('0.0001'), rounding=ROUND_HALF_UP),
-                ma_middle=Decimal(maList[1]).quantize(
-                    Decimal('0.0001'), rounding=ROUND_HALF_UP),
-                ma_long=Decimal(maList[2]).quantize(
-                    Decimal('0.0001'), rounding=ROUND_HALF_UP),
+        create = qSet.objects.create(
+            m=FXdata,
+            ma_short=maList[0],
+            ma_middle=maList[1],
+            ma_long=maList[2],
 
-                ema_short=Decimal(shortEma).quantize(
-                    Decimal('0.0001'), rounding=ROUND_HALF_UP),
-                ema_middle=Decimal(middleEma).quantize(
-                    Decimal('0.0001'), rounding=ROUND_HALF_UP),
-                ema_long=Decimal(longtEma).quantize(
-                    Decimal('0.0001'), rounding=ROUND_HALF_UP),
+            ema_short=shortEma,
+            ema_middle=middleEma,
+            ema_long=longtEma,
 
-                macd1=Decimal(shortEma-middleEma).quantize(
-                    Decimal('0.0001'), rounding=ROUND_HALF_UP),
-                macd2=Decimal(shortEma-longtEma).quantize(
-                    Decimal('0.0001'), rounding=ROUND_HALF_UP),
-                macd3=Decimal(middleEma-longtEma).quantize(
-                    Decimal('0.0001'), rounding=ROUND_HALF_UP),
+            macd1=shortEma-middleEma,
+            macd2=shortEma-longtEma,
+            macd3=middleEma-longtEma,
 
-                compMa=compMa,
-                compSlope=compSlope
-            )
+            compMa=compMa,
+            compSlope=compSlope
+        )
 
-            pastSettings.short_leg = settings.short_leg
-            pastSettings.middle_leg = settings.middle_leg
-            pastSettings.long_leg = settings.long_leg
+        pastSettings.short_leg = settings.short_leg
+        pastSettings.middle_leg = settings.middle_leg
+        pastSettings.long_leg = settings.long_leg
 
-            pastSettings.save()
-            pass
-        except Exception as e:
-            print(e)
-            pass
-
+        pastSettings.save()
 
         return create
 
