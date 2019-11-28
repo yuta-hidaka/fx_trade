@@ -212,8 +212,13 @@ class BuySellCal():
             macdCheckLong = [1, 6]
             macdCheckShort = [3, 4]
             self.text += 'specMa ' + str(specMa)+'<br>'
+            self.text += 'specMacdSlope ' + str(specMacdSlope)+'<br>'
             self.text += 'specSlope ' + str(specMaSlope)+'<br>'
+            self.text += 'macd1 ' + str(macd1)+'<br>'
+            self.text += 'macd2 ' + str(macd2)+'<br>'
             self.text += 'macd3 ' + str(macd3)+'<br>'
+            self.text += 'specEma ' + str(specEma)+'<br>'
+            self.text += 'specMacd ' + str(specMacd)+'<br>'
 
             if specEma in emaCheckLong:
                 if specEmaSlope == 1 and specMacdSlope == 1:
