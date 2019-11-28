@@ -212,6 +212,7 @@ class BuySellCal():
             macdCheckLong = [1, 6]
             macdCheckShort = [3, 4]
             self.text += 'specMa ' + str(specMa)+'<br>'
+            self.text += 'specEma ' + str(specEma)+'<br>'
             self.text += 'specMacdSlope ' + str(specMacdSlope)+'<br>'
             self.text += 'specSlope ' + str(specMaSlope)+'<br>'
             self.text += 'macd1 ' + str(macd1)+'<br>'
@@ -221,11 +222,12 @@ class BuySellCal():
             self.text += 'specMacd ' + str(specMacd)+'<br>'
 
             if specEma in emaCheckLong:
+                self.text += 'long in--emaCheck<br>'
                 if specEmaSlope == 1 and specMacdSlope == 1:
+                    self.text += 'long in--slopeCheck<br>'
                     if specMacd in macdCheckLong:
                         rs = MA_Specific.objects.filter(compEma=4).filter(
                             created_at__range=(sTime, now)).order_by('-id').count()
-
                         self.text += 'long in by macd<br>'
                         self.text += str(rs)+'この4がありました※※※※※※※※※※※※※※※※<br>'
                         rs = 0
@@ -240,7 +242,9 @@ class BuySellCal():
                             self.order.LongOrderCreate()
 
             elif specEma in emaCheckShort:
-                if specEmaSlope == 2 and specMacdSlope == 1:
+                self.text += 'short in--emaCheck<br>'
+                if specEmaSlope == 2 and specMacdSlope == 2:
+                    self.text += 'shot in--slopeCheck<br>'
                     if specMacd in macdCheckShort:
                         rs = MA_Specific.objects.filter(compEma=1).filter(
                             created_at__range=(sTime, now)).order_by('-id').count()

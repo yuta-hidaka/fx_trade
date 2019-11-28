@@ -34,6 +34,8 @@ class compaireMA():
         elif m1 >= 0 and m2 >= 0 and m3 <= 0:
             return 6
 
+        return 0
+
     def comp3MASlope(self, s, m, l):
         '''
         1すべてプラス
