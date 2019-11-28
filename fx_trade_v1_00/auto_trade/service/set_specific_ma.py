@@ -136,10 +136,12 @@ class setSpecificMA:
         st = macd1 - leatestData.macd1
         md = macd2 - leatestData.macd2
         lg = macd3 - leatestData.macd3
+        self.text += str(st) + '<br>'
+        self.text += str(md) + '<br>'
+        self.text += str(lg) + '<br>'
         # MACD3つの傾きを計算
         compMacdSlope = comp.comp3MASlope(s=st, m=md, l=lg)
         compMacd = comp.comp3MacdSlope(m1=macd1, m2=macd2, m3=macd3)
-
 
         # print('maList[0]')
         # print(maList[0])
