@@ -88,7 +88,7 @@ class orderFx:
                 "price": None,
                 "instrument": None,
                 "units": None,
-                "type": "LIMIT",
+                "type": "MARKET",
                 "positionFill": "DEFAULT",
                 "stopLossOnFill": None
             }
