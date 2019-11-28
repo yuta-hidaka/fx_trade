@@ -444,7 +444,7 @@ class orderFx:
             # print(self.data)
             # r = trades.TradeClose(accountID=accountID, tradeID=49, data=data)
             # API経由で指値注文を実行
-            if self.orderLongNum == 1:
+            if self.orderLongNum == 0:
 
                 try:
                     now = timezone.now()
