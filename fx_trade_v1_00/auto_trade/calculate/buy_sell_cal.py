@@ -233,6 +233,9 @@ class BuySellCal():
                         rs = 0
 
                         if rs == 0:
+                            if not settings.use_specific_limit:
+                                limit = sig3_2
+
                             self.text += str(rs)+str(trend_id)+'macdLong<br>'
                             self.order.isInByMa = True
                             long_limit = (
@@ -254,6 +257,9 @@ class BuySellCal():
                         rs = 0
 
                         if rs == 0:
+                            if not settings.use_specific_limit:
+                                limit = sig3_2
+
                             self.text += str(rs)+str(trend_id)+'macdShort<br>'
                             self.order.isInByMa = True
                             short_limit = (
