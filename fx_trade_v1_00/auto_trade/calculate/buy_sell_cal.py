@@ -81,6 +81,7 @@ class BuySellCal():
 
         specMa = spec.compMa
         specEma = spec.compEma
+        specMacd = spec.compMacd
 
         specMaSlope = spec.compMaSlope
         specEmaSlope = spec.compEmaSlope
@@ -207,13 +208,16 @@ class BuySellCal():
             # ----------------------------------------------------------------------------------------------------------
             emaCheckLong = [1, 6]
             emaCheckShort = [3, 4]
+
+            macdCheckLong = [1, 6]
+            macdCheckShort = [3, 4]
             self.text += 'specMa ' + str(specMa)+'<br>'
             self.text += 'specSlope ' + str(specMaSlope)+'<br>'
             self.text += 'macd3 ' + str(macd3)+'<br>'
 
             if specEma in emaCheckLong:
                 if specEmaSlope == 1 and specMacdSlope == 1:
-                    if macd3 >= 0:
+                    if specMacd in macdCheckLong:
                         rs = MA_Specific.objects.filter(compEma=4).filter(
                             created_at__range=(sTime, now)).order_by('-id').count()
 
@@ -232,7 +236,7 @@ class BuySellCal():
 
             elif specEma in emaCheckShort:
                 if specEmaSlope == 2 and specMacdSlope == 1:
-                    if macd3 <= 0:
+                    if specMacd in macdCheckShort:
                         rs = MA_Specific.objects.filter(compEma=1).filter(
                             created_at__range=(sTime, now)).order_by('-id').count()
 

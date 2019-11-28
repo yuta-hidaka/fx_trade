@@ -9,6 +9,30 @@ import numpy as np
 
 class compaireMA():
 
+    def comp3MacdSlope(self, m1, m2, m3):
+        '''
+        1すべてプラス
+        2すべてマイナス
+        3すべて０
+        4それ以外
+        '''
+        # 桁数補正
+        m1 = m1 * 1000
+        m2 = m2 * 1000
+        m3 = m3 * 1000
+
+        if m1 >= 0 and m2 >= 0 and m3 >= 0:
+            return 1
+        elif m1 <= 0 and m2 >= 0 and m3 >= 0:
+            return 2
+        elif m1 <= 0 and m2 <= 0 and m3 >= 0:
+            return 3
+        elif m1 <= 0 and m2 <= 0 and m3 <= 0:
+            return 4
+        elif m1 >= 0 and m2 <= 0 and m3 <= 0:
+            return 5
+        elif m1 >= 0 and m2 >= 0 and m3 <= 0:
+            return 6
 
     def comp3MASlope(self, s, m, l):
         '''
