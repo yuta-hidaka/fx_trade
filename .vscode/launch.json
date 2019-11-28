@@ -62,9 +62,7 @@
             "program": "${workspaceFolder}\\fx_trade_v1_00\\manage.py",
             "args": [
                 "makemigrations",
-                "--settings=local_settings",
-                "--no-debugger",
-                "--no-reload"
+                "--settings=local_settings"
             ],
             "stopOnEntry": true,
             "console": "internalConsole",

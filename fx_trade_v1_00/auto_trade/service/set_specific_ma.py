@@ -112,18 +112,6 @@ class setSpecificMA:
         macd2 = shortEma-longtEma
         macd3 = middleEma-longtEma
 
-        # print(maList[0])
-        # print(maList[1])
-        # print(maList[2])
-        # print('take2')
-        # print(pastShortEma)
-        # print(pastMiddleEma)
-        # print(pastLongEma)
-        # print('take2')
-        # print(shortEma)
-        # print(middleEma)
-        # print(longtEma)
-
         # MAの傾きを計算
         st = maList[0] - leatestData.ma_short
         md = maList[0] - leatestData.ma_middle
@@ -151,25 +139,25 @@ class setSpecificMA:
         # MACD3つの傾きを計算
         compMacdSlope = comp.comp3MASlope(s=st, m=md, l=lg)
 
-        print('maList[0]')
-        print(maList[0])
-        print(maList[1])
-        print(maList[2])
-        print('shortEma')
-        print(shortEma)
-        print(middleEma)
-        print(longtEma)
-        print('macd1')
-        print(macd1)
-        print(macd2)
-        print(macd3)
-        print('compMa')
-        print(compMa)
-        print(compMaSlope)
-        print('compMacdSlope')
-        print(compMacdSlope)
-        print(compEma)
-        print(compEmaSlope)
+        # print('maList[0]')
+        # print(maList[0])
+        # print(maList[1])
+        # print(maList[2])
+        # print('shortEma')
+        # print(shortEma)
+        # print(middleEma)
+        # print(longtEma)
+        # print('macd1')
+        # print(macd1)
+        # print(macd2)
+        # print(macd3)
+        # print('compMa')
+        # print(compMa)
+        # print(compMaSlope)
+        # print('compMacdSlope')
+        # print(compMacdSlope)
+        # print(compEma)
+        # print(compEmaSlope)
 
         create = qSet.objects.create(
             m=FXdata,
