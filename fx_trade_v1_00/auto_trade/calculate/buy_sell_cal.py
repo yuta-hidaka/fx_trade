@@ -80,7 +80,11 @@ class BuySellCal():
         macd3 = spec.macd3
 
         specMa = spec.compMa
-        specSlope = spec.compSlope
+        specEma = spec.compEma
+
+        specMaSlope = spec.compMaSlope
+        specEmaSlope = spec.compEmaSlope
+        specMacdSlope = spec.compMacdSlope
         # ----------------------------------------------------------------
 
         if settings.use_specific_limit:
@@ -201,22 +205,21 @@ class BuySellCal():
             sTime = now - adjTime
 
             # ----------------------------------------------------------------------------------------------------------
-            maCheckLong = [1, 6]
-            maCheckShort = [3, 4]
+            emaCheckLong = [1, 6]
+            emaCheckShort = [3, 4]
             self.text += 'specMa ' + str(specMa)+'<br>'
-            self.text += 'specSlope ' + str(specSlope)+'<br>'
+            self.text += 'specSlope ' + str(specMaSlope)+'<br>'
             self.text += 'macd3 ' + str(macd3)+'<br>'
 
-            if specMa in maCheckLong:
-                if specSlope == 1:
+            if specEma in emaCheckLong:
+                if specEmaSlope == 1 and specMacdSlope == 1:
                     if macd3 >= 0:
-                        rs = MA_Specific.objects.filter(compMa=4).filter(
+                        rs = MA_Specific.objects.filter(compEma=4).filter(
                             created_at__range=(sTime, now)).order_by('-id').count()
 
-                        #     slope_comp6_24_72=4).filter(
-                        #     created_at__range=(sTime, now)).order_by('-id').count()
                         self.text += 'long in by macd<br>'
                         self.text += str(rs)+'この4がありました※※※※※※※※※※※※※※※※<br>'
+                        rs = 0
 
                         if rs == 0:
                             self.text += str(rs)+str(trend_id)+'macdLong<br>'
@@ -227,14 +230,16 @@ class BuySellCal():
                             self.order.trend_id = 1
                             self.order.LongOrderCreate()
 
-            elif specMa in maCheckShort:
-                if specSlope == 2:
+            elif specEma in emaCheckShort:
+                if specEmaSlope == 2 and specMacdSlope == 1:
                     if macd3 <= 0:
-                        rs = MA_Specific.objects.filter(compMa=1).filter(
+                        rs = MA_Specific.objects.filter(compEma=1).filter(
                             created_at__range=(sTime, now)).order_by('-id').count()
 
                         self.text += 'short in by macd<br>'
                         self.text += str(rs)+'この1がありました※※※※※※※※※※※※※※※※<br>'
+                        rs = 0
+
                         if rs == 0:
                             self.text += str(rs)+str(trend_id)+'macdShort<br>'
                             self.order.isInByMa = True

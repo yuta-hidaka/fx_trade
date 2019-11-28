@@ -17,7 +17,6 @@ class tradeSettings(models.Model):
     # 長期足の設定
     long_leg = models.IntegerField(default=50)
 
-
     on_unit_trade = models.BooleanField(null=True, default=False)
     on_real_trade = models.BooleanField(null=True, default=False)
     use_specific_limit = models.BooleanField(null=True, default=False)
@@ -109,7 +108,7 @@ class M5_USD_JPY(models.Model):
 # 平均移動線_可変用
 class MA_Specific(models.Model):
     m = models.ForeignKey(
-        'specificCandle', on_delete=models.CASCADE, related_name='m', null=True)    
+        'specificCandle', on_delete=models.CASCADE, related_name='m', null=True)
     past_m = models.ForeignKey(
         'specificCandle', on_delete=models.CASCADE, related_name='past_m', null=True)
     ma_short = models.DecimalField(
@@ -117,14 +116,14 @@ class MA_Specific(models.Model):
     ma_middle = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
     ma_long = models.DecimalField(
-        max_digits=8, decimal_places=4, default=0.0000)    
+        max_digits=8, decimal_places=4, default=0.0000)
 
     ema_short = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
     ema_middle = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
     ema_long = models.DecimalField(
-        max_digits=8, decimal_places=4, default=0.0000) 
+        max_digits=8, decimal_places=4, default=0.0000)
 
     macd1 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
@@ -132,11 +131,16 @@ class MA_Specific(models.Model):
         max_digits=8, decimal_places=4, default=0.0000)
     macd3 = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
-    
-    compMa = models.IntegerField(default=0)
 
-    compSlope = models.IntegerField(default=0)
-    
+    compMa = models.IntegerField(default=0)
+    compMaSlope = models.IntegerField(default=0)
+
+    compMacd = models.IntegerField(default=0)
+    compMacdSlope = models.IntegerField(default=0)
+
+    compEma = models.IntegerField(default=0)
+    compEmaSlope = models.IntegerField(default=0)
+
     slopeDir = models.IntegerField(default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -162,7 +166,6 @@ class SlopeMA_specific(models.Model):
     slope_long_specific = models.DecimalField(
         max_digits=8, decimal_places=4, default=0.0000)
 
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -170,6 +173,8 @@ class SlopeMA_specific(models.Model):
         db_table = 'slope_MA_specific'
 
 # 平均移動線
+
+
 class MA_USD_JPY(models.Model):
     m5 = models.ForeignKey(
         'M5_USD_JPY', on_delete=models.CASCADE, related_name='m5', null=True)

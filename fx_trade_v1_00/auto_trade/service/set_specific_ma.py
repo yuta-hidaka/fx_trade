@@ -104,8 +104,13 @@ class setSpecificMA:
 
         # emaを計算
         shortEma = (pastShortEma*(shortLeg-1)+(c*2))/(shortLeg+1)
-        middleEma = (pastMiddleEma*(shortLeg-1)+(c*2))/(shortLeg+1)
-        longtEma = (pastLongEma*(shortLeg-1)+(c*2))/(shortLeg+1)
+        middleEma = (pastMiddleEma*(middleLeg-1)+(c*2))/(middleLeg+1)
+        longtEma = (pastLongEma*(longLeg-1)+(c*2))/(longLeg+1)
+
+        # macdの計算
+        macd1 = shortEma-middleEma
+        macd2 = shortEma-longtEma
+        macd3 = middleEma-longtEma
 
         # print(maList[0])
         # print(maList[1])
@@ -128,7 +133,43 @@ class setSpecificMA:
         # MA3つの位置を計算
         compMa = comp.comp3MA(maList[0], maList[1], maList[2])
         # MA3つの傾きを計算
-        compSlope = comp.comp3MASlope(s=st, m=md, l=lg)
+        compMaSlope = comp.comp3MASlope(s=st, m=md, l=lg)
+
+        # MAの傾きを計算
+        st = shortEma - leatestData.ema_short
+        md = middleEma - leatestData.ema_middle
+        lg = longtEma - leatestData.ema_long
+        # EMA3つの位置を計算
+        compEma = comp.comp3MA(shortEma, middleEma, longtEma)
+        # EMA3つの傾きを計算
+        compEmaSlope = comp.comp3MASlope(s=st, m=md, l=lg)
+
+        # MAの傾きを計算
+        st = macd1 - leatestData.macd1
+        md = macd2 - leatestData.macd2
+        lg = macd3 - leatestData.macd3
+        # MACD3つの傾きを計算
+        compMacdSlope = comp.comp3MASlope(s=st, m=md, l=lg)
+
+        print('maList[0]')
+        print(maList[0])
+        print(maList[1])
+        print(maList[2])
+        print('shortEma')
+        print(shortEma)
+        print(middleEma)
+        print(longtEma)
+        print('macd1')
+        print(macd1)
+        print(macd2)
+        print(macd3)
+        print('compMa')
+        print(compMa)
+        print(compMaSlope)
+        print('compMacdSlope')
+        print(compMacdSlope)
+        print(compEma)
+        print(compEmaSlope)
 
         create = qSet.objects.create(
             m=FXdata,
@@ -140,12 +181,18 @@ class setSpecificMA:
             ema_middle=middleEma,
             ema_long=longtEma,
 
-            macd1=shortEma-middleEma,
-            macd2=shortEma-longtEma,
-            macd3=middleEma-longtEma,
+            macd1=macd1,
+            macd2=macd2,
+            macd3=macd3,
 
             compMa=compMa,
-            compSlope=compSlope
+            compMaSlope=compMaSlope,
+
+            compMacd=0,
+            compMacdSlope=compMacdSlope,
+
+            compEma=compEma,
+            compEmaSlope=compEmaSlope
         )
 
         pastSettings.short_leg = settings.short_leg

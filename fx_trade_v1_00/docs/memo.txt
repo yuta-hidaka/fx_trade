@@ -1,1 +1,5 @@
 pip install --user --install-option="--install-purelib=C:\dev\fx_trade_v1.01\venv\Lib\site-packages" -r C:\dev\fx_trade_v1.01\fx_trade_v1_00\docs\requirement.txt
+
+
+C:\dev\fx_trade_v1.01\venv\Scripts\python.exe  manage.py makemigrations --settings=local_settings
+C:\dev\fx_trade_v1.01\venv\Scripts\python.exe  manage.py migrate --settings=local_settings
