@@ -162,10 +162,12 @@ class BuySellCal():
             self.order.priceLong = str(long_in)
             self.order.stopLossLong = str(long_limit)
             self.order.unitsLong = str(units)
+            self.order.unitsLong = str("1")
 
             self.order.priceShort = str(short_in)
             self.order.stopLossShort = str(short_limit)
             self.order.unitsShort = str(units*-1)
+            self.order.LongOrderCreate()
             # 前回までトレンドで今が持ち合い相場であればいったん決済する。
 
             try:
