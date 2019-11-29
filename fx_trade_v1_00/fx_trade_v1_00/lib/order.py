@@ -11,7 +11,7 @@ import oandapyV20.endpoints.orders as orders
 import oandapyV20.endpoints.trades as trades
 import oandapyV20.endpoints.positions as positions
 from oandapyV20.contrib.requests import (
-    MarketOrderRequest, StopLossDetails, TakeProfitOrderRequest
+    MarketOrderRequest, StopLossDetails, TakeProfitOrderRequest, TrailingStopLossDetails
 )
 from auto_trade.models import batchLog
 from .access_token import FxInfo
@@ -66,6 +66,8 @@ class orderFx:
         self.isLlockByTime = False
         self.waitTime = 0
         self.trend_id = 0
+        # 現在の価格
+        self.priceNow = 0
 
         # """為替ペア"""
         self.instrument = "USD_JPY"
@@ -352,6 +354,9 @@ class orderFx:
 
     def ShortOrderCreate(self):
         self.text += 'ShortOrderCreate<br>'
+        slos = self.stopLossShort
+        pNow = self.priceNow
+        sld = slos - pNow
         if self.nowIn:
             self.text += 'short すでに購買済み<br>'
             return
@@ -367,11 +372,11 @@ class orderFx:
             self.nowIn = True
             api = self.fi.api
             # stopPrice = 100.00
-            stoporder = StopLossDetails(
-                price=self.stopLossShort,
-                # timeInForce="GTD",
-                # gtdTime=self.now_utc
-            )
+            a = False
+            if a:
+                stoporder = StopLossDetails(price=str(slos))
+            else:
+                stoporder = TrailingStopLossDetails(distance=str(sld))
 
             self.data['order']['price'] = self.priceShort
             self.data['order']['instrument'] = self.instrument
@@ -416,6 +421,9 @@ class orderFx:
         # self.getOrderNum()
 
     def LongOrderCreate(self):
+        slos = self.stopLossLong
+        pNow = self.priceNow
+        sld = slos - pNow
         self.text += 'LongOrderCreate<br>'
         if self.nowIn:
             self.text += 'すでに購買済み<br>'
@@ -431,12 +439,12 @@ class orderFx:
             self.oderCloseAllShort()
             self.nowIn = True
             api = self.fi.api
-            # stopPrice = 100.00
-            stoporder = StopLossDetails(
-                price=self.stopLossLong,
-                # timeInForce="GTD",
-                # gtdTime=self.now_utc
-            )
+
+            a = False
+            if a:
+                stoporder = StopLossDetails(price=str(slos))
+            else:
+                stoporder = TrailingStopLossDetails(distance=str(sld))
 
             self.data['order']['price'] = self.priceLong
             self.data['order']['instrument'] = self.instrument
