@@ -111,6 +111,9 @@ class orderFx:
 
     # def getPosition(self):
 
+    def addTrailingOrder(self):
+        r = r
+
     def inByMaCheck(self):
         # maの際は二倍の時間をまつ
         now = timezone.now()

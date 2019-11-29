@@ -116,17 +116,23 @@ class setSpecificMA:
         st = maList[0] - leatestData.ma_short
         md = maList[0] - leatestData.ma_middle
         lg = maList[0] - leatestData.ma_long
-
+        self.text += 'ma 傾き<br>'
+        self.text += str(st) + '<br>'
+        self.text += str(md) + '<br>'
+        self.text += str(lg) + '<br>'
         qSet = MA_Specific
         # MA3つの位置を計算
         compMa = comp.comp3MA(maList[0], maList[1], maList[2])
         # MA3つの傾きを計算
         compMaSlope = comp.comp3MASlope(s=st, m=md, l=lg)
 
-        # MAの傾きを計算
+        # EMAの傾きを計算
         st = shortEma - leatestData.ema_short
         md = middleEma - leatestData.ema_middle
         lg = longtEma - leatestData.ema_long
+        self.text += str(st) + 'ema傾き<br>'
+        self.text += str(md) + '<br>'
+        self.text += str(lg) + '<br>'
         # EMA3つの位置を計算
         compEma = comp.comp3MA(shortEma, middleEma, longtEma)
         # EMA3つの傾きを計算
@@ -136,6 +142,7 @@ class setSpecificMA:
         st = macd1 - leatestData.macd1
         md = macd2 - leatestData.macd2
         lg = macd3 - leatestData.macd3
+        self.text += 'macd傾き<br>'
         self.text += str(st) + '<br>'
         self.text += str(md) + '<br>'
         self.text += str(lg) + '<br>'
