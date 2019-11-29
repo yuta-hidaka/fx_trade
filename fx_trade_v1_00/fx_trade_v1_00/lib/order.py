@@ -356,13 +356,12 @@ class orderFx:
             self.text += 'MA購入から指定時間たってない<br>'
             return
 
-        self.nowIn = True
-
         self.positionTimeCheck()
         flg = False
         if not self.isSlockByTime or self.isInByMa:
             self.getOrderNum()
             self.oderCloseAllLong()
+            self.nowIn = True
             api = self.fi.api
             # stopPrice = 100.00
             stoporder = StopLossDetails(
@@ -422,13 +421,12 @@ class orderFx:
             self.text += 'MA購入から指定時間たってない<br>'
             return
 
-        self.nowIn = True
-
         self.positionTimeCheck()
         flg = False
         if not self.isLlockByTime or self.isInByMa:
             self.getOrderNum()
             self.oderCloseAllShort()
+            self.nowIn = True
             api = self.fi.api
             # stopPrice = 100.00
             stoporder = StopLossDetails(
