@@ -115,12 +115,11 @@ class Command(BaseCommand):
         limitMin = [59]
         # 土曜日の6時59分　夏時間で5時59分になったら、ポジションをすべて解除
         if wk == 5 and hr == (adjNum - 1) and mi in limitMin or wk == 5 and hr == adjNum and mi == 0:
-            order.allOrderClose()
-            text += '土曜日の終了時刻以降になったので取引中止処理を行います。<br>'
+            # order.allOrderClose()
+            text += '土曜日の終了時刻以降になったので取引中止処理を行います。購買中止処理を休止中<br>'
             is_closeMarket = True
         # 5分足が作成されたらMAを作成する。
         if created:
-
             specCreate = setSpec.setMA(resultSpecific)
             text += setSpec.text
 

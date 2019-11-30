@@ -113,9 +113,15 @@ class setSpecificMA:
         macd3 = middleEma-longtEma
 
         # MAの傾きを計算
-        st = maList[0] - leatestData.ma_short
-        md = maList[0] - leatestData.ma_middle
-        lg = maList[0] - leatestData.ma_long
+        st = (maList[0] - leatestData.ma_short).quantize(
+            Decimal('0.0001'), rounding=ROUND_HALF_UP)
+
+        md = (maList[0] - leatestData.ma_middle).quantize(
+            Decimal('0.0001'), rounding=ROUND_HALF_UP)
+
+        lg = (maList[0] - leatestData.ma_long).quantize(
+            Decimal('0.0001'), rounding=ROUND_HALF_UP)
+
         self.text += 'ma 傾き<br>'
         self.text += str(st) + '<br>'
         self.text += str(md) + '<br>'
@@ -127,22 +133,36 @@ class setSpecificMA:
         compMaSlope = comp.comp3MASlope(s=st, m=md, l=lg)
 
         # EMAの傾きを計算
-        st = shortEma - leatestData.ema_short
-        md = middleEma - leatestData.ema_middle
-        lg = longtEma - leatestData.ema_long
-        self.text += str(st) + 'ema傾き<br>'
+        st = (shortEma - leatestData.ema_short).quantize(
+            Decimal('0.0001'), rounding=ROUND_HALF_UP)
+
+        md = (middleEma - leatestData.ema_middle).quantize(
+            Decimal('0.0001'), rounding=ROUND_HALF_UP)
+
+        lg = (longtEma - leatestData.ema_long).quantize(
+            Decimal('0.0001'), rounding=ROUND_HALF_UP)
+
+        self.text += 'ema傾き<br>'
+        self.text += str(st) + '<br>'
         self.text += str(md) + '<br>'
         self.text += str(lg) + '<br>'
+
         # EMA3つの位置を計算
         compEma = comp.comp3MA(shortEma, middleEma, longtEma)
         # EMA3つの傾きを計算
         compEmaSlope = comp.comp3MASlope(s=st, m=md, l=lg)
 
         # MAの傾きを計算
-        st = macd1 - leatestData.macd1
-        md = macd2 - leatestData.macd2
-        lg = macd3 - leatestData.macd3
-        self.text += 'macd傾き<br>'
+        st = (macd1 - leatestData.macd1).quantize(
+            Decimal('0.0001'), rounding=ROUND_HALF_UP)
+
+        md = (macd2 - leatestData.macd2).quantize(
+            Decimal('0.0001'), rounding=ROUND_HALF_UP)
+
+        lg = (macd3 - leatestData.macd3).quantize(
+            Decimal('0.0001'), rounding=ROUND_HALF_UP)
+            
+        self.text += '<br>macd傾き<br>'
         self.text += str(st) + '<br>'
         self.text += str(md) + '<br>'
         self.text += str(lg) + '<br>'
