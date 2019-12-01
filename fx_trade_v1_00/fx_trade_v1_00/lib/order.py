@@ -359,8 +359,8 @@ class orderFx:
         # self.text += 'ShortOrderCreate<br>'
         slos = Decimal(self.stopLossLong)
         pNow = Decimal(self.priceNow)
-        print(slos)
-        print(pNow)
+        # print(slos)
+        # print(pNow)
         sld = slos - pNow
         if self.nowIn:
             self.text += 'short すでに購買済み<br>'
@@ -428,8 +428,8 @@ class orderFx:
     def LongOrderCreate(self):
         slos = Decimal(self.stopLossLong)
         pNow = Decimal(self.priceNow)
-        print(slos)
-        print(pNow)
+        # print(slos)
+        # print(pNow)
         sld = slos - pNow
         self.text += 'LongOrderCreate<br>'
         if self.nowIn:
