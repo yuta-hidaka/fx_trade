@@ -137,6 +137,6 @@ STATIC_ROOT = '/var/www/python/static'
 # )
 
 STATICFILES_DIRS = (
-    # os.path.join(BASE_DIR, 'summary', "build", "static"),
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, 'summary', "build", "static"),
+    # os.path.join(BASE_DIR, "static"),
 )
