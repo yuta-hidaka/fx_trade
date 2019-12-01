@@ -89,6 +89,14 @@ class BuySellCal():
         specMacdSlope = spec.compMacdSlope
         # ----------------------------------------------------------------
 
+        try:
+            useCnt = settings.use_cnt
+            pass
+        except:
+            self.text +='eraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>'
+            useCnt = False
+            pass
+
         if settings.use_specific_limit:
             limit = settings.limit
             c = nowCndl_close
@@ -231,7 +239,8 @@ class BuySellCal():
                             created_at__range=(sTime, now)).order_by('-id').count()
                         self.text += 'long in by macd<br>'
                         self.text += str(rs)+'この4がありました※※※※※※※※※※※※※※※※<br>'
-                        rs = 0
+                        if not useCnt:
+                            rs = 0
                         if rs == 0:
                             if not settings.use_specific_limit:
                                 limit = sig3_2
@@ -254,7 +263,8 @@ class BuySellCal():
 
                         self.text += 'short in by macd<br>'
                         self.text += str(rs)+'この1がありました※※※※※※※※※※※※※※※※<br>'
-                        rs = 0
+                        if not useCnt:
+                            rs = 0
                         if rs == 0:
                             if not settings.use_specific_limit:
                                 limit = sig3_2

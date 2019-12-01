@@ -6,6 +6,8 @@ from django.utils import timezone
 
 
 class tradeSettings(models.Model):
+    # 過去に異常値がないか検索
+    use_cnt = models.BooleanField(null=True, default=False)
     # どの通貨ペアを使用するか
     instruments = models.CharField(max_length=100, default='USD_JPY')
     # どの足で取引するか
