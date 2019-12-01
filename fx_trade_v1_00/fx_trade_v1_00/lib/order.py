@@ -21,6 +21,7 @@ from django.utils import timezone
 import datetime
 from auto_trade.models import batchLog,  tradeLog
 from oandapyV20 import API
+from decimal import *
 
 """
 memo
@@ -354,8 +355,12 @@ class orderFx:
 
     def ShortOrderCreate(self):
         self.text += 'ShortOrderCreate<br>'
-        slos = self.stopLossShort
-        pNow = self.priceNow
+        # self.text += 'alos<br>'
+        # self.text += 'ShortOrderCreate<br>'
+        slos = Decimal(self.stopLossLong)
+        pNow = Decimal(self.priceNow)
+        print(slos)
+        print(pNow)
         sld = slos - pNow
         if self.nowIn:
             self.text += 'short すでに購買済み<br>'
@@ -421,8 +426,10 @@ class orderFx:
         # self.getOrderNum()
 
     def LongOrderCreate(self):
-        slos = self.stopLossLong
-        pNow = self.priceNow
+        slos = Decimal(self.stopLossLong)
+        pNow = Decimal(self.priceNow)
+        print(slos)
+        print(pNow)
         sld = slos - pNow
         self.text += 'LongOrderCreate<br>'
         if self.nowIn:
