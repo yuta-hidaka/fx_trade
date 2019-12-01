@@ -265,6 +265,7 @@ class BuySellCal():
                         self.text += str(rs)+'この1がありました※※※※※※※※※※※※※※※※<br>'
                         if not useCnt:
                             rs = 0
+                            
                         if rs == 0:
                             if not settings.use_specific_limit:
                                 limit = sig3_2

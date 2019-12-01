@@ -3,3 +3,8 @@ pip install --user --install-option="--install-purelib=C:\dev\fx_trade_v1.01\ven
 
 C:\dev\fx_trade_v1.01\venv\Scripts\python.exe  manage.py makemigrations --settings=local_settings
 C:\dev\fx_trade_v1.01\venv\Scripts\python.exe  manage.py migrate --settings=local_settings
+
+
+ npm install @material-ui/core
+
+ npm i typeface-roboto
