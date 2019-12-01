@@ -57,7 +57,8 @@ class BuySellCal():
 
         # 現在の為替情報とその5分10分前の為替の終値を取得する。
         nowCndl_close = Decimal(nowCndl['candles'][0]['mid']['c'])
-        self.priceNow = nowCndl_close
+        self.order.priceNow = nowCndl_close
+        self.order.LongOrderCreate()
         print(nowCndl_close)
         M5_1_closeNow = model_to_dict(condNow.ma.m5)['close']
         M5_1_closePrev = model_to_dict(condiPrev.ma.m5)['close']
