@@ -132,13 +132,13 @@ class BuySellCal():
             # print('----------------------------------------------------購買条件中------------------------------------------------')
             # 取引条件作成-------------------------------------
             long_in = (
-                nowCndl_close + nowCndl_close*Decimal(0.00015)
+                nowCndl_close + nowCndl_close*Decimal(0.0002)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             # long_limit = (bb['sma'] - bb['abs_sigma_3']
             #               ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
             short_in = (
-                nowCndl_close - nowCndl_close*Decimal(0.00015)
+                nowCndl_close - nowCndl_close*Decimal(0.0002)
             ).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
             # BBから計算したトレンド持ち合い相場だったら下のshortINを使用する。そうでなければMAを使用する。
@@ -232,59 +232,52 @@ class BuySellCal():
             self.text += 'specEma ' + str(specEma)+'<br>'
             self.text += 'specMacd ' + str(specMacd)+'<br>'
 
-            short_limit = (
-                sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            self.order.stopLossShort = str(short_limit)
-            self.order.isInByMa = True
-            self.order.trend_id = 2
-            self.order.ShortOrderCreate()
+            if specEma in emaCheckLong:
+                self.text += 'long in--emaCheck<br>'
+                if specEmaSlope == 1 and specMacdSlope == 1:
+                    self.text += 'long in--slopeCheck<br>'
+                    if specMacd in macdCheckLong:
+                        rs = MA_Specific.objects.filter(compEma=4).filter(
+                            created_at__range=(sTime, now)).order_by('-id').count()
+                        self.text += 'long in by macd<br>'
+                        self.text += str(rs)+'この4がありました※※※※※※※※※※※※※※※※<br>'
+                        if not useCnt:
+                            rs = 0
+                        if rs == 0:
+                            if not settings.use_specific_limit:
+                                limit = sig3_2
 
-            # if specEma in emaCheckLong:
-            #     self.text += 'long in--emaCheck<br>'
-            #     if specEmaSlope == 1 and specMacdSlope == 1:
-            #         self.text += 'long in--slopeCheck<br>'
-            #         if specMacd in macdCheckLong:
-            #             rs = MA_Specific.objects.filter(compEma=4).filter(
-            #                 created_at__range=(sTime, now)).order_by('-id').count()
-            #             self.text += 'long in by macd<br>'
-            #             self.text += str(rs)+'この4がありました※※※※※※※※※※※※※※※※<br>'
-            #             if not useCnt:
-            #                 rs = 0
-            #             if rs == 0:
-            #                 if not settings.use_specific_limit:
-            #                     limit = sig3_2
+                            self.text += str(rs)+str(trend_id)+'macdLong<br>'
+                            self.order.isInByMa = True
+                            long_limit = (
+                                sma_2 - limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                            self.order.stopLossLong = str(long_limit)
+                            self.order.trend_id = 1
+                            self.order.LongOrderCreate()
 
-            #                 self.text += str(rs)+str(trend_id)+'macdLong<br>'
-            #                 self.order.isInByMa = True
-            #                 long_limit = (
-            #                     sma_2 - limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            #                 self.order.stopLossLong = str(long_limit)
-            #                 self.order.trend_id = 1
-            #                 self.order.LongOrderCreate()
+            elif specEma in emaCheckShort:
+                self.text += 'short in--emaCheck<br>'
+                if specEmaSlope == 2 and specMacdSlope == 2:
+                    self.text += 'shot in--slopeCheck<br>'
+                    if specMacd in macdCheckShort:
+                        rs = MA_Specific.objects.filter(compEma=1).filter(
+                            created_at__range=(sTime, now)).order_by('-id').count()
 
-            # elif specEma in emaCheckShort:
-            #     self.text += 'short in--emaCheck<br>'
-            #     if specEmaSlope == 2 and specMacdSlope == 2:
-            #         self.text += 'shot in--slopeCheck<br>'
-            #         if specMacd in macdCheckShort:
-            #             rs = MA_Specific.objects.filter(compEma=1).filter(
-            #                 created_at__range=(sTime, now)).order_by('-id').count()
+                        self.text += 'short in by macd<br>'
+                        self.text += str(rs)+'この1がありました※※※※※※※※※※※※※※※※<br>'
+                        if not useCnt:
+                            rs = 0
 
-            #             self.text += 'short in by macd<br>'
-            #             self.text += str(rs)+'この1がありました※※※※※※※※※※※※※※※※<br>'
-            #             if not useCnt:
-            #                 rs = 0
-
-            #             if rs == 0:
-            #                 if not settings.use_specific_limit:
-            #                     limit = sig3_2
-            #                 self.text += str(rs)+str(trend_id)+'macdShort<br>'
-            #                 self.order.isInByMa = True
-            #                 short_limit = (
-            #                     sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            #                 self.order.stopLossShort = str(short_limit)
-            #                 self.order.trend_id = 2
-            #                 self.order.ShortOrderCreate()
+                        if rs == 0:
+                            if not settings.use_specific_limit:
+                                limit = sig3_2
+                            self.text += str(rs)+str(trend_id)+'macdShort<br>'
+                            self.order.isInByMa = True
+                            short_limit = (
+                                sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                            self.order.stopLossShort = str(short_limit)
+                            self.order.trend_id = 2
+                            self.order.ShortOrderCreate()
 
             # -------------------------------------------------------------------------------------------------------
 
