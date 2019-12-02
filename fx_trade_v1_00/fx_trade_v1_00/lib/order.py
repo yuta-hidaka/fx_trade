@@ -361,10 +361,14 @@ class orderFx:
         # self.text += 'ShortOrderCreate<br>'
         slos = Decimal(self.stopLossShort)
         pNow = Decimal(self.priceNow)
-        # print(slos)
-        # print(pNow)
-        # sld = slos - pNow
+
         sld = np.abs(slos - pNow)
+
+        self.text += 'LongOrderCreate<br>'
+        self.text += str(sld)+'差分<br>'
+        self.text += str(slos)+'差分<br>'
+        self.text += str(pNow)+'差分<br>'
+        
         if self.nowIn:
             self.text += 'short すでに購買済み<br>'
             return
