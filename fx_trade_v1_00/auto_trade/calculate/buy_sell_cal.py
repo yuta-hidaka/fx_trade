@@ -232,11 +232,12 @@ class BuySellCal():
             self.text += 'specEma ' + str(specEma)+'<br>'
             self.text += 'specMacd ' + str(specMacd)+'<br>'
 
-            long_limit = (sma_2 - limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            self.order.stopLossLong = str(long_limit)
+            short_limit = (
+                sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            self.order.stopLossShort = str(short_limit)
             self.order.isInByMa = True
-            self.order.trend_id = 1
-            self.order.LongOrderCreate()
+            self.order.trend_id = 2
+            self.order.ShortOrderCreate()
 
             # if specEma in emaCheckLong:
             #     self.text += 'long in--emaCheck<br>'
