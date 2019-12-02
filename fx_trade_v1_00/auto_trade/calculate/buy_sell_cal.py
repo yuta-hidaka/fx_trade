@@ -232,6 +232,7 @@ class BuySellCal():
             self.text += 'specEma ' + str(specEma)+'<br>'
             self.text += 'specMacd ' + str(specMacd)+'<br>'
             self.order.isInByMa = True
+            self.order.trend_id = 1
             self.order.LongOrderCreate()
 
             # if specEma in emaCheckLong:
