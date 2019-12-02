@@ -363,7 +363,7 @@ class orderFx:
         # print(slos)
         # print(pNow)
         sld = slos - pNow
-        sld = np.abs(slos - pNow) * -1
+        sld = np.abs(slos - pNow)
         if self.nowIn:
             self.text += 'short すでに購買済み<br>'
             return
