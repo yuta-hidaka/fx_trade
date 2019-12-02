@@ -23,7 +23,7 @@ from auto_trade.models import batchLog,  tradeLog
 from oandapyV20 import API
 from decimal import *
 import numpy as np
-
+from time import sleep
 """
 memo
 取引情報を確認できる
@@ -357,6 +357,7 @@ class orderFx:
     def ShortOrderCreate(self):
         self.text += 'ShortOrderCreate<br>'
         self.oderCloseAllLong()
+        sleep(1)
         # self.text += 'alos<br>'
         # self.text += 'ShortOrderCreate<br>'
         slos = Decimal(self.stopLossShort)
@@ -368,7 +369,7 @@ class orderFx:
         self.text += str(sld)+'差分<br>'
         self.text += str(slos)+'差分<br>'
         self.text += str(pNow)+'差分<br>'
-        
+
         if self.nowIn:
             self.text += 'short すでに購買済み<br>'
             return
