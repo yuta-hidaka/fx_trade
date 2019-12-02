@@ -22,6 +22,7 @@ import datetime
 from auto_trade.models import batchLog,  tradeLog
 from oandapyV20 import API
 from decimal import *
+import numpy as np
 
 """
 memo
@@ -357,11 +358,12 @@ class orderFx:
         self.text += 'ShortOrderCreate<br>'
         # self.text += 'alos<br>'
         # self.text += 'ShortOrderCreate<br>'
-        slos = Decimal(self.stopLossLong)
+        slos = Decimal(self.stopLossShort)
         pNow = Decimal(self.priceNow)
         # print(slos)
         # print(pNow)
         sld = slos - pNow
+        sld = np.abs(slos - pNow) * -1
         if self.nowIn:
             self.text += 'short すでに購買済み<br>'
             return
@@ -430,7 +432,7 @@ class orderFx:
         pNow = Decimal(self.priceNow)
         # print(slos)
         # print(pNow)
-        sld = slos - pNow
+        sld = np.abs(slos - pNow) * -1
         self.text += 'LongOrderCreate<br>'
         self.text += str(sld)+'差分<br>'
         if self.nowIn:
