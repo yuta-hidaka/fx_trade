@@ -432,7 +432,7 @@ class orderFx:
         pNow = Decimal(self.priceNow)
         # print(slos)
         # print(pNow)
-        sld = np.abs(slos - pNow) * -1
+        sld = np.abs(slos - pNow)
         self.text += 'LongOrderCreate<br>'
         self.text += str(sld)+'差分<br>'
         self.text += str(slos)+'差分<br>'
