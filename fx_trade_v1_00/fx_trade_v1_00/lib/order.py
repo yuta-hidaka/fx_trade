@@ -356,6 +356,7 @@ class orderFx:
 
     def ShortOrderCreate(self):
         self.text += 'ShortOrderCreate<br>'
+        self.oderCloseAllLong()
         # self.text += 'alos<br>'
         # self.text += 'ShortOrderCreate<br>'
         slos = Decimal(self.stopLossShort)
@@ -375,7 +376,6 @@ class orderFx:
         flg = False
         if not self.isSlockByTime or self.isInByMa:
             self.getOrderNum()
-            self.oderCloseAllLong()
             self.nowIn = True
             api = self.fi.api
             # stopPrice = 100.00
@@ -428,6 +428,7 @@ class orderFx:
         # self.getOrderNum()
 
     def LongOrderCreate(self):
+        self.oderCloseAllShort()
         slos = Decimal(self.stopLossLong)
         pNow = Decimal(self.priceNow)
         # print(slos)
@@ -448,7 +449,6 @@ class orderFx:
         flg = False
         if not self.isLlockByTime or self.isInByMa:
             self.getOrderNum()
-            self.oderCloseAllShort()
             self.nowIn = True
             api = self.fi.api
 
