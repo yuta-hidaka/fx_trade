@@ -92,7 +92,8 @@ class orderFx:
                 "price": None,
                 "instrument": None,
                 "units": None,
-                "type": "MARKET",
+                "type": "LIMIT",
+                # "type": "MARKET",
                 "positionFill": "DEFAULT",
                 "stopLossOnFill": None
             }
@@ -357,7 +358,7 @@ class orderFx:
     def ShortOrderCreate(self):
         self.text += 'ShortOrderCreate<br>'
         self.oderCloseAllLong()
-        sleep(10)
+        # sleep(10)
         # self.text += 'alos<br>'
         # self.text += 'ShortOrderCreate<br>'
         slos = Decimal(self.stopLossShort)
