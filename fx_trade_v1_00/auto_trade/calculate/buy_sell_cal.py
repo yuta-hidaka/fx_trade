@@ -231,6 +231,8 @@ class BuySellCal():
             self.text += 'macd3 ' + str(macd3)+'<br>'
             self.text += 'specEma ' + str(specEma)+'<br>'
             self.text += 'specMacd ' + str(specMacd)+'<br>'
+            self.order.isInByMa = True
+            self.order.LongOrderCreate()
 
             if specEma in emaCheckLong:
                 self.text += 'long in--emaCheck<br>'
@@ -278,8 +280,6 @@ class BuySellCal():
                             self.order.stopLossShort = str(short_limit)
                             self.order.trend_id = 2
                             self.order.ShortOrderCreate()
-            self.order.isInByMa = True
-            self.order.LongOrderCreate()
 
             # -------------------------------------------------------------------------------------------------------
 
