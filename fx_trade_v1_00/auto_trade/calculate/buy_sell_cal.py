@@ -223,11 +223,11 @@ class BuySellCal():
             macdCheckLong = [1, 6]
             macdCheckShort = [3, 4]
 
-            emaCheckLong = [6]
-            emaCheckShort = [3]
+            # emaCheckLong = [6]
+            # emaCheckShort = [3]
 
-            macdCheckLong = [6]
-            macdCheckShort = [3]
+            # macdCheckLong = [6]
+            # macdCheckShort = [3]
             self.text += 'specMa ' + str(specMa)+'<br>'
             self.text += 'specEma ' + str(specEma)+'<br>'
             self.text += 'specMacdSlope ' + str(specMacdSlope)+'<br>'
