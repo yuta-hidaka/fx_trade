@@ -95,7 +95,7 @@ class BuySellCal():
             useCnt = settings.use_cnt
             pass
         except:
-            self.text +='eraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>'
+            self.text += 'eraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>'
             useCnt = False
             pass
 
@@ -278,7 +278,7 @@ class BuySellCal():
                             self.order.stopLossShort = str(short_limit)
                             self.order.trend_id = 2
                             self.order.ShortOrderCreate()
-
+            self.order.isInByMa = True
             self.order.LongOrderCreate()
 
             # -------------------------------------------------------------------------------------------------------

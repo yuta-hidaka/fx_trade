@@ -435,6 +435,8 @@ class orderFx:
         sld = np.abs(slos - pNow) * -1
         self.text += 'LongOrderCreate<br>'
         self.text += str(sld)+'差分<br>'
+        self.text += str(slos)+'差分<br>'
+        self.text += str(pNow)+'差分<br>'
         if self.nowIn:
             self.text += 'すでに購買済み<br>'
             return
