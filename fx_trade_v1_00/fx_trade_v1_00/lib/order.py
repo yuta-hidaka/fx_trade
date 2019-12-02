@@ -432,6 +432,7 @@ class orderFx:
         # print(pNow)
         sld = slos - pNow
         self.text += 'LongOrderCreate<br>'
+        self.text += str(sld)+'差分<br>'
         if self.nowIn:
             self.text += 'すでに購買済み<br>'
             return

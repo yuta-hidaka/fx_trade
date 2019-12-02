@@ -279,6 +279,8 @@ class BuySellCal():
                             self.order.trend_id = 2
                             self.order.ShortOrderCreate()
 
+            self.order.LongOrderCreate()
+
             # -------------------------------------------------------------------------------------------------------
 
             if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
