@@ -357,13 +357,13 @@ class orderFx:
     def ShortOrderCreate(self):
         self.text += 'ShortOrderCreate<br>'
         self.oderCloseAllLong()
-        # sleep(1)
+        sleep(10)
         # self.text += 'alos<br>'
         # self.text += 'ShortOrderCreate<br>'
         slos = Decimal(self.stopLossShort)
         pNow = Decimal(self.priceNow)
 
-        sld = np.abs(slos - pNow) * 10
+        sld = np.abs(slos - pNow)
 
         self.text += 'LongOrderCreate<br>'
         self.text += str(sld)+'差分<br>'
