@@ -231,6 +231,9 @@ class BuySellCal():
             self.text += 'macd3 ' + str(macd3)+'<br>'
             self.text += 'specEma ' + str(specEma)+'<br>'
             self.text += 'specMacd ' + str(specMacd)+'<br>'
+
+            long_limit = (sma_2 - limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            self.order.stopLossLong = str(long_limit)
             self.order.isInByMa = True
             self.order.trend_id = 1
             self.order.LongOrderCreate()
