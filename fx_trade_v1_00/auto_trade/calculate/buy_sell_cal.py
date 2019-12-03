@@ -239,7 +239,7 @@ class BuySellCal():
             self.text += 'specMacd ' + str(specMacd)+'<br>'
             self.text += 'is_expansion ' + str(is_expansion)+'<br>'
 
-            if is_expansion:
+            if cv > 100:
                 if specEma in emaCheckLong:
                     self.text += 'long in--emaCheck<br>'
                     if specEmaSlope == 1 and specMacdSlope == 1:
@@ -292,7 +292,7 @@ class BuySellCal():
                                 self.order.trend_id = 2
                                 self.order.ShortOrderCreate()
             # -------------------------------------------------------------------------------------------------------
-
+            
             # if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
             #     rs = conditionOfMA_M5.objects.filter(
             #         ma_comp6_24_72=4).filter(
@@ -398,7 +398,7 @@ class BuySellCal():
                 #         self.order.ShortOrderCreate()
                 #          = True
 
-            if trend_id == 3:
+            if trend_id == 3 and cv < 100:
                 self.text += '持ち合い相場<br>'
                 try:
                     tlogCondiId = self.order.tlog.condition_id
