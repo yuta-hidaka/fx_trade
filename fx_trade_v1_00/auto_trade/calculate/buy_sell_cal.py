@@ -237,53 +237,56 @@ class BuySellCal():
             self.text += 'macd3 ' + str(macd3)+'<br>'
             self.text += 'specEma ' + str(specEma)+'<br>'
             self.text += 'specMacd ' + str(specMacd)+'<br>'
+            self.text += 'is_expansion ' + str(is_expansion)+'<br>'
 
-            if specEma in emaCheckLong:
-                self.text += 'long in--emaCheck<br>'
-                if specEmaSlope == 1 and specMacdSlope == 1:
-                    self.text += 'long in--slopeCheck<br>'
-                    if specMacd in macdCheckLong:
-                        rs = MA_Specific.objects.filter(compEma=4).filter(
-                            created_at__range=(sTime, now)).order_by('-id').count()
-                        self.text += 'long in by macd<br>'
-                        self.text += str(rs)+'この4がありました※※※※※※※※※※※※※※※※<br>'
-                        if not useCnt:
-                            rs = 0
-                        if rs == 0:
-                            if not settings.use_specific_limit:
-                                limit = sig3_2
+            if is_expansion:
+                if specEma in emaCheckLong:
+                    self.text += 'long in--emaCheck<br>'
+                    if specEmaSlope == 1 and specMacdSlope == 1:
+                        self.text += 'long in--slopeCheck<br>'
+                        if specMacd in macdCheckLong:
+                            rs = MA_Specific.objects.filter(compEma=4).filter(
+                                created_at__range=(sTime, now)).order_by('-id').count()
+                            self.text += 'long in by macd<br>'
+                            self.text += str(rs)+'この4がありました※※※※※※※※※※※※※※※※<br>'
+                            if not useCnt:
+                                rs = 0
+                            if rs == 0:
+                                if not settings.use_specific_limit:
+                                    limit = sig1_2
 
-                            self.text += str(rs)+str(trend_id)+'macdLong<br>'
-                            self.order.isInByMa = True
-                            long_limit = (
-                                sma_2 - limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                            self.order.stopLossLong = str(long_limit)
-                            self.order.trend_id = 1
-                            self.order.LongOrderCreate()
+                                self.text += str(rs)+str(trend_id)+'macdLong<br>'
+                                self.order.isInByMa = True
+                                long_limit = (
+                                    sma_2 - limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                                self.order.stopLossLong = str(long_limit)
+                                self.order.trend_id = 1
+                                self.order.LongOrderCreate()
 
-            elif specEma in emaCheckShort:
-                self.text += 'short in--emaCheck<br>'
-                if specEmaSlope == 2 and specMacdSlope == 2:
-                    self.text += 'shot in--slopeCheck<br>'
-                    if specMacd in macdCheckShort:
-                        rs = MA_Specific.objects.filter(compEma=1).filter(
-                            created_at__range=(sTime, now)).order_by('-id').count()
+                elif specEma in emaCheckShort:
+                    self.text += 'short in--emaCheck<br>'
+                    if specEmaSlope == 2 and specMacdSlope == 2:
+                        self.text += 'shot in--slopeCheck<br>'
+                        if specMacd in macdCheckShort:
+                            rs = MA_Specific.objects.filter(compEma=1).filter(
+                                created_at__range=(sTime, now)).order_by('-id').count()
 
-                        self.text += 'short in by macd<br>'
-                        self.text += str(rs)+'この1がありました※※※※※※※※※※※※※※※※<br>'
-                        if not useCnt:
-                            rs = 0
+                            self.text += 'short in by macd<br>'
+                            self.text += str(rs)+'この1がありました※※※※※※※※※※※※※※※※<br>'
+                            if not useCnt:
+                                rs = 0
 
-                        if rs == 0:
-                            if not settings.use_specific_limit:
-                                limit = sig3_2
-                            self.text += str(rs)+str(trend_id)+'macdShort<br>'
-                            self.order.isInByMa = True
-                            short_limit = (
-                                sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                            self.order.stopLossShort = str(short_limit)
-                            self.order.trend_id = 2
-                            self.order.ShortOrderCreate()
+                            if rs == 0:
+                                if not settings.use_specific_limit:
+                                    limit = sig1_2
+                                    
+                                self.text += str(rs)+str(trend_id)+'macdShort<br>'
+                                self.order.isInByMa = True
+                                short_limit = (
+                                    sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                                self.order.stopLossShort = str(short_limit)
+                                self.order.trend_id = 2
+                                self.order.ShortOrderCreate()
 
             # -------------------------------------------------------------------------------------------------------
 
@@ -364,35 +367,35 @@ class BuySellCal():
 
             # 持ち合い相場でエクスパンションしてなかったら
 
-            if is_peak:
-                self.text += 'sigma3 エクスパンションの底値。ポジションを入れ替える 休止中<br>'
-                if is_bottomTouch:
-                    self.text += 'sigma3 エクスパンション終了で下タッチなのでlongIn　休止中<br>'
-                    # self.order.LongOrderCreate()
+            # if is_peak:
+            #     self.text += 'sigma3 エクスパンションの底値。ポジションを入れ替える 休止中<br>'
+            #     if is_bottomTouch:
+            #         self.text += 'sigma3 エクスパンション終了で下タッチなのでlongIn　休止中<br>'
+            #         # self.order.LongOrderCreate()
 
-                elif is_topTouch:
-                    self.text += 'sigma3 エクスパンション終了で上タッチなのでshortIn　休止中<br>'
-                    # self.order.ShortOrderCreate()
+            #     elif is_topTouch:
+            #         self.text += 'sigma3 エクスパンション終了で上タッチなのでshortIn　休止中<br>'
+            #         # self.order.ShortOrderCreate()
 
-            trend_id = 0
+            # trend_id = 0
             # ボリンジャーバンドでの計算中止
-            if trend_id == 3 and not is_peak:
-                # if preTrend_id == 1 or preTrend_id == 2 or preTrend_id == 4:
-                #         self.text += '前回までトレンドで今が持ち合い相場でいったん決済。<br>'
-                #         self.order.allOrderClose()
-                # 偏差と数値によるエクスパンションで確度が高めのポジションを持つ
-                if not is_expansionPrev and is_expansion and is_expansionByStd and is_expansionByNum:
-                    self.text += 'エクスパンション確度が高め　休止中<br>'
-                    if is_topTouch:
-                        # print('エクスパンションで上タッチなので買い')
-                        self.text += 'エクスパンションで上タッチなのでLong by Std<br>'
-                        # self.order.LongOrderCreate()
-                    elif is_bottomTouch:
-                        # print('エクスパンションで下タッチなので売り')
-                        self.text += 'エクスパンションで下タッチなのでShort by Std<br>'
-                        # self.order.ShortOrderCreate()
-                    else:
-                        self.text += 'エクスパンションbyStd_購買条件未該当<br>'
+            # if trend_id == 3 and not is_peak:
+            #     # if preTrend_id == 1 or preTrend_id == 2 or preTrend_id == 4:
+            #     #         self.text += '前回までトレンドで今が持ち合い相場でいったん決済。<br>'
+            #     #         self.order.allOrderClose()
+            #     # 偏差と数値によるエクスパンションで確度が高めのポジションを持つ
+            #     if not is_expansionPrev and is_expansion and is_expansionByStd and is_expansionByNum:
+            #         self.text += 'エクスパンション確度が高め　休止中<br>'
+            #         if is_topTouch:
+            #             # print('エクスパンションで上タッチなので買い')
+            #             self.text += 'エクスパンションで上タッチなのでLong by Std<br>'
+            #             # self.order.LongOrderCreate()
+            #         elif is_bottomTouch:
+            #             # print('エクスパンションで下タッチなので売り')
+            #             self.text += 'エクスパンションで下タッチなのでShort by Std<br>'
+            #             # self.order.ShortOrderCreate()
+            #         else:
+            #             self.text += 'エクスパンションbyStd_購買条件未該当<br>'
 
                 # 前回エクスパンションしていなかったら初めてのエクスパンションとする,
                 # 偏差によるエクスパンションでなければlong、short両方のポジションを持つ
@@ -434,15 +437,15 @@ class BuySellCal():
                 self.text += 'self.order.tlog.condition_id ' + \
                     str(tlogCondiId)+'<br>'
                 if not is_expansion:
-                    if is_shortClose:
-                        if tlogCondiId == 3:
-                            self.text += 'sigma1 によるshortClose<br>'
-                            self.order.oderCloseAllShort()
+                    # if is_shortClose:
+                    #     if tlogCondiId == 3:
+                    #         self.text += 'sigma1 によるshortClose<br>'
+                    #         self.order.oderCloseAllShort()
 
-                    elif is_longClose:
-                        if tlogCondiId == 3:
-                            self.text += 'sigma1 によるlongClose<br>'
-                            self.order.oderCloseAllLong()
+                    # elif is_longClose:
+                    #     if tlogCondiId == 3:
+                    #         self.text += 'sigma1 によるlongClose<br>'
+                    #         self.order.oderCloseAllLong()
 
                     if is_topTouch:
                         self.text += '持ち合い相場の逆張りshort_inーー同時にlong決済も行う<br>'
