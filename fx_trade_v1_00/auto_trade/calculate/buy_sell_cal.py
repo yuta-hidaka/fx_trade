@@ -225,7 +225,6 @@ class BuySellCal():
 
             # emaCheckLong = [6]
             # emaCheckShort = [3]
-
             # macdCheckLong = [6]
             # macdCheckShort = [3]
             self.text += 'specMa ' + str(specMa)+'<br>'
@@ -292,7 +291,7 @@ class BuySellCal():
                                 self.order.trend_id = 2
                                 self.order.ShortOrderCreate()
             # -------------------------------------------------------------------------------------------------------
-            
+
             # if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
             #     rs = conditionOfMA_M5.objects.filter(
             #         ma_comp6_24_72=4).filter(
