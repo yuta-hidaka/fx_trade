@@ -248,14 +248,16 @@ class BuySellCal():
                             rs = MA_Specific.objects.filter(compEma=4).filter(
                                 created_at__range=(sTime, now)).order_by('-id').count()
                             self.text += 'long in by macd<br>'
-                            self.text += str(rs)+'この4がありました※※※※※※※※※※※※※※※※<br>'
+                            self.text += str(rs) + \
+                                'この4がありました※※※※※※※※※※※※※※※※<br>'
                             if not useCnt:
                                 rs = 0
                             if rs == 0:
                                 if not settings.use_specific_limit:
                                     limit = sig1_2
 
-                                self.text += str(rs)+str(trend_id)+'macdLong<br>'
+                                self.text += str(rs) + \
+                                    str(trend_id)+'macdLong<br>'
                                 self.order.isInByMa = True
                                 long_limit = (
                                     sma_2 - limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
@@ -272,15 +274,17 @@ class BuySellCal():
                                 created_at__range=(sTime, now)).order_by('-id').count()
 
                             self.text += 'short in by macd<br>'
-                            self.text += str(rs)+'この1がありました※※※※※※※※※※※※※※※※<br>'
+                            self.text += str(rs) + \
+                                'この1がありました※※※※※※※※※※※※※※※※<br>'
                             if not useCnt:
                                 rs = 0
 
                             if rs == 0:
                                 if not settings.use_specific_limit:
                                     limit = sig1_2
-                                    
-                                self.text += str(rs)+str(trend_id)+'macdShort<br>'
+
+                                self.text += str(rs) + \
+                                    str(trend_id)+'macdShort<br>'
                                 self.order.isInByMa = True
                                 short_limit = (
                                     sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
