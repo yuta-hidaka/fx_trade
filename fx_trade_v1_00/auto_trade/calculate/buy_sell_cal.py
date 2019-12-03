@@ -287,7 +287,6 @@ class BuySellCal():
                                 self.order.stopLossShort = str(short_limit)
                                 self.order.trend_id = 2
                                 self.order.ShortOrderCreate()
-
             # -------------------------------------------------------------------------------------------------------
 
             if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
