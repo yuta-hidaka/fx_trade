@@ -293,64 +293,64 @@ class BuySellCal():
                                 self.order.ShortOrderCreate()
             # -------------------------------------------------------------------------------------------------------
 
-            if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
-                rs = conditionOfMA_M5.objects.filter(
-                    ma_comp6_24_72=4).filter(
-                    created_at__range=(sTime, now)).order_by('-id').count()
-                self.text += 'long in by ma休止中<br>'
-                self.text += str(rs)+'この4がありました※※※※※※※※※※※※※※※※<br>'
-                self.text += str(rs)+str(trend_id)+'sinma<br>'
+            # if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
+            #     rs = conditionOfMA_M5.objects.filter(
+            #         ma_comp6_24_72=4).filter(
+            #         created_at__range=(sTime, now)).order_by('-id').count()
+            #     self.text += 'long in by ma休止中<br>'
+            #     self.text += str(rs)+'この4がありました※※※※※※※※※※※※※※※※<br>'
+            #     self.text += str(rs)+str(trend_id)+'sinma<br>'
 
-                # 過去15分の間に4が3以上存在したら購買しない
-                if rs == 0:
-                    if not settings.use_specific_limit:
-                        limit = sig3_2
+            #     # 過去15分の間に4が3以上存在したら購買しない
+            #     if rs == 0:
+            #         if not settings.use_specific_limit:
+            #             limit = sig3_2
 
-                    if trend_id != 4:
-                        self.order.isInByMa = True
-                        long_limit = (
-                            sma_2 - limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                        self.order.stopLossLong = str(long_limit)
-                        self.order.trend_id = 1
-                        # self.order.LongOrderCreate()
-                    else:
-                        # print('long in　but position is too many')
-                        self.text += 'long in by ma trend idが4なので様子見です<br>'
-                        # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
-                else:
-                    self.text += '<p style="color=red;">最近4が1つ以上ありました or trendじゃない</p>'
+            #         if trend_id != 4:
+            #             self.order.isInByMa = True
+            #             long_limit = (
+            #                 sma_2 - limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            #             self.order.stopLossLong = str(long_limit)
+            #             self.order.trend_id = 1
+            #             # self.order.LongOrderCreate()
+            #         else:
+            #             # print('long in　but position is too many')
+            #             self.text += 'long in by ma trend idが4なので様子見です<br>'
+            #             # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
+            #     else:
+            #         self.text += '<p style="color=red;">最近4が1つ以上ありました or trendじゃない</p>'
 
-            elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-                rs = conditionOfMA_M5.objects.filter(
-                    ma_comp6_24_72=1).filter(
-                    created_at__range=(sTime, now)).order_by('-id').count()
-                self.text += 'short in by ma休止中<br>'
-                self.text += str(rs)+'この1がありました※※※※※※※※※※※※※※※※<br>'
-                self.text += str(rs)+str(trend_id)+'sinma<br>'
+            # elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
+            #     rs = conditionOfMA_M5.objects.filter(
+            #         ma_comp6_24_72=1).filter(
+            #         created_at__range=(sTime, now)).order_by('-id').count()
+            #     self.text += 'short in by ma休止中<br>'
+            #     self.text += str(rs)+'この1がありました※※※※※※※※※※※※※※※※<br>'
+            #     self.text += str(rs)+str(trend_id)+'sinma<br>'
 
-                if not settings.use_specific_limit:
-                    limit = sig3_2
+            #     if not settings.use_specific_limit:
+            #         limit = sig3_2
 
-                # 過去15分の間に1が3以上存在したら購買しない
-                if rs == 0:
-                    if trend_id != 4:
-                        self.order.isInByMa = True
-                        short_limit = (
-                            sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                        self.order.stopLossShort = str(short_limit)
-                        self.order.trend_id = 2
-                        # self.order.ShortOrderCreate()
-                    else:
-                        # print('short in　but position is too many')
-                        self.text += 'short in by ma trend idが4なので様子見です<br>'
-                        # long closeのタイミング if MA is 2 it have to close
-                else:
-                    self.text += '<p style="color=red;">最近1が1つ以上ありましたor trendじゃない</p>'
-            else:
-                self.text += '購買----様子見中 MAでの購買判定<br>'
+            #     # 過去15分の間に1が3以上存在したら購買しない
+            #     if rs == 0:
+            #         if trend_id != 4:
+            #             self.order.isInByMa = True
+            #             short_limit = (
+            #                 sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            #             self.order.stopLossShort = str(short_limit)
+            #             self.order.trend_id = 2
+            #             # self.order.ShortOrderCreate()
+            #         else:
+            #             # print('short in　but position is too many')
+            #             self.text += 'short in by ma trend idが4なので様子見です<br>'
+            #             # long closeのタイミング if MA is 2 it have to close
+            #     else:
+            #         self.text += '<p style="color=red;">最近1が1つ以上ありましたor trendじゃない</p>'
+            # else:
+            #     self.text += '購買----様子見中 MAでの購買判定<br>'
 
-            # if self.order.lossCutReverse():
-            #     self.text += 'lossCutReverseで購入<br>'
+            # # if self.order.lossCutReverse():
+            # #     self.text += 'lossCutReverseで購入<br>'
 
     # --------------------------------------------------------------------------
             if trend_id == 1 or trend_id == 2 or trend_id == 4 and not is_peak:
@@ -369,36 +369,6 @@ class BuySellCal():
                     #     self.order.oderCloseAllShort()
 
             # 持ち合い相場でエクスパンションしてなかったら
-
-            # if is_peak:
-            #     self.text += 'sigma3 エクスパンションの底値。ポジションを入れ替える 休止中<br>'
-            #     if is_bottomTouch:
-            #         self.text += 'sigma3 エクスパンション終了で下タッチなのでlongIn　休止中<br>'
-            #         # self.order.LongOrderCreate()
-
-            #     elif is_topTouch:
-            #         self.text += 'sigma3 エクスパンション終了で上タッチなのでshortIn　休止中<br>'
-            #         # self.order.ShortOrderCreate()
-
-            # trend_id = 0
-            # ボリンジャーバンドでの計算中止
-            # if trend_id == 3 and not is_peak:
-            #     # if preTrend_id == 1 or preTrend_id == 2 or preTrend_id == 4:
-            #     #         self.text += '前回までトレンドで今が持ち合い相場でいったん決済。<br>'
-            #     #         self.order.allOrderClose()
-            #     # 偏差と数値によるエクスパンションで確度が高めのポジションを持つ
-            #     if not is_expansionPrev and is_expansion and is_expansionByStd and is_expansionByNum:
-            #         self.text += 'エクスパンション確度が高め　休止中<br>'
-            #         if is_topTouch:
-            #             # print('エクスパンションで上タッチなので買い')
-            #             self.text += 'エクスパンションで上タッチなのでLong by Std<br>'
-            #             # self.order.LongOrderCreate()
-            #         elif is_bottomTouch:
-            #             # print('エクスパンションで下タッチなので売り')
-            #             self.text += 'エクスパンションで下タッチなのでShort by Std<br>'
-            #             # self.order.ShortOrderCreate()
-            #         else:
-            #             self.text += 'エクスパンションbyStd_購買条件未該当<br>'
 
                 # 前回エクスパンションしていなかったら初めてのエクスパンションとする,
                 # 偏差によるエクスパンションでなければlong、short両方のポジションを持つ

@@ -133,6 +133,7 @@ class orderFx:
         if self.isReverse:
             self.text += '----リバース処理なのinmacheck行いません----<br>'
             return
+
         if self.tlog.ma_in_at is None:
             self.tlog.ma_in_at = now - adjTime
 
@@ -141,11 +142,11 @@ class orderFx:
         self.text += '<br>self.tlog.ma_in_at '+str(self.tlog.ma_in_at)
 
         if inMaAt < now:
-            self.text += '<br>long ' + \
+            self.text += '<br>maの購入より ' + \
                 str(self.waitTime)+'分経った inByMaCheck()<br>'
             return False
         else:
-            self.text += '<br>long ' + \
+            self.text += '<br>lMAの購入より ' + \
                 str(self.waitTime)+'分経ってない inByMaCheck()<br>'
             return True
 
