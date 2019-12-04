@@ -116,11 +116,23 @@ class setSpecificMA:
         st = (maList[0] - leatestData.ma_short).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-        md = (maList[0] - leatestData.ma_middle).quantize(
+        md = (maList[1] - leatestData.ma_middle).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-        lg = (maList[0] - leatestData.ma_long).quantize(
+        lg = (maList[2] - leatestData.ma_long).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+        x = [0, 1]
+        y = [leatestData.ma_short, maList[0]]
+        y2 = [leatestData.ma_middle, maList[1]]
+        y3 = [leatestData.ma_long, maList[2]]
+        ans1 = np.polyfit(x, y, 1)
+        ans2 = np.polyfit(x, y2, 1)
+        ans3 = np.polyfit(x, y3, 1)
+        self.text += 'ma 傾き最小二乗法<br>'
+        self.text += str(ans1[1]) + '<br>'
+        self.text += str(ans2[1]) + '<br>'
+        self.text += str(ans3[1]) + '<br>'
 
         self.text += 'ma 傾き<br>'
         self.text += str(st) + '<br>'
@@ -142,6 +154,18 @@ class setSpecificMA:
         lg = (longtEma - leatestData.ema_long).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
+        x = [0, 1]
+        y = [leatestData.ema_short, shortEma]
+        y2 = [leatestData.ema_middle, middleEma]
+        y3 = [leatestData.ema_long, longtEma]
+        ans1 = np.polyfit(x, y, 1)
+        ans2 = np.polyfit(x, y2, 1)
+        ans3 = np.polyfit(x, y3, 1)
+        self.text += 'ema 傾き最小二乗法<br>'
+        self.text += str(ans1[1]) + '<br>'
+        self.text += str(ans2[1]) + '<br>'
+        self.text += str(ans3[1]) + '<br>'
+
         self.text += 'ema傾き<br>'
         self.text += str(st) + '<br>'
         self.text += str(md) + '<br>'
@@ -161,6 +185,18 @@ class setSpecificMA:
 
         lg = (macd3 - leatestData.macd3).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
+
+        x = [0, 1]
+        y = [leatestData.macd1, macd1]
+        y2 = [leatestData.macd2, macd2]
+        y3 = [leatestData.macd3, macd3]
+        ans1 = np.polyfit(x, y, 1)
+        ans2 = np.polyfit(x, y2, 1)
+        ans3 = np.polyfit(x, y3, 1)
+        self.text += 'ema 傾き最小二乗法<br>'
+        self.text += str(ans1[1]) + '<br>'
+        self.text += str(ans2[1]) + '<br>'
+        self.text += str(ans3[1]) + '<br>'
 
         self.text += '<br>macd傾き<br>'
         self.text += str(st) + '<br>'
