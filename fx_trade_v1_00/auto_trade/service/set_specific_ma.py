@@ -155,9 +155,9 @@ class setSpecificMA:
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         x = [0, 1]
-        y = [leatestData.ema_short, shortEma]
-        y2 = [leatestData.ema_middle, middleEma]
-        y3 = [leatestData.ema_long, longtEma]
+        y = [float(leatestData.ema_short), float(shortEma)]
+        y2 = [float(leatestData.ema_middle), float(middleEma)]
+        y3 = [float(leatestData.ema_long), float(longtEma)]
         ans1 = np.polyfit(x, y, 1)
         ans2 = np.polyfit(x, y2, 1)
         ans3 = np.polyfit(x, y3, 1)
@@ -187,9 +187,9 @@ class setSpecificMA:
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         x = [0, 1]
-        y = [leatestData.macd1, macd1]
-        y2 = [leatestData.macd2, macd2]
-        y3 = [leatestData.macd3, macd3]
+        y = [float(leatestData.macd1), float(macd1)]
+        y2 = [float(leatestData.macd2), float(macd2)]
+        y3 = [float(leatestData.macd3), float(macd3)]
         ans1 = np.polyfit(x, y, 1)
         ans2 = np.polyfit(x, y2, 1)
         ans3 = np.polyfit(x, y3, 1)
