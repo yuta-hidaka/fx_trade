@@ -296,6 +296,18 @@ class BuySellCal():
                 self.text = 'specMaが3なのでLongを閉じます<br>'
                 self.order.oderCloseAllLong()
 
+            # if specMacd == 1 and specEmaSlope != 4:
+            #     self.text = 'specMaが6なのでshortを閉じます<br>'
+            #     self.order.oderCloseAllShort()
+            # elif specMacd == 4 and specEmaSlope != 4:
+            #     self.text = 'specMaが3なのでLongを閉じます<br>'
+            #     self.order.oderCloseAllLong()
+
+            # m3 = (macd3).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            # if m3 == 0:
+            #     self.text = 'macd3が0なのですべて閉じます。<br>'
+            #     self.order.allOrderClose()
+
             # -------------------------------------------------------------------------------------------------------
 
             # if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
