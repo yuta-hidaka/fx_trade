@@ -130,9 +130,12 @@ class setSpecificMA:
         ans2 = np.polyfit(x, y2, 1)
         ans3 = np.polyfit(x, y3, 1)
         self.text += 'ma 傾き最小二乗法<br>'
-        self.text += str(ans1[0]) + '<br>'
-        self.text += str(ans2[0]) + '<br>'
-        self.text += str(ans3[0]) + '<br>'
+        self.text += str(Decimal(ans1[0]).quantize(
+            Decimal('0.001'), rounding=ROUND_HALF_UP)) + '<br>'
+        self.text += str(Decimal(ans2[0]).quantize(
+            Decimal('0.001'), rounding=ROUND_HALF_UP)) + '<br>'
+        self.text += str(Decimal(ans3[0]).quantize(
+            Decimal('0.001'), rounding=ROUND_HALF_UP)) + '<br>'
 
         self.text += 'ma 傾き<br>'
         self.text += str(st) + '<br>'
@@ -162,9 +165,12 @@ class setSpecificMA:
         ans2 = np.polyfit(x, y2, 1)
         ans3 = np.polyfit(x, y3, 1)
         self.text += 'ema 傾き最小二乗法<br>'
-        self.text += str(ans1[0]) + '<br>'
-        self.text += str(ans2[0]) + '<br>'
-        self.text += str(ans3[0]) + '<br>'
+        self.text += str(Decimal(ans1[0]).quantize(
+            Decimal('0.001'), rounding=ROUND_HALF_UP)) + '<br>'
+        self.text += str(Decimal(ans2[0]).quantize(
+            Decimal('0.001'), rounding=ROUND_HALF_UP)) + '<br>'
+        self.text += str(Decimal(ans3[0]).quantize(
+            Decimal('0.001'), rounding=ROUND_HALF_UP)) + '<br>'
 
         self.text += 'ema傾き<br>'
         self.text += str(st) + '<br>'
@@ -194,9 +200,12 @@ class setSpecificMA:
         ans2 = np.polyfit(x, y2, 1)
         ans3 = np.polyfit(x, y3, 1)
         self.text += 'ema 傾き最小二乗法<br>'
-        self.text += str(ans1[0]) + '<br>'
-        self.text += str(ans2[0]) + '<br>'
-        self.text += str(ans3[0]) + '<br>'
+        self.text += str(Decimal(ans1[0]).quantize(
+            Decimal('0.001'), rounding=ROUND_HALF_UP)) + '<br>'
+        self.text += str(Decimal(ans2[0]).quantize(
+            Decimal('0.001'), rounding=ROUND_HALF_UP)) + '<br>'
+        self.text += str(Decimal(ans3[0]).quantize(
+            Decimal('0.001'), rounding=ROUND_HALF_UP)) + '<br>'
 
         self.text += '<br>macd傾き<br>'
         self.text += str(st) + '<br>'
