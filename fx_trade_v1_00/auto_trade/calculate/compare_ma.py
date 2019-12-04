@@ -33,7 +33,7 @@ class compaireMA():
             return 5
         elif m1 >= 0 and m2 >= 0 and m3 <= 0:
             return 6
-        
+
         return 0
 
     def comp3MASlope(self, s, m, l):
@@ -45,6 +45,12 @@ class compaireMA():
         '''
         slopeList = [s, m, l]
         sumSlope = 0
+
+        if len(set(slopeList)) == len(slopeList):
+            return 4
+
+        if slopeList in 0:
+            return 4
 
         for n in slopeList:
             sumSlope += np.sign(n)

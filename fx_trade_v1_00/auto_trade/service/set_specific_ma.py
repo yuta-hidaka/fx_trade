@@ -122,21 +122,6 @@ class setSpecificMA:
         lg = (maList[2] - leatestData.ma_long).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-        x = [0, 1]
-        y = [float(leatestData.ma_short), float(maList[0])]
-        y2 = [float(leatestData.ma_middle), float(maList[1])]
-        y3 = [float(leatestData.ma_long), float(maList[2])]
-        ans1 = np.polyfit(x, y, 1)
-        ans2 = np.polyfit(x, y2, 1)
-        ans3 = np.polyfit(x, y3, 1)
-        self.text += 'ma 傾き最小二乗法<br>'
-        self.text += str(Decimal(ans1[0]).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP)) + '<br>'
-        self.text += str(Decimal(ans2[0]).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP)) + '<br>'
-        self.text += str(Decimal(ans3[0]).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP)) + '<br>'
-
         self.text += 'ma 傾き<br>'
         self.text += str(st) + '<br>'
         self.text += str(md) + '<br>'
@@ -156,21 +141,6 @@ class setSpecificMA:
 
         lg = (longtEma - leatestData.ema_long).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
-
-        x = [0, 1]
-        y = [float(leatestData.ema_short), float(shortEma)]
-        y2 = [float(leatestData.ema_middle), float(middleEma)]
-        y3 = [float(leatestData.ema_long), float(longtEma)]
-        ans1 = np.polyfit(x, y, 1)
-        ans2 = np.polyfit(x, y2, 1)
-        ans3 = np.polyfit(x, y3, 1)
-        self.text += 'ema 傾き最小二乗法<br>'
-        self.text += str(Decimal(ans1[0]).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP)) + '<br>'
-        self.text += str(Decimal(ans2[0]).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP)) + '<br>'
-        self.text += str(Decimal(ans3[0]).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP)) + '<br>'
 
         self.text += 'ema傾き<br>'
         self.text += str(st) + '<br>'
@@ -192,21 +162,6 @@ class setSpecificMA:
         lg = (macd3 - leatestData.macd3).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-        x = [0, 1]
-        y = [float(leatestData.macd1), float(macd1)]
-        y2 = [float(leatestData.macd2), float(macd2)]
-        y3 = [float(leatestData.macd3), float(macd3)]
-        ans1 = np.polyfit(x, y, 1)
-        ans2 = np.polyfit(x, y2, 1)
-        ans3 = np.polyfit(x, y3, 1)
-        self.text += 'ema 傾き最小二乗法<br>'
-        self.text += str(Decimal(ans1[0]).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP)) + '<br>'
-        self.text += str(Decimal(ans2[0]).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP)) + '<br>'
-        self.text += str(Decimal(ans3[0]).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP)) + '<br>'
-
         self.text += '<br>macd傾き<br>'
         self.text += str(st) + '<br>'
         self.text += str(md) + '<br>'
@@ -214,27 +169,6 @@ class setSpecificMA:
         # MACD3つの傾きを計算
         compMacdSlope = comp.comp3MASlope(s=st, m=md, l=lg)
         compMacd = comp.comp3MacdSlope(m1=macd1, m2=macd2, m3=macd3)
-
-        # print('maList[0]')
-        # print(maList[0])
-        # print(maList[1])
-        # print(maList[2])
-        # print('shortEma')
-        # print(shortEma)
-        # print(middleEma)
-        # print(longtEma)
-        # print('macd1')
-        # print(macd1)
-        # print(macd2)
-        # print(macd3)
-        # print('compMa')
-        # print(compMa)
-        # print(compMacd)
-        # print(compMaSlope)
-        # print('compMacdSlope')
-        # print(compMacdSlope)
-        # print(compEma)
-        # print(compEmaSlope)
 
         create = qSet.objects.create(
             m=FXdata,
