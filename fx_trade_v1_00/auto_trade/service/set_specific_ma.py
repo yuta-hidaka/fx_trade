@@ -123,9 +123,9 @@ class setSpecificMA:
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         x = [0, 1]
-        y = [leatestData.ma_short, maList[0]]
-        y2 = [leatestData.ma_middle, maList[1]]
-        y3 = [leatestData.ma_long, maList[2]]
+        y = [float(leatestData.ma_short), float(maList[0])]
+        y2 = [float(leatestData.ma_middle), float(maList[1])]
+        y3 = [float(leatestData.ma_long), float(maList[2])]
         ans1 = np.polyfit(x, y, 1)
         ans2 = np.polyfit(x, y2, 1)
         ans3 = np.polyfit(x, y3, 1)
