@@ -46,7 +46,7 @@ class compaireMA():
         slopeList = [s, m, l]
         sumSlope = 0
 
-        if len(set(slopeList)) == len(slopeList):
+        if len(set(slopeList)) != len(slopeList):
             return 4
 
         if slopeList in 0:
