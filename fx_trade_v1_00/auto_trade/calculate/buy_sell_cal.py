@@ -237,58 +237,58 @@ class BuySellCal():
             self.text += 'specEma ' + str(specEma)+'<br>'
             self.text += 'specMacd ' + str(specMacd)+'<br>'
             self.text += 'is_expansion ' + str(is_expansion)+'<br>'
-            if cv > 75:
-                if specEma in emaCheckLong:
-                    self.text += 'long in--emaCheck<br>'
-                    if specEmaSlope == 1 and specMacdSlope == 1:
-                        self.text += 'long in--slopeCheck<br>'
-                        if specMacd in macdCheckLong:
-                            rs = MA_Specific.objects.filter(compEma=4).filter(
-                                created_at__range=(sTime, now)).order_by('-id').count()
-                            self.text += 'long in by macd<br>'
+            # if cv > 75:
+            if specEma in emaCheckLong:
+                self.text += 'long in--emaCheck<br>'
+                if specEmaSlope == 1 and specMacdSlope == 1:
+                    self.text += 'long in--slopeCheck<br>'
+                    if specMacd in macdCheckLong:
+                        rs = MA_Specific.objects.filter(compEma=4).filter(
+                            created_at__range=(sTime, now)).order_by('-id').count()
+                        self.text += 'long in by macd<br>'
+                        self.text += str(rs) + \
+                            'この4がありました※※※※※※※※※※※※※※※※<br>'
+                        if not useCnt:
+                            rs = 0
+                        if rs == 0:
+                            if not settings.use_specific_limit:
+                                limit = sig1_2
+
                             self.text += str(rs) + \
-                                'この4がありました※※※※※※※※※※※※※※※※<br>'
-                            if not useCnt:
-                                rs = 0
-                            if rs == 0:
-                                if not settings.use_specific_limit:
-                                    limit = sig1_2
+                                str(trend_id)+'macdLong<br>'
+                            self.order.isInByMa = True
+                            long_limit = (
+                                sma_2 - limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                            self.order.stopLossLong = str(long_limit)
+                            self.order.trend_id = 1
+                            self.order.LongOrderCreate()
 
-                                self.text += str(rs) + \
-                                    str(trend_id)+'macdLong<br>'
-                                self.order.isInByMa = True
-                                long_limit = (
-                                    sma_2 - limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                                self.order.stopLossLong = str(long_limit)
-                                self.order.trend_id = 1
-                                self.order.LongOrderCreate()
+            elif specEma in emaCheckShort:
+                self.text += 'short in--emaCheck<br>'
+                if specEmaSlope == 2 and specMacdSlope == 2:
+                    self.text += 'shot in--slopeCheck<br>'
+                    if specMacd in macdCheckShort:
+                        rs = MA_Specific.objects.filter(compEma=1).filter(
+                            created_at__range=(sTime, now)).order_by('-id').count()
 
-                elif specEma in emaCheckShort:
-                    self.text += 'short in--emaCheck<br>'
-                    if specEmaSlope == 2 and specMacdSlope == 2:
-                        self.text += 'shot in--slopeCheck<br>'
-                        if specMacd in macdCheckShort:
-                            rs = MA_Specific.objects.filter(compEma=1).filter(
-                                created_at__range=(sTime, now)).order_by('-id').count()
+                        self.text += 'short in by macd<br>'
+                        self.text += str(rs) + \
+                            'この1がありました※※※※※※※※※※※※※※※※<br>'
+                        if not useCnt:
+                            rs = 0
 
-                            self.text += 'short in by macd<br>'
+                        if rs == 0:
+                            if not settings.use_specific_limit:
+                                limit = sig1_2
+
                             self.text += str(rs) + \
-                                'この1がありました※※※※※※※※※※※※※※※※<br>'
-                            if not useCnt:
-                                rs = 0
-
-                            if rs == 0:
-                                if not settings.use_specific_limit:
-                                    limit = sig1_2
-
-                                self.text += str(rs) + \
-                                    str(trend_id)+'macdShort<br>'
-                                self.order.isInByMa = True
-                                short_limit = (
-                                    sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-                                self.order.stopLossShort = str(short_limit)
-                                self.order.trend_id = 2
-                                self.order.ShortOrderCreate()
+                                str(trend_id)+'macdShort<br>'
+                            self.order.isInByMa = True
+                            short_limit = (
+                                sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+                            self.order.stopLossShort = str(short_limit)
+                            self.order.trend_id = 2
+                            self.order.ShortOrderCreate()
             # -------------------------------------------------------------------------------------------------------
 
             # if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
@@ -351,6 +351,7 @@ class BuySellCal():
             # #     self.text += 'lossCutReverseで購入<br>'
 
     # --------------------------------------------------------------------------
+            trend_id = 0
             if trend_id == 1 or trend_id == 2 or trend_id == 4 and not is_peak:
                 self.text += 'トレンド相場------------------------------------------------<br>'
 
