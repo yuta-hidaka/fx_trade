@@ -49,6 +49,8 @@ class compaireMA():
         lenDistSl = len(set(slopeList))
         lenSl = len(slopeList)
 
+        print(slopeList)
+
         if lenDistSl != lenSl:
             return 4
 
