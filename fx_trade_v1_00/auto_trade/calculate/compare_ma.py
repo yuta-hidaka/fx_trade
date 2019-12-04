@@ -49,13 +49,15 @@ class compaireMA():
         lenDistSl = len(set(slopeList))
         lenSl = len(slopeList)
 
+        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         print(slopeList)
+        if slopeList in 0:
+            return 4
 
         if lenDistSl != lenSl:
             return 4
 
-        if slopeList in 0:
-            return 4
+        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
 
         for n in slopeList:
             sumSlope += np.sign(n)
