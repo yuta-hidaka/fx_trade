@@ -147,10 +147,6 @@ class setSpecificMA:
         self.text += str(md) + '<br>'
         self.text += str(lg) + '<br>'
 
-        dk = [st, md, lg]
-        self.text += str(len(set(dk))) + 'nnnnnnnnnnnnnnnnnnn<br>'
-        self.text += str(len(dk)) + 'nnnnnnnnnnnnnnnnnnnn<br>'
-
         # EMA3つの位置を計算
         compEma = comp.comp3MA(shortEma, middleEma, longtEma)
         # EMA3つの傾きを計算
