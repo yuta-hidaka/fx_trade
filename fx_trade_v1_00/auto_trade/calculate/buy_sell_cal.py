@@ -262,7 +262,6 @@ class BuySellCal():
                             self.order.stopLossLong = str(long_limit)
                             self.order.trend_id = 1
                             self.order.LongOrderCreate()
-
             elif specEma in emaCheckShort:
                 self.text += 'short in--emaCheck<br>'
                 if specEmaSlope == 2 and specMacdSlope == 2:
@@ -289,6 +288,14 @@ class BuySellCal():
                             self.order.stopLossShort = str(short_limit)
                             self.order.trend_id = 2
                             self.order.ShortOrderCreate()
+
+            if specEma == 6:
+                self.text = 'specMaが6なのでshortを閉じます<br>'
+                self.order.oderCloseAllShort()
+            elif specEma == 3:
+                self.text = 'specMaが3なのでLongを閉じます<br>'
+                self.order.oderCloseAllLong()
+
             # -------------------------------------------------------------------------------------------------------
 
             # if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
