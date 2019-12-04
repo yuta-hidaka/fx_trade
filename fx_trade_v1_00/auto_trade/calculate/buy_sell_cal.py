@@ -237,7 +237,6 @@ class BuySellCal():
             self.text += 'specEma ' + str(specEma)+'<br>'
             self.text += 'specMacd ' + str(specMacd)+'<br>'
             self.text += 'is_expansion ' + str(is_expansion)+'<br>'
-
             if cv > 75:
                 if specEma in emaCheckLong:
                     self.text += 'long in--emaCheck<br>'
