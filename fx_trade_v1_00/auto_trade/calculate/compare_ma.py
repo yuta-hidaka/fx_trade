@@ -1,7 +1,5 @@
 from ..models import MA_USD_JPY
 import numpy as np
-from decimal import *
-
 
 # MAを比較する
 # 5分足 5本、20本、75本で比較する。
@@ -48,20 +46,12 @@ class compaireMA():
         slopeList = [s, m, l]
         sumSlope = 0
 
-        lenDistSl = len(set(slopeList))
-        lenSl = len(slopeList)
-
-        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-        print(slopeList)
-        if slopeList in Decimal(0):
+        if len(set(slopeList)) != len(slopeList):
             return 4
-
-        if lenDistSl != lenSl:
-            return 4
-
-        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
 
         for n in slopeList:
+            if n == 0:
+                return 4
             sumSlope += np.sign(n)
 
         if sumSlope == 3:
