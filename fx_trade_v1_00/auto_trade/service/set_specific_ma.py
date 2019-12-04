@@ -122,7 +122,7 @@ class setSpecificMA:
         lg = (maList[2] - leatestData.ma_long).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-        x = [1, 2]
+        x = [0, 1]
         y = [float(leatestData.ma_short), float(maList[0])]
         y2 = [float(leatestData.ma_middle), float(maList[1])]
         y3 = [float(leatestData.ma_long), float(maList[2])]
@@ -130,9 +130,9 @@ class setSpecificMA:
         ans2 = np.polyfit(x, y2, 1)
         ans3 = np.polyfit(x, y3, 1)
         self.text += 'ma 傾き最小二乗法<br>'
-        self.text += str(ans1[1]) + '<br>'
-        self.text += str(ans2[1]) + '<br>'
-        self.text += str(ans3[1]) + '<br>'
+        self.text += str(ans1[0]) + '<br>'
+        self.text += str(ans2[0]) + '<br>'
+        self.text += str(ans3[0]) + '<br>'
 
         self.text += 'ma 傾き<br>'
         self.text += str(st) + '<br>'
@@ -194,9 +194,9 @@ class setSpecificMA:
         ans2 = np.polyfit(x, y2, 1)
         ans3 = np.polyfit(x, y3, 1)
         self.text += 'ema 傾き最小二乗法<br>'
-        self.text += str(ans1[1]) + '<br>'
-        self.text += str(ans2[1]) + '<br>'
-        self.text += str(ans3[1]) + '<br>'
+        self.text += str(ans1[0]) + '<br>'
+        self.text += str(ans2[0]) + '<br>'
+        self.text += str(ans3[0]) + '<br>'
 
         self.text += '<br>macd傾き<br>'
         self.text += str(st) + '<br>'
