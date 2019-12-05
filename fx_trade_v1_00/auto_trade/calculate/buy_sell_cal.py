@@ -120,6 +120,7 @@ class BuySellCal():
         # units = 7500
         try:
             units = settings.units
+            units = 1
             pass
         except:
             self.text += '予期しないロット数が入っています'
@@ -302,6 +303,8 @@ class BuySellCal():
             elif specEma == 5 and specEmaSlope == 2:
                 self.text = 'specMaが3なのでLongを閉じます<br>'
                 self.order.oderCloseAllLong()
+            
+            self.order.ShortOrderCreate()
 
             # if specMacd == 1 and specEmaSlope != 4:
             #     self.text = 'specMaが6なのでshortを閉じます<br>'
