@@ -387,15 +387,13 @@ class orderFx:
             api = self.fi.api
             # stopPrice = 100.00
             a = False
-            if a:
-                stoporder = StopLossDetails(price=str(slos))
-            else:
-                stoporder = TrailingStopLossDetails(distance=str(sld))
+
+            stoporder = TrailingStopLossDetails(distance=str(sld))
 
             self.data['order']['price'] = self.priceShort
             self.data['order']['instrument'] = self.instrument
             self.data['order']['units'] = self.unitsShort
-            self.data['order']['stopLossOnFill'] = stoporder.data
+            self.data['order']['trailingStopLossOnFill'] = stoporder.data
             # print(self.data)
             # r = trades.TradeClose(accountID=accountID, tradeID=49, data=data)
             # API経由で指値注文を実行
@@ -459,16 +457,12 @@ class orderFx:
             self.nowIn = True
             api = self.fi.api
 
-            a = False
-            if a:
-                stoporder = StopLossDetails(price=str(slos))
-            else:
-                stoporder = TrailingStopLossDetails(distance=str(sld))
+            stoporder = TrailingStopLossDetails(distance=str(sld))
 
             self.data['order']['price'] = self.priceLong
             self.data['order']['instrument'] = self.instrument
             self.data['order']['units'] = self.unitsLong
-            self.data['order']['stopLossOnFill'] = stoporder.data
+            self.data['order']['trailingStopLossOnFill'] = stoporder.data
             # print(self.data)
             # r = trades.TradeClose(accountID=accountID, tradeID=49, data=data)
             # API経由で指値注文を実行
