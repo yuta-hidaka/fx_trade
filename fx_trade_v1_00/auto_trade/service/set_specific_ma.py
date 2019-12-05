@@ -122,6 +122,8 @@ class setSpecificMA:
         lg = (maList[2] - leatestData.ma_long).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
+        malg = lg
+
         self.text += 'ma 傾き<br>'
         self.text += str(st) + '<br>'
         self.text += str(md) + '<br>'
@@ -150,8 +152,19 @@ class setSpecificMA:
         # EMA3つの位置を計算
         compEma = comp.comp3MA(shortEma, middleEma, longtEma)
         # EMA3つの傾きを計算
-        compEmaSlope = comp.comp3MASlope(s=st, m=md, l=lg)
+        # if malg == 0:
 
+        compEmaSlope = comp.comp3MASlope(s=st, m=md, l=lg)
+        if compEmaSlope == 1:
+            if malg < 0:
+                self.text += 'emaはすべて上向きだけどmaが逆方向<br>'
+                compEmaSlope = 4
+
+        if compEmaSlope == 2:
+            if malg > 0:
+                self.text += 'emaはすべて下向きだけどmaが逆方向<br>'
+                compEmaSlope = 4
+                
         # MAの傾きを計算
         st = (macd1 - leatestData.macd1).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
