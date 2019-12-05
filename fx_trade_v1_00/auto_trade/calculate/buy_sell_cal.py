@@ -100,14 +100,14 @@ class BuySellCal():
             pass
 
         if settings.use_specific_limit:
-            limit = settings.limit / 3
+            limit = settings.limit * 30
             c = nowCndl_close
             long_limit = (c - (c*limit)).quantize(Decimal('0.001'),
                                                   rounding=ROUND_HALF_UP)
             short_limit = (
                 c + (c*limit)).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
         else:
-            limit = sig1_2 / 3
+            limit = sig1_2 * 30
             long_limit = (sma_2 - limit).quantize(Decimal('0.001'),
                                                   rounding=ROUND_HALF_UP)
             short_limit = (
