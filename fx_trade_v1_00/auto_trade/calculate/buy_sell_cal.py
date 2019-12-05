@@ -120,7 +120,6 @@ class BuySellCal():
         # units = 7500
         try:
             units = settings.units
-            units = 1
             pass
         except:
             self.text += '予期しないロット数が入っています'
