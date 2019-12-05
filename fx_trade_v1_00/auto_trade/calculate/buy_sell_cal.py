@@ -107,7 +107,7 @@ class BuySellCal():
             short_limit = (
                 c + (c*limit)).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
         else:
-            limit = sig3_2
+            limit = sig1_2
             long_limit = (sma_2 - limit).quantize(Decimal('0.001'),
                                                   rounding=ROUND_HALF_UP)
             short_limit = (
@@ -260,7 +260,7 @@ class BuySellCal():
                         rs = 0
                     if rs == 0:
                         if not settings.use_specific_limit:
-                            limit = sig3_2
+                            limit = sig1_2
 
                         self.text += str(rs) + \
                             str(trend_id)+'macdLong<br>'
@@ -287,7 +287,7 @@ class BuySellCal():
 
                     if rs == 0:
                         if not settings.use_specific_limit:
-                            limit = sig3_2
+                            limit = sig1_2
 
                         self.text += str(rs) + \
                             str(trend_id)+'macdShort<br>'

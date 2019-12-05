@@ -388,7 +388,7 @@ class orderFx:
             self.data['order']['instrument'] = self.instrument
             self.data['order']['units'] = self.unitsShort
 
-            a = False
+            a = True
             if a:
                 stoporder = StopLossDetails(price=str(slos))
                 self.data['order']['stopLossOnFill'] = stoporder.data
@@ -463,7 +463,7 @@ class orderFx:
             self.data['order']['instrument'] = self.instrument
             self.data['order']['units'] = self.unitsLong
 
-            a = False
+            a = True
             if a:
                 stoporder = StopLossDetails(price=str(slos))
                 self.data['order']['stopLossOnFill'] = stoporder.data
