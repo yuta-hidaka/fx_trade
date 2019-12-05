@@ -246,7 +246,7 @@ class BuySellCal():
             macdCheckLong = [1, 6]
             macdCheckShort = [3, 4]
             self.order.isInByMa = True
-            self.order.ShortOrderCreate()
+            self.order.LongOrderCreate()
             if specEma in emaCheckLong:
                 # self.text += 'long in--emaCheck<br>'
                 if specEmaSlope == 1 and specMacdSlope == 1:

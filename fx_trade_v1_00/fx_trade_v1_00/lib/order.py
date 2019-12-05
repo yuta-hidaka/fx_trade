@@ -370,12 +370,12 @@ class orderFx:
         self.text += str(slos)+'差分<br>'
         self.text += str(pNow)+'差分<br>'
 
-        # if self.nowIn:
-        #     self.text += 'short すでに購買済み<br>'
-        #     return
-        # if self.inByMaCheck():
-        #     self.text += 'MA購入から指定時間たってない<br>'
-        #     return
+        if self.nowIn:
+            self.text += 'short すでに購買済み<br>'
+            return
+        if self.inByMaCheck():
+            self.text += 'MA購入から指定時間たってない<br>'
+            return
 
         self.positionTimeCheck()
         flg = False
@@ -431,7 +431,7 @@ class orderFx:
         # self.getOrderNum()
 
     def LongOrderCreate(self):
-        self.oderCloseAllShort()
+        # self.oderCloseAllShort()
         slos = Decimal(self.stopLossLong)
         pNow = Decimal(self.priceNow)
         # print(slos)
