@@ -431,7 +431,7 @@ class orderFx:
         # self.getOrderNum()
 
     def LongOrderCreate(self):
-        # self.oderCloseAllShort()
+        self.oderCloseAllShort()
         slos = Decimal(self.stopLossLong)
         pNow = Decimal(self.priceNow)
         # print(slos)
