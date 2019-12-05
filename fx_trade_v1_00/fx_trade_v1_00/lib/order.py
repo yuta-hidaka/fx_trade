@@ -364,7 +364,7 @@ class orderFx:
         slos = Decimal(self.stopLossShort)
         pNow = Decimal(self.priceNow)
 
-        sld = np.abs(slos - pNow) *-1
+        sld = np.abs(slos - pNow)
 
         self.text += str(sld)+'差分<br>'
         self.text += str(slos)+'差分<br>'
