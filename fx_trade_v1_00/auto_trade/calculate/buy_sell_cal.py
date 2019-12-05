@@ -303,7 +303,8 @@ class BuySellCal():
             elif specEma == 5 and specEmaSlope == 2:
                 self.text = 'specMaが3なのでLongを閉じます<br>'
                 self.order.oderCloseAllLong()
-            
+            self.order.isInByMa = True
+
             self.order.ShortOrderCreate()
 
             # if specMacd == 1 and specEmaSlope != 4:
