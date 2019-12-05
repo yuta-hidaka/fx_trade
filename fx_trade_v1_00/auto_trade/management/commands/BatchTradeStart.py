@@ -77,7 +77,7 @@ class Command(BaseCommand):
         resultSpecific, createdSpecific = setCandle.setSpecific(
             gran=gran, num=1, inst=inst)
         # 1分足の保存
-        result, created = setCandle.setM1()
+        # result, created = setCandle.setM1()
 
         # UTC時間を取得
         UTC = datetime.datetime.utcnow()
@@ -118,8 +118,9 @@ class Command(BaseCommand):
             # order.allOrderClose()
             text += '土曜日の終了時刻以降になったので取引中止処理を行います。購買中止処理を休止中<br>'
             is_closeMarket = True
+
         # 5分足が作成されたらMAを作成する。
-        if created:
+        if createdSpecific:
             specCreate = setSpec.setMA(resultSpecific)
             text += setSpec.text
 
@@ -130,7 +131,7 @@ class Command(BaseCommand):
                 str(dt_now) + '</p><br>'
             # ------------------------------------------------------------------------------------------------------------------
             # ボリンジャーバンドの設定
-            BBCondi = bb.setBB(nowMA=result, condiPrev=condiPrev)
+            BBCondi = bb.setBB(nowMA=resultSpecific, condiPrev=condiPrev)
             headerText = '<br>----------------------------------------------set bb---------------------------------------------<br>'
             text += (headerText + bb.text + headerText)
 
@@ -138,7 +139,7 @@ class Command(BaseCommand):
             dt_now = datetime.datetime.now(JST)
             text += '<p style="color:red;">condition計算<br>' + \
                 str(dt_now) + '</p><br>'
-            condiNow = setMA.setMA(result, BBCondi)
+            condiNow = setMA.setMA(resultSpecific, BBCondi)
             # ------------------------------------------------------------------------------------------------------------------
             if not is_closeMarket and checkOn:
                 # a = 8

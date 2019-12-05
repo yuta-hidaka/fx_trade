@@ -245,9 +245,9 @@ class BuySellCal():
             macdCheckLong = [1, 6]
             macdCheckShort = [3, 4]
             if specEma in emaCheckLong:
-                self.text += 'long in--emaCheck<br>'
+                # self.text += 'long in--emaCheck<br>'
                 if specEmaSlope == 1 and specMacdSlope == 1:
-                    self.text += 'long in--slopeCheck<br>'
+                    # self.text += 'long in--slopeCheck<br>'
                     # if specMacd in macdCheckLong:
                     rs = MA_Specific.objects.filter(compEma=4).filter(
                         created_at__range=(sTime, now)).order_by('-id').count()
@@ -270,9 +270,9 @@ class BuySellCal():
                         self.order.LongOrderCreate()
 
             elif specEma in emaCheckShort:
-                self.text += 'short in--emaCheck<br>'
+                # self.text += 'short in--emaCheck<br>'
                 if specEmaSlope == 2 and specMacdSlope == 2:
-                    self.text += 'shot in--slopeCheck<br>'
+                    # self.text += 'shot in--slopeCheck<br>'
                     # if specMacd in macdCheckShort:
                     rs = MA_Specific.objects.filter(compEma=1).filter(
                         created_at__range=(sTime, now)).order_by('-id').count()
