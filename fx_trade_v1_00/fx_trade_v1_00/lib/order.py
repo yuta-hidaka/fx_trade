@@ -95,7 +95,6 @@ class orderFx:
                 "type": "LIMIT",
                 # "type": "MARKET",
                 "positionFill": "DEFAULT",
-                "stopLossOnFill": None
             }
         }
 
