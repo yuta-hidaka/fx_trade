@@ -223,17 +223,6 @@ class BuySellCal():
             # emaCheckShort = [3]
             # macdCheckLong = [6]
             # macdCheckShort = [3]
-            self.text += 'specMa ' + str(specMa)+'<br>'
-            self.text += 'specEma ' + str(specEma)+'<br>'
-            self.text += 'specMacdSlope ' + str(specMacdSlope)+'<br>'
-            self.text += 'specSlope ' + str(specMaSlope)+'<br>'
-            self.text += 'macd1 ' + str(macd1)+'<br>'
-            self.text += 'macd2 ' + str(macd2)+'<br>'
-            self.text += 'macd3 ' + str(macd3)+'<br>'
-            self.text += 'specEma ' + str(specEma)+'<br>'
-            self.text += 'specMacd ' + str(specMacd)+'<br>'
-            self.text += 'is_expansion ' + str(is_expansion)+'<br>'
-            # if cv > 75:
 
             emaCheckLong = [6, 1]
             emaCheckShort = [3, 4]
@@ -243,14 +232,6 @@ class BuySellCal():
             # self.order.isInByMa = True
             # self.order.trend_id = 1
             # self.order.LongOrderCreate()
-
-            ls = [1, 2, 3, 4, 5, 6]
-            for l in ls:
-                rs = MA_Specific.objects.filter(compEma=l).filter(
-                    created_at__range=(sTime, now)).order_by('-id').count()
-                self.text += str(rs) + \
-                    'この' + str(l)+'がありました※※※※※※※※※※※※※※※※<br>'
-
             if specEma in emaCheckLong:
                 # self.text += 'long in--emaCheck<br>'
                 if specEmaSlope == 1 and specMacdSlope == 1:
@@ -283,6 +264,23 @@ class BuySellCal():
             elif specEma == 3 or specEma == 4:
                 self.text = 'specMaが'+str(specEma)+'なのでLongを閉じます<br>'
                 self.order.oderCloseAllLong()
+
+            self.text += 'specMa ' + str(specMa)+'<br>'
+            self.text += 'specEma ' + str(specEma)+'<br>'
+            self.text += 'specMacdSlope ' + str(specMacdSlope)+'<br>'
+            self.text += 'specSlope ' + str(specMaSlope)+'<br>'
+            self.text += 'macd1 ' + str(macd1)+'<br>'
+            self.text += 'macd2 ' + str(macd2)+'<br>'
+            self.text += 'macd3 ' + str(macd3)+'<br>'
+            self.text += 'specEma ' + str(specEma)+'<br>'
+            self.text += 'specMacd ' + str(specMacd)+'<br>'
+            self.text += 'is_expansion ' + str(is_expansion)+'<br>'
+            ls = [1, 2, 3, 4, 5, 6]
+            for l in ls:
+                rs = MA_Specific.objects.filter(compEma=l).filter(
+                    created_at__range=(sTime, now)).order_by('-id').count()
+                self.text += str(rs) + \
+                    'この' + str(l)+'がありました※※※※※※※※※※※※※※※※<br>'
 
             # if specMacd == 1 and specEmaSlope != 4:
             #     self.text = 'specMaが6なのでshortを閉じます<br>'
