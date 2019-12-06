@@ -137,13 +137,13 @@ class setSpecificMA:
 
         # MAの百分率を計算-----------------------------------------------------------
         st = (maList[0] / leatestData.ma_short).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP) * 100
+            Decimal('0.0000001'), rounding=ROUND_HALF_UP) 
 
         md = (maList[1] / leatestData.ma_middle).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP) * 100
+            Decimal('0.0000001'), rounding=ROUND_HALF_UP)
 
         lg = (maList[2] / leatestData.ma_long).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP) * 100
+            Decimal('0.0000001'), rounding=ROUND_HALF_UP)
 
         self.text += 'ma 傾き百分率<br>'
         self.text += str(st) + '<br>'
@@ -182,13 +182,13 @@ class setSpecificMA:
                 
         # EMAの百分率を計算-----------------------------------------------------------
         st = (shortEma / leatestData.ema_short).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP) * 100
+            Decimal('0.0000001'), rounding=ROUND_HALF_UP)
 
         md = (middleEma / leatestData.ema_middle).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP) * 100
+            Decimal('0.0000001'), rounding=ROUND_HALF_UP)
 
         lg = (longtEma / leatestData.ema_long).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP) * 100
+            Decimal('0.0000001'), rounding=ROUND_HALF_UP)
 
         self.text += 'ema傾き 百分率<br>'
         self.text += str(st) + '<br>'
@@ -215,13 +215,13 @@ class setSpecificMA:
 
         # MAの百分率計算-----------------------------------------------------------
         st = (macd1 / leatestData.macd1).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP) * 100
+            Decimal('0.0000001'), rounding=ROUND_HALF_UP)
 
         md = (macd2 / leatestData.macd2).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP) * 100
+            Decimal('0.0000001'), rounding=ROUND_HALF_UP)
 
         lg = (macd3 / leatestData.macd3).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP) * 100
+            Decimal('0.0000001'), rounding=ROUND_HALF_UP)
 
         self.text += '<br>macd傾き百分率<br>'
         self.text += str(st) + '<br>'
