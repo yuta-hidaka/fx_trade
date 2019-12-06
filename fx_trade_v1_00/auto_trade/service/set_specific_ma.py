@@ -136,11 +136,11 @@ class setSpecificMA:
         compMaSlope = comp.comp3MASlope(s=st, m=md, l=lg)
 
         # MAの百分率を計算-----------------------------------------------------------
-        st = ((maList[0] / leatestData.ma_short) - 1) * 1000000
+        st = ((maList[0] / leatestData.ma_short) - 1) * 100
 
-        md = ((maList[1] / leatestData.ma_middle) - 1) * 1000000
+        md = ((maList[1] / leatestData.ma_middle) - 1) * 100
 
-        lg = ((maList[2] / leatestData.ma_long) - 1) * 1000000
+        lg = ((maList[2] / leatestData.ma_long) - 1) * 100
 
         self.text += 'ma 傾き百分率<br>'
         self.text += str(st) + '<br>'
@@ -177,11 +177,11 @@ class setSpecificMA:
                 compEmaSlope = 4
 
         # EMAの百分率を計算-----------------------------------------------------------
-        st = ((shortEma / leatestData.ema_short) - 1) * 1000000
+        st = ((shortEma / leatestData.ema_short) - 1) * 100
 
-        md = ((middleEma / leatestData.ema_middle) - 1) * 1000000
+        md = ((middleEma / leatestData.ema_middle) - 1) * 100
 
-        lg = ((longtEma / leatestData.ema_long) - 1) * 1000000
+        lg = ((longtEma / leatestData.ema_long) - 1) * 100
 
         self.text += 'ema傾き 百分率<br>'
         self.text += str(st) + '<br>'
