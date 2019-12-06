@@ -22,6 +22,8 @@ class setSpecificMA:
 
     def setMA(self, FXdata):
         comp = compaireMA()
+        qSet = MA_Specific
+
         # 前回の設定を確認
         pastSettings = tradeSettings.objects.filter(id=2).first()
 
@@ -112,7 +114,7 @@ class setSpecificMA:
         macd2 = shortEma-longtEma
         macd3 = middleEma-longtEma
 
-        # MAの傾きを計算
+        # MAの傾きを計算-----------------------------------------------------------
         st = (maList[0] - leatestData.ma_short).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
@@ -123,18 +125,33 @@ class setSpecificMA:
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         malg = lg
-
         self.text += 'ma 傾き<br>'
         self.text += str(st) + '<br>'
         self.text += str(md) + '<br>'
         self.text += str(lg) + '<br>'
-        qSet = MA_Specific
+        # maの傾きを百分率で算出
         # MA3つの位置を計算
         compMa = comp.comp3MA(maList[0], maList[1], maList[2])
         # MA3つの傾きを計算
         compMaSlope = comp.comp3MASlope(s=st, m=md, l=lg)
 
-        # EMAの傾きを計算
+        # MAの百分率を計算-----------------------------------------------------------
+        st = (maList[0] / leatestData.ma_short).quantize(
+            Decimal('0.001'), rounding=ROUND_HALF_UP) * 100
+
+        md = (maList[1] / leatestData.ma_middle).quantize(
+            Decimal('0.001'), rounding=ROUND_HALF_UP) * 100
+
+        lg = (maList[2] / leatestData.ma_long).quantize(
+            Decimal('0.001'), rounding=ROUND_HALF_UP) * 100
+
+        self.text += 'ma 傾き百分率<br>'
+        self.text += str(st) + '<br>'
+        self.text += str(md) + '<br>'
+        self.text += str(lg) + '<br>'
+
+
+        # EMAの傾きを計算-----------------------------------------------------------
         st = (shortEma - leatestData.ema_short).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
@@ -152,8 +169,6 @@ class setSpecificMA:
         # EMA3つの位置を計算
         compEma = comp.comp3MA(shortEma, middleEma, longtEma)
         # EMA3つの傾きを計算
-        # if malg == 0:
-
         compEmaSlope = comp.comp3MASlope(s=st, m=md, l=lg)
         if compEmaSlope == 1:
             if malg < 0:
@@ -165,7 +180,22 @@ class setSpecificMA:
                 self.text += 'emaはすべて下向きだけどmaが逆方向<br>'
                 compEmaSlope = 4
                 
-        # MAの傾きを計算
+        # EMAの百分率を計算-----------------------------------------------------------
+        st = (shortEma / leatestData.ema_short).quantize(
+            Decimal('0.001'), rounding=ROUND_HALF_UP) * 100
+
+        md = (middleEma / leatestData.ema_middle).quantize(
+            Decimal('0.001'), rounding=ROUND_HALF_UP) * 100
+
+        lg = (longtEma / leatestData.ema_long).quantize(
+            Decimal('0.001'), rounding=ROUND_HALF_UP) * 100
+
+        self.text += 'ema傾き 百分率<br>'
+        self.text += str(st) + '<br>'
+        self.text += str(md) + '<br>'
+        self.text += str(lg) + '<br>'
+
+        # MAの傾きを計算-----------------------------------------------------------
         st = (macd1 - leatestData.macd1).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
@@ -182,6 +212,21 @@ class setSpecificMA:
         # MACD3つの傾きを計算
         compMacdSlope = comp.comp3MASlope(s=st, m=md, l=lg)
         compMacd = comp.comp3MacdSlope(m1=macd1, m2=macd2, m3=macd3)
+
+        # MAの百分率計算-----------------------------------------------------------
+        st = (macd1 / leatestData.macd1).quantize(
+            Decimal('0.001'), rounding=ROUND_HALF_UP) * 100
+
+        md = (macd2 / leatestData.macd2).quantize(
+            Decimal('0.001'), rounding=ROUND_HALF_UP) * 100
+
+        lg = (macd3 / leatestData.macd3).quantize(
+            Decimal('0.001'), rounding=ROUND_HALF_UP) * 100
+
+        self.text += '<br>macd傾き百分率<br>'
+        self.text += str(st) + '<br>'
+        self.text += str(md) + '<br>'
+        self.text += str(lg) + '<br>'
 
         create = qSet.objects.create(
             m=FXdata,
