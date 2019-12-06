@@ -208,11 +208,11 @@ class setSpecificMA:
         compMacd = comp.comp3MacdSlope(m1=macd1, m2=macd2, m3=macd3)
 
         # MAの百分率計算-----------------------------------------------------------
-        st = (macd1 / leatestData.macd1)
+        st = (leatestData.macd1)
 
-        md = (macd2 / leatestData.macd2)
+        md = (leatestData.macd2)
 
-        lg = (macd3 / leatestData.macd3)
+        lg = (leatestData.macd3)
 
         self.text += '<br>macd傾き百分率<br>'
         self.text += str(st) + '<br>'
