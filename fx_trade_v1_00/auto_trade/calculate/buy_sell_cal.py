@@ -214,7 +214,7 @@ class BuySellCal():
             self.text += 'トレンドID　' + str(trend_id) + '<br>'
 
             now = timezone.now()
-            adjTime = datetime.timedelta(minutes=10)
+            adjTime = datetime.timedelta(minutes=15)
             sTime = now - adjTime
 
             # ----------------------------------------------------------------------------------------------------------
@@ -277,7 +277,7 @@ class BuySellCal():
             self.text += 'is_expansion ' + str(is_expansion)+'<br>'
 
             ls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-            # ls = [1, 2, 3, 4, 5, 6]
+            ls = [1, 2, 3, 4, 5, 6]
 
             for l in ls:
                 rs = MA_Specific.objects.filter(compEma=l).filter(
