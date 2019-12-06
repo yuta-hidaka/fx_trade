@@ -27,10 +27,10 @@ class BuySellCal():
         self.text = ''
 
     def BuySellCheck(self, condNow, condiPrev, spec):
-
         # トレンド発生中はMAを指標に売買を行うが、もみ合い相場中はボリンジャーバンドを指標に売買を行う。
 
         settings = self.settings
+        self.order.useTrailing = settings.use_trailing_stop
         getNowRate = getMA_USD_JPY()
 
         cbb = model_to_dict(condNow.condition_of_bb)
