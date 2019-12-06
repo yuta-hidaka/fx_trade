@@ -275,7 +275,10 @@ class BuySellCal():
             self.text += 'specEma ' + str(specEma)+'<br>'
             self.text += 'specMacd ' + str(specMacd)+'<br>'
             self.text += 'is_expansion ' + str(is_expansion)+'<br>'
-            ls = [1, 2, 3, 4, 5, 6]
+
+            ls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            # ls = [1, 2, 3, 4, 5, 6]
+
             for l in ls:
                 rs = MA_Specific.objects.filter(compEma=l).filter(
                     created_at__range=(sTime, now)).order_by('-id').count()
