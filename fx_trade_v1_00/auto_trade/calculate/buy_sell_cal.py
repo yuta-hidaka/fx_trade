@@ -234,11 +234,6 @@ class BuySellCal():
             self.text += 'specMacd ' + str(specMacd)+'<br>'
             self.text += 'is_expansion ' + str(is_expansion)+'<br>'
             # if cv > 75:
-            # emaCheckLong = [1, 6]
-            # emaCheckShort = [3, 4]
-
-            # macdCheckLong = [1, 6]
-            # macdCheckShort = [3, 4]
 
             emaCheckLong = [6, 1]
             emaCheckShort = [3, 4]
