@@ -302,10 +302,10 @@ class BuySellCal():
                         self.order.ShortOrderCreate()
 
             if specEma == 5 or specEma == 6:
-                self.text = 'specMaが6なのでshortを閉じます<br>'
+                self.text = 'specMaが'+str(specEma)+'なのでshortを閉じます<br>'
                 self.order.oderCloseAllShort()
             elif specEma == 3 or specEma == 4:
-                self.text = 'specMaが3なのでLongを閉じます<br>'
+                self.text = 'specMaが'+str(specEma)+'なのでLongを閉じます<br>'
                 self.order.oderCloseAllLong()
 
             # if specMacd == 1 and specEmaSlope != 4:
