@@ -58,6 +58,7 @@ class orderFx:
         self.text = ''
 #  ma_in_at
         self.isInByMa = False
+        self.useTrailing = False
         # now = timezone.utc()
 
         self.fi = FxInfo()
@@ -388,13 +389,12 @@ class orderFx:
             self.data['order']['instrument'] = self.instrument
             self.data['order']['units'] = self.unitsShort
 
-            a = True
-            if a:
-                stoporder = StopLossDetails(price=str(slos))
-                self.data['order']['stopLossOnFill'] = stoporder.data
-            else:
+            if self.useTrailing:
                 stoporder = TrailingStopLossDetails(distance=str(sld))
                 self.data['order']['trailingStopLossOnFill'] = stoporder.data
+            else:
+                stoporder = StopLossDetails(price=str(slos))
+                self.data['order']['stopLossOnFill'] = stoporder.data
 
             # print(self.data)
             # r = trades.TradeClose(accountID=accountID, tradeID=49, data=data)
@@ -463,13 +463,12 @@ class orderFx:
             self.data['order']['instrument'] = self.instrument
             self.data['order']['units'] = self.unitsLong
 
-            a = True
-            if a:
-                stoporder = StopLossDetails(price=str(slos))
-                self.data['order']['stopLossOnFill'] = stoporder.data
-            else:
+            if self.useTrailing:
                 stoporder = TrailingStopLossDetails(distance=str(sld))
                 self.data['order']['trailingStopLossOnFill'] = stoporder.data
+            else:
+                stoporder = StopLossDetails(price=str(slos))
+                self.data['order']['stopLossOnFill'] = stoporder.data
 
             # API経由で指値注文を実行
             if self.orderLongNum == 0:
