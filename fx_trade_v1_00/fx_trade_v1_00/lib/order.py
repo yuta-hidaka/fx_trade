@@ -424,7 +424,7 @@ class orderFx:
                     self.text += str(e)+'<br>'
                     pass
             else:
-                self.text += 'ShortOrderCreate行っていません<br>'
+                self.text += 'order numが0以外のためShortOrderCreate行っていません<br>'
 
         else:
             self.text += str(self.waitTime) + '分経過してない　short<br>'
@@ -495,7 +495,7 @@ class orderFx:
                     self.text += '購買エラー<br>'
                     self.text += str(e)+'<br>'
             else:
-                self.text += 'LongOrderCreate行っていません<br>'
+                self.text += 'order num が0以外のためLongOrderCreate行っていません<br>'
 
         else:
             self.text += str(self.waitTime) + '分経過してない　long<br>'
