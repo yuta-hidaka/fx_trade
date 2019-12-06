@@ -239,8 +239,8 @@ class BuySellCal():
             # macdCheckLong = [1, 6]
             # macdCheckShort = [3, 4]
 
-            emaCheckLong = [6]
-            emaCheckShort = [3]
+            emaCheckLong = [6,1]
+            emaCheckShort = [3,4]
 
             macdCheckLong = [1, 6]
             macdCheckShort = [3, 4]
