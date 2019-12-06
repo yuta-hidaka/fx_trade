@@ -258,6 +258,7 @@ class BuySellCal():
                         'この4がありました※※※※※※※※※※※※※※※※<br>'
                     if not useCnt:
                         rs = 0
+                        
                     if rs == 0:
                         if not settings.use_specific_limit:
                             limit = sig1_2
