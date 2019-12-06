@@ -136,17 +136,16 @@ class setSpecificMA:
         compMaSlope = comp.comp3MASlope(s=st, m=md, l=lg)
 
         # MAの百分率を計算-----------------------------------------------------------
-        st = (maList[0] / leatestData.ma_short)
+        st = ((maList[0] / leatestData.ma_short) - 1) * 1000000
 
-        md = (maList[1] / leatestData.ma_middle)
+        md = ((maList[1] / leatestData.ma_middle) - 1) * 1000000
 
-        lg = (maList[2] / leatestData.ma_long)
+        lg = ((maList[2] / leatestData.ma_long) - 1) * 1000000
 
         self.text += 'ma 傾き百分率<br>'
         self.text += str(st) + '<br>'
         self.text += str(md) + '<br>'
         self.text += str(lg) + '<br>'
-
 
         # EMAの傾きを計算-----------------------------------------------------------
         st = (shortEma - leatestData.ema_short).quantize(
@@ -176,13 +175,13 @@ class setSpecificMA:
             if malg > 0:
                 self.text += 'emaはすべて下向きだけどmaが逆方向<br>'
                 compEmaSlope = 4
-                
+
         # EMAの百分率を計算-----------------------------------------------------------
-        st = (shortEma / leatestData.ema_short)
+        st = ((shortEma / leatestData.ema_short) - 1) * 1000000
 
-        md = (middleEma / leatestData.ema_middle)
+        md = ((middleEma / leatestData.ema_middle) - 1) * 1000000
 
-        lg = (longtEma / leatestData.ema_long)
+        lg = ((longtEma / leatestData.ema_long) - 1) * 1000000
 
         self.text += 'ema傾き 百分率<br>'
         self.text += str(st) + '<br>'
@@ -206,18 +205,6 @@ class setSpecificMA:
         # MACD3つの傾きを計算
         compMacdSlope = comp.comp3MASlope(s=st, m=md, l=lg)
         compMacd = comp.comp3MacdSlope(m1=macd1, m2=macd2, m3=macd3)
-
-        # MAの百分率計算-----------------------------------------------------------
-        st = (leatestData.macd1)
-
-        md = (leatestData.macd2)
-
-        lg = (leatestData.macd3)
-
-        self.text += '<br>macd傾き百分率<br>'
-        self.text += str(st) + '<br>'
-        self.text += str(md) + '<br>'
-        self.text += str(lg) + '<br>'
 
         create = qSet.objects.create(
             m=FXdata,
