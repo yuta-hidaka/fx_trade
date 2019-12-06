@@ -385,14 +385,8 @@ class setBollingerBand_USD_JPY:
         # そうでなければ、もみ合い相場なので、ボリンジャーバンドでの売買を有効にしてもよい。
         self.text += '----------------------------------------------<br>'
         self.text += str(np.absolute(ans)) + '% トレンド割合<br>'
-        self.text += str(aaaa) + ' : 0のかず<br>'
-        self.text += str(aaaa2) + ' : SMAより小さい<br>'
-        self.text += str(aaaa3) + ' : SMAより大きい<br>'
         self.text += '----------------------------------------------<br>'
         self.text += str(np.absolute(ans_2)) + '% トレンド割合②<br>'
-        self.text += str(aaaa_2) + ' : 0のかず②<br>'
-        self.text += str(aaaa2_2) + ' : SMAより小さい②<br>'
-        self.text += str(aaaa3_2) + ' : SMAより大きい②<br>'
         self.text += '----------------------------------------------<br>'
         # if slopeDir == 0 and not is_trend:
         # self.text += '傾き0でトレンドじゃない=スクイーズの可能性<br>'

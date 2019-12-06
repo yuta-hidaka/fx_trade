@@ -129,6 +129,10 @@ class orderFx:
             self.text += 'trendなので時間制限持たせません<br>'
             return False
 
+        if self.isInByMa:
+            self.text += 'ma 購入なので時間制限持たせません<br>'
+            return False
+
         adjTime = datetime.timedelta(minutes=waitTime * 2)
         if self.isReverse:
             self.text += '----リバース処理なのinmacheck行いません----<br>'
