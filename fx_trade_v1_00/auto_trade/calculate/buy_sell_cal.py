@@ -298,10 +298,10 @@ class BuySellCal():
                         self.order.trend_id = 2
                         self.order.ShortOrderCreate()
 
-            if specEma == 5 and specEmaSlope == 1:
+            if specEma == 5 or specEma == 6:
                 self.text = 'specMaが6なのでshortを閉じます<br>'
                 self.order.oderCloseAllShort()
-            elif specEma == 5 and specEmaSlope == 2:
+            elif specEma == 3 or specEma == 4:
                 self.text = 'specMaが3なのでLongを閉じます<br>'
                 self.order.oderCloseAllLong()
 
