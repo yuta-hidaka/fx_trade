@@ -244,32 +244,12 @@ class BuySellCal():
             # self.order.trend_id = 1
             # self.order.LongOrderCreate()
 
-            rs = MA_Specific.objects.filter(compEma=1).filter(
-                created_at__range=(sTime, now)).order_by('-id').count()
-            self.text += str(rs) + \
-                'この1がありました※※※※※※※※※※※※※※※※<br>'
-            rs = MA_Specific.objects.filter(compEma=2).filter(
-                created_at__range=(sTime, now)).order_by('-id').count()
-            self.text += str(rs) + \
-                'この2がありました※※※※※※※※※※※※※※※※<br>'
-
-            rs = MA_Specific.objects.filter(compEma=3).filter(
-                created_at__range=(sTime, now)).order_by('-id').count()
-            self.text += str(rs) + \
-                'この3がありました※※※※※※※※※※※※※※※※<br>'
-            rs = MA_Specific.objects.filter(compEma=4).filter(
-                created_at__range=(sTime, now)).order_by('-id').count()
-            self.text += str(rs) + \
-                'この4がありました※※※※※※※※※※※※※※※※<br>'
-
-            rs = MA_Specific.objects.filter(compEma=5).filter(
-                created_at__range=(sTime, now)).order_by('-id').count()
-            self.text += str(rs) + \
-                'この5がありました※※※※※※※※※※※※※※※※<br>'
-            rs = MA_Specific.objects.filter(compEma=6).filter(
-                created_at__range=(sTime, now)).order_by('-id').count()
-            self.text += str(rs) + \
-                'この6がありました※※※※※※※※※※※※※※※※<br>'
+            ls = [1, 2, 3, 4, 5, 6]
+            for l in ls:
+                rs = MA_Specific.objects.filter(compEma=l).filter(
+                    created_at__range=(sTime, now)).order_by('-id').count()
+                self.text += str(rs) + \
+                    'この' + str(l)+'がありました※※※※※※※※※※※※※※※※<br>'
 
             if specEma in emaCheckLong:
                 # self.text += 'long in--emaCheck<br>'
