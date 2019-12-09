@@ -150,6 +150,10 @@ class setSpecificMA:
         self.text += str(md) + '<br>'
         self.text += str(lg) + '<br>'
 
+        # 急激な変化であれば購買しないようにする
+        if np.abs(st) > 0.4:
+            compEmaSlope = 4
+
         # EMAの傾きを計算-----------------------------------------------------------
         st = (shortEma - leatestData.ema_short).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
@@ -193,6 +197,11 @@ class setSpecificMA:
         self.text += str(st) + '<br>'
         self.text += str(md) + '<br>'
         self.text += str(lg) + '<br>'
+
+        # 急激な変化であれば購買しないようにする
+        if np.abs(st) > 0.004:
+            compEmaSlope = 4
+            self.text += 'emaが急激な上昇<br>'
 
         # MAの傾きを計算-----------------------------------------------------------
         st = (macd1 - leatestData.macd1).quantize(

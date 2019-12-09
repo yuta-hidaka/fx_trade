@@ -46,12 +46,12 @@ class compaireMA():
         slopeList = [s, m, l]
         sumSlope = 0
 
-        if len(set(slopeList)) != len(slopeList):
-            return 4
+        # if len(set(slopeList)) != len(slopeList):
+        #     return 4
 
         for n in slopeList:
-            if n == 0:
-                return 4
+            # if n == 0:
+            #     return 4
             sumSlope += np.sign(n)
 
         if sumSlope == 3:
