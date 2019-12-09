@@ -227,8 +227,8 @@ class BuySellCal():
             emaCheckLong = [6, 1]
             emaCheckShort = [3, 4]
 
-            macdCheckLong = [1, 6]
-            macdCheckShort = [3, 4]
+            macdCheckLong = [6]
+            macdCheckShort = [3]
             # self.order.isInByMa = True
             # self.order.trend_id = 1
             # self.order.LongOrderCreate()
