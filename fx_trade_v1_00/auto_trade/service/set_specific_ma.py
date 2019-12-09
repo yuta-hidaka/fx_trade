@@ -203,7 +203,9 @@ class setSpecificMA:
         self.text += str(np.abs(st))+'<br>'
         if np.abs(st) >= Decimal(0.004):
             compEmaSlope = 4
-            self.text += 'emaが急激な上昇<br>'
+            self.text += '<b>emaが急激</b><br>'
+        else:
+            self.text += '<b>emaが緩慢</b><br>'
 
         # MAの傾きを計算-----------------------------------------------------------
         st = (macd1 - leatestData.macd1).quantize(
