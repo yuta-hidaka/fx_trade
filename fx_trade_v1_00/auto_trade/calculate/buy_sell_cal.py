@@ -120,7 +120,7 @@ class BuySellCal():
         # units = 7500
         try:
             units = settings.units
-            # units = 1
+            units = 1
             pass
         except:
             self.text += '予期しないロット数が入っています'
@@ -229,9 +229,10 @@ class BuySellCal():
 
             macdCheckLong = [1, 6]
             macdCheckShort = [3, 4]
-            # self.order.isInByMa = True
-            # self.order.trend_id = 1
-            # self.order.LongOrderCreate()
+            self.order.isInByMa = True
+            self.order.trend_id = 2
+            self.order.ShortOrderCreate()
+            
             if specEma in emaCheckLong:
                 # self.text += 'long in--emaCheck<br>'
                 if specEmaSlope == 1 and specMacdSlope == 1:
