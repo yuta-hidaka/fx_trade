@@ -282,8 +282,8 @@ class BuySellCal():
             for l in ls:
                 rs = MA_Specific.objects.filter(compEma=l).filter(
                     created_at__range=(sTime, now)).order_by('-id').count()
-                self.text += '※※※※※※※※※※※※※※※※'+str(rs) + \
-                    'この' + str(l)+'がありました※※※※※※※※※※※※※※※※<br>'
+                self.text += '---'+str(rs) + \
+                    'この' + str(l)+'がありました---<br>'
 
             # if specMacd == 1 and specEmaSlope != 4:
             #     self.text = 'specMaが6なのでshortを閉じます<br>'
