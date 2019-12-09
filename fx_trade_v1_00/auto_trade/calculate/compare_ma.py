@@ -50,8 +50,8 @@ class compaireMA():
         #     return 4
 
         for n in slopeList:
-            # if n == 0:
-            #     return 4
+            if n == 0:
+                return 4
             sumSlope += np.sign(n)
 
         if sumSlope == 3:
