@@ -239,7 +239,7 @@ class BuySellCal():
                     rs = MA_Specific.objects.filter(compEma=4).filter(
                         created_at__range=(sTime, now)).order_by('-id').count()
                     self.text += str(rs) + \
-                        'この4がありました※※※※※※※※※※※※※※※※<br>'
+                        '--この4がありました--<br>'
                     if not useCnt:
                         rs = 0
                     if rs == 0:

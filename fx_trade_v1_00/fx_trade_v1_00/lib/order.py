@@ -124,7 +124,7 @@ class orderFx:
         now = timezone.now()
         waitTime = self.waitTime * 2
         trends = [1, 2]
-        self.text += '-------------------------inByMaCheck-------------------------<br>'
+        self.text += '----------inByMaCheck----------<br>'
         if self.trend_id in trends:
             self.text += 'trendなので時間制限持たせません<br>'
             return False
@@ -159,7 +159,7 @@ class orderFx:
         waitTime = self.waitTime
 
         adjTime = datetime.timedelta(minutes=waitTime)
-        self.text += '-------------------------position time Check-------------------------<br>'
+        self.text += '----------position time Check----------<br>'
         s_over = False
         l_over = False
 
@@ -196,7 +196,7 @@ class orderFx:
         return s_over, l_over
 
     def lossCutReverse(self):
-        self.text += '<br>-------------------------loss cut reverse-------------------------<'
+        self.text += '<br>----------loss cut reverse----------<'
         self.isReverse = True
         flg = False
         checkRange = [3, 5]
@@ -274,7 +274,7 @@ class orderFx:
             self.isLlock = False
             # self.text += '<br>ロングおなじ'
         else:
-            self.text += '<br>-------------------------ロング損切されている----------------------------------<br>'
+            self.text += '<br>----------ロング損切されている-------------------<br>'
             if not l and not self.isLlock:
                 self.text += '<br> not l and not self.isLlock'
                 self.isLlock = True
@@ -286,7 +286,7 @@ class orderFx:
             # self.text += '<br>ショートおなじ'
             self.isSlock = False
         else:
-            self.text += '<br>-------------------------ショート損切りされている-------------------------<br>'
+            self.text += '<br>----------ショート損切りされている----------<br>'
             if not s and not self.isSlock:
                 self.text += '<br> not s and not self.isSlock<br>'
                 self.isSlock = True
