@@ -204,8 +204,6 @@ class setSpecificMA:
         if np.abs(st) >= 0.004:
             compEmaSlope = 4
             self.text += 'emaが急激な上昇<br>'
-        else:
-            self.text += 'emaが緩慢な上昇<br>'
 
         # MAの傾きを計算-----------------------------------------------------------
         st = (macd1 - leatestData.macd1).quantize(
