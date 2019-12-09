@@ -130,7 +130,7 @@ class orderFx:
             return False
 
         if self.isInByMa:
-            self.text += 'ma 購入なので時間制限持たせません<br>'
+            self.text += 'maなので時間制限持たせません<br>'
             return False
 
         adjTime = datetime.timedelta(minutes=waitTime * 2)
@@ -403,7 +403,7 @@ class orderFx:
             # print(self.data)
             # r = trades.TradeClose(accountID=accountID, tradeID=49, data=data)
             # API経由で指値注文を実行
-            if self.orderShortNum != 0:
+            if self.orderShortNum == 0:
                 try:
                     now = timezone.now()
                     r = orders.OrderCreate(self.fi.accountID, data=self.data)
