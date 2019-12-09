@@ -199,6 +199,8 @@ class setSpecificMA:
         self.text += str(lg) + '<br>'
 
         # 急激な変化であれば購買しないようにする
+
+        self.text += str(np.abs(st))+'<br>'
         if np.abs(st) >= 0.004:
             compEmaSlope = 4
             self.text += 'emaが急激な上昇<br>'
