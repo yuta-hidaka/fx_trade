@@ -1,5 +1,5 @@
 from .get_MA_USD_JPY import getMA_USD_JPY
-from ..models import M5_USD_JPY, bollingerBand, conditionOfBB, listConditionOfBBTrande, batchLog, M5_USD_JPY, condition, tradeSettings
+from ..models import bollingerBand, conditionOfBB, listConditionOfBBTrande, batchLog,  condition, tradeSettings
 from ..rest.serializers.set_candle_serialize import SetCandleSerializer
 from decimal import *
 from datetime import *
@@ -348,10 +348,10 @@ class setBollingerBand_USD_JPY:
 
         for c in cond:
             try:
-                xClose.append(float(c.ma.m5.close))
+                xClose.append(float(c.mas.m.close))
                 tmpSma = c.condition_of_bb.bb.sma
                 tmpSma2 = c.condition_of_bb.bb.sma_2
-                tmpclose = c.ma.m5.close
+                tmpclose = c.mas.m.close
 
                 if (tmpclose - tmpSma) == 0:
                     data += 0
