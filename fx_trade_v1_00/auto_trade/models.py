@@ -449,7 +449,7 @@ class condition(models.Model):
         'MA_USD_JPY', on_delete=models.CASCADE, related_name='condition_ma2', null=True)
     mas = models.ForeignKey(
         'MA_Specific', on_delete=models.CASCADE, related_name='condition_ma2', null=True)
-    mas2 = models.ForeignKey(
+    masqq = models.ForeignKey(
         'MA_Specific', on_delete=models.CASCADE, related_name='condition_ma3', null=True)
     mas2qq = models.ForeignKey(
         'MA_Specific', on_delete=models.CASCADE, related_name='condition_ma4', null=True)
