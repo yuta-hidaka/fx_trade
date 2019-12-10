@@ -56,11 +56,19 @@ class setBollingerBand_USD_JPY:
 
         bSig2forEx = (bbb['abs_sigma_2'])
         bSig2forEx_2 = (bbb['abs_sigma_2_2'])
-
-        prevClose = Decimal(model_to_dict(condiPrev.mas.m)['close'])
-        bfClose = condiPrev.mas.m.close
-        bfHigh = condiPrev.mas.m.high
-        bfLow = condiPrev.mas.m.low
+        try:
+            prevClose = Decimal(model_to_dict(condiPrev.mas.m)['close'])
+            bfClose = condiPrev.mas.m.close
+            bfHigh = condiPrev.mas.m.high
+            bfLow = condiPrev.mas.m.low
+            pass
+        except:
+            prevClose = 100
+            bfClose = 100
+            bfHigh = 100
+            bfLow = 100
+            print('errrooooooooooooooooooooooooooooooooooo')
+            pass
 
         nowClose = Decimal(nowMA.close)
         nowHigh = Decimal(nowMA.high)

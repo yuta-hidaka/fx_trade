@@ -449,7 +449,6 @@ class condition(models.Model):
         'MA_Specific', on_delete=models.CASCADE, related_name='condition_ma2', null=True)
     mas2 = models.ForeignKey(
         'MA_Specific', on_delete=models.CASCADE, related_name='condition_ma3', null=True)
-
     condition_of_slope_M5 = models.ForeignKey(
         'conditionOfSlope_M5', on_delete=models.CASCADE, related_name='conditionOfSlope_M5', null=True)
     # condition_of_slope_M5ssss = models.ForeignKey(
