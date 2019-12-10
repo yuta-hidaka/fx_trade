@@ -60,8 +60,8 @@ class BuySellCal():
         self.order.priceNow = nowCndl_close
         # self.order.LongOrderCreate()
         # print(nowCndl_close)
-        M5_1_closeNow = model_to_dict(condNow.ma.m5)['close']
-        M5_1_closePrev = model_to_dict(condiPrev.ma.m5)['close']
+        M5_1_closeNow = model_to_dict(condNow.mas.m)['close']
+        M5_1_closePrev = model_to_dict(condiPrev.mas.m)['close']
 
         self.text += 'cv  ' + str(cv) + '<br>'
         is_peak = cbb['is_peak']

@@ -57,10 +57,10 @@ class setBollingerBand_USD_JPY:
         bSig2forEx = (bbb['abs_sigma_2'])
         bSig2forEx_2 = (bbb['abs_sigma_2_2'])
 
-        prevClose = Decimal(model_to_dict(condiPrev.ma.m5)['close'])
-        bfClose = condiPrev.ma.m5.close
-        bfHigh = condiPrev.ma.m5.high
-        bfLow = condiPrev.ma.m5.low
+        prevClose = Decimal(model_to_dict(condiPrev.mas.m)['close'])
+        bfClose = condiPrev.mas.m.close
+        bfHigh = condiPrev.mas.m.high
+        bfLow = condiPrev.mas.m.low
 
         nowClose = Decimal(nowMA.close)
         nowHigh = Decimal(nowMA.high)
@@ -225,8 +225,12 @@ class setBollingerBand_USD_JPY:
         xClose.append(float(nowMA.close))
 
         for c in cond[:settings.bb_cv_count]:
-            xClose.append(float(c.ma.m5.close))
-
+            try:
+                xClose.append(float(c.mas.m.close))
+                pass
+            except Exception as e:
+                print(e)
+                pass
         try:
             xClose.reverse()
             x = np.arange(0, len(xClose))
@@ -299,25 +303,25 @@ class setBollingerBand_USD_JPY:
         fstCondClose = cond[len(cond)-1].ma.m5.close
         sndCondClose = cond[len(cond)-2].ma.m5.close
 
-        for c in condDouble:
-            loopSma = c.condition_of_bb.bb.sma
-            loopClose = c.ma.m5.close
-            loopHigh = c.ma.m5.high
-            loopLow = c.ma.m5.low
+        # for c in condDouble:
+        #     loopSma = c.condition_of_bb.bb.sma
+        #     loopClose = c.ma.m5.close
+        #     loopHigh = c.ma.m5.high
+        #     loopLow = c.ma.m5.low
 
-            loopSig1Pls = loopSma + c.condition_of_bb.bb.abs_sigma_1
-            loopSig2Pls = loopSma + c.condition_of_bb.bb.abs_sigma_2
-            loopSig3Pls = loopSma + c.condition_of_bb.bb.abs_sigma_3
+        #     loopSig1Pls = loopSma + c.condition_of_bb.bb.abs_sigma_1
+        #     loopSig2Pls = loopSma + c.condition_of_bb.bb.abs_sigma_2
+        #     loopSig3Pls = loopSma + c.condition_of_bb.bb.abs_sigma_3
 
-            loopSig1Min = loopSma - c.condition_of_bb.bb.abs_sigma_1
-            loopSig2Min = loopSma - c.condition_of_bb.bb.abs_sigma_2
-            loopSig3Min = loopSma - c.condition_of_bb.bb.abs_sigma_3
+        #     loopSig1Min = loopSma - c.condition_of_bb.bb.abs_sigma_1
+        #     loopSig2Min = loopSma - c.condition_of_bb.bb.abs_sigma_2
+        #     loopSig3Min = loopSma - c.condition_of_bb.bb.abs_sigma_3
 
-            # if loopSig2Pls <= loopHigh:
-            if loopSig2Pls <= loopClose:
-                pstTopTouch = True
-            elif loopSig2Pls >= loopClose:
-                pstBttmTouch = True
+        #     # if loopSig2Pls <= loopHigh:
+        #     if loopSig2Pls <= loopClose:
+        #         pstTopTouch = True
+        #     elif loopSig2Pls >= loopClose:
+        #         pstBttmTouch = True
 
         # batchLog.objects.create(
         #     text=text
@@ -325,44 +329,36 @@ class setBollingerBand_USD_JPY:
         # self.self.text += ''
 
         for c in cond:
-            xClose.append(float(c.ma.m5.close))
-            # try:
-            #     self.text += str(c.ma.m5.recorded_at_utc) + '% 時間<br>'
-            #     self.text += str(c.condition_of_bb.bb.sma) + ' c.condition_of_bb.bb.sma<br>'
-            #     self.text += str(c.condition_of_bb.bb.sma_2) + 'c.condition_of_bb.bb.sma_2<br>'
-            #     self.text += str(c.ma.m5.close) + ' c.ma.m5.close<br>'
-            #     batchLog.objects.create(
-            #         text=text
-            #     )
-            #     self.self.text += ''
-            #     pass
-            # except:
-            #     self.text += 'errorororo<br>'
-                # pass
-            tmpSma = c.condition_of_bb.bb.sma
-            tmpSma2 = c.condition_of_bb.bb.sma_2
-            tmpclose = c.ma.m5.close
+            try:
+                xClose.append(float(c.ma.m5.close))
+                tmpSma = c.condition_of_bb.bb.sma
+                tmpSma2 = c.condition_of_bb.bb.sma_2
+                tmpclose = c.ma.m5.close
 
-            if (tmpclose - tmpSma) == 0:
-                data += 0
-                aaaa += 1
-            elif tmpclose <= tmpSma:
-                data -= 1
-                aaaa2 += 1
-            elif tmpclose >= tmpSma:
-                data += 1
-                aaaa3 += 1
+                if (tmpclose - tmpSma) == 0:
+                    data += 0
+                    aaaa += 1
+                elif tmpclose <= tmpSma:
+                    data -= 1
+                    aaaa2 += 1
+                elif tmpclose >= tmpSma:
+                    data += 1
+                    aaaa3 += 1
 
-            # ２つ目
-            if tmpclose - tmpSma2 == 0:
-                data_2 += 0
-                aaaa_2 += 1
-            elif tmpclose <= tmpSma2:
-                data_2 -= 1
-                aaaa2_2 += 1
-            elif tmpclose >= tmpSma2:
-                data_2 += 1
-                aaaa3_2 += 1
+                # ２つ目
+                if tmpclose - tmpSma2 == 0:
+                    data_2 += 0
+                    aaaa_2 += 1
+                elif tmpclose <= tmpSma2:
+                    data_2 -= 1
+                    aaaa2_2 += 1
+                elif tmpclose >= tmpSma2:
+                    data_2 += 1
+                    aaaa3_2 += 1
+                pass
+            except Exception as e:
+                print(e)
+                pass
 
         xClose.reverse()
         x = np.arange(0, len(xClose))
@@ -469,7 +465,6 @@ class setBollingerBand_USD_JPY:
             is_range = True
         else:
             self.text += 'trendRatioによる判断トレンドでも、レンジでもない<br>'
-
 
         if is_trend:
             if is_plus and slopeDir == 1:
@@ -640,7 +635,6 @@ class setBollingerBand_USD_JPY:
             slope_01=slopeDir_01
         )
 
-
         return create
 
         # 5MA*50　SMAを基準に標準偏差を算出していきます。
@@ -665,7 +659,7 @@ class setBollingerBand_USD_JPY:
 
         middle_leg = settings.middle_leg
         long_leg = settings.middle_leg
-        gran =  settings.granularity
+        gran = settings.granularity
         inst = settings.instruments
 
         mas = gMA.get_specific(gran=gran, num=middle_leg, inst=inst)['candles']

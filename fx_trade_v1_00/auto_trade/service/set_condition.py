@@ -90,12 +90,12 @@ class setCondition:
         )
         return result
 
-    def setConditionList(self, ma, macomp, slope, BBCondi):
+    def setConditionList(self, FXdata, BBCondi):
 
         create = condition.objects.create(
-            ma=ma,
-            condition_of_slope_M5=slope,
-            condition_of_ma_M5=macomp,
+            mas=FXdata,
+            # condition_of_slope_M5=slope,
+            # condition_of_ma_M5=macomp,
             condition_of_bb=BBCondi
         )
 

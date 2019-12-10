@@ -130,8 +130,8 @@ class Command(BaseCommand):
                 str(dt_now) + '</p><br>'
             # --------------------------------------------
             # ボリンジャーバンドの設定
-            # BBCondi = bb.setBB(nowMA=resultSpecific, condiPrev=condiPrev)
-            BBCondi = bb.setBB(nowMA=result, condiPrev=condiPrev)
+            BBCondi = bb.setBB(nowMA=resultSpecific, condiPrev=condiPrev)
+            # BBCondi = bb.setBB(nowMA=result, condiPrev=condiPrev)
 
             headerText = '<br>-----------set bb----------<br>'
             text += (headerText + bb.text + headerText)
@@ -140,7 +140,8 @@ class Command(BaseCommand):
             dt_now = datetime.datetime.now(JST)
             text += '<p style="color:red;">condition計算<br>' + \
                 str(dt_now) + '</p><br>'
-            condiNow = setMA.setMA(result, BBCondi)
+            condiNow = setMA.setMA(specCreate, BBCondi)
+            # condiNow = setMA.setMA(result, BBCondi)
             # --------------------------------------------
             if not is_closeMarket and checkOn:
                 # a = 8
