@@ -5,6 +5,10 @@ C:\dev\fx_trade_v1.01\venv\Scripts\python.exe  manage.py makemigrations --settin
 C:\dev\fx_trade_v1.01\venv\Scripts\python.exe  manage.py migrate --settings=local_settings
 
 
+ source  ../var/www/python/venv/bin/activate
+ python ../var/www/python/fx_trade/fx_trade_v1_00/manage.py migrate --fake
+
+
  npm install @material-ui/core
 
  npm i typeface-roboto
