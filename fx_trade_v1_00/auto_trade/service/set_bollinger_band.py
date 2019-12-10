@@ -69,7 +69,6 @@ class setBollingerBand_USD_JPY:
             bfLow = 100
             print('errrooooooooooooooooooooooooooooooooooo')
             pass
-
         nowClose = Decimal(nowMA.close)
         nowHigh = Decimal(nowMA.high)
         nowLow = Decimal(nowMA.low)
