@@ -272,7 +272,12 @@ class setBollingerBand_USD_JPY:
             # self.text += str(slopeDir_01)+' slopeDir 0.1で丸めたバージョン<br>'
             pass
         except Exception as e:
-            self.text += str(e)+' error<br>'
+            self.text += str(e)+' error------------------<br>'
+            print(e)
+            print('eoeoeoeoeooooooooooooooooooooooooooooooooooooooooooooooooo')
+            slopeDir_01 = 0
+
+            slopeDir_001 = 0
             pass
 
             # 持ち合い相場かトレンド相場かを判断
