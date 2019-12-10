@@ -91,6 +91,7 @@ class setCondition:
         return result
 
     def setConditionList(self, FXdata, BBCondi):
+    
         create = condition.objects.create(
             mas=FXdata,
             # condition_of_slope_M5=slope,
