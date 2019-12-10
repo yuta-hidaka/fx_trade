@@ -381,10 +381,21 @@ class setBollingerBand_USD_JPY:
         xClose.reverse()
         x = np.arange(0, len(xClose))
         y = np.array(xClose)
-        if not x:
-            x = [1]
-        if not y:
-            y = [1]
+        try:
+            if not x:
+                x = [1, 2, 3]
+            pass
+        except:
+            x = [1, 2, 3]
+            pass
+
+        try:
+            if not y:
+                y = [1, 2, 3]
+            pass
+        except:
+            y = [1, 2, 3]
+            pass
 
         rs = np.polyfit(x, y, 1)
         slope = Decimal(rs[0]).quantize(
