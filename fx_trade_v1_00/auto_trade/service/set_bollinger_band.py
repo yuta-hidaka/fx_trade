@@ -236,6 +236,7 @@ class setBollingerBand_USD_JPY:
                 xClose.append(float(c.mas.m.close))
                 pass
             except Exception as e:
+                print('239行目setbollinger')
                 print(e)
                 pass
         try:
