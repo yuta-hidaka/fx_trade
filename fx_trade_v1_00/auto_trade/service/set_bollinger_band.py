@@ -350,6 +350,7 @@ class setBollingerBand_USD_JPY:
 
         for c in cond:
             try:
+                print(len(cond))
                 xClose.append(float(c.mas.m.close))
                 tmpSma = c.condition_of_bb.bb.sma
                 tmpSma2 = c.condition_of_bb.bb.sma_2
@@ -377,7 +378,7 @@ class setBollingerBand_USD_JPY:
                     aaaa3_2 += 1
                 pass
             except Exception as e:
-                print('380行目setbollinger')
+                # print('380行目setbollinger')
                 print(e)
                 pass
 
