@@ -307,8 +307,14 @@ class setBollingerBand_USD_JPY:
 
         xClose = []
         checkRange = 0
-        fstCondClose = cond[len(cond)-1].mas.m.close
-        sndCondClose = cond[len(cond)-2].mas.m.close
+        try:
+            fstCondClose = cond[len(cond)-1].mas.m.close
+            sndCondClose = cond[len(cond)-2].mas.m.close
+            pass
+        except:
+            fstCondClose = 100
+            sndCondClose = 100
+            pass
 
         # for c in condDouble:
         #     loopSma = c.condition_of_bb.bb.sma
