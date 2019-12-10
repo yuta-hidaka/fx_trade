@@ -130,7 +130,9 @@ class Command(BaseCommand):
                 str(dt_now) + '</p><br>'
             # --------------------------------------------
             # ボリンジャーバンドの設定
+            # BBCondi = bb.setBB(nowMA=resultSpecific, condiPrev=condiPrev)
             BBCondi = bb.setBB(nowMA=result, condiPrev=condiPrev)
+
             headerText = '<br>-----------set bb----------<br>'
             text += (headerText + bb.text + headerText)
 
