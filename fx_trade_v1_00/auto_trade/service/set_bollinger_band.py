@@ -318,6 +318,7 @@ class setBollingerBand_USD_JPY:
             sndCondClose = cond[len(cond)-2].mas.m.close
             pass
         except:
+            print('321行目setbollinger')
             fstCondClose = 100
             sndCondClose = 100
             pass
@@ -376,6 +377,7 @@ class setBollingerBand_USD_JPY:
                     aaaa3_2 += 1
                 pass
             except Exception as e:
+                print('380行目setbollinger')
                 print(e)
                 pass
 
