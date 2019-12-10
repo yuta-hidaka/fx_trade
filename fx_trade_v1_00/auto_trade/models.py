@@ -443,20 +443,21 @@ class conditionOfMA_M5(models.Model):
 
 
 class condition(models.Model):
-    # ma = models.ForeignKey(
-    #     'MA_USD_JPY', on_delete=models.CASCADE, related_name='condition_ma', null=True)
-    # mas = models.ForeignKey(
-    #     'MA_Specific', on_delete=models.CASCADE, related_name='condition_ma2', null=True)
-    # mas2 = models.ForeignKey(
-    #     'MA_Specific', on_delete=models.CASCADE, related_name='condition_ma3', null=True)
-    # condition_of_slope_M5 = models.ForeignKey(
-    #     'conditionOfSlope_M5', on_delete=models.CASCADE, related_name='conditionOfSlope_M5', null=True)
-    # # condition_of_slope_M5ssss = models.ForeignKey(
-    # #     'conditionOfSlope_M5', on_delete=models.CASCADE, related_name='conditionOfSlope_M5ssss', null=True)
-    # condition_of_ma_M5 = models.ForeignKey(
-    #     'conditionOfMA_M5', on_delete=models.CASCADE, related_name='conditionOfSlope_M5', null=True)
-    # condition_of_bb = models.ForeignKey(
-    #     'conditionOfBB', on_delete=models.CASCADE, related_name='condition_of_bb', null=True)
+    ma = models.ForeignKey(
+        'MA_USD_JPY', on_delete=models.CASCADE, related_name='condition_ma', null=True)
+    mas = models.ForeignKey(
+        'MA_Specific', on_delete=models.CASCADE, related_name='condition_ma2', null=True)
+    mas2 = models.ForeignKey(
+        'MA_Specific', on_delete=models.CASCADE, related_name='condition_ma3', null=True)
+
+    condition_of_slope_M5 = models.ForeignKey(
+        'conditionOfSlope_M5', on_delete=models.CASCADE, related_name='conditionOfSlope_M5', null=True)
+    # condition_of_slope_M5ssss = models.ForeignKey(
+    #     'conditionOfSlope_M5', on_delete=models.CASCADE, related_name='conditionOfSlope_M5ssss', null=True)
+    condition_of_ma_M5 = models.ForeignKey(
+        'conditionOfMA_M5', on_delete=models.CASCADE, related_name='conditionOfSlope_M5', null=True)
+    condition_of_bb = models.ForeignKey(
+        'conditionOfBB', on_delete=models.CASCADE, related_name='condition_of_bb', null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
