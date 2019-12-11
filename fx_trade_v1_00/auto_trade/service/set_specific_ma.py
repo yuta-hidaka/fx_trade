@@ -179,12 +179,17 @@ class setSpecificMA:
         self.text += str(lg) + '<br>'
 
         # 急激な変化であれば購買しないようにする
+        if np.abs(lg) >= Decimal(0.005):
+            compEmaSlope = 4
+            self.text += '<b>ema-shortが急激</b><br>'
+        else:
+            self.text += '<b>ema-shortが緩慢</b><br>'
 
         if np.abs(lg) >= Decimal(0.0015):
             compEmaSlope = 4
-            self.text += '<b>emaが急激</b><br>'
+            self.text += '<b>ema-longが急激</b><br>'
         else:
-            self.text += '<b>emaが緩慢</b><br>'
+            self.text += '<b>ema-longが緩慢</b><br>'
 
         # MACDの傾きを計算-----------------------------------------------------------
         st = (macd1 - leatestData.macd1).quantize(
