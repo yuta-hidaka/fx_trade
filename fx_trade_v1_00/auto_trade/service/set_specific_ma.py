@@ -172,15 +172,6 @@ class setSpecificMA:
         compEma = comp.comp3MA(shortEma, middleEma, longtEma)
         # EMA3つの傾きを計算
         compEmaSlope = comp.comp3MASlope(s=st, m=md, l=lg)
-        if compEmaSlope == 1:
-            if malg < 0:
-                self.text += 'emaはすべて上向きだけどmaが逆方向<br>'
-                compEmaSlope = 4
-
-        if compEmaSlope == 2:
-            if malg > 0:
-                self.text += 'emaはすべて下向きだけどmaが逆方向<br>'
-                compEmaSlope = 4
 
         self.text += 'ema傾き 百分率<br>'
         self.text += str(st) + '<br>'
