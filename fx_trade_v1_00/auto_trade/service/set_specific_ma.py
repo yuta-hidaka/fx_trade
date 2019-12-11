@@ -114,15 +114,6 @@ class setSpecificMA:
         macd2 = shortEma-longtEma
         macd3 = middleEma-longtEma
 
-        # MAの傾きを計算-----------------------------------------------------------
-        # st = (maList[0] - leatestData.ma_short).quantize(
-        #     Decimal('0.001'), rounding=ROUND_HALF_UP)
-
-        # md = (maList[1] - leatestData.ma_middle).quantize(
-        #     Decimal('0.001'), rounding=ROUND_HALF_UP)
-
-        # lg = (maList[2] - leatestData.ma_long).quantize(
-        #     Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         # MAの百分率を計算-----------------------------------------------------------
         st = (((maList[0] / leatestData.ma_short) - 1) * 100).quantize(
@@ -144,19 +135,6 @@ class setSpecificMA:
         self.text += str(md) + '<br>'
         self.text += str(lg) + '<br>'
 
-        # 急激な変化であれば購買しないようにする
-        # if np.abs(st) > 0.4:
-        #     compEmaSlope = 4
-
-        # # EMAの傾きを計算-----------------------------------------------------------
-        # st = (shortEma - leatestData.ema_short).quantize(
-        #     Decimal('0.001'), rounding=ROUND_HALF_UP)
-
-        # md = (middleEma - leatestData.ema_middle).quantize(
-        #     Decimal('0.001'), rounding=ROUND_HALF_UP)
-
-        # lg = (longtEma - leatestData.ema_long).quantize(
-        #     Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         # EMAの百分率を計算-----------------------------------------------------------
         st = (((shortEma / leatestData.ema_short) - 1) * 100).quantize(
