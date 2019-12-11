@@ -179,7 +179,7 @@ class setSpecificMA:
         self.text += str(lg) + '<br>'
 
         # 急激な変化であれば購買しないようにする
-        if np.abs(lg) >= Decimal(0.005):
+        if np.abs(st) >= Decimal(0.005):
             compEmaSlope = 4
             self.text += '<b>ema-shortが急激</b><br>'
         else:
