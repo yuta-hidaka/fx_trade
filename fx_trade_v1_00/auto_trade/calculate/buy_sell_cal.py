@@ -180,8 +180,7 @@ class BuySellCal():
             self.order.unitsShort = str(units*-1)
             # 前回までトレンドで今が持ち合い相場であればいったん決済する。
 
-
-                # --------------------------------------------------------------------------------------------------------------------
+            # --------------------------------------------------------------------------------------------------------------------
             self.text += 'トレンドID　' + str(trend_id) + '<br>'
 
             now = timezone.now()
@@ -189,8 +188,6 @@ class BuySellCal():
             sTime = now - adjTime
 
             # ----------------------------------------------------------------------------------------------------------
-
-
 
             emaCheckLong = [6, 1]
             emaCheckShort = [3, 4]
@@ -226,9 +223,13 @@ class BuySellCal():
 
             if specEma == 5 or specEma == 6:
                 self.text = 'specMaが'+str(specEma)+'なのでshortを閉じます<br>'
+                self.order.isInByMa = True
+                self.order.trend_id = 1
                 self.order.oderCloseAllShort()
             elif specEma == 3 or specEma == 4:
                 self.text = 'specMaが'+str(specEma)+'なのでLongを閉じます<br>'
+                self.order.isInByMa = True
+                self.order.trend_id = 2
                 self.order.oderCloseAllLong()
 
             self.text += 'specMa ' + str(specMa)+'<br>'
@@ -249,7 +250,6 @@ class BuySellCal():
                     created_at__range=(sTime, now)).order_by('-id').count()
                 self.text += '---'+str(rs) + \
                     'この' + str(l)+'がありました---<br>'
-
 
     # --------------------------------------------------------------------------
             trend_id = 0
@@ -286,7 +286,6 @@ class BuySellCal():
                     else:
                         self.text += 'エクスパンションorだまし_購買条件未該当<br>'
 
-             
             if trend_id == 3 and cv <= 75:
                 self.text += '持ち合い相場<br>'
                 try:
