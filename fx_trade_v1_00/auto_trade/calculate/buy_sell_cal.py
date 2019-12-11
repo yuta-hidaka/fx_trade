@@ -180,35 +180,6 @@ class BuySellCal():
             self.order.unitsShort = str(units*-1)
             # 前回までトレンドで今が持ち合い相場であればいったん決済する。
 
-            try:
-                # print(condNow.condition_of_bb.bb_trande)
-
-                maPrev = model_to_dict(
-                    condiPrev.condition_of_ma_M5
-                )['ma_comp6_24_72']
-
-                maNow = model_to_dict(
-                    condNow.condition_of_ma_M5
-                )['ma_comp6_24_72']
-
-                slopePrev = model_to_dict(
-                    condiPrev.condition_of_slope_M5
-                )['slope_comp6_24_72']
-
-                slopeNow = model_to_dict(
-                    condNow.condition_of_slope_M5
-                )['slope_comp6_24_72']
-
-                pass
-            except Exception as e:
-                self.text += str(e)+' error　error<br>'
-                maPrev = 1
-                maNow = 1
-                slopePrev = 1
-                slopeNow = 1
-                # print('何かエラー起きてます。')
-                trend_id = 1
-                pass
 
                 # --------------------------------------------------------------------------------------------------------------------
             self.text += 'トレンドID　' + str(trend_id) + '<br>'
@@ -219,19 +190,14 @@ class BuySellCal():
 
             # ----------------------------------------------------------------------------------------------------------
 
-            # emaCheckLong = [6]
-            # emaCheckShort = [3]
-            # macdCheckLong = [6]
-            # macdCheckShort = [3]
+
 
             emaCheckLong = [6, 1]
             emaCheckShort = [3, 4]
 
             macdCheckLong = [6]
             macdCheckShort = [3]
-            # self.order.isInByMa = True
-            # self.order.trend_id = 1
-            # self.order.LongOrderCreate()
+
             if specEma in emaCheckLong:
                 # self.text += 'long in--emaCheck<br>'
                 if specEmaSlope == 1 and specMacdSlope == 1:
@@ -276,7 +242,6 @@ class BuySellCal():
             self.text += 'specMacd ' + str(specMacd)+'<br>'
             self.text += 'is_expansion ' + str(is_expansion)+'<br>'
 
-            ls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
             ls = [1, 2, 3, 4, 5, 6]
 
             for l in ls:
@@ -285,101 +250,29 @@ class BuySellCal():
                 self.text += '---'+str(rs) + \
                     'この' + str(l)+'がありました---<br>'
 
-            # if specMacd == 1 and specEmaSlope != 4:
-            #     self.text = 'specMaが6なのでshortを閉じます<br>'
-            #     self.order.oderCloseAllShort()
-            # elif specMacd == 4 and specEmaSlope != 4:
-            #     self.text = 'specMaが3なのでLongを閉じます<br>'
-            #     self.order.oderCloseAllLong()
-
-            # m3 = (macd3).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            # if m3 == 0:
-            #     self.text = 'macd3が0なのですべて閉じます。<br>'
-            #     self.order.allOrderClose()
-
-            # -------------------------------------------------------------------------------------------------------
-
-            # if maPrev == 6 or maPrev == 1 and maNow == 1 and slopeNow == 1:
-            #     rs = conditionOfMA_M5.objects.filter(
-            #         ma_comp6_24_72=4).filter(
-            #         created_at__range=(sTime, now)).order_by('-id').count()
-            #     self.text += 'long in by ma休止中<br>'
-            #     self.text += str(rs)+'この4がありました※※※※※※※※※※※※※※※※<br>'
-            #     self.text += str(rs)+str(trend_id)+'sinma<br>'
-
-            #     # 過去15分の間に4が3以上存在したら購買しない
-            #     if rs == 0:
-            #         if not settings.use_specific_limit:
-            #             limit = sig3_2
-
-            #         if trend_id != 4:
-            #             self.order.isInByMa = True
-            #             long_limit = (
-            #                 sma_2 - limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            #             self.order.stopLossLong = str(long_limit)
-            #             self.order.trend_id = 1
-            #             # self.order.LongOrderCreate()
-            #         else:
-            #             # print('long in　but position is too many')
-            #             self.text += 'long in by ma trend idが4なので様子見です<br>'
-            #             # shorのタイミング all slope is negative and befor MA is 3or4 and now 4
-            #     else:
-            #         self.text += '<p style="color=red;">最近4が1つ以上ありました or trendじゃない</p>'
-
-            # elif maPrev == 3 or maPrev == 4 and maNow == 4 and slopeNow == 2:
-            #     rs = conditionOfMA_M5.objects.filter(
-            #         ma_comp6_24_72=1).filter(
-            #         created_at__range=(sTime, now)).order_by('-id').count()
-            #     self.text += 'short in by ma休止中<br>'
-            #     self.text += str(rs)+'この1がありました※※※※※※※※※※※※※※※※<br>'
-            #     self.text += str(rs)+str(trend_id)+'sinma<br>'
-
-            #     if not settings.use_specific_limit:
-            #         limit = sig3_2
-
-            #     # 過去15分の間に1が3以上存在したら購買しない
-            #     if rs == 0:
-            #         if trend_id != 4:
-            #             self.order.isInByMa = True
-            #             short_limit = (
-            #                 sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            #             self.order.stopLossShort = str(short_limit)
-            #             self.order.trend_id = 2
-            #             # self.order.ShortOrderCreate()
-            #         else:
-            #             # print('short in　but position is too many')
-            #             self.text += 'short in by ma trend idが4なので様子見です<br>'
-            #             # long closeのタイミング if MA is 2 it have to close
-            #     else:
-            #         self.text += '<p style="color=red;">最近1が1つ以上ありましたor trendじゃない</p>'
-            # else:
-            #     self.text += '購買----様子見中 MAでの購買判定<br>'
-
-            # # if self.order.lossCutReverse():
-            # #     self.text += 'lossCutReverseで購入<br>'
 
     # --------------------------------------------------------------------------
             trend_id = 0
             if trend_id == 1 or trend_id == 2 or trend_id == 4 and not is_peak:
                 self.text += 'トレンド相場------------------------------------------------<br>'
 
-                # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
-                if maNow == 2 and trend_id != 1:
-                    self.text += 'long out by ma休止中<br>'
-                    # if not :
-                    #     self.order.oderCloseAllLong()
+                # # 決済タイミングーートレンド形成時-------------------------------------------------------------------------------
+                # if maNow == 2 and trend_id != 1:
+                #     self.text += 'long out by ma休止中<br>'
+                #     # if not :
+                #     #     self.order.oderCloseAllLong()
 
-                    # short　closeのタイミング if MA is 5 it have to close
-                elif maNow == 5 and trend_id != 2:
-                    self.text += 'short out by ma休止中<br>'
-                    # if not :
-                    #     self.order.oderCloseAllShort()
+                #     # short　closeのタイミング if MA is 5 it have to close
+                # elif maNow == 5 and trend_id != 2:
+                #     self.text += 'short out by ma休止中<br>'
+                #     # if not :
+                #     #     self.order.oderCloseAllShort()
 
             # 持ち合い相場でエクスパンションしてなかったら
 
                 # 前回エクスパンションしていなかったら初めてのエクスパンションとする,
                 # 偏差によるエクスパンションでなければlong、short両方のポジションを持つ
-                elif not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
+                if not is_expansionPrev and is_expansion and is_expansionByStd or is_expansionByNum:
                     self.text += 'エクスパンションbyNum or Std<br>'
                     if is_topTouch:
                         self.text += 'エクスパンションorだましで上タッチのLongIn　休止中<br>'
@@ -393,18 +286,7 @@ class BuySellCal():
                     else:
                         self.text += 'エクスパンションorだまし_購買条件未該当<br>'
 
-                    # 前回エクスパンションしていて、いまエクスパンションが収まったら、底の認識でそれぞれ売り払って逆方向にinする
-                # elif is_expansionPrev and not is_expansion and is_expansionByStdPrev:
-                #     self.text += 'エクスパンションの底値。ポジションを入れ替える <br>'
-                #     if is_bottomTouch or is_bottomTouchPrev:
-                #         self.text += 'エクスパンション終了で下タッチなのでlongIn<br>'
-                #         self.order.LongOrderCreate()
-                #          = True
-                #     elif is_topTouch or is_topTouchPrev:
-                #         self.text += 'エクスパンション終了で上タッチなのでshortIn<br>'
-                #         self.order.ShortOrderCreate()
-                #          = True
-
+             
             if trend_id == 3 and cv <= 75:
                 self.text += '持ち合い相場<br>'
                 try:
