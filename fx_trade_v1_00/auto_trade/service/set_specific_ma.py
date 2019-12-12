@@ -143,18 +143,18 @@ class setSpecificMA:
             y = np.array(d)
             rs = np.polyfit(x, y, 1)
             ratio = Decimal(((rs[0]+rs[1])/rs[1]) - 1).quantize(
-                Decimal('0.001'), rounding=ROUND_HALF_UP)
+                Decimal('0.000001'), rounding=ROUND_HALF_UP)
             slopeList.append(ratio*100)
 
         # MAの百分率を計算-----------------------------------------------------------
         st = (((maList[0] / leatestData['ma_short']) - 1) * 100).quantize(
-            Decimal('0.00001'), rounding=ROUND_HALF_UP)
+            Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         md = (((maList[1] / leatestData['ma_middle']) - 1) * 100).quantize(
-            Decimal('0.00001'), rounding=ROUND_HALF_UP)
+            Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         lg = (((maList[2] / leatestData['ma_long']) - 1) * 100).quantize(
-            Decimal('0.00001'), rounding=ROUND_HALF_UP)
+            Decimal('0.001'), rounding=ROUND_HALF_UP)
         malg = lg
 
         # MA3つの位置を計算
