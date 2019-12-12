@@ -55,6 +55,10 @@ class setSpecificMA:
         listLeg = [shortLeg, middleLeg, longLeg]
         maList = []
         emaList = []
+        ldata = []
+        stEmaList = []
+        mlEmaList = []
+        lgEmaList = []
 
         is_first = False
         condiSlope = None
@@ -79,17 +83,28 @@ class setSpecificMA:
 
             # 現在の最新MA一覧を取得する。
         try:
-            leatestData = MA_Specific.objects.latest('created_at')
-            pastShortEma = leatestData.ema_short
-            pastMiddleEma = leatestData.ema_middle
-            pastLongEma = leatestData.ema_long
+            leatestDataList = list(MA_Specific.objects.order_by(
+                '-created_at')[:2].values())
+            leatestDataList.reverse()
+
+            leatestData = leatestDataList[1]
+
+            for ld in leatestDataList:
+                stEmaList.append(float(ld['ema_short']))
+                mlEmaList.append(float(ld['ema_middle']))
+                lgEmaList.append(float(ld['ema_long']))
+                ldata.append(ld)
+
+            pastShortEma = leatestData['ema_short']
+            pastMiddleEma = leatestData['ema_middle']
+            pastLongEma = leatestData['ema_long']
             # print(FXdata)
         except Exception as e:
             pastShortEma = maList[0]
             pastMiddleEma = maList[1]
             pastLongEma = maList[2]
             is_first = True
-            return print(e)
+            print(e)
             print('MAの過去データがありません。')
             pass
 
@@ -109,19 +124,34 @@ class setSpecificMA:
         middleEma = (pastMiddleEma*(middleLeg-1)+(c*2))/(middleLeg+1)
         longtEma = (pastLongEma*(longLeg-1)+(c*2))/(longLeg+1)
 
+        # emaのリストに追加
+        stEmaList.append(float(shortEma))
+        mlEmaList.append(float(middleEma))
+        lgEmaList.append(float(longtEma))
+
+        emaList = [stEmaList, mlEmaList, lgEmaList]
+        slopeList = []
+
         # macdの計算
         macd1 = shortEma-middleEma
         macd2 = shortEma-longtEma
         macd3 = middleEma-longtEma
 
+        # 最小二乗法で傾き計算
+        for d in emaList:
+            x = np.arange(0, len(d))
+            y = np.array(d)
+            rs = np.polyfit(x, y, 1)
+            slopeList.append(rs)
+
         # MAの百分率を計算-----------------------------------------------------------
-        st = (((maList[0] / leatestData.ma_short) - 1) * 100).quantize(
+        st = (((maList[0] / leatestData['ma_short']) - 1) * 100).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-        md = (((maList[1] / leatestData.ma_middle) - 1) * 100).quantize(
+        md = (((maList[1] / leatestData['ma_middle']) - 1) * 100).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-        lg = (((maList[2] / leatestData.ma_long) - 1) * 100).quantize(
+        lg = (((maList[2] / leatestData['ma_long']) - 1) * 100).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
         malg = lg
 
@@ -134,14 +164,19 @@ class setSpecificMA:
         self.text += str(md) + '<br>'
         self.text += str(lg) + '<br>'
 
+        self.text += 'ma 傾き最小二乗法<br>'
+        self.text += str(slopeList[0]) + '<br>'
+        self.text += str(slopeList[1]) + '<br>'
+        self.text += str(slopeList[2]) + '<br>'
+
         # EMAの百分率を計算-----------------------------------------------------------
-        st = (((shortEma / leatestData.ema_short) - 1) * 100).quantize(
+        st = (((shortEma / leatestData['ema_short']) - 1) * 100).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-        md = (((middleEma / leatestData.ema_middle) - 1) * 100).quantize(
+        md = (((middleEma / leatestData['ema_middle']) - 1) * 100).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-        lg = (((longtEma / leatestData.ema_long) - 1) * 100).quantize(
+        lg = (((longtEma / leatestData['ema_long']) - 1) * 100).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         # EMA3つの位置を計算
@@ -168,13 +203,13 @@ class setSpecificMA:
             self.text += '<b>ema-longが緩慢</b><br>'
 
         # MACDの傾きを計算-----------------------------------------------------------
-        st = (macd1 - leatestData.macd1).quantize(
+        st = (macd1 - leatestData['macd1']).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-        md = (macd2 - leatestData.macd2).quantize(
+        md = (macd2 - leatestData['macd2']).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
-        lg = (macd3 - leatestData.macd3).quantize(
+        lg = (macd3 - leatestData['macd3']).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         self.text += '<br>macd傾き<br>'

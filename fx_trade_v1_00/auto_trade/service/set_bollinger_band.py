@@ -395,15 +395,15 @@ class setBollingerBand_USD_JPY:
         try:
             if not y:
                 y = [1, 2, 3]
+            rs = np.polyfit(x, y, 1)
+            slope = Decimal(rs[0]).quantize(
+                Decimal('0.01'), rounding=ROUND_HALF_UP)
+            slopeDir2 = np.sign(slope)
             pass
         except:
+            slope = 1
             y = [1, 2, 3]
             pass
-
-        rs = np.polyfit(x, y, 1)
-        slope = Decimal(rs[0]).quantize(
-            Decimal('0.01'), rounding=ROUND_HALF_UP)
-        slopeDir2 = np.sign(slope)
 
         # SMAより上にあるか下にあるのが多いかを100分率で表示
         ans = (data / length)*100
