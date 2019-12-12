@@ -142,7 +142,8 @@ class setSpecificMA:
             x = np.arange(0, len(d))
             y = np.array(d)
             rs = np.polyfit(x, y, 1)
-            slopeList.append(rs)
+            ratio = (rs[0]+rs[1])/rs[1]
+            slopeList.append(round(ratio, 6))
 
         # MAの百分率を計算-----------------------------------------------------------
         st = (((maList[0] / leatestData['ma_short']) - 1) * 100).quantize(
