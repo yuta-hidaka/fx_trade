@@ -60,6 +60,10 @@ class setSpecificMA:
         mlEmaList = []
         lgEmaList = []
 
+        aastEmaList = []
+        aamlEmaList = []
+        aalgEmaList = []
+
         is_first = False
         condiSlope = None
 
@@ -83,17 +87,24 @@ class setSpecificMA:
 
             # 現在の最新MA一覧を取得する。
         try:
+            aaleatestDataList = list(MA_Specific.objects.order_by(
+                '-created_at')[:2].values())
+            aaleatestDataList.reverse()
+
+            for ld in aaleatestDataList:
+                aastEmaList.append(float(ld['ema_short']))
+                aamlEmaList.append(float(ld['ema_middle']))
+                aalgEmaList.append(float(ld['ema_long']))
+
             leatestDataList = list(MA_Specific.objects.order_by(
                 '-created_at')[:2].values())
+            leatestData = leatestDataList[0]
             leatestDataList.reverse()
-
-            leatestData = leatestDataList[1]
 
             for ld in leatestDataList:
                 stEmaList.append(float(ld['ema_short']))
                 mlEmaList.append(float(ld['ema_middle']))
                 lgEmaList.append(float(ld['ema_long']))
-                ldata.append(ld)
 
             pastShortEma = leatestData['ema_short']
             pastMiddleEma = leatestData['ema_middle']
@@ -129,7 +140,14 @@ class setSpecificMA:
         mlEmaList.append(float(middleEma))
         lgEmaList.append(float(longtEma))
 
+        # emaのリストに追加
+        aastEmaList.append(float(shortEma))
+        aamlEmaList.append(float(middleEma))
+        aalgEmaList.append(float(longtEma))
+
+        aaemaList = [aastEmaList, aamlEmaList, aalgEmaList]
         emaList = [stEmaList, mlEmaList, lgEmaList]
+        aaslopeList = []
         slopeList = []
 
         # macdの計算
@@ -145,6 +163,14 @@ class setSpecificMA:
             ratio = Decimal(((rs[0]+rs[1])/rs[1]) - 1).quantize(
                 Decimal('0.000001'), rounding=ROUND_HALF_UP)
             slopeList.append(ratio*100)
+
+        for d in aaemaList:
+            x = np.arange(0, len(d))
+            y = np.array(d)
+            rs = np.polyfit(x, y, 1)
+            ratio = Decimal(((rs[0]+rs[1])/rs[1]) - 1).quantize(
+                Decimal('0.000001'), rounding=ROUND_HALF_UP)
+            aaslopeList.append(ratio*100)
 
         # MAの百分率を計算-----------------------------------------------------------
         st = (((maList[0] / leatestData['ma_short']) - 1) * 100).quantize(
@@ -166,11 +192,14 @@ class setSpecificMA:
         self.text += str(md) + '<br>'
         self.text += str(lg) + '<br>'
 
-        self.text += 'ma 傾き最小二乗法<br>'
+        self.text += 'ema 傾き最小二乗法<br>'
         self.text += str(slopeList[0]) + '<br>'
         self.text += str(slopeList[1]) + '<br>'
         self.text += str(slopeList[2]) + '<br>'
-
+        self.text += 'ema 傾き最小二乗法<br>'
+        self.text += str(aaslopeList[0]) + '<br>'
+        self.text += str(aaslopeList[1]) + '<br>'
+        self.text += str(aaslopeList[2]) + '<br>'
         # EMAの百分率を計算-----------------------------------------------------------
         st = (((shortEma / leatestData['ema_short']) - 1) * 100).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
