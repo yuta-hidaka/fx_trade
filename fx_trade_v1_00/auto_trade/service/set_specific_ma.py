@@ -88,7 +88,7 @@ class setSpecificMA:
             # 現在の最新MA一覧を取得する。
         try:
             aaleatestDataList = list(MA_Specific.objects.order_by(
-                '-created_at')[:2].values())
+                '-created_at')[:9].values())
             aaleatestDataList.reverse()
 
             for ld in aaleatestDataList:
