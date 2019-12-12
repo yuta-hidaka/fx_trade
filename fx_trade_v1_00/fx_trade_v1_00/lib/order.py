@@ -133,7 +133,7 @@ class orderFx:
         #     self.text += 'maなので時間制限持たせません<br>'
         #     return False
 
-        adjTime = datetime.timedelta(minutes=waitTime * 2)
+        adjTime = datetime.timedelta(minutes=waitTime)
         if self.isReverse:
             self.text += '----リバース処理なのinmacheck行いません----<br>'
             return
