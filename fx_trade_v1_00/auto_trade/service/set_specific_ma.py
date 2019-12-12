@@ -144,7 +144,7 @@ class setSpecificMA:
             rs = np.polyfit(x, y, 1)
             ratio = Decimal(((rs[0]+rs[1])/rs[1]) - 1).quantize(
                 Decimal('0.001'), rounding=ROUND_HALF_UP)
-            slopeList.append(ratio)
+            slopeList.append(ratio*100)
 
         # MAの百分率を計算-----------------------------------------------------------
         st = (((maList[0] / leatestData['ma_short']) - 1) * 100).quantize(
