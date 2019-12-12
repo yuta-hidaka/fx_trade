@@ -236,6 +236,12 @@ class setSpecificMA:
         else:
             self.text += '<b>ema-longが緩慢</b><br>'
 
+        slopeList[2] = slopeList[2].quantize(
+            Decimal('0.001'), rounding=ROUND_HALF_UP)
+        if slopeList[2] == 0:
+            self.text += '<b>最小二乗法が０</b><br>'
+            compEmaSlope = 4
+
         # MACDの傾きを計算-----------------------------------------------------------
         st = (macd1 - leatestData['macd1']).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
