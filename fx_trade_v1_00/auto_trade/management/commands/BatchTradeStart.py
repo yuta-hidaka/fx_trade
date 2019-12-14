@@ -105,13 +105,13 @@ class Command(BaseCommand):
                 dt_now.strftime('%Y-%m-%d %H:%M:%S')
 
 # '----------------デバッグ用-------------------------------'
-        condiPrev = condition.objects.latest('created_at')
-        specCreate = setSpec.setMA(resultSpecific)
-        bb = setBollingerBand_USD_JPY()
-        BBCondi = bb.setBB(nowMA=resultSpecific, condiPrev=condiPrev)
-        setMA = setMA_USD_JPY()
-        condiNow = setMA.setMA(specCreate, BBCondi)
-        bsCal.BuySellCheck(condiNow, condiPrev, specCreate, astBlance)
+        # condiPrev = condition.objects.latest('created_at')
+        # specCreate = setSpec.setMA(resultSpecific)
+        # bb = setBollingerBand_USD_JPY()
+        # BBCondi = bb.setBB(nowMA=resultSpecific, condiPrev=condiPrev)
+        # setMA = setMA_USD_JPY()
+        # condiNow = setMA.setMA(specCreate, BBCondi)
+        # bsCal.BuySellCheck(condiNow, condiPrev, specCreate, astBlance)
 
 # '----------------デバッグ用-------------------------------'
 
