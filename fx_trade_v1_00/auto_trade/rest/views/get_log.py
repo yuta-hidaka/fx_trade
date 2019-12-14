@@ -23,7 +23,7 @@ class getLogAPI(APIView):
         res = (
             batchLog.objects.order_by('-created_at').all().values(
                 'id', 'text', 'created_at'
-            )[:700]
+            )[:7000]
         )
         data = {}
         data['result'] = []
