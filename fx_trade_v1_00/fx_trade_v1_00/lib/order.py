@@ -125,13 +125,13 @@ class orderFx:
         waitTime = self.waitTime * 2
         trends = [1, 2]
         self.text += '----------inByMaCheck----------<br>'
-        # if self.trend_id in trends:
-        #     self.text += 'trendなので時間制限持たせません<br>'
-        #     return False
+        if self.trend_id in trends:
+            self.text += 'trendなので時間制限持たせません<br>'
+            return False
 
-        # if self.isInByMa:
-        #     self.text += 'maなので時間制限持たせません<br>'
-        #     return False
+        if self.isInByMa:
+            self.text += 'maなので時間制限持たせません<br>'
+            return False
 
         adjTime = datetime.timedelta(minutes=waitTime)
         if self.isReverse:

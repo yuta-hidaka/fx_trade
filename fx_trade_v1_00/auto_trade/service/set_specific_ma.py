@@ -147,8 +147,8 @@ class setSpecificMA:
 
         aaemaList = [aastEmaList, aamlEmaList, aalgEmaList]
         emaList = [stEmaList, mlEmaList, lgEmaList]
-        aaslopeList = []
-        slopeList = []
+        longSlopeList = []
+        shorSlopeList = []
 
         # macdの計算
         macd1 = shortEma-middleEma
@@ -162,7 +162,7 @@ class setSpecificMA:
             rs = np.polyfit(x, y, 1)
             ratio = Decimal(((rs[0]+rs[1])/rs[1]) - 1).quantize(
                 Decimal('0.000001'), rounding=ROUND_HALF_UP)
-            slopeList.append(ratio*100)
+            shorSlopeList.append(ratio*100)
 
         for d in aaemaList:
             x = np.arange(0, len(d))
@@ -170,7 +170,7 @@ class setSpecificMA:
             rs = np.polyfit(x, y, 1)
             ratio = Decimal(((rs[0]+rs[1])/rs[1]) - 1).quantize(
                 Decimal('0.000001'), rounding=ROUND_HALF_UP)
-            aaslopeList.append(ratio*100)
+            longSlopeList.append(ratio*100)
 
         # MAの百分率を計算-----------------------------------------------------------
         st = (((maList[0] / leatestData['ma_short']) - 1) * 100).quantize(
@@ -193,13 +193,13 @@ class setSpecificMA:
         self.text += str(lg) + '<br>'
 
         self.text += 'ema 傾き最小二乗法<br>'
-        self.text += str(slopeList[0]) + '<br>'
-        self.text += str(slopeList[1]) + '<br>'
-        self.text += str(slopeList[2]) + '<br>'
+        self.text += str(shorSlopeList[0]) + '<br>'
+        self.text += str(shorSlopeList[1]) + '<br>'
+        self.text += str(shorSlopeList[2]) + '<br>'
         self.text += 'ema 傾き最小二乗法<br>'
-        self.text += str(aaslopeList[0]) + '<br>'
-        self.text += str(aaslopeList[1]) + '<br>'
-        self.text += str(aaslopeList[2]) + '<br>'
+        self.text += str(longSlopeList[0]) + '<br>'
+        self.text += str(longSlopeList[1]) + '<br>'
+        self.text += str(longSlopeList[2]) + '<br>'
         # EMAの百分率を計算-----------------------------------------------------------
         st = (((shortEma / leatestData['ema_short']) - 1) * 100).quantize(
             Decimal('0.001'), rounding=ROUND_HALF_UP)
@@ -236,10 +236,9 @@ class setSpecificMA:
         else:
             self.text += '<b>ema-longが緩慢</b><br>'
 
-        slopeList[2] = slopeList[2].quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP)
-        if slopeList[2] == 0:
-            self.text += '<b>最小二乗法が０</b><br>'
+        # 最小二乗法で求めた傾きが0の時も購買させない
+        if longSlopeList[2] == 0:
+            self.text += '<b>最小二乗法が0</b><br>'
             compEmaSlope = 4
 
         # MACDの傾きを計算-----------------------------------------------------------
