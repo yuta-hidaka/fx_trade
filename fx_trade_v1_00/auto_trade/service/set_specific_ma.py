@@ -202,13 +202,13 @@ class setSpecificMA:
         self.text += str(longSlopeList[2]) + '<br>'
         # EMAの百分率を計算-----------------------------------------------------------
         st = (((shortEma / leatestData['ema_short']) - 1) * 100).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP)
+            Decimal('0.0001'), rounding=ROUND_HALF_UP)
 
         md = (((middleEma / leatestData['ema_middle']) - 1) * 100).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP)
+            Decimal('0.0001'), rounding=ROUND_HALF_UP)
 
         lg = (((longtEma / leatestData['ema_long']) - 1) * 100).quantize(
-            Decimal('0.001'), rounding=ROUND_HALF_UP)
+            Decimal('0.0001'), rounding=ROUND_HALF_UP)
 
         # EMA3つの位置を計算
         compEma = comp.comp3MA(shortEma, middleEma, longtEma)
@@ -230,7 +230,7 @@ class setSpecificMA:
         else:
             self.text += '<b>ema-shortは範囲内</b><br>'
 
-        if np.abs(lg) >= Decimal('0.0015'):
+        if np.abs(lg) >= Decimal('0.002'):
             compEmaSlope = 4
             self.text += '<b>ema-longが急激</b><br>'
         else:

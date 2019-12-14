@@ -31,6 +31,10 @@ class BuySellCal():
 
         settings = self.settings
         self.order.useTrailing = settings.use_trailing_stop
+        revelage = Decimal(settings.revelage)
+        usage_rates = Decimal(settings.usage_rates)/100
+        useCnt = settings.use_cnt
+
         getNowRate = getMA_USD_JPY()
 
         cbb = model_to_dict(condNow.condition_of_bb)
@@ -89,44 +93,39 @@ class BuySellCal():
         specMaSlope = spec.compMaSlope
         specEmaSlope = spec.compEmaSlope
         specMacdSlope = spec.compMacdSlope
-        # ----------------------------------------------------------------
+        # ----------------------------------------------------------------   
+        # ユニットの取得。決め打ちか、資産からの逆算か
+        if settings.use_specific_unit:
+            unitsMax = (Decimal(asset)/nowCndl_close) * revelage * usage_rates
+            unitsMax = unitsMax.quantize(Decimal('1'), rounding=ROUND_DOWN)
+            units = settings.units
+            # 指定ユニットが資産より大きかったら資産から逆算したものを用いる
+            if unitsMax < units:
+                self.text += '<p style="color:red">指定した購買ユニット数が、資産以上になっています。</p><br>'
+                units = unitsMax
+        else:
+            units = (Decimal(asset)/nowCndl_close) * revelage * usage_rates
+            units = units.quantize(Decimal('1'), rounding=ROUND_DOWN)
 
-        try:
-            useCnt = settings.use_cnt
-            pass
-        except:
-            self.text += 'eraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa<br>'
-            useCnt = False
-            pass
 
         if settings.use_specific_limit:
-            if settings.use_specific_limit:
-                limit = settings.limit
-                c = nowCndl_close
-                long_limit = (c - (c*limit)).quantize(Decimal('0.001'),
-                                                    rounding=ROUND_HALF_UP)
-                short_limit = (
-                    c + (c*limit)).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-            else:
-                limit = sig1_2
-                long_limit = (sma_2 - limit).quantize(Decimal('0.001'),
-                                                    rounding=ROUND_HALF_UP)
-                short_limit = (
-                    sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            limit = settings.limit
+            c = nowCndl_close
+            long_limit = (c - (c*limit)).quantize(Decimal('0.001'),
+                                                rounding=ROUND_HALF_UP)
+            short_limit = (
+                c + (c*limit)).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+        else:
+            limit = sig1_2
+            long_limit = (sma_2 - limit).quantize(Decimal('0.001'),
+                                                rounding=ROUND_HALF_UP)
+            short_limit = (
+                sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         long_in_by_ma = False
         short_in_by_ma = False
 
-        # 購入するユニット数
-        # units = 7500
-        try:
-            units = settings.units
-            # units = 1
-            pass
-        except:
-            self.text += '予期しないロット数が入っています'
-            units = 1
-            pass
+
 
         # 市場が閉じていたら計算等は行わない,変化率が乏しい時もトレードしない
         if not len(nowCndl['candles']) == 0:

@@ -1,7 +1,7 @@
 from django.db import models
 import datetime
 from django.utils import timezone
-
+from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 
 
@@ -21,7 +21,6 @@ class tradeSettings(models.Model):
     # 長期足の設定
     long_leg = models.IntegerField(default=50)
 
-    on_unit_trade = models.BooleanField(null=True, default=False)
     on_real_trade = models.BooleanField(null=True, default=False)
     use_specific_limit = models.BooleanField(null=True, default=False)
     use_specific_unit = models.BooleanField(null=True, default=False)
@@ -30,7 +29,10 @@ class tradeSettings(models.Model):
     wait_time = models.IntegerField(default=10)
     limit = models.DecimalField(
         max_digits=9, decimal_places=8, default=0.0002)
-    revelage = models.IntegerField(default=1)
+    revelage = models.IntegerField(
+        default=1, validators=[MinValueValidator(1), MaxValueValidator(25)])
+    usage_rates = models.IntegerField(
+        default=1, validators=[MinValueValidator(1), MaxValueValidator(100)])  
     bb_count = models.IntegerField(default=15)
     bb_count_2 = models.IntegerField(default=100)
     bb_cv_count = models.IntegerField(default=3)
@@ -47,8 +49,7 @@ class tradeSettings(models.Model):
         max_digits=5, decimal_places=2, default=1.00)
     sig3_adj_exit = models.DecimalField(
         max_digits=5, decimal_places=2, default=1.00)
-    use_amount = models.DecimalField(
-        max_digits=5, decimal_places=2, default=1.00)
+
     practiceId = models.CharField(max_length=100, default='')
     practiceToken = models.CharField(max_length=100, default='')
     realId = models.CharField(max_length=100, default='')

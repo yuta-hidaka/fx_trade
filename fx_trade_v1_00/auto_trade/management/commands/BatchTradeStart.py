@@ -80,7 +80,7 @@ class Command(BaseCommand):
         resultSpecific, createdSpecific = setCandle.setSpecific(
             gran=gran, num=1, inst=inst)
         # 1分足の保存
-        result, created = setCandle.setM1()
+        # result, created = setCandle.setM1()
 
         # UTC時間を取得
         UTC = datetime.datetime.utcnow()
@@ -105,13 +105,13 @@ class Command(BaseCommand):
                 dt_now.strftime('%Y-%m-%d %H:%M:%S')
 
 # '----------------デバッグ用-------------------------------'
-        # condiPrev = condition.objects.latest('created_at')
-        # bb = setBollingerBand_USD_JPY()
-        # BBCondi = bb.setBB(nowMA=result, condiPrev=condiPrev)
-        # setMA = setMA_USD_JPY()
-        # condiNow = setMA.setMA(result, BBCondi)
-        # bsCal.BuySellCheck(condiNow, condiPrev)
-        # setSpec.setMA(resultSpecific)
+        condiPrev = condition.objects.latest('created_at')
+        specCreate = setSpec.setMA(resultSpecific)
+        bb = setBollingerBand_USD_JPY()
+        BBCondi = bb.setBB(nowMA=resultSpecific, condiPrev=condiPrev)
+        setMA = setMA_USD_JPY()
+        condiNow = setMA.setMA(specCreate, BBCondi)
+        bsCal.BuySellCheck(condiNow, condiPrev, specCreate, astBlance)
 
 # '----------------デバッグ用-------------------------------'
 
@@ -122,10 +122,9 @@ class Command(BaseCommand):
             text += '土曜日の終了時刻以降になったので取引中止処理を行います。購買中止処理を休止中<br>'
             is_closeMarket = True
         # 5分足が作成されたらMAを作成する。
-        if created:
+        if createdSpecific:
             specCreate = setSpec.setMA(resultSpecific)
             text += setSpec.text
-
             condiPrev = condition.objects.latest('created_at')
             # --------------------------------------------
             dt_now = datetime.datetime.now(JST)
@@ -153,7 +152,7 @@ class Command(BaseCommand):
                 text += '<p style="color:red;">by sell cal計算<br>' + \
                     str(dt_now) + '</p><br>'
                 # --------------------------------------------
-                bsCal.BuySellCheck(condiNow, condiPrev, specCreate,astBlance)
+                bsCal.BuySellCheck(condiNow, condiPrev, specCreate, astBlance)
                 headerText = '<br>-----------by sel cal----------<br>'
                 text += (headerText + bsCal.text + headerText)
             else:
@@ -163,7 +162,7 @@ class Command(BaseCommand):
         dt_now = datetime.datetime.now(JST)
         text += '<p style="color:red;">処理終了<br>' + str(dt_now) + '</p>'
         assets.objects.create(assets=astBlance)
-        if text != '' and created:
+        if text != '' and createdSpecific:
             batchLog.objects.create(text=text)
 
         qSetBatch.save()
