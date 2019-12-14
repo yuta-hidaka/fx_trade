@@ -26,7 +26,7 @@ class BuySellCal():
         self.order.waitTime = self.settings.wait_time
         self.text = ''
 
-    def BuySellCheck(self, condNow, condiPrev, spec):
+    def BuySellCheck(self, condNow, condiPrev, spec,asset):
         # トレンド発生中はMAを指標に売買を行うが、もみ合い相場中はボリンジャーバンドを指標に売買を行う。
 
         settings = self.settings
@@ -100,18 +100,19 @@ class BuySellCal():
             pass
 
         if settings.use_specific_limit:
-            limit = settings.limit
-            c = nowCndl_close
-            long_limit = (c - (c*limit)).quantize(Decimal('0.001'),
-                                                  rounding=ROUND_HALF_UP)
-            short_limit = (
-                c + (c*limit)).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
-        else:
-            limit = sig1_2
-            long_limit = (sma_2 - limit).quantize(Decimal('0.001'),
-                                                  rounding=ROUND_HALF_UP)
-            short_limit = (
-                sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            if settings.use_specific_limit:
+                limit = settings.limit
+                c = nowCndl_close
+                long_limit = (c - (c*limit)).quantize(Decimal('0.001'),
+                                                    rounding=ROUND_HALF_UP)
+                short_limit = (
+                    c + (c*limit)).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
+            else:
+                limit = sig1_2
+                long_limit = (sma_2 - limit).quantize(Decimal('0.001'),
+                                                    rounding=ROUND_HALF_UP)
+                short_limit = (
+                    sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         long_in_by_ma = False
         short_in_by_ma = False

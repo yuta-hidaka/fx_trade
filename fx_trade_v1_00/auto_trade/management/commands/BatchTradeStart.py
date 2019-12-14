@@ -53,6 +53,9 @@ class Command(BaseCommand):
         setSpec.settings = settings
         # オーダーオブジェクト
         order = orderFx()
+        # 資産を取得
+        ast = order.fi.getAsset()
+        astBlance = Decimal(ast['account']['balance'])
         # バッチの実行状況を保存する。
         qSetBatch = batchRecord.objects.filter(id=1).first()
         # 自動取引がOFFかONかを確認する。
@@ -150,21 +153,16 @@ class Command(BaseCommand):
                 text += '<p style="color:red;">by sell cal計算<br>' + \
                     str(dt_now) + '</p><br>'
                 # --------------------------------------------
-                bsCal.BuySellCheck(condiNow, condiPrev, specCreate)
+                bsCal.BuySellCheck(condiNow, condiPrev, specCreate,astBlance)
                 headerText = '<br>-----------by sel cal----------<br>'
                 text += (headerText + bsCal.text + headerText)
             else:
                 text += '自動取引がOFFです。'
                 order.allOrderClose()
 
-            ast = order.fi.getAsset()
-            astBlance = Decimal(ast['account']['balance'])
-            # text += str(ast)
-            assets.objects.create(assets=astBlance)
-
         dt_now = datetime.datetime.now(JST)
         text += '<p style="color:red;">処理終了<br>' + str(dt_now) + '</p>'
-
+        assets.objects.create(assets=astBlance)
         if text != '' and created:
             batchLog.objects.create(text=text)
 
