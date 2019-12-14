@@ -221,12 +221,12 @@ class BuySellCal():
                         self.order.trend_id = 2
                         self.order.ShortOrderCreate()
 
-            if specEma == 5 or specEma == 6:
+            if specEma == 5 or specEma == 6 or specEma == 1:
                 self.text = 'specMaが'+str(specEma)+'なのでshortを閉じます<br>'
                 self.order.isInByMa = True
                 self.order.trend_id = 1
                 self.order.oderCloseAllShort()
-            elif specEma == 3 or specEma == 4:
+            elif specEma == 2 or specEma == 3 or specEma == 4:
                 self.text = 'specMaが'+str(specEma)+'なのでLongを閉じます<br>'
                 self.order.isInByMa = True
                 self.order.trend_id = 2
