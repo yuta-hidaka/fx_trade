@@ -227,14 +227,18 @@ class setSpecificMA:
         elif np.abs(st) <= Decimal('0.005'):
             compEmaSlope = 4
             self.text += '<b>ema-shortが緩慢</b><br>'
+
         else:
             self.text += '<b>ema-shortは範囲内</b><br>'
 
         if np.abs(lg) >= Decimal('0.002'):
             compEmaSlope = 4
             self.text += '<b>ema-longが急激</b><br>'
-        else:
+        elif np.abs(lg) <= Decimal('0.0005'):
+            compEmaSlope = 4
             self.text += '<b>ema-longが緩慢</b><br>'
+        else:
+            self.text += '<b>ema-longが範囲内</b><br>'
 
         # 最小二乗法で求めた傾きが0の時も購買させない
         if longSlopeList[2] == 0:
