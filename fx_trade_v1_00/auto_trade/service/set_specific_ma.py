@@ -224,7 +224,7 @@ class setSpecificMA:
         if np.abs(st) >= Decimal('0.025'):
             compEmaSlope = 4
             self.text += '<b>ema-shortが急激</b><br>'
-        elif np.abs(st) <= Decimal('0.001'):
+        elif np.abs(st) <= Decimal('0.0015'):
             compEmaSlope = 4
             self.text += '<b>ema-shortが緩慢</b><br>'
 
