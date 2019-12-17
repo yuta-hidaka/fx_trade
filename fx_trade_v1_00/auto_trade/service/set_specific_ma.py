@@ -245,10 +245,11 @@ class setSpecificMA:
             self.text += '<b>最小二乗法が0</b><br>'
             compEmaSlope = 4
 
-        # 最小二乗法で求めた中期の傾きがEMAの中期の傾きと違う時も購買しない
-        if np.sign(longSlopeList[1]) != np.sign(md):
-            self.text += '<b>中期の最小二乗法、EMAの傾きが異なっている</b><br>'
-            compEmaSlope = 4
+        # 最小二乗法で求めた中期の傾きがEMAの中期の傾きと違う時も購買しない,0の時は不明なのでとりあえず突っ込もうの精神
+        if np.sign(longSlopeList[1]) != 0:
+            if np.sign(longSlopeList[1]) != np.sign(md):
+                self.text += '<b>中期の最小二乗法、EMAの傾きが異なっている</b><br>'
+                compEmaSlope = 4
 
         # MACDの傾きを計算-----------------------------------------------------------
         st = (macd1 - leatestData['macd1']).quantize(
