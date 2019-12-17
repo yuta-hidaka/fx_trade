@@ -42,6 +42,7 @@ class BuySellCal():
 
         bb = model_to_dict(condNow.condition_of_bb.bb)
         bbPrev = model_to_dict(condiPrev.condition_of_bb.bb)
+        specPrev = condiPrev.mas
         # もし持ち合い相場だったらこれを使って売買判断None何もしないTrue　shortで入る　False　Longで入る。
         is_shortInBB = cbb['is_shortIn']
         is_longInBB = cbb['is_longIn']
@@ -89,6 +90,10 @@ class BuySellCal():
         specMa = spec.compMa
         specEma = spec.compEma
         specMacd = spec.compMacd
+
+        # specPrevMa = specPrev.compMa
+        specPrevEma = specPrev.compEma
+        # specPrevMacd = specPrev.compMacd
 
         specMaSlope = spec.compMaSlope
         specEmaSlope = spec.compEmaSlope
@@ -178,6 +183,7 @@ class BuySellCal():
             # 前回までトレンドで今が持ち合い相場であればいったん決済する。
 
             # --------------------------------------------------------------------------------------------------------------------
+            self.text += 'CV　' + str(cv) + '<br>'
             self.text += 'トレンドID　' + str(trend_id) + '<br>'
 
             now = timezone.now()
