@@ -97,7 +97,7 @@ class setSpecificMA:
                 aalgEmaList.append(float(ld['ema_long']))
 
             leatestDataList = list(MA_Specific.objects.order_by(
-                '-created_at')[:2].values())
+                '-created_at')[:100].values())
             leatestData = leatestDataList[0]
             leatestDataList.reverse()
 
@@ -146,6 +146,7 @@ class setSpecificMA:
         aalgEmaList.append(float(longtEma))
 
         aaemaList = [aastEmaList, aamlEmaList, aalgEmaList]
+        aaemaList = [aastEmaList, aamlEmaList, aalgEmaList]
         emaList = [stEmaList, mlEmaList, lgEmaList]
         longSlopeList = []
         shorSlopeList = []
@@ -192,11 +193,11 @@ class setSpecificMA:
         self.text += str(md) + '<br>'
         self.text += str(lg) + '<br>'
 
-        self.text += 'ema 傾き最小二乗法<br>'
+        self.text += 'ema 傾き最小二乗法----hiper long<br>'
         self.text += str(shorSlopeList[0]) + '<br>'
         self.text += str(shorSlopeList[1]) + '<br>'
         self.text += str(shorSlopeList[2]) + '<br>'
-        self.text += 'ema 傾き最小二乗法<br>'
+        self.text += 'ema 傾き最小二乗法----long<br>'
         self.text += str(longSlopeList[0]) + '<br>'
         self.text += str(longSlopeList[1]) + '<br>'
         self.text += str(longSlopeList[2]) + '<br>'
