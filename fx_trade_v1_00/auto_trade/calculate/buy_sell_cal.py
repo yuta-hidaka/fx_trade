@@ -183,7 +183,6 @@ class BuySellCal():
             # 前回までトレンドで今が持ち合い相場であればいったん決済する。
 
             # --------------------------------------------------------------------------------------------------------------------
-            self.text += 'CV　' + str(cv) + '<br>'
             self.text += 'トレンドID　' + str(trend_id) + '<br>'
 
             now = timezone.now()
@@ -228,13 +227,13 @@ class BuySellCal():
             closeLong = [2, 3, 4]
             if specEma in closeShort:
                 # if specEma == 5 or specEma == 6 or specEma == 1:
-                self.text = 'specMaが'+str(specEma)+'なのでshortを閉じます<br>'
+                self.text += 'specMaが'+str(specEma)+'なのでshortを閉じます<br>'
                 self.order.isInByMa = True
                 self.order.trend_id = 1
                 self.order.oderCloseAllShort()
             elif specEma in closeLong:
                 # elif specEma == 2 or specEma == 3 or specEma == 4:
-                self.text = 'specMaが'+str(specEma)+'なのでLongを閉じます<br>'
+                self.text += 'specMaが'+str(specEma)+'なのでLongを閉じます<br>'
                 self.order.isInByMa = True
                 self.order.trend_id = 2
                 self.order.oderCloseAllLong()
