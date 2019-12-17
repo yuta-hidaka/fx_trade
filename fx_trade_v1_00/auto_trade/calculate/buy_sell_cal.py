@@ -26,7 +26,7 @@ class BuySellCal():
         self.order.waitTime = self.settings.wait_time
         self.text = ''
 
-    def BuySellCheck(self, condNow, condiPrev, spec,asset):
+    def BuySellCheck(self, condNow, condiPrev, spec, asset):
         # トレンド発生中はMAを指標に売買を行うが、もみ合い相場中はボリンジャーバンドを指標に売買を行う。
 
         settings = self.settings
@@ -93,7 +93,7 @@ class BuySellCal():
         specMaSlope = spec.compMaSlope
         specEmaSlope = spec.compEmaSlope
         specMacdSlope = spec.compMacdSlope
-        # ----------------------------------------------------------------   
+        # ----------------------------------------------------------------
         # ユニットの取得。決め打ちか、資産からの逆算か
         if settings.use_specific_unit:
             unitsMax = (Decimal(asset)/nowCndl_close) * revelage * usage_rates
@@ -107,25 +107,22 @@ class BuySellCal():
             units = (Decimal(asset)/nowCndl_close) * revelage * usage_rates
             units = units.quantize(Decimal('1'), rounding=ROUND_DOWN)
 
-
         if settings.use_specific_limit:
             limit = settings.limit
             c = nowCndl_close
             long_limit = (c - (c*limit)).quantize(Decimal('0.001'),
-                                                rounding=ROUND_HALF_UP)
+                                                  rounding=ROUND_HALF_UP)
             short_limit = (
                 c + (c*limit)).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
         else:
             limit = sig1_2
             long_limit = (sma_2 - limit).quantize(Decimal('0.001'),
-                                                rounding=ROUND_HALF_UP)
+                                                  rounding=ROUND_HALF_UP)
             short_limit = (
                 sma_2 + limit).quantize(Decimal('0.001'), rounding=ROUND_HALF_UP)
 
         long_in_by_ma = False
         short_in_by_ma = False
-
-
 
         # 市場が閉じていたら計算等は行わない,変化率が乏しい時もトレードしない
         if not len(nowCndl['candles']) == 0:
@@ -221,14 +218,16 @@ class BuySellCal():
                         self.order.trend_id = 2
                         self.order.ShortOrderCreate()
 
-            if specEma == 6 or specEma == 1:
-            # if specEma == 5 or specEma == 6 or specEma == 1:
+            closeShort = [5, 6, 1]
+            closeLong = [2, 3, 4]
+            if specEma in closeShort:
+                # if specEma == 5 or specEma == 6 or specEma == 1:
                 self.text = 'specMaが'+str(specEma)+'なのでshortを閉じます<br>'
                 self.order.isInByMa = True
                 self.order.trend_id = 1
                 self.order.oderCloseAllShort()
-            elif specEma == 3 or specEma == 4:
-            # elif specEma == 2 or specEma == 3 or specEma == 4:
+            elif specEma in closeLong:
+                # elif specEma == 2 or specEma == 3 or specEma == 4:
                 self.text = 'specMaが'+str(specEma)+'なのでLongを閉じます<br>'
                 self.order.isInByMa = True
                 self.order.trend_id = 2
