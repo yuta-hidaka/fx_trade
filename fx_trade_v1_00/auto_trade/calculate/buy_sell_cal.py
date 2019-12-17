@@ -191,11 +191,11 @@ class BuySellCal():
 
             # ----------------------------------------------------------------------------------------------------------
 
-            emaCheckLong = [6, 1]
-            emaCheckShort = [3, 4]
+            emaCheckLong = [5, 6, 1]
+            emaCheckShort = [2, 3, 4]
 
-            macdCheckLong = [6]
-            macdCheckShort = [3]
+            macdCheckLong = [5, 6, 1]
+            macdCheckShort = [2, 3, 4]
 
             if specEma in emaCheckLong:
                 # self.text += 'long in--emaCheck<br>'
